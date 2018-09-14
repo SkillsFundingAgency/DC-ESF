@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ESFA.DC.ESF.Interfaces.Validation;
+using ESFA.DC.ESF.Models;
 
 namespace ESFA.DC.ESF.ValidationService.Commands
 {
@@ -7,16 +8,16 @@ namespace ESFA.DC.ESF.ValidationService.Commands
     {
         private readonly IList<IFileLevelValidator> _fileLevelValidators;
 
-        public bool IsValid { get; set; }
+        public bool IsValid { get; private set; }
 
-        public bool RejectFile { get; set; }    
+        public bool RejectFile { get; private set; }    
 
         public FileLevelCommands(IList<IFileLevelValidator> fileLevelValidators)
         {
             _fileLevelValidators = fileLevelValidators;
         }
 
-        public void Execute()
+        public void Execute(ESFModel model)
         {
             foreach (var validator in _fileLevelValidators)
             {

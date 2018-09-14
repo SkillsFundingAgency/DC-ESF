@@ -1,6 +1,6 @@
-﻿using ESFA.DC.ESF.Stateless.Config.Interfaces;
+﻿using ESFA.DC.ESF.Service.Stateless.Config.Interfaces;
 
-namespace ESFA.DC.ESF.Stateless.Config
+namespace ESFA.DC.ESF.Service.Stateless.Config
 {
     public class LoggerOptions : ILoggerOptions
     {

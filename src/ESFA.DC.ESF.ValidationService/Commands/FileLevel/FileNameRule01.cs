@@ -6,7 +6,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FileLevel
     {
         public string ErrorMessage => "The UKPRN in the filename does not match the UKPRN in the Hub";
 
-        public bool IsValid { get; set; }
+        public bool IsValid { get; private set; }
 
         public bool RejectFile => true;
 

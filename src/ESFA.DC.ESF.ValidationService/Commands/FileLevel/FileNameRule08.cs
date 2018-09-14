@@ -6,7 +6,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FileLevel
     {
         public string ErrorMessage => "The date/time of the file is not greater than a previous transmission with the same ConRefNumber and UKPRN.";
 
-        public bool IsValid { get; set; }
+        public bool IsValid { get; private set; }
 
         public bool RejectFile => true;
 

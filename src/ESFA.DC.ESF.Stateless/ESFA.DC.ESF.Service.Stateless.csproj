@@ -7,8 +7,8 @@
     <ProjectGuid>{C9FB0FF3-ECC6-4778-A807-7592A4DE4202}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ESFA.DC.ESF.Stateless</RootNamespace>
-    <AssemblyName>ESFA.DC.ESF.Stateless</AssemblyName>
+    <RootNamespace>ESFA.DC.ESF.Service.Stateless</RootNamespace>
+    <AssemblyName>ESFA.DC.ESF.Service.Stateless</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -65,6 +65,12 @@
     <Reference Include="ESFA.DC.DateTimeProvider.Interface, Version=0.1.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.DateTimeProvider.Interface.0.1.5-beta0001\lib\netstandard2.0\ESFA.DC.DateTimeProvider.Interface.dll</HintPath>
     </Reference>
+    <Reference Include="ESFA.DC.IO.AzureStorage, Version=0.1.13.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.IO.AzureStorage.0.1.13-beta0001\lib\netstandard2.0\ESFA.DC.IO.AzureStorage.dll</HintPath>
+    </Reference>
+    <Reference Include="ESFA.DC.IO.Interfaces, Version=0.1.11.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.IO.Interfaces.0.1.11-beta0001\lib\netstandard2.0\ESFA.DC.IO.Interfaces.dll</HintPath>
+    </Reference>
     <Reference Include="ESFA.DC.JobContext, Version=0.1.15.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.JobContext.0.1.15-beta0001\lib\netstandard2.0\ESFA.DC.JobContext.dll</HintPath>
     </Reference>
@@ -98,8 +104,14 @@
     <Reference Include="ESFA.DC.Serialization.Json, Version=0.1.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.Serialization.Json.0.1.4-beta0001\lib\netstandard2.0\ESFA.DC.Serialization.Json.dll</HintPath>
     </Reference>
+    <Reference Include="ESFA.DC.ServiceFabric.Helpers, Version=0.1.3.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\ESFA.DC.ServiceFabric.Helpers.0.1.3-beta0001\lib\netstandard2.0\ESFA.DC.ServiceFabric.Helpers.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Azure.Amqp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Azure.Amqp.2.3.0\lib\net45\Microsoft.Azure.Amqp.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Azure.KeyVault.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Azure.KeyVault.Core.1.0.0\lib\net40\Microsoft.Azure.KeyVault.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Azure.ServiceBus, Version=3.0.2.0, Culture=neutral, PublicKeyToken=7e34167dcc6d6d8c, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Azure.ServiceBus.3.0.2\lib\netstandard2.0\Microsoft.Azure.ServiceBus.dll</HintPath>
@@ -162,8 +174,11 @@
     <Reference Include="Microsoft.ServiceFabric.Services.Remoting, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
       <HintPath>..\packages\Microsoft.ServiceFabric.Services.Remoting.3.2.162\lib\net461\Microsoft.ServiceFabric.Services.Remoting.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=9.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAzure.Storage.9.2.0\lib\net45\Microsoft.WindowsAzure.Storage.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <HintPath>..\packages\Serilog.2.6.0\lib\net46\Serilog.dll</HintPath>
@@ -251,10 +266,16 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config\AzureStorageKeyValuePersistenceConfig.cs" />
+    <Compile Include="Config\AzureStorageOptions.cs" />
     <Compile Include="Config\Interfaces\ILoggerOptions.cs" />
     <Compile Include="Config\LoggerOptions.cs" />
+    <Compile Include="Config\ServiceBusOptions.cs" />
     <Compile Include="Config\ServiceBusQueueConfig.cs" />
+    <Compile Include="Config\ServiceBusTopicConfig.cs" />
     <Compile Include="DIComposition.cs" />
+    <Compile Include="Handlers\IMessageHandler.cs" />
+    <Compile Include="Handlers\MessageHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stateless.cs" />
     <Compile Include="Program.cs" />
@@ -267,9 +288,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ESFA.DC.ESF.FileService\ESFA.DC.ESF.csproj">
+      <Project>{7efbd6cd-7988-4a5a-a320-0f1a28eac67c}</Project>
+      <Name>ESFA.DC.ESF</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.ESF.Interfaces\ESFA.DC.ESF.Interfaces.csproj">
       <Project>{AA2F8894-3610-4FD2-A570-1ABD2CCF093F}</Project>
       <Name>ESFA.DC.ESF.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ESFA.DC.ESF.Models\ESFA.DC.ESF.Models.csproj">
+      <Project>{E2CBCC6A-EEAF-45EE-B00F-DE5B110C9306}</Project>
+      <Name>ESFA.DC.ESF.Models</Name>
     </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.ESF.ValidationService\ESFA.DC.ESF.ValidationService.csproj">
       <Project>{66F94BC8-F7F9-4F4A-8E24-998DF78C4258}</Project>

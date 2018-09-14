@@ -6,7 +6,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FileLevel
     {
         public string ErrorMessage => "The file extension is not .csv";
 
-        public bool IsValid { get; set; }
+        public bool IsValid { get; private set; }
 
         public bool RejectFile => true;
 

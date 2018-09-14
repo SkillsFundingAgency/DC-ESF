@@ -24,7 +24,7 @@ namespace ESFA.DC.ESF.Stateless
                 builder.RegisterServiceFabricSupport();
 
                 // Register the stateless service.
-                builder.RegisterStatelessService<Stateless>("ESFA.DC.ILR1819.ReportService.StatelessType");
+                builder.RegisterStatelessService<Stateless>("ESFA.DC.ESF.Service.StatelessType");
 
                 using (var container = builder.Build())
                 {

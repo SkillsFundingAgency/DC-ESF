@@ -6,7 +6,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FileLevel
     {
         public string ErrorMessage => "The date/time in the filename > current date/time.";
 
-        public bool IsValid { get; set; }
+        public bool IsValid { get; private set; }
 
         public bool RejectFile => true;
 

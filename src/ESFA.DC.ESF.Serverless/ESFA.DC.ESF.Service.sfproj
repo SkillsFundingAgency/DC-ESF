@@ -32,7 +32,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ESFA.DC.ESF.Stateless\ESFA.DC.ESF.Stateless.csproj" />
+    <ProjectReference Include="..\ESFA.DC.ESF.Stateless\ESFA.DC.ESF.Service.Stateless.csproj" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
   <PropertyGroup>

@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.ESF.Models", "ESFA.DC.ESF.Models\ESFA.DC.ESF.Models.csproj", "{E2CBCC6A-EEAF-45EE-B00F-DE5B110C9306}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.ESF.Models", "ESFA.DC.ESF.Models\ESFA.DC.ESF.Models.csproj", "{E2CBCC6A-EEAF-45EE-B00F-DE5B110C9306}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.ESF.ValidationService", "ESFA.DC.ESF.ValidationService\ESFA.DC.ESF.ValidationService.csproj", "{66F94BC8-F7F9-4F4A-8E24-998DF78C4258}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.ESF.Interfaces", "ESFA.DC.ESF.Interfaces\ESFA.DC.ESF.Interfaces.csproj", "{AA2F8894-3610-4FD2-A570-1ABD2CCF093F}"
 EndProject
-Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "ESFA.DC.ESF.Serverless", "ESFA.DC.ESF.Serverless\ESFA.DC.ESF.Serverless.sfproj", "{DB98610C-29D6-4FEE-A557-211315BEB873}"
+Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "ESFA.DC.ESF.Service", "ESFA.DC.ESF.Serverless\ESFA.DC.ESF.Service.sfproj", "{DB98610C-29D6-4FEE-A557-211315BEB873}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.ESF.Stateless", "ESFA.DC.ESF.Stateless\ESFA.DC.ESF.Stateless.csproj", "{C9FB0FF3-ECC6-4778-A807-7592A4DE4202}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.ESF.Service.Stateless", "ESFA.DC.ESF.Stateless\ESFA.DC.ESF.Service.Stateless.csproj", "{C9FB0FF3-ECC6-4778-A807-7592A4DE4202}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.ESF", "ESFA.DC.ESF.FileService\ESFA.DC.ESF.csproj", "{7EFBD6CD-7988-4A5A-A320-0F1A28EAC67C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,14 @@ Global
 		{C9FB0FF3-ECC6-4778-A807-7592A4DE4202}.Release|Any CPU.ActiveCfg = Release|x64
 		{C9FB0FF3-ECC6-4778-A807-7592A4DE4202}.Release|x64.ActiveCfg = Release|x64
 		{C9FB0FF3-ECC6-4778-A807-7592A4DE4202}.Release|x64.Build.0 = Release|x64
+		{7EFBD6CD-7988-4A5A-A320-0F1A28EAC67C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EFBD6CD-7988-4A5A-A320-0F1A28EAC67C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EFBD6CD-7988-4A5A-A320-0F1A28EAC67C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7EFBD6CD-7988-4A5A-A320-0F1A28EAC67C}.Debug|x64.Build.0 = Debug|Any CPU
+		{7EFBD6CD-7988-4A5A-A320-0F1A28EAC67C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EFBD6CD-7988-4A5A-A320-0F1A28EAC67C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EFBD6CD-7988-4A5A-A320-0F1A28EAC67C}.Release|x64.ActiveCfg = Release|Any CPU
+		{7EFBD6CD-7988-4A5A-A320-0F1A28EAC67C}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

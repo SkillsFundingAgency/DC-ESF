@@ -5,7 +5,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FileLevel
     public class FileFormatRule01 : IFileLevelValidator
     {
         public string ErrorMessage => "The file is not in the format described.";
-        public bool IsValid { get; set; }
+        public bool IsValid { get; private set; }
 
         public bool RejectFile => true;
 

@@ -4,7 +4,7 @@
     {
         string ErrorMessage { get; }
 
-        bool IsValid { get; set; }
+        bool IsValid { get; }
 
         bool RejectFile { get; }
 

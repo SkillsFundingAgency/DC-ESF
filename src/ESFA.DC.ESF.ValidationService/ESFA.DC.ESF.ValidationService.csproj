@@ -10,7 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\BusinessRules\" />
     <Folder Include="Commands\FieldDefinition\" />
     <Folder Include="Helpers\" />
   </ItemGroup>

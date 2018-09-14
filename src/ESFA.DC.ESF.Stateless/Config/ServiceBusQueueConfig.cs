@@ -1,6 +1,6 @@
 ﻿using ESFA.DC.Queueing;
 
-namespace ESFA.DC.ESF.Stateless.Config
+namespace ESFA.DC.ESF.Service.Stateless.Config
 {
     public class ServiceBusQueueConfig : QueueConfiguration
     {
