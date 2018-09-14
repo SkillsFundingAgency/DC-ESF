@@ -10,6 +10,7 @@ using ESFA.DC.ESF.Models.Configuration;
 using ESFA.DC.ESF.Service.Stateless.Config;
 using ESFA.DC.ESF.Service.Stateless.Config.Interfaces;
 using ESFA.DC.ESF.Service.Stateless.Handlers;
+using ESFA.DC.ESF.Services;
 using ESFA.DC.ESF.ValidationService.Commands.FileLevel;
 using ESFA.DC.IO.AzureStorage;
 using ESFA.DC.IO.AzureStorage.Config.Interfaces;
@@ -49,6 +50,8 @@ namespace ESFA.DC.ESF.Stateless
             RegisterMessageHandler(container);
 
             RegisterFileLevelValidators(container);
+
+            RegisterServices(container);
             
             return container;
         }
@@ -153,7 +156,7 @@ namespace ESFA.DC.ESF.Stateless
 
         private static void RegisterServices(ContainerBuilder containerBuilder)
         {
-
+            containerBuilder.RegisterType<ESFProviderService>().As<IESFProviderService>();
         }
 
         private static void RegisterControllers(ContainerBuilder containerBuilder)

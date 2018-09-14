@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ESFA.DC.JobContext.Interface" Version="0.1.15-beta0001" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ESFA.DC.ESF.Models\ESFA.DC.ESF.Models.csproj" />
   </ItemGroup>
 
