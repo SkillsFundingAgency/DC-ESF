@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using ESFA.DC.ESF.Interfaces.Validation;
 using ESFA.DC.ESF.Models;
 
@@ -17,9 +18,10 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public bool IsValid { get; private set; }
 
-        public void Execute(ESFModel model)
+        public Task Execute(ESFModel model)
         {
             IsValid = _validValues.Contains(model.DeliverableCode);
+            return Task.CompletedTask;
         }
     }
 }

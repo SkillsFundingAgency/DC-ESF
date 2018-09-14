@@ -1,6 +1,7 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.JobContext;
+using ESFA.DC.ESF.Interfaces.Helpers;
 using ESFA.DC.JobContext.Interface;
 using ESFA.DC.Logging.Interfaces;
 
@@ -9,46 +10,39 @@ namespace ESFA.DC.ESF
     public class EntryPoint
     {
         private readonly ILogger _logger;
+        private readonly IFileHelper _fileHelper;
+        private readonly ITaskHelper _taskHelper;
 
         public EntryPoint(
+            IFileHelper fileHelper,
+            ITaskHelper taskHelper,
             ILogger logger)
         {
             _logger = logger;
+            _fileHelper = fileHelper;
+            _taskHelper = taskHelper;
         }
 
-        public async Task<bool> Callback(JobContextMessage jobContextMessage, CancellationToken cancellationToken)
+        public async Task<bool> Callback(IJobContextMessage jobContextMessage, CancellationToken cancellationToken)
         {
             _logger.LogInfo("ESF callback invoked");
 
-            await ExecuteTasks(jobContextMessage, cancellationToken);
+            var tasks = jobContextMessage.Topics[jobContextMessage.TopicPointer].Tasks;
+            if(!tasks.Any())
+            {
+                return true;
+            }
+
+            var esfRecords = await _fileHelper.GetESFRecords(jobContextMessage, cancellationToken);
+            if (esfRecords == null || !esfRecords.Any())
+            {
+                _logger.LogInfo("No ESF records to process");
+                return true;
+            }
+            
+            await _taskHelper.ExecuteTasks(tasks, esfRecords, cancellationToken);
                 
             return !cancellationToken.IsCancellationRequested;
-        }
-
-        private async Task ExecuteTasks(IJobContextMessage jobContextMessage, CancellationToken cancellationToken)
-        {
-            foreach (ITaskItem taskItem in jobContextMessage.Topics[jobContextMessage.TopicPointer].Tasks)
-            {
-                if (taskItem.SupportsParallelExecution)
-                {
-                    // Parallel.ForEach(
-                    //    taskItem.Tasks,
-                    //    new ParallelOptions { CancellationToken = cancellationToken },
-                    //    async task => { await ... });
-                }
-                else
-                {
-                    foreach (string task in taskItem.Tasks)
-                    {
-                        if (cancellationToken.IsCancellationRequested)
-                        {
-                            break;
-                        }
-
-                        // await ...;
-                    }
-                }
-            }
         }
     }
 }

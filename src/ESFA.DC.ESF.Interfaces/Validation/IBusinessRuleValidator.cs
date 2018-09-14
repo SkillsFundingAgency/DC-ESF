@@ -1,4 +1,5 @@
-﻿using ESFA.DC.ESF.Models;
+﻿using System.Threading.Tasks;
+using ESFA.DC.ESF.Models;
 
 namespace ESFA.DC.ESF.Interfaces.Validation
 {
@@ -8,6 +9,6 @@ namespace ESFA.DC.ESF.Interfaces.Validation
 
         bool IsValid { get; }
 
-        void Execute(ESFModel model);
+        Task Execute(ESFModel model);
     }
 }

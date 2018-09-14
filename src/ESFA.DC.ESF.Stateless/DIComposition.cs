@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Autofac;
 using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ESF.Interfaces;
+using ESFA.DC.ESF.Interfaces.Services;
 using ESFA.DC.ESF.Interfaces.Validation;
 using ESFA.DC.ESF.Models.Configuration;
 using ESFA.DC.ESF.Service.Stateless.Config;

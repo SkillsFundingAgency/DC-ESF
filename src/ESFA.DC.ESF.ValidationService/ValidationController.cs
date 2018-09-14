@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using ESFA.DC.ESF.Interfaces.Controllers;
 using ESFA.DC.ESF.Interfaces.Validation;
 using ESFA.DC.ESF.Models;
 
 namespace ESFA.DC.ESF.ValidationService
 {
-    public class ValidationController
+    public class ValidationController : IValidationController
     {
         private readonly IList<IValidatorCommand> _validatorCommands;
 
@@ -13,11 +15,11 @@ namespace ESFA.DC.ESF.ValidationService
             _validatorCommands = validatorCommands;
         }
 
-        public void ValidateData(ESFModel model)
+        public async Task ValidateData(ESFModel model)
         {
             foreach (var command in _validatorCommands)
             {
-                command.Execute(model);
+                await command.Execute(model);
             }
         }
     }    

@@ -1,4 +1,6 @@
-﻿namespace ESFA.DC.ESF.Interfaces.Validation
+﻿using System.Threading.Tasks;
+
+namespace ESFA.DC.ESF.Interfaces.Validation
 {
     public interface IFileLevelValidator
     {
@@ -8,6 +10,6 @@
 
         bool RejectFile { get; }
 
-        void Execute(string fileName, string contents);
+        Task Execute(string fileName, string contents);
     }
 }

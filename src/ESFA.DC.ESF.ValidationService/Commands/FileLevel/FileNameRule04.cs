@@ -1,4 +1,5 @@
-﻿using ESFA.DC.ESF.Interfaces.Validation;
+﻿using System.Threading.Tasks;
+using ESFA.DC.ESF.Interfaces.Validation;
 
 namespace ESFA.DC.ESF.ValidationService.Commands.FileLevel
 {
@@ -10,9 +11,9 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FileLevel
 
         public bool RejectFile => true;
 
-        public void Execute(string fileName, string contents)
+        public Task Execute(string fileName, string contents)
         {
-
+            return Task.CompletedTask;
         }
     }
 }

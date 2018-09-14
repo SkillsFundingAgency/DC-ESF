@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using ESFA.DC.ESF.Interfaces.Validation;
 using ESFA.DC.ESF.Models;
 
@@ -17,11 +19,18 @@ namespace ESFA.DC.ESF.ValidationService.Commands
             _validators = validators;
         }
 
-        public void Execute(ESFModel model)
+        public async Task Execute(ESFModel model)
         {
-            foreach (var validator in _validators)
+            await Task.Run(() => Parallel.ForEach(_validators, v => v.Execute(model)));
+            //foreach (var validator in _validators)
+            //{
+            //    await validator.Execute(model);
+            //}
+
+            var failed = _validators.Where(v => !v.IsValid);
+            if (failed.Any())
             {
-                validator.Execute(model);
+
             }
         }
     }

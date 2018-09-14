@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using ESFA.DC.ESF.Interfaces.Validation;
 using ESFA.DC.ESF.Models;
 
@@ -17,11 +18,11 @@ namespace ESFA.DC.ESF.ValidationService.Commands
             _fileLevelValidators = fileLevelValidators;
         }
 
-        public void Execute(ESFModel model)
+        public async Task Execute(ESFModel model)
         {
             foreach (var validator in _fileLevelValidators)
             {
-                validator.Execute(string.Empty, string.Empty);
+                await validator.Execute(string.Empty, string.Empty);
             }
         }
     }
