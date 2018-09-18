@@ -13,7 +13,9 @@ Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "ESFA.DC.ESF.Service", "ESFA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.ESF.Service.Stateless", "ESFA.DC.ESF.Stateless\ESFA.DC.ESF.Service.Stateless.csproj", "{C9FB0FF3-ECC6-4778-A807-7592A4DE4202}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.ESF", "ESFA.DC.ESF.FileService\ESFA.DC.ESF.csproj", "{7EFBD6CD-7988-4A5A-A320-0F1A28EAC67C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESFA.DC.ESF", "ESFA.DC.ESF.FileService\ESFA.DC.ESF.csproj", "{7EFBD6CD-7988-4A5A-A320-0F1A28EAC67C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESFA.DC.ESF.Database", "ESFA.DC.ESF.Database\ESFA.DC.ESF.Database.csproj", "{4EB48ED9-3F5C-449B-9078-3330DD98F29C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,14 @@ Global
 		{7EFBD6CD-7988-4A5A-A320-0F1A28EAC67C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7EFBD6CD-7988-4A5A-A320-0F1A28EAC67C}.Release|x64.ActiveCfg = Release|Any CPU
 		{7EFBD6CD-7988-4A5A-A320-0F1A28EAC67C}.Release|x64.Build.0 = Release|Any CPU
+		{4EB48ED9-3F5C-449B-9078-3330DD98F29C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EB48ED9-3F5C-449B-9078-3330DD98F29C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EB48ED9-3F5C-449B-9078-3330DD98F29C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4EB48ED9-3F5C-449B-9078-3330DD98F29C}.Debug|x64.Build.0 = Debug|Any CPU
+		{4EB48ED9-3F5C-449B-9078-3330DD98F29C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EB48ED9-3F5C-449B-9078-3330DD98F29C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EB48ED9-3F5C-449B-9078-3330DD98F29C}.Release|x64.ActiveCfg = Release|Any CPU
+		{4EB48ED9-3F5C-449B-9078-3330DD98F29C}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

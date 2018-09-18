@@ -9,9 +9,4 @@
     <ProjectReference Include="..\ESFA.DC.ESF.Interfaces\ESFA.DC.ESF.Interfaces.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Commands\FieldDefinition\" />
-    <Folder Include="Helpers\" />
-  </ItemGroup>
-
 </Project>

@@ -6,12 +6,16 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 {
     public class ValueRule03 : IBusinessRuleValidator
     {
-        public string ErrorMessage => "The UKPRN in the filename does not match the UKPRN in the Hub";
+        public string ErrorMessage => "The Value must not exceed the HourlyRate x TotalHoursWorked";
 
         public bool IsValid { get; private set; }
 
         public Task Execute(ESFModel model)
         {
+            IsValid = !(model.CostType == Constants.CostTypeStaffPT
+                        &&
+                        model.Value > model.HourlyRate * model.TotalHoursWorked);
+
             return Task.CompletedTask;
         }
     }

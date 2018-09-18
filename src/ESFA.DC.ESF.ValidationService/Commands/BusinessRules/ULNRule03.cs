@@ -1,17 +1,23 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using ESFA.DC.ESF.Interfaces.Validation;
 using ESFA.DC.ESF.Models;
+using ESFA.DC.ESF.ValidationService.Helpers;
 
 namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 {
     public class ULNRule03 : IBusinessRuleValidator
     {
-        public string ErrorMessage => "The UKPRN in the filename does not match the UKPRN in the Hub";
+        public string ErrorMessage => "This ULN should not be used for months that are more than two months older than the current month.";
 
         public bool IsValid { get; private set; }
 
         public Task Execute(ESFModel model)
         {
+            IsValid = !(
+                (model.ULN ?? 0) == 9999999999 &&
+                MonthYearHelper.GetCalendarDateTime(model.CalendarYear, model.CalendarMonth) > DateTime.Now.AddMonths(-2));
+
             return Task.CompletedTask;
         }
     }

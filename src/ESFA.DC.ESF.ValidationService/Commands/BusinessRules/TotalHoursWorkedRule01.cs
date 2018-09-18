@@ -12,6 +12,10 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public Task Execute(ESFModel model)
         {
+            IsValid = !((model.CostType == Constants.CostTypeStaffPT || model.CostType == Constants.CostTypeStaffFT)
+                        &&
+                        model.TotalHoursWorked == null);
+
             return Task.CompletedTask;
         }
     }

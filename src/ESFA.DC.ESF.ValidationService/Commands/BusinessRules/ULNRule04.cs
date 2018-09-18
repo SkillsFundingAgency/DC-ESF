@@ -6,12 +6,16 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 {
     public class ULNRule04 : IBusinessRuleValidator
     {
-        public string ErrorMessage => "The UKPRN in the filename does not match the UKPRN in the Hub";
+        public string ErrorMessage => "The ULN is not required for the selected ReferenceType.";
 
         public bool IsValid { get; private set; }
 
         public Task Execute(ESFModel model)
         {
+            IsValid = !(model.ReferenceType != "LearnRefNumber"
+                        &&
+                        model.ULN != null);
+
             return Task.CompletedTask;
         }
     }

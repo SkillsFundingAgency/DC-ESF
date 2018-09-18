@@ -6,9 +6,9 @@
 
         public string DeliverableCode { get; set; }
 
-        public int CalendarYear { get; set; }
+        public int? CalendarYear { get; set; }
 
-        public int CalendarMonth { get; set; }
+        public int? CalendarMonth { get; set; }
 
         public string CostType { get; set; }
 

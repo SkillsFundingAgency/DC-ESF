@@ -6,12 +6,16 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 {
     public class ValueRule02 : IBusinessRuleValidator
     {
-        public string ErrorMessage => "The UKPRN in the filename does not match the UKPRN in the Hub";
+        public string ErrorMessage => "The Value is not required for the selected CostType";
 
         public bool IsValid { get; private set; }
 
         public Task Execute(ESFModel model)
         {
+            IsValid = !((model.CostType == "Unit Cost" || model.CostType == "Unit Cost Deduction")
+                        &&
+                        model.Value != null);
+
             return Task.CompletedTask;
         }
     }

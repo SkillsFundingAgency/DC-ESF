@@ -12,7 +12,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public Task Execute(ESFModel model)
         {
-            IsValid = model.CalendarMonth >= 1 && model.CalendarMonth <= 12;
+            IsValid = model.CalendarMonth != null && model.CalendarMonth >= 1 && model.CalendarMonth <= 12;
 
             return Task.CompletedTask;
         }

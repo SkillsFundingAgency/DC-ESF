@@ -6,15 +6,15 @@ using ESFA.DC.ESF.Models;
 
 namespace ESFA.DC.ESF.ValidationService.Commands
 {
-    public class BusinessRuleCommands : IValidatorCommand
+    public class FieldDefinitionCommand : IValidatorCommand
     {
-        private readonly IList<IBusinessRuleValidator> _validators;
+        private readonly IList<IFieldDefinitionValidator> _validators;
 
         public bool IsValid { get; private set; }
 
         public Dictionary<string, List<string>> Errors { get; }
 
-        public BusinessRuleCommands(IList<IBusinessRuleValidator> validators)
+        public FieldDefinitionCommand(IList<IFieldDefinitionValidator> validators)
         {
             _validators = validators;
 
