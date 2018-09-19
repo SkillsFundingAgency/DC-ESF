@@ -4,17 +4,18 @@ using ESFA.DC.ESF.Models;
 
 namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 {
-    public class FDConRefNumberMA : IFieldDefinitionValidator
+    public class FDReferenceMA : IFieldDefinitionValidator
     {
         public string Level => "Error";
 
-        public string ErrorMessage => "The ConRefNumber is mandatory. Please resubmit the file including the appropriate value.";
+        public string ErrorMessage =>
+            "The Reference is mandatory. Please resubmit the file including the appropriate value.";
 
         public bool IsValid { get; private set; }
 
         public Task Execute(ESFModel model)
         {
-            IsValid = model.ConRefNumber != null;
+            IsValid = model.Reference != null;
 
             return Task.CompletedTask;
         }

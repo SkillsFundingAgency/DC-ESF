@@ -15,7 +15,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 
         public Task Execute(ESFModel model)
         {
-            IsValid = !string.IsNullOrEmpty(model.DeliverableCode.Trim());
+            IsValid = model.DeliverableCode != null;
 
             return Task.CompletedTask;
         }
