@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ESFA.DC.ESF.Database
+namespace ESFA.DC.ESF.Database.EF
 {
     using System;
     using System.Data.Entity;

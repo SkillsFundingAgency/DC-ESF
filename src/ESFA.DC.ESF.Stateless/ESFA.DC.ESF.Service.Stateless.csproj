@@ -288,10 +288,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ESFA.DC.ESF.FileService\ESFA.DC.ESF.csproj">
-      <Project>{7efbd6cd-7988-4a5a-a320-0f1a28eac67c}</Project>
-      <Name>ESFA.DC.ESF</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.ESF.Interfaces\ESFA.DC.ESF.Interfaces.csproj">
       <Project>{AA2F8894-3610-4FD2-A570-1ABD2CCF093F}</Project>
       <Name>ESFA.DC.ESF.Interfaces</Name>
@@ -303,6 +299,10 @@
     <ProjectReference Include="..\ESFA.DC.ESF.ValidationService\ESFA.DC.ESF.ValidationService.csproj">
       <Project>{66F94BC8-F7F9-4F4A-8E24-998DF78C4258}</Project>
       <Name>ESFA.DC.ESF.ValidationService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ESFA.DC.ESF\ESFA.DC.ESF.csproj">
+      <Project>{7efbd6cd-7988-4a5a-a320-0f1a28eac67c}</Project>
+      <Name>ESFA.DC.ESF</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

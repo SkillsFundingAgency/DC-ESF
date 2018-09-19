@@ -7,8 +7,8 @@
     <ProjectGuid>{4EB48ED9-3F5C-449B-9078-3330DD98F29C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ESFA.DC.ESF.Database</RootNamespace>
-    <AssemblyName>ESFA.DC.ESF.Database</AssemblyName>
+    <RootNamespace>ESFA.DC.ESF.Database.EF</RootNamespace>
+    <AssemblyName>ESFA.DC.ESF.Database.EF</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
