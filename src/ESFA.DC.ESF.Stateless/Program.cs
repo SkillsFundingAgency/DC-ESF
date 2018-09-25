@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Threading;
 using Autofac.Integration.ServiceFabric;
+using ESFA.DC.ServiceFabric.Helpers;
 
 namespace ESFA.DC.ESF.Stateless
 {
@@ -19,7 +20,7 @@ namespace ESFA.DC.ESF.Stateless
                 // When Service Fabric creates an instance of this service type,
                 // an instance of the class is created in this host process.
 
-                var builder = DIComposition.BuildContainer();
+                var builder = DIComposition.BuildContainer(new ConfigurationHelper());
                 
                 builder.RegisterServiceFabricSupport();
 
