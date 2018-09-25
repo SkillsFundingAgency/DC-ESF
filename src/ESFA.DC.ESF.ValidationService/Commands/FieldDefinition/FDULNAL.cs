@@ -16,14 +16,14 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 
         public Task Execute(ESFModel model)
         {
-            var uln = model.ULN.ToString();
+            //var uln = model.ULN.ToString();
 
-            IsValid = !string.IsNullOrEmpty(month)
-                      && !string.IsNullOrWhiteSpace(month)
-                      && month.Length <= FieldLength;
+            //IsValid = !string.IsNullOrEmpty(month)
+            //          && !string.IsNullOrWhiteSpace(month)
+            //          && month.Length <= FieldLength;
 
 
-            IsValid = string.IsNullOrEmpty(model.ULN.ToString()) || model.ULN.ToString().Length <= FieldLength;
+            //IsValid = string.IsNullOrEmpty(model.ULN.ToString()) || model.ULN.ToString().Length <= FieldLength;
 
             return Task.CompletedTask;
         }
