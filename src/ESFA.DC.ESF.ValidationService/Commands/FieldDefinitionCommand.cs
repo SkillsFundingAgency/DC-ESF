@@ -21,7 +21,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands
             Errors = new Dictionary<string, List<string>>();
         }
 
-        public async Task Execute(ESFModel model)
+        public async Task Execute(SupplementaryDataModel model)
         {
             IsValid = true;
             foreach (var validator in _validators)

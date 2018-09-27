@@ -10,7 +10,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public bool IsValid { get; private set; }
 
-        public Task Execute(ESFModel model)
+        public Task Execute(SupplementaryDataModel model)
         {
             IsValid = model.CalendarYear != null && model.CalendarYear >= 2016 && model.CalendarYear <= 2019;
             return Task.CompletedTask;

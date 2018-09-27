@@ -14,7 +14,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 
         private const int FieldLength = 2;
 
-        public Task Execute(ESFModel model)
+        public Task Execute(SupplementaryDataModel model)
         {
             var month = model.CalendarMonth.ToString();
 

@@ -27,7 +27,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public bool IsValid { get; private set; }
 
-        public Task Execute(ESFModel model)
+        public Task Execute(SupplementaryDataModel model)
         {
             var errorCondition =
                 model.DeliverableCode == "AC01" && _AC01InvalidCostTypes.Contains(model.CostType)

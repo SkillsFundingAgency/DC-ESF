@@ -8,6 +8,6 @@ namespace ESFA.DC.ESF.Interfaces.Services
 {
     public interface IESFProviderService
     {
-        Task<IList<ESFModel>> GetESFRecordsFromFile(IJobContextMessage jobContextMessage, CancellationToken cancellationToken);
+        Task<IList<SupplementaryDataModel>> GetESFRecordsFromFile(IJobContextMessage jobContextMessage, CancellationToken cancellationToken);
     }
 }

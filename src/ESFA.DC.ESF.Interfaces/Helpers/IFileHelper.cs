@@ -8,6 +8,6 @@ namespace ESFA.DC.ESF.Interfaces.Helpers
 {
     public interface IFileHelper
     {
-        Task<IList<ESFModel>> GetESFRecords(IJobContextMessage jobContextMessage, CancellationToken cancellationToken);
+        Task<IList<SupplementaryDataModel>> GetESFRecords(IJobContextMessage jobContextMessage, CancellationToken cancellationToken);
     }
 }

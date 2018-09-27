@@ -14,7 +14,7 @@ namespace ESFA.DC.ESF.Database.EF
     
     public partial class SupplementaryData
     {
-        public int SupplementaryDataId { get; set; }
+        public int SupplementaryDataModelId { get; set; }
         public string ConRefNumber { get; set; }
         public string DeliverableCode { get; set; }
         public int CalendarYear { get; set; }
@@ -33,6 +33,6 @@ namespace ESFA.DC.ESF.Database.EF
         public int SourceFileId { get; set; }
     
         public virtual SourceFile SourceFile { get; set; }
-        public virtual SupplementaryDataUnitCost SupplementaryDataUnitCost { get; set; }
+        public virtual SupplementaryDataUnitCost SupplementaryDataModelUnitCost { get; set; }
     }
 }

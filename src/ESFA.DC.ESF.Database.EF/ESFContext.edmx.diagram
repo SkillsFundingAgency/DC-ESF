@@ -11,7 +11,7 @@
         <EntityTypeShape EntityType="ESF_Model.ValidationError" Width="1.5" PointX="7.25" PointY="0.5" IsExpanded="true" />
         <EntityTypeShape EntityType="ESF_Model.VersionInfo" Width="1.5" PointX="9.25" PointY="2.375" IsExpanded="true" />
         <AssociationConnector Association="ESF_Model.FK_SourceFile" ManuallyRouted="false" />
-        <AssociationConnector Association="ESF_Model.FK_SupplementaryDataUnitCost_SupplementaryData" ManuallyRouted="false" />
+        <AssociationConnector Association="ESF_Model.FK_SupplementaryDataModelUnitCost_SupplementaryDataModel" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

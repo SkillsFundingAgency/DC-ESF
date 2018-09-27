@@ -14,7 +14,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 
         private const int FieldLength = 4;
 
-        public Task Execute(ESFModel model)
+        public Task Execute(SupplementaryDataModel model)
         {
             var year = model.CalendarYear.ToString();
 

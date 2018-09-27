@@ -13,7 +13,7 @@ namespace ESFA.DC.ESF.Strategies
             throw new NotImplementedException();
         }
 
-        public Task Execute(IList<ESFModel> esfRecords)
+        public Task Execute(IList<SupplementaryDataModel> esfRecords)
         {
             throw new NotImplementedException();
         }

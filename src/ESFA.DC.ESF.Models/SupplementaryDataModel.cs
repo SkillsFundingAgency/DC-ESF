@@ -1,6 +1,6 @@
 ﻿namespace ESFA.DC.ESF.Models
 {
-    public class ESFModel
+    public class SupplementaryDataModel
     {
         public string ConRefNumber { get; set; }
 
@@ -31,5 +31,7 @@
         public decimal? ProjectHours { get; set; }
 
         public decimal? OrgHours { get; set; }
+
+        public int? SourceFileId { get; set; }
     }
 }

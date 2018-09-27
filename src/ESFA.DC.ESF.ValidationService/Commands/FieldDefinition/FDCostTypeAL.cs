@@ -14,7 +14,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 
         private const int FieldLength = 20;
 
-        public Task Execute(ESFModel model)
+        public Task Execute(SupplementaryDataModel model)
         {
             IsValid = !string.IsNullOrEmpty(model.CostType.Trim()) && model.ConRefNumber.Length <= FieldLength;
 

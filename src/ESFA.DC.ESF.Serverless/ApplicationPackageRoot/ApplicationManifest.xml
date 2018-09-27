@@ -5,7 +5,7 @@
                      xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Parameters>
-    <Parameter Name="ESFA.DC.ESF.Stateless_InstanceCount" DefaultValue="-1" />
+    <Parameter Name="ESFA.DC.ESF.Service.Stateless_InstanceCount" DefaultValue="-1" />
     <Parameter Name="ProcessingServicePlacementConstraints" DefaultValue="" />
     <Parameter Name="AuditQueueName" DefaultValue="audit-queue" />
     <Parameter Name="TopicName" DefaultValue="TopicName" />
@@ -26,7 +26,7 @@
        should match the Name and Version attributes of the ServiceManifest element defined in the 
        ServiceManifest.xml file. -->
   <ServiceManifestImport>
-    <ServiceManifestRef ServiceManifestName="ESFA.DC.ESF.StatelessPkg" ServiceManifestVersion="1.0.0" />
+    <ServiceManifestRef ServiceManifestName="ESFA.DC.ESF.Service.StatelessPkg" ServiceManifestVersion="1.0.0" />
     <ConfigOverrides />
   </ServiceManifestImport>
   <DefaultServices>
@@ -35,8 +35,8 @@
          ServiceFabric PowerShell module.
          
          The attribute ServiceTypeName below must match the name defined in the imported ServiceManifest.xml file. -->
-    <Service Name="ESFA.DC.ESF.Stateless" ServicePackageActivationMode="ExclusiveProcess">
-      <StatelessService ServiceTypeName="ESFA.DC.ESF.StatelessType" InstanceCount="[ESFA.DC.ESF.Stateless_InstanceCount]">
+    <Service Name="ESFA.DC.ESF.Service.Stateless" ServicePackageActivationMode="ExclusiveProcess">
+      <StatelessService ServiceTypeName="ESFA.DC.ESF.Service.StatelessType" InstanceCount="[ESFA.DC.ESF.Service.Stateless_InstanceCount]">
         <SingletonPartition />
       </StatelessService>
     </Service>

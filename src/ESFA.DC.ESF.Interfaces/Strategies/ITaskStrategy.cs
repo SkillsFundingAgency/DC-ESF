@@ -7,6 +7,6 @@ namespace ESFA.DC.ESF.Interfaces.Strategies
     public interface ITaskStrategy
     {
         bool IsMatch(string taskName);
-        Task Execute(IList<ESFModel> esfRecords);
+        Task Execute(IList<SupplementaryDataModel> esfRecords);
     }
 }

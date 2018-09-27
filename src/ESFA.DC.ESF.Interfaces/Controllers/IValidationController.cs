@@ -5,6 +5,6 @@ namespace ESFA.DC.ESF.Interfaces.Controllers
 {
     public interface IValidationController
     {
-        Task ValidateData(ESFModel model);
+        Task ValidateData(SupplementaryDataModel model);
     }
 }

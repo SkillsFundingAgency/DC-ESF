@@ -13,7 +13,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public bool IsValid { get; private set; }
 
-        public Task Execute(ESFModel model)
+        public Task Execute(SupplementaryDataModel model)
         {
             IsValid = Regex.IsMatch(model.Reference, Pattern);
             return Task.CompletedTask;

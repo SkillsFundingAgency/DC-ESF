@@ -17,7 +17,7 @@ namespace ESFA.DC.ESF.Helpers
             _providerService = providerService;
         }
 
-        public async Task<IList<ESFModel>> GetESFRecords(IJobContextMessage jobContextMessage, CancellationToken cancellationToken)
+        public async Task<IList<SupplementaryDataModel>> GetESFRecords(IJobContextMessage jobContextMessage, CancellationToken cancellationToken)
         {
             return await _providerService.GetESFRecordsFromFile(jobContextMessage, cancellationToken);
         }

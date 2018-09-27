@@ -15,7 +15,7 @@ namespace ESFA.DC.ESF.ValidationService
             _validatorCommands = validatorCommands;
         }
 
-        public async Task ValidateData(ESFModel model)
+        public async Task ValidateData(SupplementaryDataModel model)
         {
             foreach (var command in _validatorCommands)
             {

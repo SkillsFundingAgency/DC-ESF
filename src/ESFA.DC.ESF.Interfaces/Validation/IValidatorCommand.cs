@@ -5,6 +5,6 @@ namespace ESFA.DC.ESF.Interfaces.Validation
 {
     public interface IValidatorCommand
     {
-        Task Execute(ESFModel model);
+        Task Execute(SupplementaryDataModel model);
     }
 }

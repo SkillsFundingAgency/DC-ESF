@@ -18,7 +18,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands
             _fileLevelValidators = fileLevelValidators;
         }
 
-        public async Task Execute(ESFModel model)
+        public async Task Execute(SupplementaryDataModel model)
         {
             foreach (var validator in _fileLevelValidators)
             {

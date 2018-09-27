@@ -17,7 +17,7 @@ namespace ESFA.DC.ESF.Database.EF
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public SourceFile()
         {
-            this.SupplementaryDatas = new HashSet<SupplementaryData>();
+            this.SupplementaryDataModels = new HashSet<SupplementaryData>();
         }
     
         public int SourceFileId { get; set; }
@@ -28,6 +28,6 @@ namespace ESFA.DC.ESF.Database.EF
         public Nullable<System.DateTime> DateTime { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SupplementaryData> SupplementaryDatas { get; set; }
+        public virtual ICollection<SupplementaryData> SupplementaryDataModels { get; set; }
     }
 }

@@ -4,7 +4,7 @@ using ESFA.DC.ESF.Models;
 
 namespace ESFA.DC.ESF.Mappers
 {
-    public sealed class ESFMapper : ClassMap<ESFModel>, IClassMapper
+    public sealed class ESFMapper : ClassMap<SupplementaryDataModel>, IClassMapper
     {
         public ESFMapper()
         {

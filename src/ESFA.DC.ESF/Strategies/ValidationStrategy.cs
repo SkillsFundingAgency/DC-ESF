@@ -20,7 +20,7 @@ namespace ESFA.DC.ESF.Strategies
             return taskName == string.Empty;
         }
 
-        public async Task Execute(IList<ESFModel> esfRecords)
+        public async Task Execute(IList<SupplementaryDataModel> esfRecords)
         {
             foreach (var model in esfRecords)
             {

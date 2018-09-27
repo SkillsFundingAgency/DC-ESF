@@ -17,7 +17,7 @@ namespace ESFA.DC.ESF.Helpers
             _taskHandlers = taskHandlers;
         }
 
-        public async Task ExecuteTasks(IReadOnlyList<ITaskItem> tasks, IList<ESFModel> records, CancellationToken cancellationToken)
+        public async Task ExecuteTasks(IReadOnlyList<ITaskItem> tasks, IList<SupplementaryDataModel> records, CancellationToken cancellationToken)
         {
             foreach (ITaskItem taskItem in tasks)
             {
@@ -43,7 +43,7 @@ namespace ESFA.DC.ESF.Helpers
             }
         }
 
-        private async Task HandleTask(IList<ESFModel> records, string task)
+        private async Task HandleTask(IList<SupplementaryDataModel> records, string task)
         {
             foreach (var handler in _taskHandlers)
             {
