@@ -329,5 +329,5 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
 
-Local.1Node.xml
-Local.5Node.xml
+**/Local.1Node.xml
+**/Local.5Node.xml
