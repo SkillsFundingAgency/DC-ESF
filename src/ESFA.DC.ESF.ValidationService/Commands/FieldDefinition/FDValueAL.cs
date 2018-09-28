@@ -7,7 +7,9 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 {
     public class FDValueAL : IFieldDefinitionValidator
     {
-        public string Level => "Error";
+        public string ErrorName => "FD_Value_AL";
+
+        public bool IsWarning => false;
 
         public string ErrorMessage => $"The Value does not conform to the decimal ({IntegerPartLength + PrecisionLength},{PrecisionLength}) field type. Please adjust the value and resubmit the file.";
 

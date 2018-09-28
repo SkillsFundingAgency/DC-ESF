@@ -11,6 +11,10 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public string ErrorMessage => "The ProviderSpecifiedReference contains invalid characters.";
 
+        public string ErrorName => "ProviderSpecifiedReference_01";
+
+        public bool IsWarning => false;
+
         public bool IsValid { get; private set; }
 
         public Task Execute(SupplementaryDataModel model)

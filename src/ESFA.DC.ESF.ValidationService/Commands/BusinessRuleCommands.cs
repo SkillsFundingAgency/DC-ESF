@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ESFA.DC.ESF.Interfaces.Validation;
 using ESFA.DC.ESF.Models;
+using ESFA.DC.ESF.ValidationService.Builders;
 
 namespace ESFA.DC.ESF.ValidationService.Commands
 {
@@ -12,7 +13,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands
 
         public bool IsValid { get; private set; }
 
-        public Dictionary<string, List<string>> Errors { get; }
+        public IList<ValidationErrorModel> Errors { get; }
 
         public int Priority => 3;
 
@@ -22,7 +23,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands
         {
             _validators = validators;
 
-            Errors = new Dictionary<string, List<string>>();
+            Errors = new List<ValidationErrorModel>();
         }
 
         public async Task Execute(SupplementaryDataModel model)
@@ -37,12 +38,10 @@ namespace ESFA.DC.ESF.ValidationService.Commands
             if (failed.Any())
             {
                 IsValid = false;
-                var errors = new List<string>();
                 foreach (var validator in failed)
                 {
-                    errors.Add(validator.ErrorMessage);
+                    Errors.Add(ValidationErrorBuilder.BuildValidationErrorModel(model, validator));
                 }
-                Errors.Add(model.ConRefNumber, errors);
             }
         }
     }

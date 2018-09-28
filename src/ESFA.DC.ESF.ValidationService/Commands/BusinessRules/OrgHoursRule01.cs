@@ -6,12 +6,18 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 {
     public class OrgHoursRule01 : IBusinessRuleValidator
     {
-        public string ErrorMessage => "The UKPRN in the filename does not match the UKPRN in the Hub";
+        public string ErrorMessage => "The OrgHours must be returned for the selected CostType.";
+
+        public string ErrorName => "OrgHours_01";
+
+        public bool IsWarning => false;
 
         public bool IsValid { get; private set; }
 
         public Task Execute(SupplementaryDataModel model)
         {
+            IsValid = model.CostType != Constants.CostTypeApportionedCost || model.OrgHours != null;
+
             return Task.CompletedTask;
         }
     }

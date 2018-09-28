@@ -6,7 +6,9 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 {
     public class FDReferenceTypeAL : IFieldDefinitionValidator
     {
-        public string Level => "Error";
+        public string ErrorName => "FD_ReferenceType_AL";
+
+        public bool IsWarning => false;
 
         public string ErrorMessage => $"The ReferenceType must not exceed {FieldLength} characters in length. Please adjust the value and resubmit the file.";
 

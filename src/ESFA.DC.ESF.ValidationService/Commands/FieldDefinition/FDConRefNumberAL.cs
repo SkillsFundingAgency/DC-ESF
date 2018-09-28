@@ -6,7 +6,9 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 {
     public class FDConRefNumberAL : IFieldDefinitionValidator
     {
-        public string Level => "Error";
+        public string ErrorName => "FD_ConRefNumber_AL";
+
+        public bool IsWarning => false;
 
         public string ErrorMessage => $"The ConRefNumber must not exceed {FieldLength} characters in length. Please adjust the value and resubmit the file.";
 

@@ -13,7 +13,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands
 
         public bool RejectFile { get; private set; }
 
-        public Dictionary<string, List<string>> Errors { get; }
+        public IList<ValidationErrorModel> Errors { get; }
 
         public int Priority => 1;
 

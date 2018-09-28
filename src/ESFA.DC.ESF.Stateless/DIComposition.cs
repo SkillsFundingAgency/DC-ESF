@@ -226,8 +226,8 @@ namespace ESFA.DC.ESF.Stateless
             containerBuilder.RegisterType<ProjectHoursRule02>().As<IBusinessRuleValidator>();
             containerBuilder.RegisterType<ProviderSpecifiedReferenceRule01>().As<IBusinessRuleValidator>();
             containerBuilder.RegisterType<ReferenceRule01>().As<IBusinessRuleValidator>();
-            containerBuilder.RegisterType<RefereneTypeRule01>().As<IBusinessRuleValidator>();
-            containerBuilder.RegisterType<RefereneTypeRule02>().As<IBusinessRuleValidator>();
+            containerBuilder.RegisterType<ReferenceTypeRule01>().As<IBusinessRuleValidator>();
+            containerBuilder.RegisterType<ReferenceTypeRule02>().As<IBusinessRuleValidator>();
             containerBuilder.RegisterType<StaffNameRule01>().As<IBusinessRuleValidator>();
             containerBuilder.RegisterType<StaffNameRule02>().As<IBusinessRuleValidator>();
             containerBuilder.RegisterType<StaffNameRule03>().As<IBusinessRuleValidator>();

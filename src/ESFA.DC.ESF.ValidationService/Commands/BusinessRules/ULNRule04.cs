@@ -8,6 +8,10 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
     {
         public string ErrorMessage => "The ULN is not required for the selected ReferenceType.";
 
+        public string ErrorName => "ULN_04";
+
+        public bool IsWarning => true;
+
         public bool IsValid { get; private set; }
 
         public Task Execute(SupplementaryDataModel model)

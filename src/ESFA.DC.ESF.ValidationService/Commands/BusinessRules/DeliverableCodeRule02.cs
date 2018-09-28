@@ -8,10 +8,16 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
     {
         public string ErrorMessage => "The DeliverableCode is not valid for the approved contract allocation.";
 
+        public string ErrorName => "DeliverableCode_02";
+
+        public bool IsWarning => false;
+
         public bool IsValid { get; private set; }
 
         public Task Execute(SupplementaryDataModel model)
         {
+            // todo ... need FCA
+
             return Task.CompletedTask;
         }
     }

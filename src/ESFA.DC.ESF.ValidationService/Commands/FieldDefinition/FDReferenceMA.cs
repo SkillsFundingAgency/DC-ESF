@@ -6,7 +6,9 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 {
     public class FDReferenceMA : IFieldDefinitionValidator
     {
-        public string Level => "Error";
+        public string ErrorName => "FD_Reference_MA";
+
+        public bool IsWarning => false;
 
         public string ErrorMessage =>
             "The Reference is mandatory. Please resubmit the file including the appropriate value.";

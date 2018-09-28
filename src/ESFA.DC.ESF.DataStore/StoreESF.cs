@@ -12,7 +12,11 @@ namespace ESFA.DC.ESF.DataStore
         private List<SupplementaryData> _supplementaryData;
         private List<SupplementaryDataUnitCost> _supplementaryUnitCosts;
 
-        public async Task StoreAsync(SqlConnection connection, SqlTransaction transaction, IEnumerable<SupplementaryDataModel> models, CancellationToken cancellationToken)
+        public async Task StoreAsync(
+            SqlConnection connection, 
+            SqlTransaction transaction, 
+            IEnumerable<SupplementaryDataModel> models, 
+            CancellationToken cancellationToken)
         {
             _supplementaryData = new List<SupplementaryData>();
             _supplementaryUnitCosts = new List<SupplementaryDataUnitCost>();
@@ -35,8 +39,7 @@ namespace ESFA.DC.ESF.DataStore
                     HourlyRate = model.HourlyRate,
                     TotalHoursWorked = model.TotalHoursWorked,
                     ProjectHours = model.ProjectHours,
-                    OrgHours = model.OrgHours,
-                    SourceFileId = model.SourceFileId ?? 0
+                    OrgHours = model.OrgHours
                 });
             }
 

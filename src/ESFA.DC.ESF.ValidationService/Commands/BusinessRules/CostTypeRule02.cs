@@ -25,6 +25,10 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public string ErrorMessage => "The CostType is not valid for the DeliverableCode. Please refer to the ESF Supplementary Data supporting documentation for further information.";
 
+        public string ErrorName => "CostType_02";
+
+        public bool IsWarning => false;
+
         public bool IsValid { get; private set; }
 
         public Task Execute(SupplementaryDataModel model)

@@ -6,7 +6,9 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 {
     public class FDConRefNumberMA : IFieldDefinitionValidator
     {
-        public string Level => "Error";
+        public string ErrorName => "FD_ConRefNumber_MA";
+
+        public bool IsWarning => false;
 
         public string ErrorMessage => "The ConRefNumber is mandatory. Please resubmit the file including the appropriate value.";
 

@@ -10,6 +10,6 @@ namespace ESFA.DC.ESF.Interfaces.Controllers
 
         bool RejectFile { get; }
 
-        Dictionary<string, List<string>> Errors { get; }
+        IList<ValidationErrorModel> Errors { get; }
     }
 }

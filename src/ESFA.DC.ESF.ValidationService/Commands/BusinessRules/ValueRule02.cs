@@ -8,6 +8,10 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
     {
         public string ErrorMessage => "The Value is not required for the selected CostType";
 
+        public string ErrorName => "Value_02";
+
+        public bool IsWarning => false;
+
         public bool IsValid { get; private set; }
 
         public Task Execute(SupplementaryDataModel model)

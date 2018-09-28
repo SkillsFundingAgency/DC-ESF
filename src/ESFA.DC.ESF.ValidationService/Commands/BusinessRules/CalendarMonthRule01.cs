@@ -8,6 +8,10 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
     {
         public string ErrorMessage => "The CalendarMonth is not valid.";
 
+        public string ErrorName => "CalendarMonth_01";
+
+        public bool IsWarning => false;
+
         public bool IsValid { get; private set; }
 
         public Task Execute(SupplementaryDataModel model)

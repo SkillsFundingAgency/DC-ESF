@@ -6,7 +6,9 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 {
     public class FDULNDT : IFieldDefinitionValidator
     {
-        public string Level => "Error";
+        public string ErrorName => "FD_ULN_DT";
+
+        public bool IsWarning => false;
 
         public string ErrorMessage => $"ULN must be an integer between {Min} and {Max}. Please adjust the value and resubmit the file.";
 

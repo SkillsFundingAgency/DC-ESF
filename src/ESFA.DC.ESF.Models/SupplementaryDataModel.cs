@@ -31,7 +31,5 @@
         public decimal? ProjectHours { get; set; }
 
         public decimal? OrgHours { get; set; }
-
-        public int? SourceFileId { get; set; }
     }
 }

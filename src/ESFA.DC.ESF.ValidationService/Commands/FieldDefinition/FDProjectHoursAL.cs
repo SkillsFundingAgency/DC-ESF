@@ -7,7 +7,9 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 {
     public class FDProjectHoursAL : IFieldDefinitionValidator
     {
-        public string Level => "Error";
+        public string ErrorName => "FD_ProjectHours_AL";
+
+        public bool IsWarning => false;
 
         public string ErrorMessage => $"The ProjectHours does not conform to the decimal ({IntegerPartLength + PrecisionLength},{PrecisionLength}) field type. Please adjust the value and resubmit the file.";
 

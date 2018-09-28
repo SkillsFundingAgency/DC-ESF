@@ -8,7 +8,7 @@ namespace ESFA.DC.ESF.Interfaces.Validation
     {
         Task Execute(SupplementaryDataModel model);
 
-        Dictionary<string, List<string>> Errors { get; }
+        IList<ValidationErrorModel> Errors { get; }
 
         bool RejectFile { get; }
 

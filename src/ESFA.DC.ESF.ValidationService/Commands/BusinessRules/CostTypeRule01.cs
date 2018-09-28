@@ -23,6 +23,10 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public string ErrorMessage => "The CostType is not valid";
 
+        public string ErrorName => "CostType_01";
+
+        public bool IsWarning => false;
+
         public bool IsValid { get; private set; }
 
         public Task Execute(SupplementaryDataModel model)

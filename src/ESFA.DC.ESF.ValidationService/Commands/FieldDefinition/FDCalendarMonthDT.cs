@@ -6,7 +6,9 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 {
     public class FDCalendarMonthDT : IFieldDefinitionValidator
     {
-        public string Level => "Error";
+        public string ErrorName => "FD_CalendarMonth_DT";
+
+        public bool IsWarning => false;
 
         public string ErrorMessage => "CalendarMonth must be an integer (whole number). Please adjust the value and resubmit the file.";
 

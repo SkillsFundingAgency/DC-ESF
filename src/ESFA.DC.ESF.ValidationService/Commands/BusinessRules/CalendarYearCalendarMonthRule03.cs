@@ -6,12 +6,18 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 {
     public class CalendarYearCalendarMonthRule03 : IBusinessRuleValidator
     {
-        public string ErrorMessage => "The UKPRN in the filename does not match the UKPRN in the Hub";
+        public string ErrorMessage => "The CalendarMonth and CalendarYear is after the contract allocation end date.";
+
+        public string ErrorName => "CalendarYearCalendarMonth_03";
+
+        public bool IsWarning => false;
 
         public bool IsValid { get; private set; }
 
         public Task Execute(SupplementaryDataModel model)
         {
+            // todo need FCA
+
             return Task.CompletedTask;
         }
     }

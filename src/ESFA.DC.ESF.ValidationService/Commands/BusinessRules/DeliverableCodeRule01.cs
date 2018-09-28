@@ -16,6 +16,10 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public string ErrorMessage => "The DeliverableCode is not valid.";
 
+        public string ErrorName => "DeliverableCode_01";
+
+        public bool IsWarning => false;
+
         public bool IsValid { get; private set; }
 
         public Task Execute(SupplementaryDataModel model)

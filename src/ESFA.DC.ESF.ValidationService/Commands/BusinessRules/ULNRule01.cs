@@ -8,6 +8,10 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
     {
         public string ErrorMessage => "The ULN must be returned.";
 
+        public string ErrorName => "ULN_01";
+
+        public bool IsWarning => false;
+
         public bool IsValid { get; private set; }
 
         public Task Execute(SupplementaryDataModel model)

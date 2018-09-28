@@ -56,6 +56,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IESFProviderService.cs" />
     <Compile Include="Strategies\ITaskStrategy.cs" />
+    <Compile Include="Validation\IBaseValidator.cs" />
     <Compile Include="Validation\IBusinessRuleValidator.cs" />
     <Compile Include="Validation\IFieldDefinitionValidator.cs" />
     <Compile Include="Validation\IFileLevelValidator.cs" />

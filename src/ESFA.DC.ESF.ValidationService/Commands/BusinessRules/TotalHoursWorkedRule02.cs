@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using ESFA.DC.ESF.Interfaces.Controllers;
 using ESFA.DC.ESF.Interfaces.Validation;
 using ESFA.DC.ESF.Models;
 
@@ -6,12 +8,20 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 {
     public class TotalHoursWorkedRule02 : IBusinessRuleValidator
     {
-        public string ErrorMessage => "The UKPRN in the filename does not match the UKPRN in the Hub";
+        public string ErrorMessage => "The TotalHoursWorked is not required for the selected CostType.";
+
+        public string ErrorName => "TotalHoursWorked_02";
+
+        public bool IsWarning => true;
 
         public bool IsValid { get; private set; }
 
         public Task Execute(SupplementaryDataModel model)
         {
+            var staffCostTypes = new List<string> {"Staff Part Time", "Staff Full Time"};
+
+            IsValid = !staffCostTypes.Contains(model.CostType) || model.TotalHoursWorked == null;
+
             return Task.CompletedTask;
         }
     }

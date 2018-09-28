@@ -10,6 +10,10 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
     {
         public string ErrorMessage => "This ULN should not be used for months that are more than two months older than the current month.";
 
+        public string ErrorName => "ULN_03";
+
+        public bool IsWarning => false;
+
         public bool IsValid { get; private set; }
 
         public Task Execute(SupplementaryDataModel model)

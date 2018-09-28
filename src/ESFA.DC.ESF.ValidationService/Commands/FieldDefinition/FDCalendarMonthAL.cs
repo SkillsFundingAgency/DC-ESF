@@ -6,9 +6,11 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 {
     public class FDCalendarMonthAL : IFieldDefinitionValidator
     {
-        public string Level => "Error";
-
         public string ErrorMessage => $"The CalendarMonth must not exceed {FieldLength} characters in length. Please adjust the value and resubmit the file.";
+
+        public string ErrorName => "FD_CalendarMonth_AL";
+
+        public bool IsWarning => false;
 
         public bool IsValid { get; private set; }
 

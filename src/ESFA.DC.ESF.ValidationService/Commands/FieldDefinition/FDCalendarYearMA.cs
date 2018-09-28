@@ -6,7 +6,9 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 {
     public class FDCalendarYearMA : IFieldDefinitionValidator
     {
-        public string Level => "Error";
+        public string ErrorName => "FD_CalendarYear_MA";
+
+        public bool IsWarning => false;
 
         public string ErrorMessage =>
             "The DeliverableCode is mandatory. Please resubmit the file including the appropriate value.";

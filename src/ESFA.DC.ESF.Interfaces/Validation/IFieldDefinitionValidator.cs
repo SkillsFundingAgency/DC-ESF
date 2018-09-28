@@ -1,16 +1,7 @@
-﻿using System.Threading.Tasks;
-using ESFA.DC.ESF.Models;
-
-namespace ESFA.DC.ESF.Interfaces.Validation
+﻿namespace ESFA.DC.ESF.Interfaces.Validation
 {
-    public interface IFieldDefinitionValidator
+    public interface IFieldDefinitionValidator : IBaseValidator
     {
-        string Level { get; }
 
-        string ErrorMessage { get; }
-
-        bool IsValid { get; }
-
-        Task Execute(SupplementaryDataModel model);
     }
 }

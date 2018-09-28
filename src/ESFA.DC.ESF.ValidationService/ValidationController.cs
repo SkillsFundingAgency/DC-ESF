@@ -13,7 +13,7 @@ namespace ESFA.DC.ESF.ValidationService
 
         public bool RejectFile { get; private set; }
 
-        public Dictionary<string, List<string>> Errors { get; }
+        public IList<ValidationErrorModel> Errors { get; }
 
         public ValidationController(IList<IValidatorCommand> validatorCommands)
         {
@@ -33,7 +33,7 @@ namespace ESFA.DC.ESF.ValidationService
 
                 foreach (var error in command.Errors)
                 {
-                    Errors.Add(error.Key, error.Value);
+                    Errors.Add(error);
                 }
 
                 if (!command.RejectFile)

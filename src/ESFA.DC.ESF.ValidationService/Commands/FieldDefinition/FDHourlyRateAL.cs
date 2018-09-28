@@ -7,7 +7,9 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 {
     public class FDHourlyRateAL : IFieldDefinitionValidator
     {
-        public string Level => "Error";
+        public string ErrorName => "FD_HourlyRate_AL";
+
+        public bool IsWarning => false;
 
         public string ErrorMessage => $"The HourlyRate does not conform to the decimal ({IntegerPartLength + PrecisionLength},{PrecisionLength}) field type. Please adjust the value and resubmit the file.";
 

@@ -19,7 +19,11 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
             "Funding Adjustment"
         };
 
-        public string ErrorMessage => "The Value must be returned for the selected CostType";
+        public string ErrorMessage => "The Value must be returned for the selected CostType.";
+
+        public string ErrorName => "Value_01";
+
+        public bool IsWarning => false;
 
         public bool IsValid { get; private set; }
 
