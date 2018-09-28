@@ -23,7 +23,7 @@ namespace ESFA.DC.ESF.Strategies
 
         public async Task Execute(
             IList<SupplementaryDataModel> esfRecords, 
-            IDictionary<string, ValidationErrorModel> errors,
+            IList<ValidationErrorModel> errors,
             CancellationToken cancellationToken)
         {
             foreach (var model in esfRecords)
@@ -32,7 +32,7 @@ namespace ESFA.DC.ESF.Strategies
 
                 foreach (var error in _controller.Errors)
                 {
-                    // errors.Add(error);
+                    errors.Add(error);
                 }
             }
         }

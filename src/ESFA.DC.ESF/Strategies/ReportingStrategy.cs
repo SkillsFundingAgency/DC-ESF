@@ -14,7 +14,7 @@ namespace ESFA.DC.ESF.Strategies
             throw new NotImplementedException();
         }
 
-        public Task Execute(IList<SupplementaryDataModel> esfRecords, IDictionary<string, ValidationErrorModel> errors, CancellationToken cancellationToken)
+        public Task Execute(IList<SupplementaryDataModel> esfRecords, IList<ValidationErrorModel> errors, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

@@ -10,7 +10,7 @@ namespace ESFA.DC.ESF.Interfaces.Strategies
         bool IsMatch(string taskName);
         Task Execute(
             IList<SupplementaryDataModel> esfRecords, 
-            IDictionary<string, ValidationErrorModel> errors,
+            IList<ValidationErrorModel> errors,
             CancellationToken cancellationToken);
     }
 }
