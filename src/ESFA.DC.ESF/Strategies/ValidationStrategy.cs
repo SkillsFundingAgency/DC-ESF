@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ESF.Interfaces.Controllers;
 using ESFA.DC.ESF.Interfaces.Strategies;
@@ -20,11 +21,19 @@ namespace ESFA.DC.ESF.Strategies
             return taskName == string.Empty;
         }
 
-        public async Task Execute(IList<SupplementaryDataModel> esfRecords)
+        public async Task Execute(
+            IList<SupplementaryDataModel> esfRecords, 
+            IDictionary<string, ValidationErrorModel> errors,
+            CancellationToken cancellationToken)
         {
             foreach (var model in esfRecords)
             {
                 await _controller.ValidateData(model);
+
+                foreach (var error in _controller.Errors)
+                {
+                    // errors.Add(error);
+                }
             }
         }
     }

@@ -4,13 +4,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
 using ESFA.DC.DateTimeProvider.Interface;
+using ESFA.DC.ESF.DataStore;
 using ESFA.DC.ESF.Interfaces;
+using ESFA.DC.ESF.Interfaces.Config;
 using ESFA.DC.ESF.Interfaces.Controllers;
 using ESFA.DC.ESF.Interfaces.Services;
 using ESFA.DC.ESF.Interfaces.Validation;
 using ESFA.DC.ESF.Models.Configuration;
-using ESFA.DC.ESF.Service.Stateless.Config;
-using ESFA.DC.ESF.Service.Stateless.Config.Interfaces;
+using ESFA.DC.ESF.Service.Config;
 using ESFA.DC.ESF.Service.Stateless.Handlers;
 using ESFA.DC.ESF.Services;
 using ESFA.DC.ESF.ValidationService;
@@ -41,6 +42,11 @@ namespace ESFA.DC.ESF.Stateless
         public static ContainerBuilder BuildContainer(IConfigurationHelper configHelper)
         {
             var container = new ContainerBuilder();
+
+            // persist data options
+            var persistDataConfig =
+                configHelper.GetSectionValues<PersistDataConfiguration>("DataStoreSection");
+            container.RegisterInstance(persistDataConfig).As<PersistDataConfiguration>().SingleInstance();
 
             var orgConfiguration = configHelper.GetSectionValues<OrgConfiguration>("OrgSection");
             container.RegisterInstance(orgConfiguration).As<OrgConfiguration>().SingleInstance();
@@ -170,6 +176,7 @@ namespace ESFA.DC.ESF.Stateless
         private static void RegisterControllers(ContainerBuilder containerBuilder)
         {
             containerBuilder.RegisterType<ValidationController>().As<IValidationController>();
+            containerBuilder.RegisterType<StorageController>().As<IValidationController>();
         }
 
         private static void RegisterCommands(ContainerBuilder containerBuilder)
@@ -184,15 +191,15 @@ namespace ESFA.DC.ESF.Stateless
 
         private static void RegisterFileLevelValidators(ContainerBuilder containerBuilder)
         {
-            containerBuilder.RegisterType<FileFormatRule01>().As<IFileLevelValidator>();
-            containerBuilder.RegisterType<FileNameRule01>().As<IFileLevelValidator>();
-            containerBuilder.RegisterType<FileNameRule02>().As<IFileLevelValidator>();
-            containerBuilder.RegisterType<FileNameRule03>().As<IFileLevelValidator>();
-            containerBuilder.RegisterType<FileNameRule04>().As<IFileLevelValidator>();
-            containerBuilder.RegisterType<FileNameRule05>().As<IFileLevelValidator>();
-            containerBuilder.RegisterType<FileNameRule06>().As<IFileLevelValidator>();
-            containerBuilder.RegisterType<FileNameRule07>().As<IFileLevelValidator>();
-            containerBuilder.RegisterType<FileNameRule08>().As<IFileLevelValidator>();
+            //containerBuilder.RegisterType<FileFormatRule01>().As<IFileLevelValidator>();
+            //containerBuilder.RegisterType<FileNameRule01>().As<IFileLevelValidator>();
+            //containerBuilder.RegisterType<FileNameRule02>().As<IFileLevelValidator>();
+            //containerBuilder.RegisterType<FileNameRule03>().As<IFileLevelValidator>();
+            //containerBuilder.RegisterType<FileNameRule04>().As<IFileLevelValidator>();
+            //containerBuilder.RegisterType<FileNameRule05>().As<IFileLevelValidator>();
+            //containerBuilder.RegisterType<FileNameRule06>().As<IFileLevelValidator>();
+            //containerBuilder.RegisterType<FileNameRule07>().As<IFileLevelValidator>();
+            //containerBuilder.RegisterType<FileNameRule08>().As<IFileLevelValidator>();
             containerBuilder.RegisterType<ConRefNumberRule01>().As<IFileLevelValidator>();
 
             containerBuilder.Register(c => new List<IFileLevelValidator>(c.Resolve<IEnumerable<IFileLevelValidator>>()))

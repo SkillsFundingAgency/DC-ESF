@@ -14,6 +14,10 @@ namespace ESFA.DC.ESF.ValidationService.Commands
 
         public Dictionary<string, List<string>> Errors { get; }
 
+        public int Priority => 3;
+
+        public bool RejectFile => false;
+
         public BusinessRuleCommands(IList<IBusinessRuleValidator> validators)
         {
             _validators = validators;

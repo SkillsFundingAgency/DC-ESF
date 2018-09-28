@@ -47,14 +47,22 @@ namespace ESFA.DC.ESF.Services
                 }
 
                 string esf =
-                    await _storage.GetAsync(jobContextMessage.KeyValuePairs[JobContextMessageKey.Filename].ToString(), cancellationToken);
+                    await _storage.GetAsync(jobContextMessage.KeyValuePairs[JobContextMessageKey.Filename].ToString(),
+                        cancellationToken);
 
                 using (TextReader sr = new StringReader(esf))
                 {
                     var csvReader = new CsvReader(sr);
+                    csvReader.Configuration.HasHeaderRecord = true;
                     csvReader.Configuration.RegisterClassMap(new ESFMapper());
+
+                    csvReader.ValidateHeader(typeof(SupplementaryDataModel));
                     model = csvReader.GetRecords<SupplementaryDataModel>().ToList();
                 }
+            }
+            catch (ValidationException)
+            {
+                throw;
             }
             catch (Exception ex)
             {

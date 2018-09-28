@@ -11,7 +11,11 @@ namespace ESFA.DC.ESF.ValidationService.Commands
 
         public bool IsValid { get; private set; }
 
-        public bool RejectFile { get; private set; }    
+        public bool RejectFile { get; private set; }
+
+        public Dictionary<string, List<string>> Errors { get; }
+
+        public int Priority => 1;
 
         public FileLevelCommands(IList<IFileLevelValidator> fileLevelValidators)
         {
@@ -22,7 +26,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands
         {
             foreach (var validator in _fileLevelValidators)
             {
-                await validator.Execute(string.Empty, string.Empty);
+                await validator.Execute(string.Empty, model);
             }
         }
     }

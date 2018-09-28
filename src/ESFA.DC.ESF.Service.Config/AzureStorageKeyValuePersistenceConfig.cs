@@ -1,6 +1,6 @@
 ﻿using ESFA.DC.IO.AzureStorage.Config.Interfaces;
 
-namespace ESFA.DC.ESF.Service.Stateless.Config
+namespace ESFA.DC.ESF.Service.Config
 {
     public class AzureStorageKeyValuePersistenceConfig : IAzureStorageKeyValuePersistenceServiceConfig
     {

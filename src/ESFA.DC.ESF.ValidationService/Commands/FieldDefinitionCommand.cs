@@ -14,12 +14,16 @@ namespace ESFA.DC.ESF.ValidationService.Commands
 
         public Dictionary<string, List<string>> Errors { get; }
 
+        public bool RejectFile => false;
+
         public FieldDefinitionCommand(IList<IFieldDefinitionValidator> validators)
         {
             _validators = validators;
 
             Errors = new Dictionary<string, List<string>>();
         }
+
+        public int Priority => 2;
 
         public async Task Execute(SupplementaryDataModel model)
         {

@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FastMember;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData
+namespace ESFA.DC.ESF.DataStore
 {
     public sealed class BulkInsert : IDisposable
     {

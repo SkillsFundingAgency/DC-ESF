@@ -1,7 +1,11 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CsvHelper;
 using ESFA.DC.ESF.Interfaces.Helpers;
+using ESFA.DC.ESF.Models;
+using ESFA.DC.JobContext;
 using ESFA.DC.JobContext.Interface;
 using ESFA.DC.Logging.Interfaces;
 
@@ -33,13 +37,30 @@ namespace ESFA.DC.ESF
                 return true;
             }
 
-            var esfRecords = await _fileHelper.GetESFRecords(jobContextMessage, cancellationToken);
-            if (esfRecords == null || !esfRecords.Any())
+            IList<SupplementaryDataModel> esfRecords = new List<SupplementaryDataModel>();
+            try
             {
-                _logger.LogInfo("No ESF records to process");
+                esfRecords = await _fileHelper.GetESFRecords(jobContextMessage, cancellationToken);
+                if (esfRecords == null || !esfRecords.Any())
+                {
+                    _logger.LogInfo("No ESF records to process");
+                    return true;
+                }
+            }
+            catch (ValidationException ex)
+            {
+                _logger.LogError($"The file format is incorrect, key: {JobContextMessageKey.Filename}", ex);
+                IReadOnlyList<ITaskItem> errorTasks = new List<ITaskItem>{ new TaskItem
+                {
+                    SupportsParallelExecution = false,
+                    Tasks = new List<string> { "Reports" }
+                }};
+
+                await _taskHelper.ExecuteTasks(errorTasks, null, cancellationToken);
+
                 return true;
             }
-            
+
             await _taskHelper.ExecuteTasks(tasks, esfRecords, cancellationToken);
                 
             return !cancellationToken.IsCancellationRequested;

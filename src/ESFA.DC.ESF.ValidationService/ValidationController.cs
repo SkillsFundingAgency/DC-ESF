@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using ESFA.DC.ESF.Interfaces.Controllers;
 using ESFA.DC.ESF.Interfaces.Validation;
@@ -10,9 +11,13 @@ namespace ESFA.DC.ESF.ValidationService
     {
         private readonly IList<IValidatorCommand> _validatorCommands;
 
+        public bool RejectFile { get; private set; }
+
+        public Dictionary<string, List<string>> Errors { get; }
+
         public ValidationController(IList<IValidatorCommand> validatorCommands)
         {
-            _validatorCommands = validatorCommands;
+            _validatorCommands = validatorCommands.OrderBy(c => c.Priority).ToList();
         }
 
         public async Task ValidateData(SupplementaryDataModel model)
@@ -20,6 +25,24 @@ namespace ESFA.DC.ESF.ValidationService
             foreach (var command in _validatorCommands)
             {
                 await command.Execute(model);
+
+                if (command.IsValid)
+                {
+                    continue;
+                }
+
+                foreach (var error in command.Errors)
+                {
+                    Errors.Add(error.Key, error.Value);
+                }
+
+                if (!command.RejectFile)
+                {
+                    continue;
+                }
+
+                RejectFile = true;
+                break;
             }
         }
     }    

@@ -1,23 +1,25 @@
-﻿using ESFA.DC.ESF.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ESF.Database.EF;
+using ESFA.DC.ESF.Models;
 
-namespace ESFA.DC.ILR1819.DataStore.PersistData
+namespace ESFA.DC.ESF.DataStore
 {
     public class StoreESF
     {
-        private List<SupplementaryDataModel> _SupplementaryDataModel;
+        private List<SupplementaryData> _supplementaryData;
         private List<SupplementaryDataUnitCost> _supplementaryUnitCosts;
 
         public async Task StoreAsync(SqlConnection connection, SqlTransaction transaction, IEnumerable<SupplementaryDataModel> models, CancellationToken cancellationToken)
         {
-            _SupplementaryDataModel = new List<SupplementaryDataModel>();
+            _supplementaryData = new List<SupplementaryData>();
+            _supplementaryUnitCosts = new List<SupplementaryDataUnitCost>();
+
             foreach (var model in models)
             {
-                _SupplementaryDataModel.Add(new SupplementaryDataModel
+                _supplementaryData.Add(new SupplementaryData
                 {
                     ConRefNumber = model.ConRefNumber,
                     DeliverableCode = model.DeliverableCode,
@@ -50,7 +52,7 @@ namespace ESFA.DC.ILR1819.DataStore.PersistData
 
             using (var bulkInsert = new BulkInsert(connection, transaction, cancellationToken))
             {
-                await bulkInsert.Insert("dbo.SupplementaryDataModel", _SupplementaryDataModel);
+                await bulkInsert.Insert("dbo.SupplementaryDataModel", _supplementaryData);
             }
         }
     }

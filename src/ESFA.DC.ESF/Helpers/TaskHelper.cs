@@ -52,7 +52,7 @@ namespace ESFA.DC.ESF.Helpers
                     continue;
                 }
 
-                await handler.Execute(records);
+                // await handler.Execute(records);
                 break;
             }
         }

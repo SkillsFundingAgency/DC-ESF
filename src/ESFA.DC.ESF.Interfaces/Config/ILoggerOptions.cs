@@ -1,4 +1,4 @@
-﻿namespace ESFA.DC.ESF.Service.Stateless.Config.Interfaces
+﻿namespace ESFA.DC.ESF.Interfaces.Config
 {
     public interface ILoggerOptions
     {

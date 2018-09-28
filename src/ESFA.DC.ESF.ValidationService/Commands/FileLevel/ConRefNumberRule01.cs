@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using ESFA.DC.ESF.Interfaces.Validation;
+using ESFA.DC.ESF.Models;
 
 namespace ESFA.DC.ESF.ValidationService.Commands.FileLevel
 {
@@ -10,8 +11,12 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FileLevel
 
         public bool RejectFile => true;
 
-        public Task Execute(string fileName, string contents)
+        public Task Execute(string fileName, SupplementaryDataModel model)
         {
+            string[] filenameParts = fileName.Split('-');
+
+            IsValid = filenameParts[2] == model.ConRefNumber;
+
             return Task.CompletedTask;
         }
     }

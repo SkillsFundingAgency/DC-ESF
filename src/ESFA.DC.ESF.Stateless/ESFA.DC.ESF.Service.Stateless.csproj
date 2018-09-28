@@ -266,13 +266,6 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Config\AzureStorageKeyValuePersistenceConfig.cs" />
-    <Compile Include="Config\AzureStorageOptions.cs" />
-    <Compile Include="Config\Interfaces\ILoggerOptions.cs" />
-    <Compile Include="Config\LoggerOptions.cs" />
-    <Compile Include="Config\ServiceBusOptions.cs" />
-    <Compile Include="Config\ServiceBusQueueConfig.cs" />
-    <Compile Include="Config\ServiceBusTopicConfig.cs" />
     <Compile Include="DIComposition.cs" />
     <Compile Include="Handlers\IMessageHandler.cs" />
     <Compile Include="Handlers\MessageHandler.cs" />
@@ -288,13 +281,21 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ESFA.DC.ESF.DataStore\ESFA.DC.ESF.DataStore.csproj">
+      <Project>{658d73f9-af82-4a19-92a5-1af9ede62ba3}</Project>
+      <Name>ESFA.DC.ESF.DataStore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.ESF.Interfaces\ESFA.DC.ESF.Interfaces.csproj">
-      <Project>{AA2F8894-3610-4FD2-A570-1ABD2CCF093F}</Project>
+      <Project>{ede35312-f1e5-4fa3-833e-9408c16593dc}</Project>
       <Name>ESFA.DC.ESF.Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.ESF.Models\ESFA.DC.ESF.Models.csproj">
       <Project>{E2CBCC6A-EEAF-45EE-B00F-DE5B110C9306}</Project>
       <Name>ESFA.DC.ESF.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ESFA.DC.ESF.Service.Config\ESFA.DC.ESF.Service.Config.csproj">
+      <Project>{7121f2af-0872-4446-a57c-7f7ed7a1d19e}</Project>
+      <Name>ESFA.DC.ESF.Service.Config</Name>
     </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.ESF.ValidationService\ESFA.DC.ESF.ValidationService.csproj">
       <Project>{66F94BC8-F7F9-4F4A-8E24-998DF78C4258}</Project>

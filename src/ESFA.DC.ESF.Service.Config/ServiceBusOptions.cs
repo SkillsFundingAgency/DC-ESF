@@ -1,4 +1,4 @@
-﻿namespace ESFA.DC.ESF.Service.Stateless.Config
+﻿namespace ESFA.DC.ESF.Service.Config
 {
     public sealed class ServiceBusOptions
     {

@@ -4,19 +4,17 @@ using ESFA.DC.ESF.Models;
 
 namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 {
-    public class FDULNAL : IFieldDefinitionValidator
+    public class FDCalendarYearDT : IFieldDefinitionValidator
     {
         public string Level => "Error";
 
-        public string ErrorMessage => $"The ULN must not exceed {FieldLength} characters in length. Please adjust the value and resubmit the file.";
+        public string ErrorMessage => "CalendarYear must be an integer (whole number). Please adjust the value and resubmit the file.";
 
         public bool IsValid { get; private set; }
 
-        private const int FieldLength = 10;
-
         public Task Execute(SupplementaryDataModel model)
         {
-            IsValid = string.IsNullOrEmpty(model.ULN.ToString()) || model.ULN.ToString().Length <= FieldLength;
+            IsValid = model.CalendarYear != null;
 
             return Task.CompletedTask;
         }
