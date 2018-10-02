@@ -8,6 +8,7 @@ using ESFA.DC.ESF.DataStore;
 using ESFA.DC.ESF.Interfaces;
 using ESFA.DC.ESF.Interfaces.Config;
 using ESFA.DC.ESF.Interfaces.Controllers;
+using ESFA.DC.ESF.Interfaces.DataStore;
 using ESFA.DC.ESF.Interfaces.Services;
 using ESFA.DC.ESF.Interfaces.Validation;
 using ESFA.DC.ESF.Models.Configuration;
@@ -17,6 +18,7 @@ using ESFA.DC.ESF.Services;
 using ESFA.DC.ESF.ValidationService;
 using ESFA.DC.ESF.ValidationService.Commands;
 using ESFA.DC.ESF.ValidationService.Commands.BusinessRules;
+using ESFA.DC.ESF.ValidationService.Commands.CrossRecord;
 using ESFA.DC.ESF.ValidationService.Commands.FieldDefinition;
 using ESFA.DC.ESF.ValidationService.Commands.FileLevel;
 using ESFA.DC.IO.AzureStorage;
@@ -61,7 +63,10 @@ namespace ESFA.DC.ESF.Stateless
 
             RegisterCommands(container);
 
+            RegisterStorage(container);
+
             RegisterFileLevelValidators(container);
+            RegisterCrossRecordValidators(container);
             RegisterBusinessRuleValidators(container);
             RegisterFieldDefinitionValidators(container);
 
@@ -184,6 +189,7 @@ namespace ESFA.DC.ESF.Stateless
             containerBuilder.RegisterType<FileLevelCommands>().As<IValidatorCommand>();
             containerBuilder.RegisterType<BusinessRuleCommands>().As<IValidatorCommand>();
             containerBuilder.RegisterType<FieldDefinitionCommand>().As<IValidatorCommand>();
+            containerBuilder.RegisterType<CrossRecordCommands>().As<IValidatorCommand>();
 
             containerBuilder.Register(c => new List<IValidatorCommand>(c.Resolve<IEnumerable<IValidatorCommand>>()))
                 .As<IList<IValidatorCommand>>();
@@ -191,19 +197,20 @@ namespace ESFA.DC.ESF.Stateless
 
         private static void RegisterFileLevelValidators(ContainerBuilder containerBuilder)
         {
-            //containerBuilder.RegisterType<FileFormatRule01>().As<IFileLevelValidator>();
-            //containerBuilder.RegisterType<FileNameRule01>().As<IFileLevelValidator>();
-            //containerBuilder.RegisterType<FileNameRule02>().As<IFileLevelValidator>();
-            //containerBuilder.RegisterType<FileNameRule03>().As<IFileLevelValidator>();
-            //containerBuilder.RegisterType<FileNameRule04>().As<IFileLevelValidator>();
-            //containerBuilder.RegisterType<FileNameRule05>().As<IFileLevelValidator>();
-            //containerBuilder.RegisterType<FileNameRule06>().As<IFileLevelValidator>();
-            //containerBuilder.RegisterType<FileNameRule07>().As<IFileLevelValidator>();
-            //containerBuilder.RegisterType<FileNameRule08>().As<IFileLevelValidator>();
+            containerBuilder.RegisterType<FileFormatRule01>().As<IFileLevelValidator>();
+            containerBuilder.RegisterType<FileNameRule08>().As<IFileLevelValidator>();
             containerBuilder.RegisterType<ConRefNumberRule01>().As<IFileLevelValidator>();
 
             containerBuilder.Register(c => new List<IFileLevelValidator>(c.Resolve<IEnumerable<IFileLevelValidator>>()))
                 .As<IList<IFileLevelValidator>>();
+        }
+
+        private static void RegisterCrossRecordValidators(ContainerBuilder containerBuilder)
+        {
+            containerBuilder.RegisterType<Duplicate01>().As<ICrossRecordValidator>();
+
+            containerBuilder.Register(c => new List<ICrossRecordValidator>(c.Resolve<IEnumerable<ICrossRecordValidator>>()))
+                .As<IList<ICrossRecordValidator>>();
         }
 
         private static void RegisterBusinessRuleValidators(ContainerBuilder containerBuilder)
@@ -247,13 +254,41 @@ namespace ESFA.DC.ESF.Stateless
 
         private static void RegisterFieldDefinitionValidators(ContainerBuilder containerBuilder)
         {
+            containerBuilder.RegisterType<FDCalendarMonthAL>().As<IFieldDefinitionValidator>();
+            containerBuilder.RegisterType<FDCalendarMonthDT>().As<IFieldDefinitionValidator>();
+            containerBuilder.RegisterType<FDCalendarMonthMA>().As<IFieldDefinitionValidator>();
+            containerBuilder.RegisterType<FDCalendarYearAL>().As<IFieldDefinitionValidator>();
+            containerBuilder.RegisterType<FDCalendarYearDT>().As<IFieldDefinitionValidator>();
             containerBuilder.RegisterType<FDCalendarYearMA>().As<IFieldDefinitionValidator>();
+            containerBuilder.RegisterType<FDConRefNumberAL>().As<IFieldDefinitionValidator>();
             containerBuilder.RegisterType<FDConRefNumberMA>().As<IFileLevelValidator>();
+            containerBuilder.RegisterType<FDCostTypeAL>().As<IFieldDefinitionValidator>();
+            containerBuilder.RegisterType<FDCostTypeMA>().As<IFieldDefinitionValidator>();
+            containerBuilder.RegisterType<FDDeliverableCodeAL>().As<IFieldDefinitionValidator>();
             containerBuilder.RegisterType<FDDeliverableCodeMA>().As<IFileLevelValidator>();
-
+            containerBuilder.RegisterType<FDHourlyRateAL>().As<IFieldDefinitionValidator>();
+            containerBuilder.RegisterType<FDOrgHoursAL>().As<IFieldDefinitionValidator>();
+            containerBuilder.RegisterType<FDProjectHoursAL>().As<IFieldDefinitionValidator>();
+            containerBuilder.RegisterType<FDProviderSpecifiedReferenceAL>().As<IFieldDefinitionValidator>();
+            containerBuilder.RegisterType<FDReferenceAL>().As<IFieldDefinitionValidator>();
+            containerBuilder.RegisterType<FDReferenceMA>().As<IFieldDefinitionValidator>();
+            containerBuilder.RegisterType<FDReferenceTypeAL>().As<IFieldDefinitionValidator>();
+            containerBuilder.RegisterType<FDReferenceTypeMA>().As<IFieldDefinitionValidator>();
+            containerBuilder.RegisterType<FDStaffNameAL>().As<IFieldDefinitionValidator>();
+            containerBuilder.RegisterType<FDTotalHoursWorkedAL>().As<IFieldDefinitionValidator>();
+            containerBuilder.RegisterType<FDULNAL>().As<IFieldDefinitionValidator>();
+            containerBuilder.RegisterType<FDULNDT>().As<IFieldDefinitionValidator>();
+            containerBuilder.RegisterType<FDValueAL>().As<IFieldDefinitionValidator>();
 
             containerBuilder.Register(c => new List<IFieldDefinitionValidator>(c.Resolve<IEnumerable<IFieldDefinitionValidator>>()))
                 .As<IList<IFieldDefinitionValidator>>();
+        }
+
+        private static void RegisterStorage(ContainerBuilder containerBuilder)
+        {
+            containerBuilder.RegisterType<StoreClear>().As<IStoreClear>();
+            containerBuilder.RegisterType<StoreFileDetails>().As<IStoreFileDetails>();
+            containerBuilder.RegisterType<StoreESF>().As<IStoreESF>();
         }
     }
 }

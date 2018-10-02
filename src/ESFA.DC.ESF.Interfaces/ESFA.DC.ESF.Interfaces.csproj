@@ -49,6 +49,7 @@
     <Compile Include="Controllers\IValidationController.cs" />
     <Compile Include="DataStore\IStoreClear.cs" />
     <Compile Include="DataStore\IStoreESF.cs" />
+    <Compile Include="DataStore\IStoreFileDetails.cs" />
     <Compile Include="Helpers\IFileHelper.cs" />
     <Compile Include="Helpers\ITaskHelper.cs" />
     <Compile Include="IClassMapper.cs" />
@@ -58,6 +59,8 @@
     <Compile Include="Strategies\ITaskStrategy.cs" />
     <Compile Include="Validation\IBaseValidator.cs" />
     <Compile Include="Validation\IBusinessRuleValidator.cs" />
+    <Compile Include="Validation\ICrossRecordCommand.cs" />
+    <Compile Include="Validation\ICrossRecordValidator.cs" />
     <Compile Include="Validation\IFieldDefinitionValidator.cs" />
     <Compile Include="Validation\IFileLevelValidator.cs" />
     <Compile Include="Validation\IValidatorCommand.cs" />

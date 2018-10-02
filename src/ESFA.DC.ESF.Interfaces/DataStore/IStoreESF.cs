@@ -8,6 +8,6 @@ namespace ESFA.DC.ESF.Interfaces.DataStore
 {
     public interface IStoreESF
     {
-        Task StoreAsync(SqlConnection connection, SqlTransaction transaction, IEnumerable<SupplementaryDataModel> models, CancellationToken cancellationToken);
+        Task StoreAsync(SqlConnection connection, SqlTransaction transaction, int FileId, IEnumerable<SupplementaryDataModel> models, CancellationToken cancellationToken);
     }
 }

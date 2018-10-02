@@ -18,12 +18,19 @@ namespace ESFA.DC.ESF.ValidationService
         public ValidationController(IList<IValidatorCommand> validatorCommands)
         {
             _validatorCommands = validatorCommands.OrderBy(c => c.Priority).ToList();
+
+            Errors = new List<ValidationErrorModel>();
         }
 
-        public async Task ValidateData(SupplementaryDataModel model)
+        public async Task ValidateData(IList<SupplementaryDataModel> allModels, SupplementaryDataModel model)
         {
             foreach (var command in _validatorCommands)
             {
+                if (command is ICrossRecordCommand)
+                {
+                    ((ICrossRecordCommand)command).AllRecords = allModels;
+                }
+
                 await command.Execute(model);
 
                 if (command.IsValid)

@@ -28,7 +28,7 @@ namespace ESFA.DC.ESF.Strategies
         {
             foreach (var model in esfRecords)
             {
-                await _controller.ValidateData(model);
+                await _controller.ValidateData(esfRecords, model);
 
                 foreach (var error in _controller.Errors)
                 {

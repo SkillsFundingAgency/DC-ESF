@@ -16,6 +16,7 @@ namespace ESFA.DC.ESF.DataStore
     {
         private readonly IStoreESF _store;
         private readonly IStoreClear _storeClear;
+        private readonly IStoreFileDetails _storeFileDetails;
         private readonly PersistDataConfiguration _persistDataConfiguration;
         private readonly ILogger _logger;
 
@@ -23,11 +24,13 @@ namespace ESFA.DC.ESF.DataStore
             PersistDataConfiguration persistDataConfiguration,
             IStoreESF store,
             IStoreClear storeClear,
+            IStoreFileDetails storeFileDetails,
             ILogger logger)
         {
             _persistDataConfiguration = persistDataConfiguration;
             _store = store;
             _storeClear = storeClear;
+            _storeFileDetails = storeFileDetails;
             _logger = logger;
         }
 
@@ -58,7 +61,9 @@ namespace ESFA.DC.ESF.DataStore
 
                     await _storeClear.ClearAsync(ukPrn, fileName, cancellationToken);
 
-                    await _store.StoreAsync(connection, transaction, models, cancellationToken);
+                    int fileId = await _storeFileDetails.StoreAsync(connection, transaction, cancellationToken);
+
+                    await _store.StoreAsync(connection, transaction, fileId, models, cancellationToken);
 
                     transaction = connection.BeginTransaction();
 

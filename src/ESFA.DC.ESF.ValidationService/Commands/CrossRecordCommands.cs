@@ -7,19 +7,21 @@ using ESFA.DC.ESF.ValidationService.Builders;
 
 namespace ESFA.DC.ESF.ValidationService.Commands
 {
-    public class BusinessRuleCommands : IValidatorCommand
+    public class CrossRecordCommands : ICrossRecordCommand
     {
-        private readonly IList<IBusinessRuleValidator> _validators;
-
-        public bool IsValid { get; private set; }
+        private readonly IList<ICrossRecordValidator> _validators;
 
         public IList<ValidationErrorModel> Errors { get; }
 
-        public int Priority => 4;
-
         public bool RejectFile => false;
 
-        public BusinessRuleCommands(IList<IBusinessRuleValidator> validators)
+        public bool IsValid { get; private set; }
+
+        public int Priority => 3;
+
+        public IList<SupplementaryDataModel> AllRecords { get; set; }
+
+        public CrossRecordCommands(IList<ICrossRecordValidator> validators)
         {
             _validators = validators;
 
@@ -31,6 +33,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands
             IsValid = true;
             foreach (var validator in _validators)
             {
+                validator.AllRecords = AllRecords;
                 await validator.Execute(model);
             }
 

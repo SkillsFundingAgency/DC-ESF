@@ -3,19 +3,21 @@ using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ESF.Database.EF;
+using ESFA.DC.ESF.Interfaces.DataStore;
 using ESFA.DC.ESF.Models;
 
 namespace ESFA.DC.ESF.DataStore
 {
-    public class StoreESF
+    public class StoreESF : IStoreESF
     {
         private List<SupplementaryData> _supplementaryData;
         private List<SupplementaryDataUnitCost> _supplementaryUnitCosts;
 
         public async Task StoreAsync(
-            SqlConnection connection, 
-            SqlTransaction transaction, 
-            IEnumerable<SupplementaryDataModel> models, 
+            SqlConnection connection,
+            SqlTransaction transaction,
+            int fileId,
+            IEnumerable<SupplementaryDataModel> models,
             CancellationToken cancellationToken)
         {
             _supplementaryData = new List<SupplementaryData>();
@@ -39,7 +41,8 @@ namespace ESFA.DC.ESF.DataStore
                     HourlyRate = model.HourlyRate,
                     TotalHoursWorked = model.TotalHoursWorked,
                     ProjectHours = model.ProjectHours,
-                    OrgHours = model.OrgHours
+                    OrgHours = model.OrgHours,
+                    SourceFileId = fileId
                 });
             }
 
