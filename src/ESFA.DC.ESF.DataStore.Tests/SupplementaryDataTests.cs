@@ -59,7 +59,7 @@ namespace ESFA.DC.ESF.DataStore.Tests
                 }
 
                 using (SqlCommand sqlCommand =
-                    new SqlCommand($"SELECT Count(1) FROM dbo.SupplementaryData Where ConRefNumber = {model[0].ConRefNumber}", connection))
+                    new SqlCommand($"SELECT Count(1) FROM dbo.SupplementaryData Where ConRefNumber = '{model[0].ConRefNumber}'", connection))
                 {
                     Assert.Equal(model.Count, sqlCommand.ExecuteScalar());
                 }

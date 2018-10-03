@@ -6,11 +6,10 @@
     <edmx:Diagrams>
       <Diagram DiagramId="3bb0b0cdeca945ed9f1fce149b3d8826" Name="Diagram1">
         <EntityTypeShape EntityType="ESF_Model.SourceFile" Width="1.5" PointX="0.75" PointY="2.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="ESF_Model.SupplementaryData" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="ESF_Model.SupplementaryData" Width="2" PointX="3" PointY="0.875" IsExpanded="true" />
         <EntityTypeShape EntityType="ESF_Model.SupplementaryDataUnitCost" Width="1.5" PointX="5.25" PointY="1.875" IsExpanded="true" />
         <EntityTypeShape EntityType="ESF_Model.ValidationError" Width="1.5" PointX="7.25" PointY="0.5" IsExpanded="true" />
         <EntityTypeShape EntityType="ESF_Model.VersionInfo" Width="1.5" PointX="9.25" PointY="2.375" IsExpanded="true" />
-        <AssociationConnector Association="ESF_Model.FK_SourceFile" ManuallyRouted="false" />
         <AssociationConnector Association="ESF_Model.FK_SupplementaryDataModelUnitCost_SupplementaryDataModel" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>

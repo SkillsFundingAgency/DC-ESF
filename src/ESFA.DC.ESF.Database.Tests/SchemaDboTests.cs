@@ -33,7 +33,7 @@ namespace ESFA.DC.ESF.Database.Tests
         {
             var expectedColumns = new List<ExpectedColumn>
             {
-                ExpectedColumn.CreateInt("SupplementaryDataModelId", 1, false),
+                ExpectedColumn.CreateInt("SupplementaryDataId", 1, false),
                 ExpectedColumn.CreateVarChar("ConRefNumber", 2, false, 20),
                 ExpectedColumn.CreateVarChar("DeliverableCode", 3, false, 10),
                 ExpectedColumn.CreateInt("CalendarYear", 4, false),
@@ -51,7 +51,7 @@ namespace ESFA.DC.ESF.Database.Tests
                 ExpectedColumn.CreateDecimal("OrgHours", 16, true, 8, 2),
                 ExpectedColumn.CreateInt("SourceFileId", 17, false)
             };
-            _fixture.SchemaTests.AssertTableColumnsExist("dbo", "SupplementaryDataModel", expectedColumns, true);
+            _fixture.SchemaTests.AssertTableColumnsExist("dbo", "SupplementaryData", expectedColumns, true);
         }
 
         [Fact]
@@ -69,7 +69,7 @@ namespace ESFA.DC.ESF.Database.Tests
                 ExpectedColumn.CreateVarChar("Reference", 8, false, 100),
                 ExpectedColumn.CreateDecimal("Value", 9, true, 8, 2),
             };
-            _fixture.SchemaTests.AssertTableColumnsExist("dbo", "SupplementaryDataModelUnitCost", expectedColumns, true);
+            _fixture.SchemaTests.AssertTableColumnsExist("dbo", "SupplementaryDataUnitCost", expectedColumns, true);
         }
 
         [Fact]

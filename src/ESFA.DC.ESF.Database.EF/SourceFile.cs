@@ -14,20 +14,11 @@ namespace ESFA.DC.ESF.Database.EF
     
     public partial class SourceFile
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public SourceFile()
-        {
-            this.SupplementaryDataModels = new HashSet<SupplementaryData>();
-        }
-    
         public int SourceFileId { get; set; }
         public string FileName { get; set; }
         public System.DateTime FilePreparationDate { get; set; }
         public string ConRefNumber { get; set; }
         public string UKPRN { get; set; }
         public Nullable<System.DateTime> DateTime { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SupplementaryData> SupplementaryDataModels { get; set; }
     }
 }

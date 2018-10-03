@@ -26,8 +26,8 @@ namespace ESFA.DC.ESF.Database.EF
         }
     
         public virtual DbSet<SourceFile> SourceFiles { get; set; }
-        public virtual DbSet<SupplementaryData> SupplementaryDataModels { get; set; }
-        public virtual DbSet<SupplementaryDataUnitCost> SupplementaryDataModelUnitCosts { get; set; }
+        public virtual DbSet<SupplementaryData> SupplementaryDatas { get; set; }
+        public virtual DbSet<SupplementaryDataUnitCost> SupplementaryDataUnitCosts { get; set; }
         public virtual DbSet<ValidationError> ValidationErrors { get; set; }
         public virtual DbSet<VersionInfo> VersionInfoes { get; set; }
     }

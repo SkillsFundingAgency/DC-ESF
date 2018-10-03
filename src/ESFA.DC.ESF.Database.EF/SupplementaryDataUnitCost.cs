@@ -23,7 +23,5 @@ namespace ESFA.DC.ESF.Database.EF
         public string ReferenceType { get; set; }
         public string Reference { get; set; }
         public Nullable<decimal> Value { get; set; }
-    
-        public virtual SupplementaryData SupplementaryDataModel { get; set; }
     }
 }

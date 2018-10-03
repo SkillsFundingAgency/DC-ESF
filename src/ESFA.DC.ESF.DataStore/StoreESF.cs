@@ -58,7 +58,7 @@ namespace ESFA.DC.ESF.DataStore
 
             using (var bulkInsert = new BulkInsert(connection, transaction, cancellationToken))
             {
-                await bulkInsert.Insert("dbo.SupplementaryDataModel", _supplementaryData);
+                await bulkInsert.Insert("dbo.SupplementaryData", _supplementaryData);
             }
         }
     }
