@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ESF.Models;
-using ESFA.DC.JobContext.Interface;
+using ESFA.DC.JobContextManager.Model.Interface;
 
 namespace ESFA.DC.ESF.Interfaces.Helpers
 {

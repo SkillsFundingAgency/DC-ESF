@@ -7,6 +7,8 @@ using ESFA.DC.ESF.Interfaces.Helpers;
 using ESFA.DC.ESF.Models;
 using ESFA.DC.JobContext;
 using ESFA.DC.JobContext.Interface;
+using ESFA.DC.JobContextManager.Model;
+using ESFA.DC.JobContextManager.Model.Interface;
 using ESFA.DC.Logging.Interfaces;
 
 namespace ESFA.DC.ESF
@@ -53,7 +55,7 @@ namespace ESFA.DC.ESF
                 IReadOnlyList<ITaskItem> errorTasks = new List<ITaskItem>{ new TaskItem
                 {
                     SupportsParallelExecution = false,
-                    Tasks = new List<string> { "Reports" }
+                    Tasks = new List<string> { "ProduceJsonOnly" }
                 }};
 
                 await _taskHelper.ExecuteTasks(errorTasks, null, cancellationToken);

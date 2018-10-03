@@ -4,7 +4,7 @@ using System.Threading;
 using Autofac.Integration.ServiceFabric;
 using ESFA.DC.ServiceFabric.Helpers;
 
-namespace ESFA.DC.ESF.Stateless
+namespace ESFA.DC.ESF.Service.Stateless
 {
     internal static class Program
     {

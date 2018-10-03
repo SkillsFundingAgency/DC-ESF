@@ -22,6 +22,7 @@ namespace ESFA.DC.ESF.Strategies
         }
 
         public async Task Execute(
+            SourceFileModel sourceFile,
             IList<SupplementaryDataModel> esfRecords, 
             IList<ValidationErrorModel> errors,
             CancellationToken cancellationToken)
@@ -29,6 +30,11 @@ namespace ESFA.DC.ESF.Strategies
             foreach (var model in esfRecords)
             {
                 await _controller.ValidateData(esfRecords, model);
+
+                if (_controller.RejectFile)
+                {
+                    return;
+                }
 
                 foreach (var error in _controller.Errors)
                 {

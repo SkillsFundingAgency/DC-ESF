@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using Autofac;
-using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ESF.DataStore;
 using ESFA.DC.ESF.Interfaces;
 using ESFA.DC.ESF.Interfaces.Config;
@@ -24,12 +21,16 @@ using ESFA.DC.ESF.ValidationService.Commands.FileLevel;
 using ESFA.DC.IO.AzureStorage;
 using ESFA.DC.IO.AzureStorage.Config.Interfaces;
 using ESFA.DC.IO.Interfaces;
-using ESFA.DC.JobContext;
+using ESFA.DC.JobContext.Interface;
+using ESFA.DC.JobContextManager;
+using ESFA.DC.JobContextManager.Interface;
+using ESFA.DC.JobContextManager.Model;
 using ESFA.DC.Logging;
 using ESFA.DC.Logging.Config;
 using ESFA.DC.Logging.Config.Interfaces;
 using ESFA.DC.Logging.Enums;
 using ESFA.DC.Logging.Interfaces;
+using ESFA.DC.Mapping.Interface;
 using ESFA.DC.Queueing;
 using ESFA.DC.Queueing.Interface;
 using ESFA.DC.Serialization.Interfaces;
@@ -37,7 +38,7 @@ using ESFA.DC.Serialization.Json;
 using ESFA.DC.ServiceFabric.Helpers.Interfaces;
 using ExecutionContext = ESFA.DC.Logging.ExecutionContext;
 
-namespace ESFA.DC.ESF.Stateless
+namespace ESFA.DC.ESF.Service.Stateless
 {
     public class DIComposition
     {
@@ -110,8 +111,7 @@ namespace ESFA.DC.ESF.Stateless
                     new TopicSubscriptionSevice<JobContextDto>(
                         topicConfig,
                         c.Resolve<IJsonSerializationService>(),
-                        c.Resolve<ILogger>(),
-                        c.Resolve<IDateTimeProvider>());
+                        c.Resolve<ILogger>());
                 return topicSubscriptionSevice;
             }).As<ITopicSubscriptionService<JobContextDto>>();
 
@@ -128,12 +128,8 @@ namespace ESFA.DC.ESF.Stateless
         private static void RegisterMessageHandler(ContainerBuilder containerBuilder)
         {
             // register MessageHandler
-            containerBuilder.RegisterType<MessageHandler>().As<IMessageHandler>().InstancePerLifetimeScope();
-
-            // register the  callback handle when a new message is received from ServiceBus
-            containerBuilder.Register<Func<JobContextMessage, CancellationToken, Task<bool>>>(c =>
-                c.Resolve<IMessageHandler>().Handle).InstancePerLifetimeScope();
-
+            containerBuilder.RegisterType<MessageHandler>().As<IMessageHandler<JobContextMessage>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<DefaultJobContextMessageMapper<JobContextMessage>>().As<IMapper<JobContextMessage, JobContextMessage>>();
         }
 
         private static void RegisterSerializers(ContainerBuilder containerBuilder)
@@ -197,7 +193,6 @@ namespace ESFA.DC.ESF.Stateless
 
         private static void RegisterFileLevelValidators(ContainerBuilder containerBuilder)
         {
-            containerBuilder.RegisterType<FileFormatRule01>().As<IFileLevelValidator>();
             containerBuilder.RegisterType<FileNameRule08>().As<IFileLevelValidator>();
             containerBuilder.RegisterType<ConRefNumberRule01>().As<IFileLevelValidator>();
 

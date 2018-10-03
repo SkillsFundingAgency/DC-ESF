@@ -12,6 +12,7 @@ using ESFA.DC.ESF.Mappers;
 using ESFA.DC.ESF.Models;
 using ESFA.DC.IO.Interfaces;
 using ESFA.DC.JobContext.Interface;
+using ESFA.DC.JobContextManager.Model.Interface;
 using ESFA.DC.Logging.Interfaces;
 
 namespace ESFA.DC.ESF.Services

@@ -7,7 +7,6 @@ using ESFA.DC.ESF.Interfaces.Controllers;
 using ESFA.DC.ESF.Interfaces.DataStore;
 using ESFA.DC.ESF.Models;
 using ESFA.DC.ESF.Service.Config;
-using ESFA.DC.JobContext.Interface;
 using ESFA.DC.Logging.Interfaces;
 
 namespace ESFA.DC.ESF.DataStore
@@ -35,12 +34,10 @@ namespace ESFA.DC.ESF.DataStore
         }
 
         public async Task<bool> StoreData(
-            IJobContextMessage jobContextMessage,
-            CancellationToken cancellationToken,
-            IEnumerable<SupplementaryDataModel> models)
+            SourceFileModel sourceFile,
+            IEnumerable<SupplementaryDataModel> models,
+            CancellationToken cancellationToken)
         {
-            int ukPrn = int.Parse(jobContextMessage.KeyValuePairs[JobContextMessageKey.UkPrn].ToString());
-            var fileName = jobContextMessage.KeyValuePairs[JobContextMessageKey.Filename].ToString();
             bool successfullyCommitted = false;
 
             using (SqlConnection connection =
@@ -59,9 +56,11 @@ namespace ESFA.DC.ESF.DataStore
 
                     transaction = connection.BeginTransaction();
 
-                    await _storeClear.ClearAsync(ukPrn, fileName, cancellationToken);
+                    var ukPrn = Convert.ToInt32(sourceFile.UKPRN);
 
-                    int fileId = await _storeFileDetails.StoreAsync(connection, transaction, cancellationToken);
+                    await _storeClear.ClearAsync(ukPrn, sourceFile.FileName, cancellationToken);
+
+                    int fileId = await _storeFileDetails.StoreAsync(connection, transaction, cancellationToken, sourceFile);
 
                     await _store.StoreAsync(connection, transaction, fileId, models, cancellationToken);
 

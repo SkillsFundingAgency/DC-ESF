@@ -11,10 +11,14 @@ namespace ESFA.DC.ESF.Strategies
     {
         public bool IsMatch(string taskName)
         {
-            throw new NotImplementedException();
+            return taskName == string.Empty;
         }
 
-        public Task Execute(IList<SupplementaryDataModel> esfRecords, IList<ValidationErrorModel> errors, CancellationToken cancellationToken)
+        public Task Execute(
+            SourceFileModel sourceFile, 
+            IList<SupplementaryDataModel> esfRecords, 
+            IList<ValidationErrorModel> errors, 
+            CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

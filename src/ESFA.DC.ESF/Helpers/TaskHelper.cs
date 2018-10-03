@@ -5,6 +5,7 @@ using ESFA.DC.ESF.Interfaces.Helpers;
 using ESFA.DC.ESF.Interfaces.Strategies;
 using ESFA.DC.ESF.Models;
 using ESFA.DC.JobContext.Interface;
+using ESFA.DC.JobContextManager.Model.Interface;
 
 namespace ESFA.DC.ESF.Helpers
 {

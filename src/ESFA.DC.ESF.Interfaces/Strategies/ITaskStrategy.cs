@@ -8,8 +8,8 @@ namespace ESFA.DC.ESF.Interfaces.Strategies
     public interface ITaskStrategy
     {
         bool IsMatch(string taskName);
-        Task Execute(
-            IList<SupplementaryDataModel> esfRecords, 
+        Task Execute(SourceFileModel sourceFile,
+            IList<SupplementaryDataModel> esfRecords,
             IList<ValidationErrorModel> errors,
             CancellationToken cancellationToken);
     }
