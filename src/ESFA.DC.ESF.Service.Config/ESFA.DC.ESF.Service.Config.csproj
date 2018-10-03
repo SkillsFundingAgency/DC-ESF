@@ -139,6 +139,8 @@
   <ItemGroup>
     <Compile Include="AzureStorageKeyValuePersistenceConfig.cs" />
     <Compile Include="AzureStorageOptions.cs" />
+    <Compile Include="JobStatusQueueConfig.cs" />
+    <Compile Include="JobStatusQueueOptions.cs" />
     <Compile Include="LoggerOptions.cs" />
     <Compile Include="PersistDataConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

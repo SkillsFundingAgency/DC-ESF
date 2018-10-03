@@ -10,7 +10,7 @@ namespace ESFA.DC.ESF.Service.Stateless
     /// <summary>
     /// An instance of this class is created for each service instance by the Service Fabric runtime.
     /// </summary>
-    internal sealed class Stateless : StatelessService
+    public class Stateless : StatelessService
     {
         private readonly IJobContextManager<JobContextMessage> _jobContextManager;
 

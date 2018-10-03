@@ -1,33 +1,55 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ApplicationManifest ApplicationTypeName="ESFA.DC.ESF.ServerlessType"
-                     ApplicationTypeVersion="1.0.0"
-                     xmlns="http://schemas.microsoft.com/2011/01/fabric"
-                     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="ESFA.DC.ESF.ServerlessType" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <Parameters>
     <Parameter Name="ESFA.DC.ESF.Service.Stateless_InstanceCount" DefaultValue="-1" />
-    <Parameter Name="ProcessingServicePlacementConstraints" DefaultValue="" />
-    <Parameter Name="AuditQueueName" DefaultValue="audit-queue" />
-    <Parameter Name="TopicName" DefaultValue="TopicName" />
+    <Parameter Name="AuditQueueName" DefaultValue="" />
     <Parameter Name="ServiceBusConnectionString" DefaultValue="" />
-    <Parameter Name="ESFDataStoreConnectionString" DefaultValue="data source=(local);initial catalog=ESF_DataStore;integrated security=True;multipleactiveresultsets=True;Connect Timeout=90" />
-    <Parameter Name="LoggerConnectionstring" DefaultValue="Server=localhost;Database=logs;User Id=loguser;Password=password1;" />
-    <Parameter Name="MaxMessageSize" DefaultValue="1073741824" />
-    <Parameter Name="AzureBlobConnectionString" DefaultValue="UseDevelopmentStorage=true" />
-    <Parameter Name="AzureBlobContainerName" DefaultValue="ilr-files" />
+    <Parameter Name="LoggerConnectionstring" DefaultValue="" />
+    <Parameter Name="TopicName" DefaultValue="" />
+    <Parameter Name="SubscriptionName" DefaultValue="" />
+    <Parameter Name="AzureBlobConnectionString" DefaultValue="" />
+    <Parameter Name="AzureBlobContainerName" DefaultValue="" />
+    <Parameter Name="ULNConnectionstring" DefaultValue="" />
+    <Parameter Name="MaxMessageSize" DefaultValue="" />
     <Parameter Name="RedisConnectionString" DefaultValue="" />
-    <Parameter Name="DataServicePlacementConstraints" DefaultValue="" />
-    <Parameter Name="ServiceReleaseVersion" DefaultValue="" />
-    <Parameter Name="JobStatusQueueName" DefaultValue="" />
+    <Parameter Name="JobStatusQueueName" DefaultValue="jobStatusQueue" />
     <Parameter Name="JobStatusConnectionString" DefaultValue="" />
-    <Parameter Name="ReportingSubscriptionName" DefaultValue="GenerateValidationReport" />
+    <Parameter Name="ValidationErrorsConnectionString" DefaultValue="" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
        should match the Name and Version attributes of the ServiceManifest element defined in the 
        ServiceManifest.xml file. -->
   <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="ESFA.DC.ESF.Service.StatelessPkg" ServiceManifestVersion="1.0.0" />
-    <ConfigOverrides />
+    <ConfigOverrides>
+      <ConfigOverride Name="Config">
+        <Settings>
+          <Section Name="ServiceBusSettings">
+            <Parameter Name="AuditQueueName" Value="[AuditQueueName]" />
+            <Parameter Name="ServiceBusConnectionString" Value="[ServiceBusConnectionString]" />
+            <Parameter Name="TopicName" Value="[TopicName]" />
+            <Parameter Name="SubscriptionName" Value="[SubscriptionName]" />
+          </Section>
+          <Section Name="DataTransportSettings">
+            <Parameter Name="MaxMessageSize" Value="[MaxMessageSize]" />
+          </Section>
+          <Section Name="LoggerSection">
+            <Parameter Name="LoggerConnectionstring" Value="[LoggerConnectionstring]" />
+          </Section>
+          <Section Name="AzureStorageSection">
+            <Parameter Name="AzureBlobConnectionString" Value="[AzureBlobConnectionString]" />
+            <Parameter Name="AzureBlobContainerName" Value="[AzureBlobContainerName]" />
+          </Section>
+          <Section Name="RedisSection">
+            <Parameter Name="RedisConnectionString" Value="[RedisConnectionString]" />
+          </Section>
+          <Section Name="JobStatusSection">
+            <Parameter Name="JobStatusQueueName" Value="[JobStatusQueueName]" />
+            <Parameter Name="JobStatusConnectionString" Value="[JobStatusConnectionString]" />
+          </Section>
+        </Settings>
+      </ConfigOverride>
+    </ConfigOverrides>
   </ServiceManifestImport>
   <DefaultServices>
     <!-- The section below creates instances of service types, when an instance of this 

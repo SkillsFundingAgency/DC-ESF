@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using CsvHelper;
 using ESFA.DC.ESF.Interfaces.Helpers;
 using ESFA.DC.ESF.Models;
-using ESFA.DC.JobContext;
 using ESFA.DC.JobContext.Interface;
 using ESFA.DC.JobContextManager.Model;
 using ESFA.DC.JobContextManager.Model.Interface;

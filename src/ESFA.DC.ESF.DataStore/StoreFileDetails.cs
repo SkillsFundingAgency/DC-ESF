@@ -25,7 +25,7 @@ namespace ESFA.DC.ESF.DataStore
             CancellationToken cancellationToken)
         {
             string insertFileDetails =
-                    $"INSERT INTO [dbo].[SourceFile] ([ConRefNumber], [UKPRN], [Filename], [DateTime], [FilePreparationDate]) output INSERTED.ID VALUES ({sourceFile.ConRefNumber}, '{sourceFile.UKPRN}', {sourceFile.FileName}, {sourceFile.SuppliedDate}, {sourceFile.PreparationDate})";
+                    $"INSERT INTO [dbo].[SourceFile] ([ConRefNumber], [UKPRN], [Filename], [DateTime], [FilePreparationDate]) output INSERTED.SourceFileId VALUES ('{sourceFile.ConRefNumber}', '{sourceFile.UKPRN}', '{sourceFile.FileName}', '{sourceFile.SuppliedDate}', '{sourceFile.PreparationDate}')";
 
             if (cancellationToken.IsCancellationRequested)
             {

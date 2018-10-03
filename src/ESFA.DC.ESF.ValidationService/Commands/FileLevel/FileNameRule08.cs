@@ -12,6 +12,10 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FileLevel
 
         public bool RejectFile => true;
 
+        public string ErrorName => "Filename_08";
+
+        public bool IsWarning => false;
+
         public Task Execute(string fileName, SupplementaryDataModel model)
         {
             return Task.CompletedTask;

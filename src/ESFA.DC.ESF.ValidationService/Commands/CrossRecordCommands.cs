@@ -33,8 +33,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands
             IsValid = true;
             foreach (var validator in _validators)
             {
-                validator.AllRecords = AllRecords;
-                await validator.Execute(model);
+                await validator.Execute(AllRecords, model);
             }
 
             var failed = _validators.Where(v => !v.IsValid).ToList();

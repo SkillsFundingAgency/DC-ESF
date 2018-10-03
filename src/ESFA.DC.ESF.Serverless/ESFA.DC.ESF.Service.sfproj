@@ -28,6 +28,8 @@
     <Content Include="ApplicationParameters\Local.1Node.xml" />
     <Content Include="ApplicationParameters\Local.5Node.xml" />
     <Content Include="packages.config" />
+    <Content Include="PublishProfiles\Local.1Node.xml" />
+    <Content Include="PublishProfiles\Local.5Node.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ESFA.DC.ESF.Stateless\ESFA.DC.ESF.Service.Stateless.csproj" />

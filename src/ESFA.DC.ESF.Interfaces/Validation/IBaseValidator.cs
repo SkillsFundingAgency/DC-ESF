@@ -12,7 +12,5 @@ namespace ESFA.DC.ESF.Interfaces.Validation
         string ErrorMessage { get; }
 
         bool IsValid { get; }
-
-        Task Execute(SupplementaryDataModel model);
     }
 }

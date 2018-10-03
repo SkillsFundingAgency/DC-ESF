@@ -8,6 +8,6 @@
 
         public string TopicName { get; set; }
 
-        public string ReportingSubscriptionName { get; set; }
+        public string SubscriptionName { get; set; }
     }
 }

@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using Autofac;
+using Autofac.Features.AttributeFilters;
+using ESFA.DC.Auditing.Interface;
+using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ESF.DataStore;
+using ESFA.DC.ESF.Helpers;
 using ESFA.DC.ESF.Interfaces;
 using ESFA.DC.ESF.Interfaces.Config;
 using ESFA.DC.ESF.Interfaces.Controllers;
 using ESFA.DC.ESF.Interfaces.DataStore;
+using ESFA.DC.ESF.Interfaces.Helpers;
 using ESFA.DC.ESF.Interfaces.Services;
 using ESFA.DC.ESF.Interfaces.Validation;
 using ESFA.DC.ESF.Models.Configuration;
@@ -25,6 +30,7 @@ using ESFA.DC.JobContext.Interface;
 using ESFA.DC.JobContextManager;
 using ESFA.DC.JobContextManager.Interface;
 using ESFA.DC.JobContextManager.Model;
+using ESFA.DC.JobStatus.Interface;
 using ESFA.DC.Logging;
 using ESFA.DC.Logging.Config;
 using ESFA.DC.Logging.Config.Interfaces;
@@ -46,16 +52,9 @@ namespace ESFA.DC.ESF.Service.Stateless
         {
             var container = new ContainerBuilder();
 
-            // persist data options
-            var persistDataConfig =
-                configHelper.GetSectionValues<PersistDataConfiguration>("DataStoreSection");
-            container.RegisterInstance(persistDataConfig).As<PersistDataConfiguration>().SingleInstance();
-
-            var orgConfiguration = configHelper.GetSectionValues<OrgConfiguration>("OrgSection");
-            container.RegisterInstance(orgConfiguration).As<OrgConfiguration>().SingleInstance();
-
             RegisterPersistence(container, configHelper);
             RegisterServiceBusConfig(container, configHelper);
+            RegisterJobContextManagementServices(container);
             RegisterLogger(container);
             RegisterSerializers(container);
             RegisterMessageHandler(container);
@@ -66,6 +65,8 @@ namespace ESFA.DC.ESF.Service.Stateless
 
             RegisterStorage(container);
 
+            RegisterHelpers(container);
+
             RegisterFileLevelValidators(container);
             RegisterCrossRecordValidators(container);
             RegisterBusinessRuleValidators(container);
@@ -74,6 +75,13 @@ namespace ESFA.DC.ESF.Service.Stateless
             RegisterServices(container);
             
             return container;
+        }
+
+        private static void RegisterJobContextManagementServices(ContainerBuilder containerBuilder)
+        {
+            containerBuilder.RegisterType<JobContextManager<JobContextMessage>>().As<IJobContextManager<JobContextMessage>>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<DefaultJobContextMessageMapper<JobContextMessage>>().As<IMapper<JobContextMessage, JobContextMessage>>();
+            containerBuilder.RegisterType<DateTimeProvider.DateTimeProvider>().As<IDateTimeProvider>();
         }
 
         private static void RegisterPersistence(ContainerBuilder containerBuilder, IConfigurationHelper configHelper)
@@ -92,7 +100,8 @@ namespace ESFA.DC.ESF.Service.Stateless
                 .InstancePerLifetimeScope();
         }
 
-        private static void RegisterServiceBusConfig(ContainerBuilder containerBuilder, IConfigurationHelper configHelper)
+        private static void RegisterServiceBusConfig(ContainerBuilder containerBuilder,
+            IConfigurationHelper configHelper)
         {
             // get ServiceBus, Azurestorage config values and register container
             var serviceBusOptions =
@@ -103,7 +112,7 @@ namespace ESFA.DC.ESF.Service.Stateless
             var topicConfig = new ServiceBusTopicConfig(
                 serviceBusOptions.ServiceBusConnectionString,
                 serviceBusOptions.TopicName,
-                serviceBusOptions.ReportingSubscriptionName,
+                serviceBusOptions.SubscriptionName,
                 Environment.ProcessorCount);
             containerBuilder.Register(c =>
             {
@@ -123,6 +132,44 @@ namespace ESFA.DC.ESF.Service.Stateless
                         c.Resolve<IJsonSerializationService>());
                 return topicPublishSevice;
             }).As<ITopicPublishService<JobContextDto>>();
+
+            containerBuilder.Register(c =>
+            {
+                var topicSubscriptionConfig = new TopicConfiguration(serviceBusOptions.ServiceBusConnectionString,
+                    serviceBusOptions.TopicName, serviceBusOptions.SubscriptionName, 1,
+                    maximumCallbackTimeSpan: TimeSpan.FromMinutes(40));
+
+                return new TopicSubscriptionSevice<JobContextDto>(
+                    topicSubscriptionConfig,
+                    c.Resolve<IJsonSerializationService>(),
+                    c.Resolve<ILogger>());
+            }).As<ITopicSubscriptionService<JobContextDto>>();
+
+            //containerBuilder.RegisterType<TopicPublishServiceStub<JobContextDto>>().As<ITopicPublishService<JobContextDto>>();
+
+            containerBuilder.Register(c =>
+            {
+                var auditPublishConfig = new QueueConfiguration(serviceBusOptions.ServiceBusConnectionString,
+                    serviceBusOptions.AuditQueueName, 1);
+
+                return new QueuePublishService<AuditingDto>(
+                    auditPublishConfig,
+                    c.Resolve<IJsonSerializationService>());
+            }).As<IQueuePublishService<AuditingDto>>();
+
+            var jobStatusQueueOptions =
+                configHelper.GetSectionValues<JobStatusQueueOptions>("JobStatusSection");
+            containerBuilder.RegisterInstance(jobStatusQueueOptions).As<JobStatusQueueOptions>().SingleInstance();
+
+            var jobStatusPublishConfig = new JobStatusQueueConfig(
+                jobStatusQueueOptions.JobStatusConnectionString,
+                jobStatusQueueOptions.JobStatusQueueName,
+                Environment.ProcessorCount);
+
+            containerBuilder.Register(c => new QueuePublishService<JobStatusDto>(
+                    jobStatusPublishConfig,
+                    c.Resolve<IJsonSerializationService>()))
+                .As<IQueuePublishService<JobStatusDto>>();
         }
 
         private static void RegisterMessageHandler(ContainerBuilder containerBuilder)
@@ -130,6 +177,11 @@ namespace ESFA.DC.ESF.Service.Stateless
             // register MessageHandler
             containerBuilder.RegisterType<MessageHandler>().As<IMessageHandler<JobContextMessage>>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<DefaultJobContextMessageMapper<JobContextMessage>>().As<IMapper<JobContextMessage, JobContextMessage>>();
+
+            // register EntryPoint
+            containerBuilder.RegisterType<EntryPoint>()
+                .WithAttributeFiltering()
+                .InstancePerLifetimeScope();
         }
 
         private static void RegisterSerializers(ContainerBuilder containerBuilder)
@@ -171,13 +223,21 @@ namespace ESFA.DC.ESF.Service.Stateless
 
         private static void RegisterServices(ContainerBuilder containerBuilder)
         {
-            containerBuilder.RegisterType<ESFProviderService>().As<IESFProviderService>();
+            containerBuilder.RegisterType<ESFProviderService>().As<IESFProviderService>()
+                .WithAttributeFiltering()
+                .InstancePerLifetimeScope();
         }
 
         private static void RegisterControllers(ContainerBuilder containerBuilder)
         {
             containerBuilder.RegisterType<ValidationController>().As<IValidationController>();
-            containerBuilder.RegisterType<StorageController>().As<IValidationController>();
+            containerBuilder.RegisterType<StorageController>().As<IStorageController>();
+        }
+
+        private static void RegisterHelpers(ContainerBuilder containerBuilder)
+        {
+            containerBuilder.RegisterType<FileHelper>().As<IFileHelper>();
+            containerBuilder.RegisterType<TaskHelper>().As<ITaskHelper>();
         }
 
         private static void RegisterCommands(ContainerBuilder containerBuilder)
@@ -256,11 +316,11 @@ namespace ESFA.DC.ESF.Service.Stateless
             containerBuilder.RegisterType<FDCalendarYearDT>().As<IFieldDefinitionValidator>();
             containerBuilder.RegisterType<FDCalendarYearMA>().As<IFieldDefinitionValidator>();
             containerBuilder.RegisterType<FDConRefNumberAL>().As<IFieldDefinitionValidator>();
-            containerBuilder.RegisterType<FDConRefNumberMA>().As<IFileLevelValidator>();
+            containerBuilder.RegisterType<FDConRefNumberMA>().As<IFieldDefinitionValidator>();
             containerBuilder.RegisterType<FDCostTypeAL>().As<IFieldDefinitionValidator>();
             containerBuilder.RegisterType<FDCostTypeMA>().As<IFieldDefinitionValidator>();
             containerBuilder.RegisterType<FDDeliverableCodeAL>().As<IFieldDefinitionValidator>();
-            containerBuilder.RegisterType<FDDeliverableCodeMA>().As<IFileLevelValidator>();
+            containerBuilder.RegisterType<FDDeliverableCodeMA>().As<IFieldDefinitionValidator>();
             containerBuilder.RegisterType<FDHourlyRateAL>().As<IFieldDefinitionValidator>();
             containerBuilder.RegisterType<FDOrgHoursAL>().As<IFieldDefinitionValidator>();
             containerBuilder.RegisterType<FDProjectHoursAL>().As<IFieldDefinitionValidator>();
