@@ -14,6 +14,7 @@ using ESFA.DC.ESF.Interfaces.Helpers;
 using ESFA.DC.ESF.Interfaces.Services;
 using ESFA.DC.ESF.Interfaces.Validation;
 using ESFA.DC.ESF.Models.Configuration;
+using ESFA.DC.ESF.ReportingService;
 using ESFA.DC.ESF.Service.Config;
 using ESFA.DC.ESF.Service.Stateless.Handlers;
 using ESFA.DC.ESF.Services;
@@ -226,10 +227,14 @@ namespace ESFA.DC.ESF.Service.Stateless
             containerBuilder.RegisterType<ESFProviderService>().As<IESFProviderService>()
                 .WithAttributeFiltering()
                 .InstancePerLifetimeScope();
+
+            containerBuilder.RegisterType<FileValidationService>().As<IFileValidationService>();
         }
 
         private static void RegisterControllers(ContainerBuilder containerBuilder)
         {
+            containerBuilder.RegisterType<ServiceController>().As<IServiceController>();
+            containerBuilder.RegisterType<ReportingController>().As<IReportingController>();
             containerBuilder.RegisterType<ValidationController>().As<IValidationController>();
             containerBuilder.RegisterType<StorageController>().As<IStorageController>();
         }
@@ -238,6 +243,7 @@ namespace ESFA.DC.ESF.Service.Stateless
         {
             containerBuilder.RegisterType<FileHelper>().As<IFileHelper>();
             containerBuilder.RegisterType<TaskHelper>().As<ITaskHelper>();
+            containerBuilder.RegisterType<ResultHelper>().As<IResultHelper>();
         }
 
         private static void RegisterCommands(ContainerBuilder containerBuilder)

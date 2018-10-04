@@ -40,6 +40,9 @@
     <Reference Include="ESFA.DC.JobContextManager, Version=0.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.JobContextManager.0.2.1-beta0001\lib\netstandard2.0\ESFA.DC.JobContextManager.dll</HintPath>
     </Reference>
+    <Reference Include="ESFA.DC.Jobs.Model, Version=0.1.22.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.Jobs.Model.0.1.22-beta0001\lib\netstandard2.0\ESFA.DC.Jobs.Model.dll</HintPath>
+    </Reference>
     <Reference Include="ESFA.DC.JobStatus.Interface, Version=0.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.JobStatus.Interface.0.2.1-beta0001\lib\netstandard2.0\ESFA.DC.JobStatus.Interface.dll</HintPath>
     </Reference>
@@ -81,17 +84,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\ILoggerOptions.cs" />
+    <Compile Include="Controllers\IReportingController.cs" />
+    <Compile Include="Controllers\IServiceController.cs" />
     <Compile Include="Controllers\IStorageController.cs" />
     <Compile Include="Controllers\IValidationController.cs" />
     <Compile Include="DataStore\IStoreClear.cs" />
     <Compile Include="DataStore\IStoreESF.cs" />
     <Compile Include="DataStore\IStoreFileDetails.cs" />
     <Compile Include="Helpers\IFileHelper.cs" />
+    <Compile Include="Helpers\IResultHelper.cs" />
     <Compile Include="Helpers\ITaskHelper.cs" />
     <Compile Include="IClassMapper.cs" />
     <Compile Include="PersistenceStorageKeys.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IESFProviderService.cs" />
+    <Compile Include="Services\IFileValidationService.cs" />
     <Compile Include="Strategies\ITaskStrategy.cs" />
     <Compile Include="Validation\IBaseValidator.cs" />
     <Compile Include="Validation\IBusinessRuleValidator.cs" />

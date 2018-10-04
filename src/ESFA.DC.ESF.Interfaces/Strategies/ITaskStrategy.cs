@@ -7,6 +7,8 @@ namespace ESFA.DC.ESF.Interfaces.Strategies
 {
     public interface ITaskStrategy
     {
+        int Order { get; }
+
         bool IsMatch(string taskName);
         Task Execute(SourceFileModel sourceFile,
             IList<SupplementaryDataModel> esfRecords,

@@ -16,9 +16,9 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FileLevel
 
         public bool RejectFile => true;
 
-        public Task Execute(string fileName, SupplementaryDataModel model)
+        public Task Execute(SourceFileModel sourceFileModel, SupplementaryDataModel model)
         {
-            string[] filenameParts = fileName.Split('-');
+            string[] filenameParts = sourceFileModel.FileName.Split('-');
 
             IsValid = filenameParts[2] == model.ConRefNumber;
 

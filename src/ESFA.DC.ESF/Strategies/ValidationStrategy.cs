@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ESF.Interfaces.Controllers;
@@ -16,9 +17,11 @@ namespace ESFA.DC.ESF.Strategies
             _controller = controller;
         }
 
+        public int Order => 1;
+
         public bool IsMatch(string taskName)
         {
-            return taskName == string.Empty;
+            return taskName == Constants.ValidationTask;
         }
 
         public async Task Execute(
@@ -41,6 +44,19 @@ namespace ESFA.DC.ESF.Strategies
                     errors.Add(error);
                 }
             }
+
+            esfRecords = FilterOutInvalidRows(esfRecords, errors);
+        }
+
+        private IList<SupplementaryDataModel> FilterOutInvalidRows(IList<SupplementaryDataModel> models,
+            IList<ValidationErrorModel> errors)
+        {
+            return models.Where(model => !errors.Any(e => e.ConRefNumber == model.ConRefNumber 
+                                                          && e.DeliverableCode == model.DeliverableCode 
+                                                          && e.CalendarYear == model.CalendarYear 
+                                                          && e.CalendarMonth == model.CalendarMonth 
+                                                          && e.ReferenceType == model.ReferenceType 
+                                                          && e.Reference == model.Reference)).ToList();
         }
     }
 }

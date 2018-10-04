@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ESF.Interfaces.Helpers;
@@ -18,7 +19,10 @@ namespace ESFA.DC.ESF.Helpers
             _taskHandlers = taskHandlers;
         }
 
-        public async Task ExecuteTasks(IReadOnlyList<ITaskItem> tasks, IList<SupplementaryDataModel> records, CancellationToken cancellationToken)
+        public async Task ExecuteTasks(IReadOnlyList<ITaskItem> tasks,
+            SourceFileModel sourceFileModel,
+            IList<SupplementaryDataModel> records, 
+            CancellationToken cancellationToken)
         {
             foreach (ITaskItem taskItem in tasks)
             {
@@ -27,33 +31,38 @@ namespace ESFA.DC.ESF.Helpers
                     Parallel.ForEach(
                        taskItem.Tasks,
                        new ParallelOptions { CancellationToken = cancellationToken },
-                       async task => { await HandleTask(records, task); });
+                       async task => { await HandleTask(records, task, sourceFileModel, cancellationToken); });
                 }
                 else
                 {
-                    foreach (string task in taskItem.Tasks)
+                    foreach (var task in taskItem.Tasks)
                     {
                         if (cancellationToken.IsCancellationRequested)
                         {
                             break;
                         }
 
-                        await HandleTask(records, task);
+                        await HandleTask(records, task, sourceFileModel, cancellationToken);
                     }
                 }
             }
         }
 
-        private async Task HandleTask(IList<SupplementaryDataModel> records, string task)
+        private async Task HandleTask(IList<SupplementaryDataModel> records,
+            string task,
+            SourceFileModel sourceFile,
+            CancellationToken cancellationToken)
         {
-            foreach (var handler in _taskHandlers)
+            IList<ValidationErrorModel> errors = new List<ValidationErrorModel>();
+
+            foreach (var handler in _taskHandlers.OrderBy(t => t.Order))
             {
                 if (!handler.IsMatch(task))
                 {
                     continue;
                 }
 
-                // await handler.Execute(records);
+                await handler.Execute(sourceFile, records, errors, cancellationToken);
                 break;
             }
         }

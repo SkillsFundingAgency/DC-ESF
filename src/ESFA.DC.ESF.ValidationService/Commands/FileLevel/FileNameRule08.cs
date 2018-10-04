@@ -16,7 +16,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FileLevel
 
         public bool IsWarning => false;
 
-        public Task Execute(string fileName, SupplementaryDataModel model)
+        public Task Execute(SourceFileModel sourceFileModel, SupplementaryDataModel model)
         {
             return Task.CompletedTask;
         }

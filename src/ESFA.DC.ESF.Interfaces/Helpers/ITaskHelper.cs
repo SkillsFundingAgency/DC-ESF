@@ -8,6 +8,9 @@ namespace ESFA.DC.ESF.Interfaces.Helpers
 {
     public interface ITaskHelper
     {
-        Task ExecuteTasks(IReadOnlyList<ITaskItem> tasks, IList<SupplementaryDataModel> records, CancellationToken cancellationToken);
+        Task ExecuteTasks(IReadOnlyList<ITaskItem> tasks,
+            SourceFileModel sourceFileModel,
+            IList<SupplementaryDataModel> records,
+            CancellationToken cancellationToken);
     }
 }

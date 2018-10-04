@@ -39,19 +39,22 @@ namespace ESFA.DC.ESF.Helpers
                 throw new ArgumentException($"{nameof(JobContextMessageKey.Filename)} is invalid");
             }
 
+            var jobId = jobContextMessage.JobId;
+
             return new SourceFileModel
             {
                 ConRefNumber = fileNameParts[2],
                 UKPRN = fileNameParts[1],
                 FileName = fileName,
                 PreparationDate = preparationDateTime,
-                SuppliedDate = jobContextMessage.SubmissionDateTimeUtc
+                SuppliedDate = jobContextMessage.SubmissionDateTimeUtc,
+                JobId = jobId
             };
         }
 
-        public async Task<IList<SupplementaryDataModel>> GetESFRecords(IJobContextMessage jobContextMessage, CancellationToken cancellationToken)
+        public async Task<IList<SupplementaryDataModel>> GetESFRecords(SourceFileModel sourceFileModel, CancellationToken cancellationToken)
         {
-            return await _providerService.GetESFRecordsFromFile(jobContextMessage, cancellationToken);
+            return await _providerService.GetESFRecordsFromFile(sourceFileModel, cancellationToken);
         }
     }
 }

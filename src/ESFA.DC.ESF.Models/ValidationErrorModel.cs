@@ -37,5 +37,7 @@
         public decimal? ProjectHours { get; set; }
 
         public decimal? OrgHours { get; set; }
+
+        public string OfficialSensitive { get; }
     }
 }

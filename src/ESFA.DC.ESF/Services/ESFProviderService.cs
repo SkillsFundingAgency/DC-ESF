@@ -11,8 +11,6 @@ using ESFA.DC.ESF.Interfaces.Services;
 using ESFA.DC.ESF.Mappers;
 using ESFA.DC.ESF.Models;
 using ESFA.DC.IO.Interfaces;
-using ESFA.DC.JobContext.Interface;
-using ESFA.DC.JobContextManager.Model.Interface;
 using ESFA.DC.Logging.Interfaces;
 
 namespace ESFA.DC.ESF.Services
@@ -34,7 +32,7 @@ namespace ESFA.DC.ESF.Services
             _getESFLock = new SemaphoreSlim(1, 1);
         }
 
-        public async Task<IList<SupplementaryDataModel>> GetESFRecordsFromFile(IJobContextMessage jobContextMessage, CancellationToken cancellationToken)
+        public async Task<IList<SupplementaryDataModel>> GetESFRecordsFromFile(SourceFileModel sourceFile, CancellationToken cancellationToken)
         {
             List<SupplementaryDataModel> model = null;
 
@@ -48,8 +46,7 @@ namespace ESFA.DC.ESF.Services
                 }
 
                 string esf =
-                    await _storage.GetAsync(jobContextMessage.KeyValuePairs[JobContextMessageKey.Filename].ToString(),
-                        cancellationToken);
+                    await _storage.GetAsync(sourceFile.FileName, cancellationToken);
 
                 using (TextReader sr = new StringReader(esf))
                 {
@@ -67,7 +64,7 @@ namespace ESFA.DC.ESF.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Failed to get and deserialise ESF from storage, key: {JobContextMessageKey.Filename}", ex);
+                _logger.LogError($"Failed to get and deserialise ESF from storage, key: {sourceFile.FileName}", ex);
             }
             finally
             {

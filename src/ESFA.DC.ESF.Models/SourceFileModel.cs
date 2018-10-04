@@ -13,5 +13,7 @@ namespace ESFA.DC.ESF.Models
         public DateTime? SuppliedDate { get; set; }
 
         public DateTime PreparationDate { get; set; }
+
+        public long? JobId { get; set; }
     }
 }

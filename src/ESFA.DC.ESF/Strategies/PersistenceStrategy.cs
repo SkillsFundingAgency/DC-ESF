@@ -13,6 +13,8 @@ namespace ESFA.DC.ESF.Strategies
         private readonly IStorageController _storageController;
         private readonly ILogger _logger;
 
+        public int Order => 3;
+
         public PersistenceStrategy(
             IStorageController storageController,
             ILogger logger)
@@ -23,7 +25,7 @@ namespace ESFA.DC.ESF.Strategies
 
         public bool IsMatch(string taskName)
         {
-            return taskName == string.Empty;
+            return taskName == Constants.StorageTask;
         }
 
         public async Task Execute(

@@ -9,9 +9,11 @@ namespace ESFA.DC.ESF.Strategies
 {
     public class ReportingStrategy : ITaskStrategy
     {
+        public int Order => 2;
+
         public bool IsMatch(string taskName)
         {
-            return taskName == string.Empty;
+            return taskName == Constants.ReportingTask;
         }
 
         public Task Execute(

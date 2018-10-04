@@ -7,6 +7,6 @@ namespace ESFA.DC.ESF.Interfaces.Validation
     {
         bool RejectFile { get; }
 
-        Task Execute(string fileName, SupplementaryDataModel model);
+        Task Execute(SourceFileModel sourceFileModel, SupplementaryDataModel model);
     }
 }

@@ -257,6 +257,10 @@
       <Project>{E2CBCC6A-EEAF-45EE-B00F-DE5B110C9306}</Project>
       <Name>ESFA.DC.ESF.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ESFA.DC.ESF.ReportingService\ESFA.DC.ESF.ReportingService.csproj">
+      <Project>{1e7591a2-2701-4481-aee7-18d6afa0a807}</Project>
+      <Name>ESFA.DC.ESF.ReportingService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.ESF.Service.Config\ESFA.DC.ESF.Service.Config.csproj">
       <Project>{7121f2af-0872-4446-a57c-7f7ed7a1d19e}</Project>
       <Name>ESFA.DC.ESF.Service.Config</Name>
