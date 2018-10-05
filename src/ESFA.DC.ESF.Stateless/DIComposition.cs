@@ -11,10 +11,11 @@ using ESFA.DC.ESF.Interfaces.Config;
 using ESFA.DC.ESF.Interfaces.Controllers;
 using ESFA.DC.ESF.Interfaces.DataStore;
 using ESFA.DC.ESF.Interfaces.Helpers;
+using ESFA.DC.ESF.Interfaces.Reports;
 using ESFA.DC.ESF.Interfaces.Services;
 using ESFA.DC.ESF.Interfaces.Validation;
-using ESFA.DC.ESF.Models.Configuration;
 using ESFA.DC.ESF.ReportingService;
+using ESFA.DC.ESF.ReportingService.Reports;
 using ESFA.DC.ESF.Service.Config;
 using ESFA.DC.ESF.Service.Stateless.Handlers;
 using ESFA.DC.ESF.Services;
@@ -72,6 +73,8 @@ namespace ESFA.DC.ESF.Service.Stateless
             RegisterCrossRecordValidators(container);
             RegisterBusinessRuleValidators(container);
             RegisterFieldDefinitionValidators(container);
+
+            RegisterReports(container);
 
             RegisterServices(container);
             
@@ -243,12 +246,10 @@ namespace ESFA.DC.ESF.Service.Stateless
         {
             containerBuilder.RegisterType<FileHelper>().As<IFileHelper>();
             containerBuilder.RegisterType<TaskHelper>().As<ITaskHelper>();
-            containerBuilder.RegisterType<ResultHelper>().As<IResultHelper>();
         }
 
         private static void RegisterCommands(ContainerBuilder containerBuilder)
         {
-            containerBuilder.RegisterType<FileLevelCommands>().As<IValidatorCommand>();
             containerBuilder.RegisterType<BusinessRuleCommands>().As<IValidatorCommand>();
             containerBuilder.RegisterType<FieldDefinitionCommand>().As<IValidatorCommand>();
             containerBuilder.RegisterType<CrossRecordCommands>().As<IValidatorCommand>();
@@ -343,6 +344,12 @@ namespace ESFA.DC.ESF.Service.Stateless
 
             containerBuilder.Register(c => new List<IFieldDefinitionValidator>(c.Resolve<IEnumerable<IFieldDefinitionValidator>>()))
                 .As<IList<IFieldDefinitionValidator>>();
+        }
+
+        private static void RegisterReports(ContainerBuilder containerBuilder)
+        {
+            containerBuilder.RegisterType<ValidationResultReport>().As<IValidationResultReport>();
+            
         }
 
         private static void RegisterStorage(ContainerBuilder containerBuilder)

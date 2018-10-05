@@ -92,11 +92,13 @@
     <Compile Include="DataStore\IStoreESF.cs" />
     <Compile Include="DataStore\IStoreFileDetails.cs" />
     <Compile Include="Helpers\IFileHelper.cs" />
-    <Compile Include="Helpers\IResultHelper.cs" />
     <Compile Include="Helpers\ITaskHelper.cs" />
     <Compile Include="IClassMapper.cs" />
     <Compile Include="PersistenceStorageKeys.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reports\IModelReport.cs" />
+    <Compile Include="Reports\IValidationReport.cs" />
+    <Compile Include="Reports\IValidationResultReport.cs" />
     <Compile Include="Services\IESFProviderService.cs" />
     <Compile Include="Services\IFileValidationService.cs" />
     <Compile Include="Strategies\ITaskStrategy.cs" />

@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Aspose.Cells;
 using CsvHelper;
 using CsvHelper.Configuration;
 using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ESF.Interfaces;
+using ESFA.DC.ESF.Models.Generation;
 
 namespace ESFA.DC.ESF.ReportingService
 {
@@ -78,6 +82,39 @@ namespace ESFA.DC.ESF.ReportingService
             where TModel : class
         {
             BuildCsvReport<TMapper, TModel>(writer, new[] { record });
+        }
+
+        /// <summary>
+        /// Builds an Excel report using the specified mapper as the list of column names.
+        /// </summary>
+        /// <typeparam name="TMapper">The mapper.</typeparam>
+        /// <typeparam name="TModel">The model.</typeparam>
+        /// <param name="writer">The open memory stream to write to.</param>
+        /// <param name="classMap">The class mapper to use to write the headers, and to get the properties references from.</param>
+        /// <param name="records">The records to write.</param>
+        protected void BuildXlsReport<TMapper, TModel>(MemoryStream writer, TMapper classMap, IEnumerable<TModel> records)
+            where TMapper : ClassMap, IClassMapper
+            where TModel : class
+        {
+            ModelProperty[] names = classMap.MemberMaps.OrderBy(x => x.Data.Index).Select(x => new ModelProperty(x.Data.Names[0], (PropertyInfo)x.Data.Member)).ToArray();
+
+            Workbook wb = new Workbook();
+            Worksheet sheet = wb.Worksheets[0];
+
+            sheet.Cells.ImportObjectArray(names.Select(x => x.Name).ToArray(), 0, 0, false);
+            int row = 1;
+            object[] values = new object[names.Length];
+            foreach (TModel record in records)
+            {
+                for (int i = 0; i < names.Length; i++)
+                {
+                    values[i] = names[i].MethodInfo.GetValue(record);
+                }
+
+                sheet.Cells.ImportObjectArray(values, row++, 0, false);
+            }
+
+            wb.Save(writer, SaveFormat.Xlsx);
         }
 
         /// <summary>

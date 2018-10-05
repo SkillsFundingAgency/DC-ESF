@@ -14,15 +14,18 @@ namespace ESFA.DC.ESF
         private readonly IFileHelper _fileHelper;
         private readonly ITaskHelper _taskHelper;
         private readonly IFileValidationService _fileValidationService;
+        private readonly IReportingController _reportingController;
 
         public ServiceController(
             IFileHelper fileHelper,
             ITaskHelper taskHelper,
-            IFileValidationService fileValidationService)
+            IFileValidationService fileValidationService,
+            IReportingController reportingController)
         {
             _fileHelper = fileHelper;
             _taskHelper = taskHelper;
             _fileValidationService = fileValidationService;
+            _reportingController = reportingController;
         }
 
         public async Task RunTasks(IJobContextMessage jobContextMessage,
@@ -44,7 +47,7 @@ namespace ESFA.DC.ESF
                 return;
             }
 
-
+            await _reportingController.FileLevelErrorReport(esfRecords, errors, sourceFileModel, cancellationToken);
         }
     }
 }

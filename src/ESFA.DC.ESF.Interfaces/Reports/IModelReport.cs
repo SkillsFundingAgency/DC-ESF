@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
+using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ESF.Models;
 
-namespace ESFA.DC.ESF.Interfaces.Controllers
+namespace ESFA.DC.ESF.Interfaces.Reports
 {
-    public interface IReportingController
+    public interface IModelReport
     {
-        Task FileLevelErrorReport(
-            IList<SupplementaryDataModel> models,
-            IList<ValidationErrorModel> errors,
+        Task GenerateReport(
+            IList<SupplementaryDataModel> data,
             SourceFileModel sourceFile,
+            ZipArchive archive,
             CancellationToken cancellationToken);
     }
 }
