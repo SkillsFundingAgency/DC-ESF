@@ -99,6 +99,7 @@
     <Compile Include="Reports\IModelReport.cs" />
     <Compile Include="Reports\IValidationReport.cs" />
     <Compile Include="Reports\IValidationResultReport.cs" />
+    <Compile Include="Reports\Strategies\ISupplementaryDataStrategy.cs" />
     <Compile Include="Services\IESFProviderService.cs" />
     <Compile Include="Services\IFileValidationService.cs" />
     <Compile Include="Strategies\ITaskStrategy.cs" />
