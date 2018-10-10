@@ -15,6 +15,8 @@
     <Parameter Name="JobStatusQueueName" DefaultValue="jobStatusQueue" />
     <Parameter Name="JobStatusConnectionString" DefaultValue="" />
     <Parameter Name="ValidationErrorsConnectionString" DefaultValue="" />
+    <Parameter Name="ILR1819ConnectionString" DefaultValue="" />
+    <Parameter Name="ESFConnectionString" DefaultValue="" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
        should match the Name and Version attributes of the ServiceManifest element defined in the 
@@ -39,6 +41,12 @@
           <Section Name="AzureStorageSection">
             <Parameter Name="AzureBlobConnectionString" Value="[AzureBlobConnectionString]" />
             <Parameter Name="AzureBlobContainerName" Value="[AzureBlobContainerName]" />
+          </Section>
+          <Section Name="ILR1819Section">
+            <Parameter Name="ILR1819ConnectionString" Value="[ILR1819ConnectionString]" />
+          </Section>
+          <Section Name="ESFSection">
+            <Parameter Name="ESFConnectionString" Value="" />
           </Section>
           <Section Name="RedisSection">
             <Parameter Name="RedisConnectionString" Value="[RedisConnectionString]" />

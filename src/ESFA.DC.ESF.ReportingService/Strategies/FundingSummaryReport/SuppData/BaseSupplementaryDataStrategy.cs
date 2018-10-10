@@ -22,9 +22,15 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.SuppData
         {
             for (var i = 1; i < 13; i++)
             {
-                esf.Values[i - 1] = data.SingleOrDefault(supp => supp.CalendarMonth == i + EsfMonthPadding
-                                                                 && supp.DeliverableCode == DeliverableCode
-                                                                 && supp.ReferenceType == ReferenceType)?.Value ?? 0.0M;
+                var deliverableData = data.Where(supp => supp.CalendarMonth == i + EsfMonthPadding
+                                                         && supp.DeliverableCode == DeliverableCode);
+                if (ReferenceType != null)
+                {
+                    deliverableData =
+                        deliverableData.Where(supp => supp.ReferenceType == ReferenceType);
+                }
+
+                esf.Values[i - 1] = deliverableData.SingleOrDefault()?.Value ?? 0.0M;
             }
         }
     }

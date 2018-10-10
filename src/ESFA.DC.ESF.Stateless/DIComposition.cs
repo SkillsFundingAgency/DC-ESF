@@ -4,6 +4,8 @@ using Autofac;
 using Autofac.Features.AttributeFilters;
 using ESFA.DC.Auditing.Interface;
 using ESFA.DC.DateTimeProvider.Interface;
+using ESFA.DC.ESF.Database.EF;
+using ESFA.DC.ESF.Database.EF.Interfaces;
 using ESFA.DC.ESF.DataStore;
 using ESFA.DC.ESF.Helpers;
 using ESFA.DC.ESF.Interfaces;
@@ -12,10 +14,16 @@ using ESFA.DC.ESF.Interfaces.Controllers;
 using ESFA.DC.ESF.Interfaces.DataStore;
 using ESFA.DC.ESF.Interfaces.Helpers;
 using ESFA.DC.ESF.Interfaces.Reports;
+using ESFA.DC.ESF.Interfaces.Reports.Strategies;
+using ESFA.DC.ESF.Interfaces.Repositories;
 using ESFA.DC.ESF.Interfaces.Services;
+using ESFA.DC.ESF.Interfaces.Strategies;
 using ESFA.DC.ESF.Interfaces.Validation;
 using ESFA.DC.ESF.ReportingService;
 using ESFA.DC.ESF.ReportingService.Reports;
+using ESFA.DC.ESF.ReportingService.Repositories;
+using ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHelpers;
+using ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.SuppData;
 using ESFA.DC.ESF.Service.Config;
 using ESFA.DC.ESF.Service.Stateless.Handlers;
 using ESFA.DC.ESF.Services;
@@ -25,6 +33,8 @@ using ESFA.DC.ESF.ValidationService.Commands.BusinessRules;
 using ESFA.DC.ESF.ValidationService.Commands.CrossRecord;
 using ESFA.DC.ESF.ValidationService.Commands.FieldDefinition;
 using ESFA.DC.ESF.ValidationService.Commands.FileLevel;
+using ESFA.DC.ILR1819.DataStore.EF;
+using ESFA.DC.ILR1819.DataStore.EF.Interfaces;
 using ESFA.DC.IO.AzureStorage;
 using ESFA.DC.IO.AzureStorage.Config.Interfaces;
 using ESFA.DC.IO.Interfaces;
@@ -65,6 +75,8 @@ namespace ESFA.DC.ESF.Service.Stateless
 
             RegisterCommands(container);
 
+            RegisterStrategies(container);
+
             RegisterStorage(container);
 
             RegisterHelpers(container);
@@ -101,6 +113,16 @@ namespace ESFA.DC.ESF.Service.Stateless
             containerBuilder.RegisterType<AzureStorageKeyValuePersistenceService>()
                 .Keyed<IKeyValuePersistenceService>(PersistenceStorageKeys.Blob)
                 .As<IStreamableKeyValuePersistenceService>()
+                .InstancePerLifetimeScope();
+
+            var ilrConfig = configHelper.GetSectionValues<IRL1819Configuration>("ILR1819Section");
+            containerBuilder.Register(c => new ILR1819_DataStoreEntities(ilrConfig.ILR1819ConnectionString))
+                .As<IILR1819_DataStoreEntities>()
+                .InstancePerLifetimeScope();
+
+            var esfConfig = configHelper.GetSectionValues<ESFConfiguration>("ESFSection");
+            containerBuilder.Register(c => new ESF_DataStoreEntities(esfConfig.ESFConnectionString))
+                .As<IESF_DataStoreEntities>()
                 .InstancePerLifetimeScope();
         }
 
@@ -242,6 +264,11 @@ namespace ESFA.DC.ESF.Service.Stateless
             containerBuilder.RegisterType<StorageController>().As<IStorageController>();
         }
 
+        private static void RegisterRepositories(ContainerBuilder containerBuilder)
+        {
+            containerBuilder.RegisterType<IlrEsfRepository>().As<IIlrEsfRepository>();
+        }
+
         private static void RegisterHelpers(ContainerBuilder containerBuilder)
         {
             containerBuilder.RegisterType<FileHelper>().As<IFileHelper>();
@@ -256,6 +283,23 @@ namespace ESFA.DC.ESF.Service.Stateless
 
             containerBuilder.Register(c => new List<IValidatorCommand>(c.Resolve<IEnumerable<IValidatorCommand>>()))
                 .As<IList<IValidatorCommand>>();
+        }
+
+        private static void RegisterStrategies(ContainerBuilder containerBuilder)
+        {
+            containerBuilder.RegisterType<DataRowHelper>().As<IRowHelper>();
+            containerBuilder.RegisterType<TitleRowHelper>().As<IRowHelper>();
+            containerBuilder.RegisterType<SpacerRowHelper>().As<IRowHelper>();
+
+            containerBuilder.Register(c => new List<IRowHelper>(c.Resolve<IEnumerable<IRowHelper>>()))
+                .As<IList<IRowHelper>>();
+
+            containerBuilder.RegisterType<NR01NonRegulatedActivityAuditAdjustment>().As<ISupplementaryDataStrategy>();
+            containerBuilder.RegisterType<RQ01RegulatedLearningAuditAdjustment>().As<ISupplementaryDataStrategy>();
+            containerBuilder.RegisterType<RQ01RegulatedLearningAuthorisedClaims>().As<ISupplementaryDataStrategy>();
+
+            containerBuilder.Register(c => new List<ISupplementaryDataStrategy>(c.Resolve<IEnumerable<ISupplementaryDataStrategy>>()))
+                .As<IList<ISupplementaryDataStrategy>>();
         }
 
         private static void RegisterFileLevelValidators(ContainerBuilder containerBuilder)

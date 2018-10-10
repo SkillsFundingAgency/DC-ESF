@@ -61,7 +61,6 @@ namespace ESFA.DC.ESF.ReportingService
             {
                 using (var archive = new ZipArchive(memoryStream, ZipArchiveMode.Create, true))
                 {
-
                     if (cancellationToken.IsCancellationRequested)
                     {
                         return;

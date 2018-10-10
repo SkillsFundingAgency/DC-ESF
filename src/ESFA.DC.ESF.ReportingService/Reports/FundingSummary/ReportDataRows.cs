@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
 using ESFA.DC.ESF.Models.Reports.FundingSummaryReport;
 
-namespace ESFA.DC.ESF.ReportingService
+namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
 {
-    public class ReportBuilder
+    public class ReportDataRows
     {
-        public static List<FundingReportRow> FundingModelDeliverables = new List<FundingReportRow>
+        public static readonly List<FundingReportRow> FundingModelDeliverables = new List<FundingReportRow>
         {
             new FundingReportRow { RowType = RowType.Header, Title= "European Social Fund 2014-2020" },
             new FundingReportRow { RowType = RowType.Spacer },
             
-            // ST01
             new FundingReportRow { RowType = RowType.Header, Title= "Learner Assessment and Plan" },
             new FundingReportRow { CodeBase = "ILR", DeliverableCode = "ST01", RowType = RowType.Data, Title = "ILR ST01 Learner Assessment and Plan (£)" },
             new FundingReportRow { CodeBase = "ESF", DeliverableCode = "ST01", RowType = RowType.Data, Title = "SUPPDATA ST01 Learner Assessment and Plan Adjustments (£)" },

@@ -16,6 +16,12 @@
     <Parameter Name="AzureBlobConnectionString" Value="" />
     <Parameter Name="AzureBlobContainerName" Value="" />
   </Section>
+  <Section Name="ILR1819Section">
+    <Parameter Name="ILR1819ConnectionString" Value="" />
+  </Section>
+  <Section Name="ESFSection">
+    <Parameter Name="ESFConnectionString" Value="" />
+  </Section>
   <Section Name="RedisSection">
     <Parameter Name="RedisConnectionString" Value="" />
   </Section>

@@ -60,6 +60,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ESFContext.edmx</DependentUpon>
     </Compile>
+    <Compile Include="ESF_DataStoreEntities.cs" />
+    <Compile Include="Interfaces\IESF_DataStoreEntities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SourceFile.cs">
       <DependentUpon>ESFContext.tt</DependentUpon>
@@ -105,5 +107,6 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
