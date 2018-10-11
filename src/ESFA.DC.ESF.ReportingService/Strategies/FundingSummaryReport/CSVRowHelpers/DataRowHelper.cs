@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
-using CsvHelper;
+using System.Linq;
 using ESFA.DC.ESF.Interfaces.Reports.Strategies;
 using ESFA.DC.ESF.Interfaces.Strategies;
 using ESFA.DC.ESF.Models;
 using ESFA.DC.ESF.Models.Reports.FundingSummaryReport;
+using ESFA.DC.ILR1819.DataStore.EF;
 
 namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHelpers
 {
@@ -13,10 +14,14 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
 
         private readonly IList<ISupplementaryDataStrategy> _esfStrategies;
 
+        private readonly IList<IILRDataStrategy> _ilrStrategies;
+
         public DataRowHelper(
-            IList<ISupplementaryDataStrategy> esfStrategies)
+            IList<ISupplementaryDataStrategy> esfStrategies,
+            IList<IILRDataStrategy> ilrStrategies)
         {
             _esfStrategies = esfStrategies;
+            _ilrStrategies = ilrStrategies;
         }
 
         private readonly RowType RowType = RowType.Data;
@@ -27,13 +32,18 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
         }
 
         public void Execute(
-            CsvWriter writer,
+            IList<FundingSummaryReportRowModel> reportOutput,
             FundingReportRow row,
-            IList<SupplementaryDataModel> esfDataModels)
+            IList<SupplementaryDataModel> esfDataModels,
+            IList<ESF_LearningDeliveryDeliverable_PeriodisedValues> ilrData)
         {
-            writer.WriteField(row.Title);
+            var reportRow = new FundingSummaryReportRowModel
+            {
+                Title = row.Title,
+                RowType = RowType
+            };
 
-            var esf = new FundingSummaryReportYearlyValueModel();
+            var reportRowYearlyValues = new List<FundingSummaryReportYearlyValueModel>();
             var codeBase = row.CodeBase;
             if (codeBase == EsfCodeBase)
             {
@@ -43,21 +53,30 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
                     {
                         continue;
                     }
-                    strategy.Execute(esfDataModels, esf);
+                    strategy.Execute(esfDataModels, reportRowYearlyValues);
                     break;
                 }
             }
             else
             {
-                { }
+                foreach (var strategy in _ilrStrategies)
+                {
+                    if (!strategy.IsMatch(row.DeliverableCode))
+                    {
+                        continue;   
+                    }
+                    strategy.Execute(ilrData, reportRowYearlyValues);
+                }
             }
+            
+            reportRow.YearlyValues = reportRowYearlyValues;
 
-
-            foreach (var value in esf.Values)
+            reportRowYearlyValues.ForEach(v =>
             {
-                writer.WriteField(value);
-            }
-            writer.NextRecord();
+                reportRow.Totals.Add(v.Values.Sum());
+            });
+
+            reportRow.Totals.Add(reportRow.Totals.Sum());
         }
     }
 }

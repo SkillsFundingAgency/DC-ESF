@@ -4,7 +4,7 @@
     {
         public int FundingYear { get; set; }
 
-        public decimal[] Values { get; private set; }
+        public decimal[] Values { get; set; }
 
         public FundingSummaryReportYearlyValueModel()
         {

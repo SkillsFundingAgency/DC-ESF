@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
-using CsvHelper;
 using ESFA.DC.ESF.Interfaces.Strategies;
 using ESFA.DC.ESF.Models;
 using ESFA.DC.ESF.Models.Reports.FundingSummaryReport;
+using ESFA.DC.ILR1819.DataStore.EF;
 
 namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHelpers
 {
     public class TitleRowHelper : IRowHelper
     {
-        private readonly RowType RowType = RowType.Header;
+        private readonly RowType RowType = RowType.Title;
 
         public bool IsMatch(RowType rowType)
         {
@@ -16,12 +16,16 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
         }
 
         public void Execute(
-            CsvWriter writer,
+            IList<FundingSummaryReportRowModel> reportOutput,
             FundingReportRow row,
-            IList<SupplementaryDataModel> esfDataModels)
+            IList<SupplementaryDataModel> esfDataModels,
+            IList<ESF_LearningDeliveryDeliverable_PeriodisedValues> ilrData)
         {
-            writer.WriteField(row.Title);
-            writer.NextRecord();
+            reportOutput.Add(new FundingSummaryReportRowModel
+            {
+                Title = row.Title,
+                RowType = RowType
+            });
         }
     }
 }

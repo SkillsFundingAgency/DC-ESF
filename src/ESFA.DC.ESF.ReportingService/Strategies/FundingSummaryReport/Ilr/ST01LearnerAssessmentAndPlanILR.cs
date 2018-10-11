@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using ESFA.DC.ESF.Interfaces.Reports.Strategies;
 using ESFA.DC.ESF.Interfaces.Repositories;
-using ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.SuppData;
 
 namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.Ilr
 {
@@ -13,8 +12,14 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.Ilr
             
         }
 
-        private readonly string DeliverableCode = "ST01";
+        private new readonly string DeliverableCode = "ST01";
 
-        private readonly List<string> AttributeNames = new List<string> { "" };
+        private new readonly List<string> AttributeNames = new List<string>
+        {
+            "StartEarnings",
+            "AchievementEarnings",
+            "AdditionalProgCostEarnings",
+            "ProgressionEarnings"
+        };
     }
 }

@@ -4,7 +4,7 @@ using ESFA.DC.ESF.Interfaces.Repositories;
 using ESFA.DC.ESF.Models.Reports.FundingSummaryReport;
 using ESFA.DC.ILR1819.DataStore.EF;
 
-namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.SuppData
+namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.Ilr
 {
     public class BaseILRDataStrategy
     {
@@ -26,13 +26,19 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.SuppData
             return deliverableCode == DeliverableCode;
         }
 
-        public void Execute(int ukPrn, FundingSummaryReportYearlyValueModel esf)
+        public void Execute(
+            IList<ESF_LearningDeliveryDeliverable_PeriodisedValues> ilrData,
+            IList<FundingSummaryReportYearlyValueModel> yearlyData)
         {
+            var data = ilrData.Where(d => d.DeliverableCode == DeliverableCode && AttributeNames.Contains(d.AttributeName)).ToList();
+
+            var yearData = new FundingSummaryReportYearlyValueModel();
             for (var i = 1; i < 13; i++)
             {
-                var data = _repository.GetPeriodisedValues(ukPrn, AttributeNames, DeliverableCode);
-                esf.Values[i - 1] = GetPeriodValueSum(data, i);
+                yearData.Values[i - 1] = GetPeriodValueSum(data, i);
             }
+
+            yearlyData.Add(yearData);
         }
 
         private decimal GetPeriodValueSum(IList<ESF_LearningDeliveryDeliverable_PeriodisedValues> data, int period)

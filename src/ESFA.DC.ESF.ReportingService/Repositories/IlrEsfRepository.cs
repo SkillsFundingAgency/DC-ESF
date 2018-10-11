@@ -23,15 +23,10 @@ namespace ESFA.DC.ESF.ReportingService.Repositories
                 .FirstOrDefault();
         }
 
-        public IList<ESF_LearningDeliveryDeliverable_PeriodisedValues> GetPeriodisedValues(
-            int ukPrn,
-            IList<string> attributeNames,
-            string deliverableCode)
+        public IList<ESF_LearningDeliveryDeliverable_PeriodisedValues> GetPeriodisedValues(int ukPrn)
         {
             return _context.ESF_LearningDeliveryDeliverable_PeriodisedValues
-                .Where(v => v.UKPRN == ukPrn && 
-                            attributeNames.Contains(v.AttributeName) &&
-                            v.DeliverableCode == deliverableCode)
+                .Where(v => v.UKPRN == ukPrn)
                 .ToList();
         }
     }

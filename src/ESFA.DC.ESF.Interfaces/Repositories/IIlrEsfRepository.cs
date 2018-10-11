@@ -7,9 +7,6 @@ namespace ESFA.DC.ESF.Interfaces.Repositories
     {
         FileDetail GetFileDetails(int ukPrn);
 
-        IList<ESF_LearningDeliveryDeliverable_PeriodisedValues> GetPeriodisedValues(
-            int ukPrn,
-            IList<string> attributeNames,
-            string deliverableCode);
+        IList<ESF_LearningDeliveryDeliverable_PeriodisedValues> GetPeriodisedValues(int ukPrn);
     }
 }

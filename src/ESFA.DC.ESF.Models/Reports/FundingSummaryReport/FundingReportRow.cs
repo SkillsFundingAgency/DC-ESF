@@ -3,9 +3,12 @@
     public enum RowType
     {
         Header,
+        Title,
         Data,
         Total,
-        Spacer
+        Spacer,
+        Cumulative,
+        Footer
     }
 
     public class FundingReportRow

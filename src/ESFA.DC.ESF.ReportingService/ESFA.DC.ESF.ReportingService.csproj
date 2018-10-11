@@ -130,6 +130,7 @@
     <Compile Include="Strategies\FundingSummaryReport\CSVRowHelpers\DataRowHelper.cs" />
     <Compile Include="Strategies\FundingSummaryReport\CSVRowHelpers\TitleRowHelper.cs" />
     <Compile Include="Strategies\FundingSummaryReport\CSVRowHelpers\SpacerRowHelper.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\CSVRowHelpers\TotalRowHelper.cs" />
     <Compile Include="Strategies\FundingSummaryReport\Ilr\BaseILRDataStrategy.cs" />
     <Compile Include="Strategies\FundingSummaryReport\Ilr\ST01LearnerAssessmentAndPlanILR.cs" />
     <Compile Include="Strategies\FundingSummaryReport\SuppData\BaseSupplementaryDataStrategy.cs" />
