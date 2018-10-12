@@ -2,7 +2,6 @@
 using System.Linq;
 using ESFA.DC.ESF.Models;
 using ESFA.DC.ESF.Models.Reports.FundingSummaryReport;
-using ESFA.DC.ILR1819.DataStore.EF;
 
 namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.SuppData
 {

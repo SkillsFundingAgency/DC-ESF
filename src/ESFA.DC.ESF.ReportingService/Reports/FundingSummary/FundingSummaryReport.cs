@@ -75,7 +75,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
 
             var ilrData = _repository.GetPeriodisedValues(ukPrn);
 
-            foreach (var fundingReportRow in ReportDataRows.FundingModelDeliverables)
+            foreach (var fundingReportRow in ReportDataRows.FundingModelRowDefinitions)
             {
                 foreach (var rowHelper in _rowHelpers)
                 {

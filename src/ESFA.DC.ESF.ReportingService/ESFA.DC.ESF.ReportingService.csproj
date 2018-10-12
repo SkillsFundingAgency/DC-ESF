@@ -37,8 +37,8 @@
     <Reference Include="Autofac, Version=4.9.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.4.9.0-beta1\lib\net45\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="CsvHelper, Version=8.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
-      <HintPath>..\packages\CsvHelper.8.0.0-beta01\lib\net45\CsvHelper.dll</HintPath>
+    <Reference Include="CsvHelper, Version=7.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsvHelper.7.1.1\lib\net45\CsvHelper.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
@@ -132,12 +132,72 @@
     <Compile Include="Strategies\FundingSummaryReport\CSVRowHelpers\SpacerRowHelper.cs" />
     <Compile Include="Strategies\FundingSummaryReport\CSVRowHelpers\TotalRowHelper.cs" />
     <Compile Include="Strategies\FundingSummaryReport\Ilr\BaseILRDataStrategy.cs" />
-    <Compile Include="Strategies\FundingSummaryReport\Ilr\ST01LearnerAssessmentAndPlanILR.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\Ilr\PG06ProgressionJobSearch.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\Ilr\PG05ProgressionTraineeship.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\Ilr\PG04ProgressionApprenticeship.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\Ilr\PG03ProgressionEducation.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\Ilr\PG02ProgressionUnpaidEmployment.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\Ilr\SU15SustainedTraineeship6Months.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\Ilr\SU05SustainedTraineeship3Months.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\Ilr\SU14SustainedApprenticeship6Months.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\Ilr\SU24SustainedApprenticeship12Months.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\Ilr\SU04SustainedApprenticeship3Months.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\Ilr\SU03SustainedEducation3Months.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\Ilr\SU13SustainedEducation6Months.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\Ilr\SU23SustainedEducation12Months.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\Ilr\SU22SustainedUnpaidEmployment12Months.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\Ilr\SU12SustainedUnpaidEmployment6Months.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\Ilr\SU21SustainedPaidEmployment12Months.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\Ilr\SU02SustainedUnpaidEmployment3Months.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\Ilr\SU11SustainedPaidEmployment6Months.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\Ilr\SU01SustainedPaidEmployment3Months.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\Ilr\PG01ProgressionPaidEmployment.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\Ilr\FS01AdditionalProgrammeCost.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\Ilr\NR01NonRegulatedActivityAchievementEarnings.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\Ilr\RQ01RegulatedLearningAchievementEarnings.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\Ilr\NR01NonRegulatedActivityStartFunding.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\Ilr\RQ01RegulatedLearningStartFunding.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\Ilr\ST01LearnerAssessmentAndPlan.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\SD03FCSDeliverableDescription.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\SD04FCSDeliverableDescription.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\SD05FCSDeliverableDescription.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\SD06FCSDeliverableDescription.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\SD07FCSDeliverableDescription.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\SD08FCSDeliverableDescription.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\SD09FCSDeliverableDescription.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\SD10FCSDeliverableDescription.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\SD02FCSDeliverableDescription.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\SD01FCSDeliverableDescription.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\CG02CommunityGrantManagementCost.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\CG01CommunityGrantPayment.cs" />
     <Compile Include="Strategies\FundingSummaryReport\SuppData\BaseSupplementaryDataStrategy.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\PG06ProgressionJobSearchAdjustments.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\PG05ProgressionTraineeshipAdjustments.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\PG04ProgressionApprenticeshipAdjustments.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\PG03ProgressionEducationAdjustments.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\PG02ProgressionUnpaidEmploymentAdjustments.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\AC01ActualCosts.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\SU15SustainedTraineeship6MonthsAdjustments.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\SU05SustainedTraineeship3MonthsAdjustments.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\SU24SustainedApprenticeship12MonthsAdjustments.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\SU14SustainedApprenticeship6MonthsAdjustments.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\SU04SustainedApprenticeship3MonthsAdjustments.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\SU23SustainedEducation12MonthsAdjustments.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\SU13SustainedEducation6MonthsAdjustments.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\SU03SustainedEducation3MonthsAdjustments.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\SU02SustainedUnpaidEmployment3MonthsAdjustments.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\SU01SustainedPaidEmployment3MonthsAdjustments.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\SU12SustainedUnpaidEmployment6MonthsAdjustments.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\SU11SustainedPaidEmployment6MonthsAdjustments.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\SU22SustainedUnpaidEmployment12MonthsAdjustments.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\SU21SustainedPaidEmployment12MonthsAdjustments.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\PG01ProgressionPaidEmploymentAdjustments.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\FS01AdditionalProgrammeCostAdjustments.cs" />
     <Compile Include="Strategies\FundingSummaryReport\SuppData\NR01NonRegulatedActivityAuditAdjustment.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\NR01NonRegulatedActivityAuthorisedClaims.cs" />
     <Compile Include="Strategies\FundingSummaryReport\SuppData\RQ01RegulatedLearningAuthorisedClaims.cs" />
     <Compile Include="Strategies\FundingSummaryReport\SuppData\RQ01RegulatedLearningAuditAdjustment.cs" />
-    <Compile Include="Strategies\FundingSummaryReport\SuppData\ST01LearnerAssessmentAndPlan.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\SuppData\ST01LearnerAssessmentAndPlanAdjustments.cs" />
     <Compile Include="Helpers\ExcelHelper.cs" />
     <Compile Include="Mappers\ValidationErrorMapper.cs" />
     <Compile Include="ReportingController.cs" />
@@ -160,8 +220,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Strategies\FundingSummaryReport\Totals\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using ESFA.DC.ESF.Interfaces.Repositories;
 using ESFA.DC.ESF.Models.Reports.FundingSummaryReport;
 using ESFA.DC.ILR1819.DataStore.EF;
 
@@ -13,13 +12,6 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.Ilr
         protected string DeliverableCode;
 
         protected List<string> AttributeNames;
-
-        private readonly IIlrEsfRepository _repository;
-
-        public BaseILRDataStrategy(IIlrEsfRepository repository)
-        {
-            _repository = repository;
-        }
 
         public bool IsMatch(string deliverableCode)
         {

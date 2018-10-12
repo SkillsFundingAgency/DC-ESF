@@ -5,7 +5,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
 {
     public class ReportDataRows
     {
-        public static readonly List<FundingReportRow> FundingModelDeliverables = new List<FundingReportRow>
+        public static readonly List<FundingReportRow> FundingModelRowDefinitions = new List<FundingReportRow>
         {
             // new FundingReportRow { RowType = RowType.Title, Title= "European Social Fund 2014-2020" },
             new FundingReportRow { RowType = RowType.Spacer },
