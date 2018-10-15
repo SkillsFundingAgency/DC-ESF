@@ -9,6 +9,9 @@
   <Section Name="DataTransportSettings">
     <Parameter Name="MaxMessageSize" Value="" />
   </Section>
+  <Section Name="VersionSection">
+    <Parameter Name="ServiceReleaseVersion" Value="" />
+  </Section>
   <Section Name="LoggerSection">
     <Parameter Name="LoggerConnectionstring" Value="" />
   </Section>

@@ -10,6 +10,7 @@ using Autofac.Features.AttributeFilters;
 using CsvHelper;
 using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ESF.Interfaces;
+using ESFA.DC.ESF.Interfaces.Config;
 using ESFA.DC.ESF.Interfaces.Reports;
 using ESFA.DC.ESF.Interfaces.Reports.Services;
 using ESFA.DC.ESF.Interfaces.Repositories;
@@ -31,6 +32,8 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
 
         private readonly IReferenceDataService _referenceDataService;
 
+        private readonly IVersionInfo _versionInfo;
+
         private readonly string[] _calendarMonths = {
             "January",
             "February",
@@ -50,13 +53,15 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             [KeyFilter(PersistenceStorageKeys.Blob)] IKeyValuePersistenceService storage,
             IIlrEsfRepository repository,
             IList<IRowHelper> rowHelpers,
-            IReferenceDataService referenceDataService)
+            IReferenceDataService referenceDataService,
+            IVersionInfo versionInfo)
             : base(dateTimeProvider)
         {
             _storage = storage;
             _repository = repository;
             _rowHelpers = rowHelpers;
             _referenceDataService = referenceDataService;
+            _versionInfo = versionInfo;
         }
 
         public async Task GenerateReport(
@@ -113,7 +118,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
                 ContractReferenceNumber = sourceFile.ConRefNumber,
                 ProviderName =  _referenceDataService.GetProviderName(ukPrn),
                 LastSupplementaryDataFileUpdate = sourceFile.SuppliedDate.ToString(),
-                FundingYears = new List<FundingHeader.FundingHeaderYear> // todo get other years data
+                FundingYears = new List<FundingHeader.FundingHeaderYear>
                 {
                     new FundingHeader.FundingHeaderYear
                     {
@@ -137,7 +142,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
                 LARSData = _referenceDataService.GetLarsVersion(),
                 OrganisationData = _referenceDataService.GetOrganisationVersion(),
                 PostcodeData = _referenceDataService.GetPostcodeVersion(),
-                ApplicationVersion = string.Empty // todo
+                ApplicationVersion = _versionInfo.ServiceReleaseVersion
             };
         }
 

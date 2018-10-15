@@ -9,6 +9,12 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless.Test
         {
             switch (sectionName)
             {
+                case "VersionSection":
+                    return (T) (object) new VersionInfo
+                    {
+                        ServiceReleaseVersion = "1.2.3.4"
+                    };
+
                 case "DataStoreSection":
                     return (T)(object)new PersistDataConfiguration()
                     {
@@ -35,8 +41,25 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless.Test
                     {
                         LoggerConnectionString = "Server=.;Database=myDataBase;User Id=myUsername;Password = myPassword;"
                     };
+                case "ILR1819Section":
+                    return (T)(object)new IRL1819Configuration
+                    {
+                        ILR1819ConnectionString = "Server=.;Database=myDataBase;User Id=myUsername;Password = myPassword;"
+                    };
+                case "ESFSection":
+                    return (T)(object)new ESFConfiguration
+                    {
+                        ESFConnectionString = "Server=.;Database=myDataBase;User Id=myUsername;Password = myPassword;"
+                    };
                 case "JobStatusSection":
                     return (T) (object) new JobStatusQueueOptions();
+                case "ReferenceDataSection":
+                    return (T)(object)new ReferenceDataConfig
+                    {
+                        LARSConnectionString = "Server=.;Database=myDataBase;User Id=myUsername;Password = myPassword;",
+                        OrganisationConnectionString = "Server=.;Database=myDataBase;User Id=myUsername;Password = myPassword;",
+                        PostcodesConnectionString = "Server=.;Database=myDataBase;User Id=myUsername;Password = myPassword;"
+                    };
             }
 
             return default(T);

@@ -73,6 +73,9 @@ namespace ESFA.DC.ESF.Service.Stateless
         {
             var container = new ContainerBuilder();
 
+            var versionInfo = configHelper.GetSectionValues<Config.VersionInfo>("VersionSection");
+            container.RegisterInstance(versionInfo).As<IVersionInfo>().SingleInstance();
+
             RegisterPersistence(container, configHelper);
             RegisterServiceBusConfig(container, configHelper);
             RegisterJobContextManagementServices(container);

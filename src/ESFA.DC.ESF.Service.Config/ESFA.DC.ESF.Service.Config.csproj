@@ -150,6 +150,7 @@
     <Compile Include="ServiceBusOptions.cs" />
     <Compile Include="ServiceBusQueueConfig.cs" />
     <Compile Include="ServiceBusTopicConfig.cs" />
+    <Compile Include="VersionInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
