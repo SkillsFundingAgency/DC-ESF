@@ -3,13 +3,10 @@ using ESFA.DC.ESF.Models.Reports.FundingSummaryReport;
 
 namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
 {
-    public class ReportDataRows
+    public class ReportDataTemplate
     {
         public static readonly List<FundingReportRow> FundingModelRowDefinitions = new List<FundingReportRow>
         {
-            // new FundingReportRow { RowType = RowType.Title, Title= "European Social Fund 2014-2020" },
-            new FundingReportRow { RowType = RowType.Spacer },
-            
             new FundingReportRow { RowType = RowType.Title, Title= "Learner Assessment and Plan" },
             new FundingReportRow { CodeBase = "ILR", DeliverableCode = "ST01", RowType = RowType.Data, Title = "ILR ST01 Learner Assessment and Plan (£)" },
             new FundingReportRow { CodeBase = "ESF", DeliverableCode = "ST01", RowType = RowType.Data, Title = "SUPPDATA ST01 Learner Assessment and Plan Adjustments (£)" },
@@ -138,7 +135,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             new FundingReportRow { RowType = RowType.Spacer },
 
             new FundingReportRow { RowType = RowType.Total, Title = "<ESF-1> Total (£)" },
-            new FundingReportRow { RowType = RowType.Total, Title = "<ESF-1> Cumulative (£)" },
+            new FundingReportRow { RowType = RowType.Cumulative, Title = "<ESF-1> Cumulative (£)" }
         };
     }
 }

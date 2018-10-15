@@ -328,6 +328,7 @@ namespace ESFA.DC.ESF.Service.Stateless
             containerBuilder.RegisterType<TitleRowHelper>().As<IRowHelper>();
             containerBuilder.RegisterType<SpacerRowHelper>().As<IRowHelper>();
             containerBuilder.RegisterType<TotalRowHelper>().As<IRowHelper>();
+            containerBuilder.RegisterType<CumulativeRowHelper>().As<IRowHelper>();
             containerBuilder.Register(c => new List<IRowHelper>(c.Resolve<IEnumerable<IRowHelper>>()))
                 .As<IList<IRowHelper>>();
 

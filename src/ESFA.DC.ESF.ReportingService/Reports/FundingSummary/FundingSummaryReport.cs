@@ -62,6 +62,8 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             _rowHelpers = rowHelpers;
             _referenceDataService = referenceDataService;
             _versionInfo = versionInfo;
+
+            ReportFileName = "ESF Funding Summary Report";
         }
 
         public async Task GenerateReport(
@@ -156,7 +158,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             var ilrData = _repository.GetPeriodisedValues(ukPrn);
             // todo get other years data
 
-            foreach (var fundingReportRow in ReportDataRows.FundingModelRowDefinitions)
+            foreach (var fundingReportRow in ReportDataTemplate.FundingModelRowDefinitions)
             {
                 foreach (var rowHelper in _rowHelpers)
                 {
@@ -311,13 +313,18 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             writer.WriteField("Organisation Data : ");
             writer.WriteField(footerData.OrganisationData);
             writer.NextRecord();
-            writer.WriteField("Report generated at: ");
+            writer.WriteField("Report generated at : ");
             writer.WriteField($"{footerData.ReportGeneratedAt.ToShortTimeString()} on {footerData.ReportGeneratedAt.ToShortDateString()}");
         }
 
         private int GetFundingYearFromFileName(
             string fileName)
         {
+            if (fileName == null)
+            {
+                return 0;
+            }
+
             var fileNameParts = fileName.Split('-');
             if (fileNameParts.Length <= 3)
             {
@@ -340,6 +347,11 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
         private string GetPreparedDateFromFileName(
             string fileName)
         {
+            if (fileName == null)
+            {
+                return null;
+            }
+
             var fileNameParts = fileName.Split('-');
             return fileNameParts.Length <= 4 ? string.Empty : fileNameParts[3];
         }

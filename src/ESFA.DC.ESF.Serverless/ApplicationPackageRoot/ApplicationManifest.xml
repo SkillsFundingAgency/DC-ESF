@@ -13,7 +13,7 @@
     <Parameter Name="ULNConnectionstring" DefaultValue="" />
     <Parameter Name="MaxMessageSize" DefaultValue="" />
     <Parameter Name="RedisConnectionString" DefaultValue="" />
-    <Parameter Name="JobStatusQueueName" DefaultValue="jobStatusQueue" />
+    <Parameter Name="JobStatusQueueName" DefaultValue="" />
     <Parameter Name="JobStatusConnectionString" DefaultValue="" />
     <Parameter Name="ValidationErrorsConnectionString" DefaultValue="" />
     <Parameter Name="ILR1819ConnectionString" DefaultValue="" />

@@ -131,10 +131,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractReportBuilder.cs" />
-    <Compile Include="Reports\FundingSummary\ReportDataRows.cs" />
+    <Compile Include="Reports\FundingSummary\ReportDataTemplate.cs" />
     <Compile Include="Repositories\IlrEsfRepository.cs" />
     <Compile Include="Services\ReferenceDataService.cs" />
     <Compile Include="Strategies\FundingSummaryReport\CSVRowHelpers\DataRowHelper.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\CSVRowHelpers\CumulativeRowHelper.cs" />
     <Compile Include="Strategies\FundingSummaryReport\CSVRowHelpers\TitleRowHelper.cs" />
     <Compile Include="Strategies\FundingSummaryReport\CSVRowHelpers\SpacerRowHelper.cs" />
     <Compile Include="Strategies\FundingSummaryReport\CSVRowHelpers\TotalRowHelper.cs" />
