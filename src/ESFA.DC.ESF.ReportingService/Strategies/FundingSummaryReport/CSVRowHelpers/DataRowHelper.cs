@@ -40,7 +40,8 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
             var reportRow = new FundingSummaryReportRowModel
             {
                 Title = row.Title,
-                RowType = RowType
+                RowType = RowType,
+                DeliverableCode = row.DeliverableCode
             };
 
             var reportRowYearlyValues = new List<FundingSummaryReportYearlyValueModel>();

@@ -29,4 +29,10 @@
     <Parameter Name="JobStatusQueueName" Value="" />
     <Parameter Name="JobStatusConnectionString" Value="" />
   </Section>
+  <Section Name="ReferenceDataSection">
+    <Parameter Name="LARSConnectionString" Value="" />
+    <Parameter Name="PostcodesConnectionString" Value="" />
+    <Parameter Name="OrganisationConnectionString" Value="" />
+    <Parameter Name="LargeEmployersConnectionString" Value="" />
+  </Section>
 </Settings>

@@ -8,6 +8,9 @@
     <Parameter Name="AzureBlobConnectionString" Value="__AzureBlobConnectionString__" />
     <Parameter Name="ILR1819ConnectionString" Value="__ILR1819ConnectionString__" />
     <Parameter Name="ESFConnectionString" Value="__ESFConnectionString__" />
-    <!-- Org -->
+    <Parameter Name="LARSConnectionString" Value="__LARSConnectionString" />
+    <Parameter Name="OrganisationConnectionString" Value="__OrganisationConnectionString__" />
+    <Parameter Name="PostcodesConnectionString" Value="__PostcodesConnectionString__" />
+    <Parameter Name="LargeEmployersConnectionString" Value="__LargeEmployersConnectionString__" />
   </Parameters>
 </Application>

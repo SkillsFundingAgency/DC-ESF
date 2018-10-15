@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using Autofac;
 using Autofac.Features.AttributeFilters;
 using ESFA.DC.Auditing.Interface;
+using ESFA.DC.Data.LARS.Model;
+using ESFA.DC.Data.LARS.Model.Interfaces;
+using ESFA.DC.Data.Organisatons.Model;
+using ESFA.DC.Data.Organisatons.Model.Interface;
+using ESFA.DC.Data.Postcodes.Model;
+using ESFA.DC.Data.Postcodes.Model.Interfaces;
 using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ESF.Database.EF;
 using ESFA.DC.ESF.Database.EF.Interfaces;
@@ -14,6 +20,7 @@ using ESFA.DC.ESF.Interfaces.Controllers;
 using ESFA.DC.ESF.Interfaces.DataStore;
 using ESFA.DC.ESF.Interfaces.Helpers;
 using ESFA.DC.ESF.Interfaces.Reports;
+using ESFA.DC.ESF.Interfaces.Reports.Services;
 using ESFA.DC.ESF.Interfaces.Reports.Strategies;
 using ESFA.DC.ESF.Interfaces.Repositories;
 using ESFA.DC.ESF.Interfaces.Services;
@@ -22,6 +29,7 @@ using ESFA.DC.ESF.Interfaces.Validation;
 using ESFA.DC.ESF.ReportingService;
 using ESFA.DC.ESF.ReportingService.Reports;
 using ESFA.DC.ESF.ReportingService.Repositories;
+using ESFA.DC.ESF.ReportingService.Services;
 using ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHelpers;
 using ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.Ilr;
 using ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.SuppData;
@@ -127,6 +135,27 @@ namespace ESFA.DC.ESF.Service.Stateless
             containerBuilder.Register(c => new ESF_DataStoreEntities(esfConfig.ESFConnectionString))
                 .As<IESF_DataStoreEntities>()
                 .InstancePerLifetimeScope();
+
+            var referenceData = configHelper.GetSectionValues<ReferenceDataConfig>("ReferenceDataSection");
+            containerBuilder.RegisterInstance(referenceData).As<IReferenceDataConfig>().SingleInstance();
+
+            containerBuilder.Register(c =>
+            {
+                var referenceDataConfig = c.Resolve<IReferenceDataConfig>();
+                return new LARS(referenceDataConfig.LARSConnectionString);
+            }).As<ILARS>().InstancePerLifetimeScope();
+
+            containerBuilder.Register(c =>
+            {
+                var referenceDataConfig = c.Resolve<IReferenceDataConfig>();
+                return new Postcodes(referenceDataConfig.PostcodesConnectionString);
+            }).As<IPostcodes>().InstancePerLifetimeScope();
+
+            containerBuilder.Register(c =>
+            {
+                var referenceDataConfig = c.Resolve<IReferenceDataConfig>();
+                return new Organisations(referenceDataConfig.OrganisationConnectionString);
+            }).As<IOrganisations>().InstancePerLifetimeScope();
         }
 
         private static void RegisterServiceBusConfig(ContainerBuilder containerBuilder,
@@ -257,6 +286,8 @@ namespace ESFA.DC.ESF.Service.Stateless
                 .InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<FileValidationService>().As<IFileValidationService>();
+
+            containerBuilder.RegisterType<ReferenceDataService>().As <IReferenceDataService>();
         }
 
         private static void RegisterControllers(ContainerBuilder containerBuilder)

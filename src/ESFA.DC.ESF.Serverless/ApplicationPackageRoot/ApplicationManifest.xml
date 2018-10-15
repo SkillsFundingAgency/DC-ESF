@@ -17,6 +17,10 @@
     <Parameter Name="ValidationErrorsConnectionString" DefaultValue="" />
     <Parameter Name="ILR1819ConnectionString" DefaultValue="" />
     <Parameter Name="ESFConnectionString" DefaultValue="" />
+    <Parameter Name="LARSConnectionString" DefaultValue="" />
+    <Parameter Name="OrganisationConnectionString" DefaultValue="" />
+    <Parameter Name="PostcodesConnectionString" DefaultValue="" />
+    <Parameter Name="LargeEmployersConnectionString" DefaultValue="" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
        should match the Name and Version attributes of the ServiceManifest element defined in the 
@@ -54,6 +58,12 @@
           <Section Name="JobStatusSection">
             <Parameter Name="JobStatusQueueName" Value="[JobStatusQueueName]" />
             <Parameter Name="JobStatusConnectionString" Value="[JobStatusConnectionString]" />
+          </Section>
+          <Section Name="ReferenceDataSection">
+            <Parameter Name="LARSConnectionString" Value="[LARSConnectionString]" />
+            <Parameter Name="PostcodesConnectionString" Value="[PostcodesConnectionString]" />
+            <Parameter Name="OrganisationConnectionString" Value="[OrganisationConnectionString]" />
+            <Parameter Name="LargeEmployersConnectionString" Value="[LargeEmployersConnectionString]" />
           </Section>
         </Settings>
       </ConfigOverride>
