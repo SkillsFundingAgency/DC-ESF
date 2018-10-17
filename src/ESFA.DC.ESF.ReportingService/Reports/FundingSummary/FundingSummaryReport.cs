@@ -76,11 +76,11 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             var utF8Encoding = new UTF8Encoding(false, true);
             var ukPrn = Convert.ToInt32(sourceFile.UKPRN);
 
-            var ilrFileData = _repository.GetFileDetails(ukPrn);
+            var ilrFileData = _repository.GetFileDetails(ukPrn, cancellationToken);
 
-            var reportHeader = PopulateReportHeader(sourceFile, ilrFileData, ukPrn);
-            var reportData = PopulateReportData(ukPrn, ilrFileData, data);
-            var reportFooter = PopulateReportFooter();
+            var reportHeader = PopulateReportHeader(sourceFile, ilrFileData, ukPrn, cancellationToken);
+            var reportData = PopulateReportData(ukPrn, ilrFileData, data, cancellationToken);
+            var reportFooter = PopulateReportFooter(cancellationToken);
 
             using (var ms = new MemoryStream())
             {
@@ -105,7 +105,8 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
         private FundingHeader PopulateReportHeader(
             SourceFileModel sourceFile,
             FileDetail fileData,
-            int ukPrn)
+            int ukPrn,
+            CancellationToken cancellationToken)
         {
             // todo get other years data
 
@@ -118,7 +119,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
                 UKPRN = ukPrn.ToString(),
                 SupplementaryDataFile = sourceFile.FileName,
                 ContractReferenceNumber = sourceFile.ConRefNumber,
-                ProviderName =  _referenceDataService.GetProviderName(ukPrn),
+                ProviderName =  _referenceDataService.GetProviderName(ukPrn, cancellationToken),
                 LastSupplementaryDataFileUpdate = sourceFile.SuppliedDate.ToString(),
                 FundingYears = new List<FundingHeader.FundingHeaderYear>
                 {
@@ -136,14 +137,14 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             return header;
         }
 
-        private FundingFooter PopulateReportFooter()
+        private FundingFooter PopulateReportFooter(CancellationToken cancellationToken)
         {
             return new FundingFooter
             {
                 ReportGeneratedAt = DateTime.Now,
-                LARSData = _referenceDataService.GetLarsVersion(),
-                OrganisationData = _referenceDataService.GetOrganisationVersion(),
-                PostcodeData = _referenceDataService.GetPostcodeVersion(),
+                LARSData = _referenceDataService.GetLarsVersion(cancellationToken),
+                OrganisationData = _referenceDataService.GetOrganisationVersion(cancellationToken),
+                PostcodeData = _referenceDataService.GetPostcodeVersion(cancellationToken),
                 ApplicationVersion = _versionInfo.ServiceReleaseVersion
             };
         }
@@ -151,11 +152,12 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
         private List<FundingSummaryReportRowModel> PopulateReportData(
             int ukPrn,
             FileDetail ilrFileDetail,
-            IList<SupplementaryDataModel> data)
+            IList<SupplementaryDataModel> data,
+            CancellationToken cancellationToken)
         {
             var reportData = new List<FundingSummaryReportRowModel>();
 
-            var ilrData = _repository.GetPeriodisedValues(ukPrn);
+            var ilrData = _repository.GetPeriodisedValues(ukPrn, cancellationToken);
             // todo get other years data
 
             foreach (var fundingReportRow in ReportDataTemplate.FundingModelRowDefinitions)

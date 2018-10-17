@@ -44,6 +44,8 @@ using ESFA.DC.ESF.ValidationService.Commands.FieldDefinition;
 using ESFA.DC.ESF.ValidationService.Commands.FileLevel;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.EF.Interfaces;
+using ESFA.DC.ILR1819.DataStore.EF.Valid;
+using ESFA.DC.ILR1819.DataStore.EF.Valid.Interfaces;
 using ESFA.DC.IO.AzureStorage;
 using ESFA.DC.IO.AzureStorage.Config.Interfaces;
 using ESFA.DC.IO.Interfaces;
@@ -132,6 +134,9 @@ namespace ESFA.DC.ESF.Service.Stateless
             var ilrConfig = configHelper.GetSectionValues<IRL1819Configuration>("ILR1819Section");
             containerBuilder.Register(c => new ILR1819_DataStoreEntities(ilrConfig.ILR1819ConnectionString))
                 .As<IILR1819_DataStoreEntities>()
+                .InstancePerLifetimeScope();
+            containerBuilder.Register(c => new ILR1819_DataStoreEntitiesValid(ilrConfig.ILR1819ConnectionString))
+                .As<IILR1819_DataStoreEntitiesValid>()
                 .InstancePerLifetimeScope();
 
             var esfConfig = configHelper.GetSectionValues<ESFConfiguration>("ESFSection");

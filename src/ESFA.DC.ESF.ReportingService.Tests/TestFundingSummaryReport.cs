@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.DateTimeProvider.Interface;
@@ -41,16 +40,16 @@ namespace ESFA.DC.ESF.ReportingService.Tests
                 .Returns(Task.CompletedTask);
 
             Mock<IIlrEsfRepository> ilrRepo = new Mock<IIlrEsfRepository>();
-            ilrRepo.Setup(m => m.GetFileDetails(It.IsAny<int>())).Returns(GetTestFileDetail());
-            ilrRepo.Setup(m => m.GetPeriodisedValues(It.IsAny<int>())).Returns(FM70PeriodosedValuesBuilder.BuildModel());
+            ilrRepo.Setup(m => m.GetFileDetails(It.IsAny<int>(), It.IsAny<CancellationToken>())).Returns(GetTestFileDetail());
+            ilrRepo.Setup(m => m.GetPeriodisedValues(It.IsAny<int>(), It.IsAny<CancellationToken>())).Returns(FM70PeriodosedValuesBuilder.BuildModel());
 
             IList<IRowHelper> rowHelpers = GenerateRowHelpersWithStrategies();
 
             Mock<IReferenceDataService> referenceDataService = new Mock<IReferenceDataService>();
-            referenceDataService.Setup(m => m.GetLarsVersion()).Returns("123456");
-            referenceDataService.Setup(m => m.GetOrganisationVersion()).Returns("234567");
-            referenceDataService.Setup(m => m.GetPostcodeVersion()).Returns("345678");
-            referenceDataService.Setup(m => m.GetProviderName(It.IsAny<int>())).Returns("Foo College");
+            referenceDataService.Setup(m => m.GetLarsVersion(It.IsAny<CancellationToken>())).Returns("123456");
+            referenceDataService.Setup(m => m.GetOrganisationVersion(It.IsAny<CancellationToken>())).Returns("234567");
+            referenceDataService.Setup(m => m.GetPostcodeVersion(It.IsAny<CancellationToken>())).Returns("345678");
+            referenceDataService.Setup(m => m.GetProviderName(It.IsAny<int>(), It.IsAny<CancellationToken>())).Returns("Foo College");
 
             Mock<IVersionInfo> versionInfo = new Mock<IVersionInfo>();
             versionInfo.Setup(m => m.ServiceReleaseVersion).Returns("1.2.3.4");
@@ -69,6 +68,10 @@ namespace ESFA.DC.ESF.ReportingService.Tests
             IList<SupplementaryDataModel> suppData = SupplementaryDataModelBuilder.GetModels();
 
             await fundingSummaryReport.GenerateReport(suppData, sourceFile, null, CancellationToken.None);
+
+            storage.Verify(s => s.SaveAsync($"{filename}.csv", It.IsAny<string>(), It.IsAny<CancellationToken>()));
+
+            Assert.True(!string.IsNullOrEmpty(csv));
         }
 
         private FileDetail GetTestFileDetail()

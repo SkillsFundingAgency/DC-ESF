@@ -1,13 +1,15 @@
-﻿namespace ESFA.DC.ESF.Interfaces.Reports.Services
+﻿using System.Threading;
+
+namespace ESFA.DC.ESF.Interfaces.Reports.Services
 {
     public interface IReferenceDataService
     {
-        string GetPostcodeVersion();
+        string GetPostcodeVersion(CancellationToken cancellationToken);
 
-        string GetLarsVersion();
+        string GetLarsVersion(CancellationToken cancellationToken);
 
-        string GetOrganisationVersion();
+        string GetOrganisationVersion(CancellationToken cancellationToken);
 
-        string GetProviderName(int ukPrn);
+        string GetProviderName(int ukPrn, CancellationToken cancellationToken);
     }
 }
