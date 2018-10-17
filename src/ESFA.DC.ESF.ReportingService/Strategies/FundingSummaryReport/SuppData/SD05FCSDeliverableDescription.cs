@@ -4,6 +4,6 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.SuppData
 {
     public class SD05FCSDeliverableDescription : BaseSupplementaryDataStrategy, ISupplementaryDataStrategy
     {
-        private string DeliverableCode = "SD05";
+        protected override string DeliverableCode => "SD05";
     }
 }

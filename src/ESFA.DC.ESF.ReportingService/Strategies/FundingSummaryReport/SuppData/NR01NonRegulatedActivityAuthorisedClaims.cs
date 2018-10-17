@@ -4,8 +4,8 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.SuppData
 {
     public class NR01NonRegulatedActivityAuthorisedClaims : BaseSupplementaryDataStrategy, ISupplementaryDataStrategy
     {
-        private string DeliverableCode = "NR01";
+        protected override string DeliverableCode => "NR01";
 
-        private string ReferenceType = "Authorised Claims";      
+        protected override string ReferenceType => "Authorised Claims";      
     }
 }

@@ -6,7 +6,7 @@ namespace ESFA.DC.ESF.Interfaces.Reports.Strategies
 {
     public interface ISupplementaryDataStrategy
     {
-        bool IsMatch(string deliverableCode);
+        bool IsMatch(string deliverableCode, string referenceType = null);
 
         void Execute(IList<SupplementaryDataModel> data, IList<FundingSummaryReportYearlyValueModel> reportRowYearlyValues);
     }

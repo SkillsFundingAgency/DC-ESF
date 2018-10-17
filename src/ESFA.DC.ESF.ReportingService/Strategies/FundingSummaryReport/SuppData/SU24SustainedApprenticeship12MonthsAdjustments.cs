@@ -4,6 +4,6 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.SuppData
 {
     public class SU24SustainedApprenticeship12MonthsAdjustments : BaseSupplementaryDataStrategy, ISupplementaryDataStrategy
     {
-        private readonly string DeliverableCode = "SU24";
+        protected override string DeliverableCode => "SU24";
     }
 }

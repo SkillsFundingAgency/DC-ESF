@@ -4,6 +4,6 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.SuppData
 {
     public class SU12SustainedUnpaidEmployment6MonthsAdjustments : BaseSupplementaryDataStrategy, ISupplementaryDataStrategy
     {
-        private readonly string DeliverableCode = "SU12";
+        protected override string DeliverableCode => "SU12";
     }
 }

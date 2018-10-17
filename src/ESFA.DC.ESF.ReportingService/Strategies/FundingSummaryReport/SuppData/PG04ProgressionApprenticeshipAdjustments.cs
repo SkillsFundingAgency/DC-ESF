@@ -4,6 +4,6 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.SuppData
 {
     public class PG04ProgressionApprenticeshipAdjustments : BaseSupplementaryDataStrategy, ISupplementaryDataStrategy
     {
-        private readonly string DeliverableCode = "PG04";
+        protected override string DeliverableCode => "PG04";
     }
 }

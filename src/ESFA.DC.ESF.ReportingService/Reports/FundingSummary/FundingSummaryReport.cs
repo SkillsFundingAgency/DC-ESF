@@ -168,13 +168,15 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
                     }
                     rowHelper.Execute(reportData, fundingReportRow, data, ilrData);
                     break;
+
                 }
             }
 
+            var fundingYear = GetFundingYearFromFileName(ilrFileDetail.Filename);
             var yearData = reportData.SelectMany(rd => rd.YearlyValues);
             foreach (var model in yearData)
             {
-                model.FundingYear = GetFundingYearFromFileName(ilrFileDetail.Filename);
+                model.FundingYear = fundingYear;
             }
 
             return reportData;
@@ -247,6 +249,8 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             // report body
             writer.WriteField("European Social Fund 2014-2020");
             writer.NextRecord();
+
+            var rowWithYearlyData = reportData.FirstOrDefault(r => r.YearlyValues.Count > 0);
             foreach (var rowModel in reportData)
             {
                 switch (rowModel.RowType)
@@ -256,26 +260,30 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
                         break;
                     case RowType.Title:
                         writer.WriteField(rowModel.Title);
-                        foreach (var yearlyValues in rowModel.YearlyValues)
-                        {
-                            for (var i = 0; i < yearlyValues.Values.Length; i++)
-                            {
-                                writer.WriteField($"{_calendarMonths[i]} {yearlyValues.FundingYear}");
-                            }
-                        }
 
-                        var years = rowModel.YearlyValues.Count;
-                        for (var i = 0; i < rowModel.Totals.Count; i++)
+                        if (rowWithYearlyData != null)
                         {
-                            if (i < years)
+                            foreach (var yearlyValues in rowWithYearlyData.YearlyValues)
                             {
-                                var reportYear = rowModel.YearlyValues[i].FundingYear;
-                                var reportYear2 = GetSecondYearFromReportYear(reportYear);
-                                writer.WriteField($"{reportYear.ToString()}/{reportYear2} Subtotal");
-                                continue;
+                                for (var i = 0; i < yearlyValues.Values.Length; i++)
+                                {
+                                    writer.WriteField($"{_calendarMonths[i]} {yearlyValues.FundingYear}");
+                                }
                             }
 
-                            writer.WriteField("Grand Total");
+                            var years = rowWithYearlyData.YearlyValues.Count;
+                            for (var i = 0; i < rowWithYearlyData.Totals.Count; i++)
+                            {
+                                if (i < years)
+                                {
+                                    var reportYear = rowWithYearlyData.YearlyValues[i].FundingYear;
+                                    var reportYear2 = GetSecondYearFromReportYear(reportYear);
+                                    writer.WriteField($"{reportYear.ToString()}/{reportYear2} Subtotal");
+                                    continue;
+                                }
+
+                                writer.WriteField("Grand Total");
+                            }
                         }
 
                         writer.NextRecord();
@@ -294,6 +302,22 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
                         {
                             writer.WriteField(rowTotal);
                         }
+                        writer.NextRecord();
+                        break;
+                    case RowType.Cumulative:
+                        writer.WriteField(rowModel.Title);
+                        foreach (var yearlyValues in rowModel.YearlyValues)
+                        {
+                            foreach (var value in yearlyValues.Values)
+                            {
+                                writer.WriteField(value);
+                            }
+                        }
+                        foreach (var rowTotal in rowModel.Totals)
+                        {
+                            writer.WriteField(rowTotal);
+                        }
+                        writer.WriteField("n/a");
                         writer.NextRecord();
                         break;
                 }
@@ -326,12 +350,12 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             }
 
             var fileNameParts = fileName.Split('-');
-            if (fileNameParts.Length <= 3)
+            if (fileNameParts.Length < 4)
             {
                 return 0;
             }
 
-            var constructedYear = $"20{fileName.Split('-')[2].Substring(0, 2)}";
+            var constructedYear = $"{fileNameParts[3].Substring(0, 4)}";
 
             int.TryParse(constructedYear, out var year);
             return year;
@@ -353,7 +377,9 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             }
 
             var fileNameParts = fileName.Split('-');
-            return fileNameParts.Length <= 4 ? string.Empty : fileNameParts[3];
+            return fileNameParts.Length <= 4 || fileNameParts[3].Length < 8 ? 
+                string.Empty : 
+                $"{fileNameParts[3].Substring(0,4)}/{fileNameParts[3].Substring(4, 2)}/{fileNameParts[3].Substring(6, 2)}";
         }
     }
 }

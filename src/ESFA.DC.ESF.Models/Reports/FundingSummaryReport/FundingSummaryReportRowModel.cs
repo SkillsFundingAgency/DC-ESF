@@ -13,5 +13,11 @@ namespace ESFA.DC.ESF.Models.Reports.FundingSummaryReport
         public List<FundingSummaryReportYearlyValueModel> YearlyValues { get; set; }
 
         public List<decimal> Totals { get; set; }
+
+        public FundingSummaryReportRowModel()
+        {
+            YearlyValues = new List<FundingSummaryReportYearlyValueModel>();
+            Totals = new List<decimal>();
+        }
     }
 }

@@ -5,9 +5,9 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.Ilr
 {
     public class PG03ProgressionEducation : BaseILRDataStrategy, IILRDataStrategy
     {
-        private new readonly string DeliverableCode = "PG03";
+        protected override string DeliverableCode => "PG03";
 
-        private new readonly List<string> AttributeNames = new List<string>
+        protected override List<string> AttributeNames => new List<string>
         {
             "StartEarnings",
             "AchievementEarnings",

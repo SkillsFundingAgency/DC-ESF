@@ -4,8 +4,8 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.SuppData
 {
     public class RQ01RegulatedLearningAuditAdjustment : BaseSupplementaryDataStrategy, ISupplementaryDataStrategy
     {
-        private string DeliverableCode = "RQ01";
+        protected override string DeliverableCode => "RQ01";
 
-        private string ReferenceType = "Audit Adjustment";
+        protected override string ReferenceType => "Audit Adjustment";
     }
 }

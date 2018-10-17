@@ -5,9 +5,9 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.Ilr
 {
     public class NR01NonRegulatedActivityStartFunding : BaseILRDataStrategy, IILRDataStrategy
     {
-        private new readonly string DeliverableCode = "NR01";
+        protected override string DeliverableCode => "NR01";
 
-        private new readonly List<string> AttributeNames = new List<string>
+        protected override List<string> AttributeNames => new List<string>
         {
             "StartEarnings"
         };

@@ -14,6 +14,7 @@ using ESFA.DC.ESF.ReportingService.Reports.FundingSummary;
 using ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHelpers;
 using ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.Ilr;
 using ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.SuppData;
+using ESFA.DC.ESF.ReportingService.Tests.Builders;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.IO.Interfaces;
 using Moq;
@@ -27,7 +28,7 @@ namespace ESFA.DC.ESF.ReportingService.Tests
         public async Task TestFundingSummaryReportGeneration()
         {
             var dateTime = DateTime.UtcNow;
-            var filename = $"10033670_1_ESF Funding Summary Report {dateTime:yyyyMMdd-HHmmss}";
+            var filename = $"10001639_1_ESF Funding Summary Report {dateTime:yyyyMMdd-HHmmss}";
             var csv = string.Empty;
 
             Mock<IDateTimeProvider> dateTimeProviderMock = new Mock<IDateTimeProvider>();
@@ -35,16 +36,13 @@ namespace ESFA.DC.ESF.ReportingService.Tests
             dateTimeProviderMock.Setup(x => x.ConvertUtcToUk(It.IsAny<DateTime>())).Returns(dateTime);
 
             Mock<IStreamableKeyValuePersistenceService> storage = new Mock<IStreamableKeyValuePersistenceService>();
-            storage.Setup(x => x.GetAsync(It.IsAny<string>(), It.IsAny<Stream>(), It.IsAny<CancellationToken>()))
-                .Callback<string, Stream, CancellationToken>((st, sr, ct) => File.OpenRead("ILR.xml").CopyTo(sr))
-                .Returns(Task.CompletedTask);
             storage.Setup(x => x.SaveAsync($"{filename}.csv", It.IsAny<string>(), It.IsAny<CancellationToken>()))
                 .Callback<string, string, CancellationToken>((key, value, ct) => csv = value)
                 .Returns(Task.CompletedTask);
 
             Mock<IIlrEsfRepository> ilrRepo = new Mock<IIlrEsfRepository>();
             ilrRepo.Setup(m => m.GetFileDetails(It.IsAny<int>())).Returns(GetTestFileDetail());
-            // ilrRepo.Setup(m => m.GetPeriodisedValues(It.IsAny<int>())).Returns();
+            ilrRepo.Setup(m => m.GetPeriodisedValues(It.IsAny<int>())).Returns(FM70PeriodosedValuesBuilder.BuildModel());
 
             IList<IRowHelper> rowHelpers = GenerateRowHelpersWithStrategies();
 
@@ -66,8 +64,9 @@ namespace ESFA.DC.ESF.ReportingService.Tests
                 versionInfo.Object
             );
 
-            IList<SupplementaryDataModel> suppData = new List<SupplementaryDataModel>();
-            SourceFileModel sourceFile = new SourceFileModel();
+            SourceFileModel sourceFile = GetEsfSourceFileModel();
+
+            IList<SupplementaryDataModel> suppData = SupplementaryDataModelBuilder.GetModels();
 
             await fundingSummaryReport.GenerateReport(suppData, sourceFile, null, CancellationToken.None);
         }
@@ -76,9 +75,22 @@ namespace ESFA.DC.ESF.ReportingService.Tests
         {
             return new FileDetail
             {
-                UKPRN = 10033670,
-                Filename = "",
+                UKPRN = 10001639,
+                Filename = "ILR-10001639-1819-20180704-120055-03.xml",
                 SubmittedTime = DateTime.Now
+            };
+        }
+
+        private SourceFileModel GetEsfSourceFileModel()
+        {
+            return new SourceFileModel
+            {
+                UKPRN = "10001639",
+                JobId = 1,
+                ConRefNumber = "12345678901234567890",
+                FileName = "SUPPDATA-10001639-12345678901234567890-20181017-120000.CSV",
+                SuppliedDate = DateTime.Now,
+                PreparationDate = DateTime.Now.AddDays(-1)
             };
         }
 
@@ -89,6 +101,7 @@ namespace ESFA.DC.ESF.ReportingService.Tests
                 new SpacerRowHelper(),
                 new TitleRowHelper(),
                 new TotalRowHelper(),
+                new CumulativeRowHelper(),
                 new DataRowHelper(
                     new List<ISupplementaryDataStrategy>
                     {

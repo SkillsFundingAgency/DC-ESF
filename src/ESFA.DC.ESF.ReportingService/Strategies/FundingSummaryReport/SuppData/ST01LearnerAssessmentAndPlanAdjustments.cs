@@ -4,6 +4,6 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.SuppData
 {
     public class ST01LearnerAssessmentAndPlanAdjustments : BaseSupplementaryDataStrategy, ISupplementaryDataStrategy
     {
-        private string DeliverableCode = "ST01";
+        protected override string DeliverableCode => "ST01";
     }
 }

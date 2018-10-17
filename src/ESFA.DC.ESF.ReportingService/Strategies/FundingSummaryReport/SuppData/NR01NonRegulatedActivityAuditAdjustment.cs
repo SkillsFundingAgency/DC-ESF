@@ -4,8 +4,8 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.SuppData
 {
     public class NR01NonRegulatedActivityAuditAdjustment : BaseSupplementaryDataStrategy, ISupplementaryDataStrategy
     {
-        private readonly string DeliverableCode = "NR01";
+        protected override string DeliverableCode => "NR01";
 
-        private readonly string ReferenceType = "Audit Adjustment";
+        protected override string ReferenceType => "Audit Adjustment";
     }
 }

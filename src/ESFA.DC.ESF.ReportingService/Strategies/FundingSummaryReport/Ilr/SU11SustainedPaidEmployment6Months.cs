@@ -5,9 +5,9 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.Ilr
 {
     public class SU11SustainedPaidEmployment6Months : BaseILRDataStrategy, IILRDataStrategy
     {
-        private new readonly string DeliverableCode = "SU11";
+        protected override string DeliverableCode => "SU11";
 
-        private new readonly List<string> AttributeNames = new List<string>
+        protected override List<string> AttributeNames => new List<string>
         {
             "StartEarnings",
             "AchievementEarnings",

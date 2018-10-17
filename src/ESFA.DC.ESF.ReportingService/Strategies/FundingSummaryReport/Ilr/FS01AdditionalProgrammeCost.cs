@@ -5,9 +5,9 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.Ilr
 {
     public class FS01AdditionalProgrammeCost : BaseILRDataStrategy, IILRDataStrategy
     {
-        private new readonly string DeliverableCode = "FS01";
+        protected override string DeliverableCode => "FS01";
 
-        private new readonly List<string> AttributeNames = new List<string>
+        protected override List<string> AttributeNames => new List<string>
         {
             "StartEarnings",
             "AchievementEarnings",

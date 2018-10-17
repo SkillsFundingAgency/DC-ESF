@@ -1,0 +1,1208 @@
+{
+  "UKPRN": 10001639,
+  "RulebaseVersion": "1819.01.02",
+  "Learners": [
+    {
+      "LearnRefNumber": "5DOB01",
+      "LearningDeliveries": [
+        {
+          "AimSeqNumber": 1,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-10-14T00:00:00+01:00",
+            "AimClassification": "Assessment Aim",
+            "AimValue": 120.0,
+            "ApplicWeightFundRate": 0.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": false,
+            "LARSWeightedRate": 0.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": null,
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": []
+        },
+        {
+          "AimSeqNumber": 2,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-10-14T00:00:00+01:00",
+            "AimClassification": "Regulated Learning Aim",
+            "AimValue": 724.0,
+            "ApplicWeightFundRate": 724.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": false,
+            "LARSWeightedRate": 724.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": null,
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": []
+        }
+      ],
+      "LearnerDPOutcomes": []
+    },
+    {
+      "LearnRefNumber": "0DOB43",
+      "LearningDeliveries": [
+        {
+          "AimSeqNumber": 1,
+          "LearningDeliveryValue": {
+            "Achieved": true,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-10-14T00:00:00+01:00",
+            "AimClassification": "Assessment Aim",
+            "AimValue": 400.0,
+            "ApplicWeightFundRate": 0.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": true,
+            "LARSWeightedRate": 0.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": "2017-10-14T00:00:00+01:00",
+            "PotentiallyEligibleForProgression": true,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": [
+            {
+              "DeliverableCode": "ST01",
+              "DeliverableUnitCost": 400.0,
+              "LearningDeliveryDeliverablePeriodisedValues": [
+                {
+                  "AttributeName": "AchievementEarnings",
+                  "Period1": 0.0,
+                  "Period2": 0.0,
+                  "Period3": 0.0,
+                  "Period4": 0.0,
+                  "Period5": 0.0,
+                  "Period6": 0.0,
+                  "Period7": 0.0,
+                  "Period8": 0.0,
+                  "Period9": 0.0,
+                  "Period10": 0.0,
+                  "Period11": 0.0,
+                  "Period12": 0.0
+                },
+                {
+                  "AttributeName": "AdditionalProgCostEarnings",
+                  "Period1": 0.0,
+                  "Period2": 0.0,
+                  "Period3": 0.0,
+                  "Period4": 0.0,
+                  "Period5": 0.0,
+                  "Period6": 0.0,
+                  "Period7": 0.0,
+                  "Period8": 0.0,
+                  "Period9": 0.0,
+                  "Period10": 0.0,
+                  "Period11": 0.0,
+                  "Period12": 0.0
+                },
+                {
+                  "AttributeName": "DeliverableVolume",
+                  "Period1": 0.0,
+                  "Period2": 0.0,
+                  "Period3": 0.0,
+                  "Period4": 0.0,
+                  "Period5": 0.0,
+                  "Period6": 0.0,
+                  "Period7": 0.0,
+                  "Period8": 0.0,
+                  "Period9": 0.0,
+                  "Period10": 0.0,
+                  "Period11": 0.0,
+                  "Period12": 0.0
+                },
+                {
+                  "AttributeName": "ProgressionEarnings",
+                  "Period1": 0.0,
+                  "Period2": 0.0,
+                  "Period3": 0.0,
+                  "Period4": 0.0,
+                  "Period5": 0.0,
+                  "Period6": 0.0,
+                  "Period7": 0.0,
+                  "Period8": 0.0,
+                  "Period9": 0.0,
+                  "Period10": 0.0,
+                  "Period11": 0.0,
+                  "Period12": 0.0
+                },
+                {
+                  "AttributeName": "ReportingVolume",
+                  "Period1": 0.0,
+                  "Period2": 0.0,
+                  "Period3": 0.0,
+                  "Period4": 0.0,
+                  "Period5": 0.0,
+                  "Period6": 0.0,
+                  "Period7": 0.0,
+                  "Period8": 0.0,
+                  "Period9": 0.0,
+                  "Period10": 0.0,
+                  "Period11": 0.0,
+                  "Period12": 0.0
+                },
+                {
+                  "AttributeName": "StartEarnings",
+                  "Period1": 0.0,
+                  "Period2": 0.0,
+                  "Period3": 0.0,
+                  "Period4": 0.0,
+                  "Period5": 0.0,
+                  "Period6": 0.0,
+                  "Period7": 0.0,
+                  "Period8": 0.0,
+                  "Period9": 0.0,
+                  "Period10": 0.0,
+                  "Period11": 0.0,
+                  "Period12": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "AimSeqNumber": 2,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-10-14T00:00:00+01:00",
+            "AimClassification": "Regulated Learning Aim",
+            "AimValue": 724.0,
+            "ApplicWeightFundRate": 724.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": true,
+            "LARSWeightedRate": 724.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": "2017-10-14T00:00:00+01:00",
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": [
+            {
+              "DeliverableCode": "RQ01",
+              "DeliverableUnitCost": 0.0,
+              "LearningDeliveryDeliverablePeriodisedValues": [
+                {
+                  "AttributeName": "AchievementEarnings",
+                  "Period1": 0.0,
+                  "Period2": 0.0,
+                  "Period3": 0.0,
+                  "Period4": 0.0,
+                  "Period5": 0.0,
+                  "Period6": 0.0,
+                  "Period7": 0.0,
+                  "Period8": 0.0,
+                  "Period9": 0.0,
+                  "Period10": 0.0,
+                  "Period11": 0.0,
+                  "Period12": 0.0
+                },
+                {
+                  "AttributeName": "AdditionalProgCostEarnings",
+                  "Period1": 0.0,
+                  "Period2": 0.0,
+                  "Period3": 0.0,
+                  "Period4": 0.0,
+                  "Period5": 0.0,
+                  "Period6": 0.0,
+                  "Period7": 0.0,
+                  "Period8": 0.0,
+                  "Period9": 0.0,
+                  "Period10": 0.0,
+                  "Period11": 0.0,
+                  "Period12": 0.0
+                },
+                {
+                  "AttributeName": "DeliverableVolume",
+                  "Period1": 0.0,
+                  "Period2": 0.0,
+                  "Period3": 0.0,
+                  "Period4": 0.0,
+                  "Period5": 0.0,
+                  "Period6": 0.0,
+                  "Period7": 0.0,
+                  "Period8": 0.0,
+                  "Period9": 0.0,
+                  "Period10": 0.0,
+                  "Period11": 0.0,
+                  "Period12": 0.0
+                },
+                {
+                  "AttributeName": "ProgressionEarnings",
+                  "Period1": 0.0,
+                  "Period2": 0.0,
+                  "Period3": 0.0,
+                  "Period4": 0.0,
+                  "Period5": 0.0,
+                  "Period6": 0.0,
+                  "Period7": 0.0,
+                  "Period8": 0.0,
+                  "Period9": 0.0,
+                  "Period10": 0.0,
+                  "Period11": 0.0,
+                  "Period12": 0.0
+                },
+                {
+                  "AttributeName": "ReportingVolume",
+                  "Period1": 0.0,
+                  "Period2": 0.0,
+                  "Period3": 0.0,
+                  "Period4": 0.0,
+                  "Period5": 0.0,
+                  "Period6": 0.0,
+                  "Period7": 0.0,
+                  "Period8": 0.0,
+                  "Period9": 0.0,
+                  "Period10": 0.0,
+                  "Period11": 0.0,
+                  "Period12": 0.0
+                },
+                {
+                  "AttributeName": "StartEarnings",
+                  "Period1": 0.0,
+                  "Period2": 0.0,
+                  "Period3": 0.0,
+                  "Period4": 0.0,
+                  "Period5": 0.0,
+                  "Period6": 0.0,
+                  "Period7": 0.0,
+                  "Period8": 0.0,
+                  "Period9": 0.0,
+                  "Period10": 0.0,
+                  "Period11": 0.0,
+                  "Period12": 0.0
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "LearnerDPOutcomes": []
+    },
+    {
+      "LearnRefNumber": "5FamNam01",
+      "LearningDeliveries": [
+        {
+          "AimSeqNumber": 1,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-10-14T00:00:00+01:00",
+            "AimClassification": "Assessment Aim",
+            "AimValue": 400.0,
+            "ApplicWeightFundRate": 0.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": false,
+            "LARSWeightedRate": 0.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": null,
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": []
+        },
+        {
+          "AimSeqNumber": 2,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-10-14T00:00:00+01:00",
+            "AimClassification": "Regulated Learning Aim",
+            "AimValue": 724.0,
+            "ApplicWeightFundRate": 724.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": false,
+            "LARSWeightedRate": 724.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": null,
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": []
+        }
+      ],
+      "LearnerDPOutcomes": []
+    },
+    {
+      "LearnRefNumber": "5FamNam02",
+      "LearningDeliveries": [
+        {
+          "AimSeqNumber": 1,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-10-14T00:00:00+01:00",
+            "AimClassification": "Assessment Aim",
+            "AimValue": null,
+            "ApplicWeightFundRate": 0.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": false,
+            "LARSWeightedRate": 0.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": null,
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": []
+        },
+        {
+          "AimSeqNumber": 2,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-10-14T00:00:00+01:00",
+            "AimClassification": "Regulated Learning Aim",
+            "AimValue": 724.0,
+            "ApplicWeightFundRate": 724.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": false,
+            "LARSWeightedRate": 724.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": null,
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": []
+        }
+      ],
+      "LearnerDPOutcomes": []
+    },
+    {
+      "LearnRefNumber": "5GivNam01",
+      "LearningDeliveries": [
+        {
+          "AimSeqNumber": 1,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-10-14T00:00:00+01:00",
+            "AimClassification": "Assessment Aim",
+            "AimValue": null,
+            "ApplicWeightFundRate": 0.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": false,
+            "LARSWeightedRate": 0.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": null,
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": []
+        },
+        {
+          "AimSeqNumber": 2,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-10-14T00:00:00+01:00",
+            "AimClassification": "Regulated Learning Aim",
+            "AimValue": 724.0,
+            "ApplicWeightFundRate": 724.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": false,
+            "LARSWeightedRate": 724.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": null,
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": []
+        }
+      ],
+      "LearnerDPOutcomes": []
+    },
+    {
+      "LearnRefNumber": "5GivNam02",
+      "LearningDeliveries": [
+        {
+          "AimSeqNumber": 1,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-10-14T00:00:00+01:00",
+            "AimClassification": "Assessment Aim",
+            "AimValue": null,
+            "ApplicWeightFundRate": 0.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": false,
+            "LARSWeightedRate": 0.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": null,
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": []
+        },
+        {
+          "AimSeqNumber": 2,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-10-14T00:00:00+01:00",
+            "AimClassification": "Regulated Learning Aim",
+            "AimValue": 724.0,
+            "ApplicWeightFundRate": 724.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": false,
+            "LARSWeightedRate": 724.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": null,
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": []
+        }
+      ],
+      "LearnerDPOutcomes": []
+    },
+    {
+      "LearnRefNumber": "3PLH01",
+      "LearningDeliveries": [
+        {
+          "AimSeqNumber": 1,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-10-14T00:00:00+01:00",
+            "AimClassification": "Assessment Aim",
+            "AimValue": null,
+            "ApplicWeightFundRate": 0.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": false,
+            "LARSWeightedRate": 0.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": null,
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": []
+        },
+        {
+          "AimSeqNumber": 2,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-10-14T00:00:00+01:00",
+            "AimClassification": "Regulated Learning Aim",
+            "AimValue": 724.0,
+            "ApplicWeightFundRate": 724.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": false,
+            "LARSWeightedRate": 724.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": null,
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": []
+        }
+      ],
+      "LearnerDPOutcomes": []
+    },
+    {
+      "LearnRefNumber": "4PLH02",
+      "LearningDeliveries": [
+        {
+          "AimSeqNumber": 1,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-10-14T00:00:00+01:00",
+            "AimClassification": "Assessment Aim",
+            "AimValue": null,
+            "ApplicWeightFundRate": 0.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": false,
+            "LARSWeightedRate": 0.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": null,
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": []
+        },
+        {
+          "AimSeqNumber": 2,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-10-14T00:00:00+01:00",
+            "AimClassification": "Regulated Learning Aim",
+            "AimValue": 724.0,
+            "ApplicWeightFundRate": 724.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": false,
+            "LARSWeightedRate": 724.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": null,
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": []
+        }
+      ],
+      "LearnerDPOutcomes": []
+    },
+    {
+      "LearnRefNumber": "4PLH04",
+      "LearningDeliveries": [
+        {
+          "AimSeqNumber": 1,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-10-14T00:00:00+01:00",
+            "AimClassification": "Assessment Aim",
+            "AimValue": null,
+            "ApplicWeightFundRate": 0.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": false,
+            "LARSWeightedRate": 0.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": null,
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": []
+        },
+        {
+          "AimSeqNumber": 2,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-10-14T00:00:00+01:00",
+            "AimClassification": "Regulated Learning Aim",
+            "AimValue": 724.0,
+            "ApplicWeightFundRate": 724.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": false,
+            "LARSWeightedRate": 724.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": null,
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": []
+        }
+      ],
+      "LearnerDPOutcomes": []
+    },
+    {
+      "LearnRefNumber": "4PLH05",
+      "LearningDeliveries": [
+        {
+          "AimSeqNumber": 1,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-10-14T00:00:00+01:00",
+            "AimClassification": "Assessment Aim",
+            "AimValue": null,
+            "ApplicWeightFundRate": 0.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": false,
+            "LARSWeightedRate": 0.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": null,
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": []
+        },
+        {
+          "AimSeqNumber": 2,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-10-14T00:00:00+01:00",
+            "AimClassification": "Regulated Learning Aim",
+            "AimValue": 724.0,
+            "ApplicWeightFundRate": 724.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": false,
+            "LARSWeightedRate": 724.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": null,
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": []
+        }
+      ],
+      "LearnerDPOutcomes": []
+    },
+    {
+      "LearnRefNumber": "3PAtt01",
+      "LearningDeliveries": [
+        {
+          "AimSeqNumber": 1,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-10-14T00:00:00+01:00",
+            "AimClassification": "Assessment Aim",
+            "AimValue": null,
+            "ApplicWeightFundRate": 0.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": false,
+            "LARSWeightedRate": 0.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": null,
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": []
+        },
+        {
+          "AimSeqNumber": 2,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-10-14T00:00:00+01:00",
+            "AimClassification": "Regulated Learning Aim",
+            "AimValue": 724.0,
+            "ApplicWeightFundRate": 724.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": false,
+            "LARSWeightedRate": 724.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": null,
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": []
+        }
+      ],
+      "LearnerDPOutcomes": []
+    },
+    {
+      "LearnRefNumber": "8PAtt02",
+      "LearningDeliveries": [
+        {
+          "AimSeqNumber": 1,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-10-14T00:00:00+01:00",
+            "AimClassification": "Regulated Learning Aim",
+            "AimValue": 7172.0,
+            "ApplicWeightFundRate": 7172.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": false,
+            "LARSWeightedRate": 7172.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": null,
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": []
+        },
+        {
+          "AimSeqNumber": 2,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-10-14T00:00:00+01:00",
+            "AimClassification": "Regulated Learning Aim",
+            "AimValue": 724.0,
+            "ApplicWeightFundRate": 724.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": false,
+            "LARSWeightedRate": 724.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": null,
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": []
+        }
+      ],
+      "LearnerDPOutcomes": []
+    },
+    {
+      "LearnRefNumber": "9PAtt02",
+      "LearningDeliveries": [
+        {
+          "AimSeqNumber": 1,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-10-14T00:00:00+01:00",
+            "AimClassification": "Regulated Learning Aim",
+            "AimValue": 2583.0,
+            "ApplicWeightFundRate": 2583.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": false,
+            "LARSWeightedRate": 2583.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": null,
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": []
+        },
+        {
+          "AimSeqNumber": 2,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-10-14T00:00:00+01:00",
+            "AimClassification": "Regulated Learning Aim",
+            "AimValue": 724.0,
+            "ApplicWeightFundRate": 724.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": false,
+            "LARSWeightedRate": 724.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": null,
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": []
+        }
+      ],
+      "LearnerDPOutcomes": []
+    },
+    {
+      "LearnRefNumber": "4PSLMO01",
+      "LearningDeliveries": [
+        {
+          "AimSeqNumber": 1,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-10-14T00:00:00+01:00",
+            "AimClassification": "Assessment Aim",
+            "AimValue": null,
+            "ApplicWeightFundRate": 0.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": false,
+            "LARSWeightedRate": 0.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": null,
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": []
+        },
+        {
+          "AimSeqNumber": 2,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-10-14T00:00:00+01:00",
+            "AimClassification": "Regulated Learning Aim",
+            "AimValue": 724.0,
+            "ApplicWeightFundRate": 724.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": false,
+            "LARSWeightedRate": 724.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": null,
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": []
+        }
+      ],
+      "LearnerDPOutcomes": []
+    },
+    {
+      "LearnRefNumber": "5ULN06",
+      "LearningDeliveries": [
+        {
+          "AimSeqNumber": 1,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-12-13T00:00:00+00:00",
+            "AimClassification": "Assessment Aim",
+            "AimValue": null,
+            "ApplicWeightFundRate": 0.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": false,
+            "LARSWeightedRate": 0.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": null,
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": []
+        },
+        {
+          "AimSeqNumber": 2,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-12-13T00:00:00+00:00",
+            "AimClassification": "Regulated Learning Aim",
+            "AimValue": 724.0,
+            "ApplicWeightFundRate": 724.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": false,
+            "LARSWeightedRate": 724.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": null,
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": []
+        }
+      ],
+      "LearnerDPOutcomes": []
+    },
+    {
+      "LearnRefNumber": "5ULN07",
+      "LearningDeliveries": [
+        {
+          "AimSeqNumber": 1,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-09-13T00:00:00+01:00",
+            "AimClassification": "Assessment Aim",
+            "AimValue": null,
+            "ApplicWeightFundRate": 0.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": false,
+            "LARSWeightedRate": 0.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": null,
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": []
+        },
+        {
+          "AimSeqNumber": 2,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-10-14T00:00:00+01:00",
+            "AimClassification": "Regulated Learning Aim",
+            "AimValue": 724.0,
+            "ApplicWeightFundRate": 724.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": false,
+            "LARSWeightedRate": 724.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": null,
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": []
+        }
+      ],
+      "LearnerDPOutcomes": []
+    },
+    {
+      "LearnRefNumber": "3FM01",
+      "LearningDeliveries": [
+        {
+          "AimSeqNumber": 1,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-10-14T00:00:00+01:00",
+            "AimClassification": "Assessment Aim",
+            "AimValue": null,
+            "ApplicWeightFundRate": 0.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": false,
+            "LARSWeightedRate": 0.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": null,
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": []
+        },
+        {
+          "AimSeqNumber": 2,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-10-14T00:00:00+01:00",
+            "AimClassification": "Regulated Learning Aim",
+            "AimValue": 724.0,
+            "ApplicWeightFundRate": 724.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": false,
+            "LARSWeightedRate": 724.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": null,
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": []
+        }
+      ],
+      "LearnerDPOutcomes": []
+    },
+    {
+      "LearnRefNumber": "3FM03",
+      "LearningDeliveries": [
+        {
+          "AimSeqNumber": 1,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-10-14T00:00:00+01:00",
+            "AimClassification": "Assessment Aim",
+            "AimValue": null,
+            "ApplicWeightFundRate": 0.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": false,
+            "LARSWeightedRate": 0.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": null,
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": []
+        },
+        {
+          "AimSeqNumber": 2,
+          "LearningDeliveryValue": {
+            "Achieved": false,
+            "AddProgCostElig": false,
+            "AdjustedAreaCostFactor": 1.0,
+            "AdjustedPremiumFactor": 1.0,
+            "AdjustedStartDate": "2017-10-14T00:00:00+01:00",
+            "AimClassification": "Regulated Learning Aim",
+            "AimValue": 724.0,
+            "ApplicWeightFundRate": 724.0,
+            "EligibleProgressionOutcomeCode": null,
+            "EligibleProgressionOutcomeType": null,
+            "EligibleProgressionOutomeStartDate": null,
+            "FundStart": false,
+            "LARSWeightedRate": 724.0,
+            "LatestPossibleStartDate": null,
+            "LDESFEngagementStartDate": null,
+            "PotentiallyEligibleForProgression": false,
+            "ProgressionEndDate": null,
+            "Restart": false,
+            "WeightedRateFromESOL": 0.0
+          },
+          "LearningDeliveryDeliverableValues": []
+        }
+      ],
+      "LearnerDPOutcomes": []
+    }
+  ]
+}

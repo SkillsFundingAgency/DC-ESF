@@ -9,12 +9,19 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.Ilr
     {
         private const string PeriodPrefix = "Period_";
 
-        protected string DeliverableCode;
+        protected  virtual string DeliverableCode { get; set; }
 
-        protected List<string> AttributeNames;
+        protected virtual List<string> AttributeNames { get; set; }
 
-        public bool IsMatch(string deliverableCode)
+        public bool IsMatch(string deliverableCode, List<string> attributeNames = null)
         {
+            if (attributeNames != null)
+            {
+                var firstNotSecond = attributeNames.Except(AttributeNames).ToList();
+                var secondNotFirst = AttributeNames.Except(attributeNames).ToList();
+                return deliverableCode == DeliverableCode && !firstNotSecond.Any() && !secondNotFirst.Any();
+            }
+
             return deliverableCode == DeliverableCode;
         }
 

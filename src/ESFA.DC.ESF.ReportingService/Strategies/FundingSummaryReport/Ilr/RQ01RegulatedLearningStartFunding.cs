@@ -5,9 +5,9 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.Ilr
 {
     public class RQ01RegulatedLearningStartFunding : BaseILRDataStrategy, IILRDataStrategy
     {
-        private new readonly string DeliverableCode = "RQ01";
+        protected override string DeliverableCode => "RQ01";
 
-        private new readonly List<string> AttributeNames = new List<string>
+        protected override List<string> AttributeNames => new List<string>
         {
             "StartEarnings"
         };

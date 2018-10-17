@@ -26,7 +26,7 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
             
             var reportRowsToTotal = deliverableCodes == null ? 
                 reportOutput.Where(r => r.RowType == RowType.Data).ToList() : 
-                reportOutput.Where(r => deliverableCodes.Contains(row.DeliverableCode) && r.RowType == RowType.Data).ToList();
+                reportOutput.Where(r => deliverableCodes.Contains(r.DeliverableCode) && r.RowType == RowType.Data).ToList();
 
             if (!reportRowsToTotal.Any())
             {
@@ -37,7 +37,7 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
             {
                 RowType = RowType.Total,
                 Title = row.Title,
-                DeliverableCode = row.DeliverableCode 
+                DeliverableCode = row.DeliverableCode
             };
 
             var yearlyValueTotals = new List<FundingSummaryReportYearlyValueModel>();

@@ -11,12 +11,17 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.SuppData
 
         private const int EsfMonthPadding = 7;
 
-        protected string DeliverableCode;
+        protected virtual string DeliverableCode { get; set; }
 
-        protected string ReferenceType;
+        protected virtual string ReferenceType { get; set; }
 
-        public bool IsMatch(string deliverableCode)
+        public bool IsMatch(string deliverableCode, string referenceType = null)
         {
+            if (referenceType != null)
+            {
+                return deliverableCode == DeliverableCode && referenceType == ReferenceType;
+            }
+
             return deliverableCode == DeliverableCode;
         }
 

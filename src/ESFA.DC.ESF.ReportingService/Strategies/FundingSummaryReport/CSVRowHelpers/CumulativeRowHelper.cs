@@ -45,12 +45,14 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
                     cumulativeTotal += year.Values[i];
                     yearValues.Values[i] = cumulativeTotal;
                 }
+                yearlyValues.Add(yearValues);
             }
             rowModel.YearlyValues = yearlyValues;
 
             var yearEndCumulative = 0M;
-            foreach (var total in grandTotalRow.Totals)
+            for (var index = 0; index < grandTotalRow.Totals.Count -1; index++)
             {
+                var total = grandTotalRow.Totals[index];
                 yearEndCumulative += total;
                 rowModel.Totals.Add(yearEndCumulative);
             }
