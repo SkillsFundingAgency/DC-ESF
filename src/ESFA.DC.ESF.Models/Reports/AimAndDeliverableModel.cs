@@ -86,7 +86,7 @@ namespace ESFA.DC.ESF.Models.Reports
 
         public long? EligibleProgressionOutcomeCode { get; set; }
 
-        public int? Period { get; set; }
+        public string Period { get; set; }
 
         public long? DeliverableVolume { get; set; }
 
