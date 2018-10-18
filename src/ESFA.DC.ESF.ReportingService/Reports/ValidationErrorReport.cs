@@ -8,13 +8,14 @@ using System.Threading.Tasks;
 using Autofac.Features.AttributeFilters;
 using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ESF.Interfaces;
+using ESFA.DC.ESF.Interfaces.Reports;
 using ESFA.DC.ESF.Models;
 using ESFA.DC.ESF.ReportingService.Mappers;
 using ESFA.DC.IO.Interfaces;
 
 namespace ESFA.DC.ESF.ReportingService.Reports
 {
-    public class ValidationErrorReport : AbstractReportBuilder
+    public class ValidationErrorReport : AbstractReportBuilder, IValidationReport
     {
         private readonly IKeyValuePersistenceService _storage;
 

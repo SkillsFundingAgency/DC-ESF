@@ -121,7 +121,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports
             var outcomes = outcomesTask.Result;
             var learnMonitorings = providerLearnMonitoringsTask.Result;
             var deliveryMonitorings = providerDeliveryMonitoringsTask.Result;
-            var fm70learningDeliveries = fm70LearningDeliveryTask.Result;
+            var fm70LearningDeliveries = fm70LearningDeliveryTask.Result;
             var fm70Deliverables = fm70LearningDeliveryDeliverablesTask.Result;
             var fm70DeliverablePeriods = fm70DeliverablePeriodTask.Result;
             var fm70Outcomes = fm70OutcomesTask.Result;
@@ -140,7 +140,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports
                 var deliveries = learningDeliveries.Where(ld => ld.LearnRefNumber == learner.LearnRefNumber).ToList();
                 foreach (var delivery in deliveries)
                 {
-                    var fm70Delivery = fm70learningDeliveries?.SingleOrDefault(d =>
+                    var fm70Delivery = fm70LearningDeliveries?.SingleOrDefault(d =>
                         d.LearnRefNumber == learner.LearnRefNumber 
                         && d.AimSeqNumber == delivery.AimSeqNumber);
                     var fm70Deliverable = fm70Deliverables?.SingleOrDefault(d =>
@@ -241,7 +241,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports
                 }
             }
 
-            using (MemoryStream ms = new MemoryStream())
+            using (var ms = new MemoryStream())
             {
                 BuildCsvReport<AimAndDeliverableMapper, AimAndDeliverableModel>(ms, reportData);
                 return Encoding.UTF8.GetString(ms.ToArray());

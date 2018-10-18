@@ -28,6 +28,7 @@ using ESFA.DC.ESF.Interfaces.Strategies;
 using ESFA.DC.ESF.Interfaces.Validation;
 using ESFA.DC.ESF.ReportingService;
 using ESFA.DC.ESF.ReportingService.Reports;
+using ESFA.DC.ESF.ReportingService.Reports.FundingSummary;
 using ESFA.DC.ESF.ReportingService.Repositories;
 using ESFA.DC.ESF.ReportingService.Services;
 using ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHelpers;
@@ -508,7 +509,17 @@ namespace ESFA.DC.ESF.Service.Stateless
         private static void RegisterReports(ContainerBuilder containerBuilder)
         {
             containerBuilder.RegisterType<ValidationResultReport>().As<IValidationResultReport>();
-            
+
+            containerBuilder.RegisterType<ValidationResultReport>().As<IValidationReport>();
+            containerBuilder.RegisterType<ValidationErrorReport>().As<IValidationReport>();
+            containerBuilder.Register(c => new List<IValidationReport>(c.Resolve<IEnumerable<IValidationReport>>()))
+                .As<IList<IValidationReport>>();
+
+
+            containerBuilder.RegisterType<FundingSummaryReport>().As<IModelReport>();
+            containerBuilder.RegisterType<AimAndDeliverableReport>().As<IModelReport>();
+            containerBuilder.Register(c => new List<IModelReport>(c.Resolve<IEnumerable<IModelReport>>()))
+                .As<IList<IModelReport>>();
         }
 
         private static void RegisterStorage(ContainerBuilder containerBuilder)
