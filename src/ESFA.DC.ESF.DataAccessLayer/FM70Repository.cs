@@ -4,12 +4,12 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.ESF.Interfaces.Repositories;
+using ESFA.DC.ESF.Interfaces.DataAccessLayer;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.EF.Interfaces;
 using ESFA.DC.Logging.Interfaces;
 
-namespace ESFA.DC.ESF.ReportingService.Repositories
+namespace ESFA.DC.ESF.DataAccessLayer
 {
     public class FM70Repository : IFM70Repository
     {

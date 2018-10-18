@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ILR1819.DataStore.EF.Valid;
 
-namespace ESFA.DC.ESF.Interfaces.Repositories
+namespace ESFA.DC.ESF.Interfaces.DataAccessLayer
 {
     public interface IValidRepository
     {

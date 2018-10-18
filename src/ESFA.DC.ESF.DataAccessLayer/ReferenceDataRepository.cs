@@ -8,14 +8,14 @@ using ESFA.DC.Data.LARS.Model;
 using ESFA.DC.Data.LARS.Model.Interfaces;
 using ESFA.DC.Data.Organisatons.Model.Interface;
 using ESFA.DC.Data.Postcodes.Model.Interfaces;
-using ESFA.DC.ESF.Interfaces.Reports.Services;
+using ESFA.DC.ESF.Interfaces.DataAccessLayer;
 using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.ReferenceData.FCS.Model;
 using ESFA.DC.ReferenceData.FCS.Model.Interface;
 
 namespace ESFA.DC.ESF.ReportingService.Services
 {
-    public class ReferenceDataService : IReferenceDataService
+    public class ReferenceDataRepository : IReferenceDataRepository
     {
         private readonly IPostcodes _postcodes;
         private readonly ILARS _lars;
@@ -26,7 +26,7 @@ namespace ESFA.DC.ESF.ReportingService.Services
 
         private const string FundingStreamPeriodCode = "ESF1420";
 
-        public ReferenceDataService(
+        public ReferenceDataRepository(
             ILogger logger,
             IPostcodes postcodes,
             ILARS lars,

@@ -10,6 +10,7 @@ using ESFA.DC.Data.Organisatons.Model.Interface;
 using ESFA.DC.Data.Postcodes.Model;
 using ESFA.DC.Data.Postcodes.Model.Interfaces;
 using ESFA.DC.DateTimeProvider.Interface;
+using ESFA.DC.ESF.DataAccessLayer;
 using ESFA.DC.ESF.Database.EF;
 using ESFA.DC.ESF.Database.EF.Interfaces;
 using ESFA.DC.ESF.DataStore;
@@ -17,12 +18,11 @@ using ESFA.DC.ESF.Helpers;
 using ESFA.DC.ESF.Interfaces;
 using ESFA.DC.ESF.Interfaces.Config;
 using ESFA.DC.ESF.Interfaces.Controllers;
+using ESFA.DC.ESF.Interfaces.DataAccessLayer;
 using ESFA.DC.ESF.Interfaces.DataStore;
 using ESFA.DC.ESF.Interfaces.Helpers;
 using ESFA.DC.ESF.Interfaces.Reports;
-using ESFA.DC.ESF.Interfaces.Reports.Services;
 using ESFA.DC.ESF.Interfaces.Reports.Strategies;
-using ESFA.DC.ESF.Interfaces.Repositories;
 using ESFA.DC.ESF.Interfaces.Services;
 using ESFA.DC.ESF.Interfaces.Strategies;
 using ESFA.DC.ESF.Interfaces.Validation;
@@ -302,8 +302,6 @@ namespace ESFA.DC.ESF.Service.Stateless
                 .InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<FileValidationService>().As<IFileValidationService>();
-
-            containerBuilder.RegisterType<ReferenceDataService>().As <IReferenceDataService>();
         }
 
         private static void RegisterControllers(ContainerBuilder containerBuilder)
@@ -318,6 +316,7 @@ namespace ESFA.DC.ESF.Service.Stateless
         {
             containerBuilder.RegisterType<FM70Repository>().As<IFM70Repository>();
             containerBuilder.RegisterType<ValidRepository>().As<IValidRepository>();
+            containerBuilder.RegisterType<ReferenceDataRepository>().As<IReferenceDataRepository>();
         }
 
         private static void RegisterHelpers(ContainerBuilder containerBuilder)

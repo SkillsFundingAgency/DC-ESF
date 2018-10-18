@@ -4,9 +4,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ESF.Interfaces.Config;
-using ESFA.DC.ESF.Interfaces.Reports.Services;
+using ESFA.DC.ESF.Interfaces.DataAccessLayer;
 using ESFA.DC.ESF.Interfaces.Reports.Strategies;
-using ESFA.DC.ESF.Interfaces.Repositories;
 using ESFA.DC.ESF.Interfaces.Strategies;
 using ESFA.DC.ESF.Models;
 using ESFA.DC.ESF.ReportingService.Reports.FundingSummary;
@@ -45,7 +44,7 @@ namespace ESFA.DC.ESF.ReportingService.Tests
 
             IList<IRowHelper> rowHelpers = GenerateRowHelpersWithStrategies();
 
-            Mock<IReferenceDataService> referenceDataService = new Mock<IReferenceDataService>();
+            Mock<IReferenceDataRepository> referenceDataService = new Mock<IReferenceDataRepository>();
             referenceDataService.Setup(m => m.GetLarsVersion(It.IsAny<CancellationToken>())).Returns("123456");
             referenceDataService.Setup(m => m.GetOrganisationVersion(It.IsAny<CancellationToken>())).Returns("234567");
             referenceDataService.Setup(m => m.GetPostcodeVersion(It.IsAny<CancellationToken>())).Returns("345678");

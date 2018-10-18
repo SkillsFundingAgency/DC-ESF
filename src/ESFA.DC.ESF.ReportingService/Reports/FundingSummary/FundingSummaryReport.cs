@@ -11,9 +11,8 @@ using CsvHelper;
 using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ESF.Interfaces;
 using ESFA.DC.ESF.Interfaces.Config;
+using ESFA.DC.ESF.Interfaces.DataAccessLayer;
 using ESFA.DC.ESF.Interfaces.Reports;
-using ESFA.DC.ESF.Interfaces.Reports.Services;
-using ESFA.DC.ESF.Interfaces.Repositories;
 using ESFA.DC.ESF.Interfaces.Strategies;
 using ESFA.DC.ESF.Models;
 using ESFA.DC.ESF.Models.Reports.FundingSummaryReport;
@@ -30,7 +29,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
 
         private readonly IFM70Repository _repository;
 
-        private readonly IReferenceDataService _referenceDataService;
+        private readonly IReferenceDataRepository _referenceRepository;
 
         private readonly IVersionInfo _versionInfo;
 
@@ -53,14 +52,14 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             [KeyFilter(PersistenceStorageKeys.Blob)] IKeyValuePersistenceService storage,
             IFM70Repository repository,
             IList<IRowHelper> rowHelpers,
-            IReferenceDataService referenceDataService,
+            IReferenceDataRepository referenceDataRepository,
             IVersionInfo versionInfo)
             : base(dateTimeProvider)
         {
             _storage = storage;
             _repository = repository;
             _rowHelpers = rowHelpers;
-            _referenceDataService = referenceDataService;
+            _referenceRepository = referenceDataRepository;
             _versionInfo = versionInfo;
 
             ReportFileName = "ESF Funding Summary Report";
@@ -119,7 +118,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
                 UKPRN = ukPrn.ToString(),
                 SupplementaryDataFile = sourceFile.FileName,
                 ContractReferenceNumber = sourceFile.ConRefNumber,
-                ProviderName =  _referenceDataService.GetProviderName(ukPrn, cancellationToken),
+                ProviderName =  _referenceRepository.GetProviderName(ukPrn, cancellationToken),
                 LastSupplementaryDataFileUpdate = sourceFile.SuppliedDate.ToString(),
                 FundingYears = new List<FundingHeader.FundingHeaderYear>
                 {
@@ -142,9 +141,9 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             return new FundingFooter
             {
                 ReportGeneratedAt = DateTime.Now,
-                LARSData = _referenceDataService.GetLarsVersion(cancellationToken),
-                OrganisationData = _referenceDataService.GetOrganisationVersion(cancellationToken),
-                PostcodeData = _referenceDataService.GetPostcodeVersion(cancellationToken),
+                LARSData = _referenceRepository.GetLarsVersion(cancellationToken),
+                OrganisationData = _referenceRepository.GetOrganisationVersion(cancellationToken),
+                PostcodeData = _referenceRepository.GetPostcodeVersion(cancellationToken),
                 ApplicationVersion = _versionInfo.ServiceReleaseVersion
             };
         }

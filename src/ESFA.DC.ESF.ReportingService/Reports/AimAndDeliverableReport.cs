@@ -9,9 +9,8 @@ using System.Threading.Tasks;
 using Autofac.Features.AttributeFilters;
 using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ESF.Interfaces;
+using ESFA.DC.ESF.Interfaces.DataAccessLayer;
 using ESFA.DC.ESF.Interfaces.Reports;
-using ESFA.DC.ESF.Interfaces.Reports.Services;
-using ESFA.DC.ESF.Interfaces.Repositories;
 using ESFA.DC.ESF.Models;
 using ESFA.DC.ESF.Models.Reports;
 using ESFA.DC.ESF.ReportingService.Mappers;
@@ -23,7 +22,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports
     {
         private readonly IKeyValuePersistenceService _storage;
 
-        private readonly IReferenceDataService _referenceDataService;
+        private readonly IReferenceDataRepository _referenceDataService;
 
         private readonly IValidRepository _validRepository;
 
@@ -43,7 +42,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports
 
         public AimAndDeliverableReport(IDateTimeProvider dateTimeProvider,
             [KeyFilter(PersistenceStorageKeys.Blob)]IKeyValuePersistenceService storage,
-            IReferenceDataService referenceDataService,
+            IReferenceDataRepository referenceDataService,
             IValidRepository validRepository,
             IFM70Repository fm70Repository)
             : base(dateTimeProvider)

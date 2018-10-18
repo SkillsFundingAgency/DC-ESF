@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using ESFA.DC.Data.LARS.Model;
 using ESFA.DC.ReferenceData.FCS.Model;
 
-namespace ESFA.DC.ESF.Interfaces.Reports.Services
+namespace ESFA.DC.ESF.Interfaces.DataAccessLayer
 {
-    public interface IReferenceDataService
+    public interface IReferenceDataRepository
     {
         string GetPostcodeVersion(CancellationToken cancellationToken);
 

@@ -4,7 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.ESF.Interfaces.Repositories;
+using ESFA.DC.ESF.Interfaces.DataAccessLayer;
 using ESFA.DC.ILR1819.DataStore.EF.Valid;
 using ESFA.DC.ILR1819.DataStore.EF.Valid.Interfaces;
 using ESFA.DC.Logging.Interfaces;

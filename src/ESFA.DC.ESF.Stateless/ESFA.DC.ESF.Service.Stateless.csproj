@@ -222,7 +222,6 @@
       <HintPath>..\packages\Serilog.Sinks.PeriodicBatching.2.1.1\lib\net45\Serilog.Sinks.PeriodicBatching.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.2.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -276,6 +275,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ESFA.DC.ESF.DataAccessLayer\ESFA.DC.ESF.DataAccessLayer.csproj">
+      <Project>{6e7558b4-93c1-4c69-8c32-45c9a2ad83d6}</Project>
+      <Name>ESFA.DC.ESF.DataAccessLayer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.ESF.Database.EF\ESFA.DC.ESF.Database.EF.csproj">
       <Project>{4EB48ED9-3F5C-449B-9078-3330DD98F29C}</Project>
       <Name>ESFA.DC.ESF.Database.EF</Name>
