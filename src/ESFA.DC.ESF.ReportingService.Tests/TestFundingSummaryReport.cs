@@ -39,7 +39,7 @@ namespace ESFA.DC.ESF.ReportingService.Tests
                 .Callback<string, string, CancellationToken>((key, value, ct) => csv = value)
                 .Returns(Task.CompletedTask);
 
-            Mock<IIlrEsfRepository> ilrRepo = new Mock<IIlrEsfRepository>();
+            Mock<IFM70Repository> ilrRepo = new Mock<IFM70Repository>();
             ilrRepo.Setup(m => m.GetFileDetails(It.IsAny<int>(), It.IsAny<CancellationToken>())).Returns(GetTestFileDetail());
             ilrRepo.Setup(m => m.GetPeriodisedValues(It.IsAny<int>(), It.IsAny<CancellationToken>())).Returns(FM70PeriodosedValuesBuilder.BuildModel());
 
@@ -74,7 +74,7 @@ namespace ESFA.DC.ESF.ReportingService.Tests
             Assert.True(!string.IsNullOrEmpty(csv));
         }
 
-        private FileDetail GetTestFileDetail()
+        private async Task<FileDetail> GetTestFileDetail()
         {
             return new FileDetail
             {

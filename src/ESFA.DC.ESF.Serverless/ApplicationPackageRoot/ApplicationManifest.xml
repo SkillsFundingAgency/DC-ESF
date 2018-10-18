@@ -18,6 +18,7 @@
     <Parameter Name="ValidationErrorsConnectionString" DefaultValue="" />
     <Parameter Name="ILR1819ConnectionString" DefaultValue="" />
     <Parameter Name="ESFConnectionString" DefaultValue="" />
+    <Parameter Name="FCSConnectionString" DefaultValue="" />
     <Parameter Name="LARSConnectionString" DefaultValue="" />
     <Parameter Name="OrganisationConnectionString" DefaultValue="" />
     <Parameter Name="PostcodesConnectionString" DefaultValue="" />
@@ -55,6 +56,9 @@
           </Section>
           <Section Name="ESFSection">
             <Parameter Name="ESFConnectionString" Value="" />
+          </Section>
+          <Section Name="FCSSection">
+            <Parameter Name="FCSConnectionString" Value="" />
           </Section>
           <Section Name="RedisSection">
             <Parameter Name="RedisConnectionString" Value="[RedisConnectionString]" />

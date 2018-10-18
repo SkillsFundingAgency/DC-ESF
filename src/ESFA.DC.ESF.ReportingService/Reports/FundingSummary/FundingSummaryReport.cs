@@ -28,7 +28,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
 
         private readonly IList<IRowHelper> _rowHelpers;
 
-        private readonly IIlrEsfRepository _repository;
+        private readonly IFM70Repository _repository;
 
         private readonly IReferenceDataService _referenceDataService;
 
@@ -51,7 +51,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
 
         public FundingSummaryReport(IDateTimeProvider dateTimeProvider,
             [KeyFilter(PersistenceStorageKeys.Blob)] IKeyValuePersistenceService storage,
-            IIlrEsfRepository repository,
+            IFM70Repository repository,
             IList<IRowHelper> rowHelpers,
             IReferenceDataService referenceDataService,
             IVersionInfo versionInfo)
@@ -76,10 +76,10 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             var utF8Encoding = new UTF8Encoding(false, true);
             var ukPrn = Convert.ToInt32(sourceFile.UKPRN);
 
-            var ilrFileData = _repository.GetFileDetails(ukPrn, cancellationToken);
+            var ilrFileData = await _repository.GetFileDetails(ukPrn, cancellationToken);
 
             var reportHeader = PopulateReportHeader(sourceFile, ilrFileData, ukPrn, cancellationToken);
-            var reportData = PopulateReportData(ukPrn, ilrFileData, data, cancellationToken);
+            var reportData = await PopulateReportData(ukPrn, ilrFileData, data, cancellationToken);
             var reportFooter = PopulateReportFooter(cancellationToken);
 
             using (var ms = new MemoryStream())
@@ -149,7 +149,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             };
         }
 
-        private List<FundingSummaryReportRowModel> PopulateReportData(
+        private async Task<List<FundingSummaryReportRowModel>> PopulateReportData(
             int ukPrn,
             FileDetail ilrFileDetail,
             IList<SupplementaryDataModel> data,
@@ -157,7 +157,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
         {
             var reportData = new List<FundingSummaryReportRowModel>();
 
-            var ilrData = _repository.GetPeriodisedValues(ukPrn, cancellationToken);
+            var ilrData = await _repository.GetPeriodisedValues(ukPrn, cancellationToken);
             // todo get other years data
 
             foreach (var fundingReportRow in ReportDataTemplate.FundingModelRowDefinitions)

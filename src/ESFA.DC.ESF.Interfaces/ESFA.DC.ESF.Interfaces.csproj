@@ -139,7 +139,8 @@
     <Compile Include="Reports\Services\IReferenceDataService.cs" />
     <Compile Include="Reports\Strategies\IILRDataStrategy.cs" />
     <Compile Include="Reports\Strategies\ISupplementaryDataStrategy.cs" />
-    <Compile Include="Repositories\IIlrEsfRepository.cs" />
+    <Compile Include="Repositories\IFM70Repository.cs" />
+    <Compile Include="Repositories\IValidRepository.cs" />
     <Compile Include="Services\IESFProviderService.cs" />
     <Compile Include="Services\IFileValidationService.cs" />
     <Compile Include="Strategies\IRowHelper.cs" />

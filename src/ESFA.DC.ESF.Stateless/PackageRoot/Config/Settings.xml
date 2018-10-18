@@ -25,6 +25,9 @@
   <Section Name="ESFSection">
     <Parameter Name="ESFConnectionString" Value="" />
   </Section>
+  <Section Name="FCSSection">
+    <Parameter Name="FCSConnectionString" Value="" />
+  </Section>
   <Section Name="RedisSection">
     <Parameter Name="RedisConnectionString" Value="" />
   </Section>

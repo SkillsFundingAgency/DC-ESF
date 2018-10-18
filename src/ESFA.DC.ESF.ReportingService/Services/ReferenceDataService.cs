@@ -1,12 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using ESFA.DC.Data.LARS.Model;
 using ESFA.DC.Data.LARS.Model.Interfaces;
 using ESFA.DC.Data.Organisatons.Model.Interface;
 using ESFA.DC.Data.Postcodes.Model.Interfaces;
 using ESFA.DC.ESF.Interfaces.Reports.Services;
 using ESFA.DC.Logging.Interfaces;
+using ESFA.DC.ReferenceData.FCS.Model;
+using ESFA.DC.ReferenceData.FCS.Model.Interface;
 
 namespace ESFA.DC.ESF.ReportingService.Services
 {
@@ -15,19 +20,24 @@ namespace ESFA.DC.ESF.ReportingService.Services
         private readonly IPostcodes _postcodes;
         private readonly ILARS _lars;
         private readonly IOrganisations _organisations;
+        private readonly IFcsContext _fcsContext;
 
         private readonly ILogger _logger;
+
+        private const string FundingStreamPeriodCode = "ESF1420";
 
         public ReferenceDataService(
             ILogger logger,
             IPostcodes postcodes,
             ILARS lars,
-            IOrganisations organisations)
+            IOrganisations organisations,
+            IFcsContext fcsContext)
         {
             _logger = logger;
             _postcodes = postcodes;
             _lars = lars;
             _organisations = organisations;
+            _fcsContext = fcsContext;
         }
 
         public string GetPostcodeVersion(CancellationToken cancellationToken)
@@ -71,20 +81,20 @@ namespace ESFA.DC.ESF.ReportingService.Services
             return version;
         }
 
-        public LARS_LearningDelivery GetLarsLearningDelivery(string learnAimRef, CancellationToken cancellationToken)
+        public async Task<IList<LARS_LearningDelivery>> GetLarsLearningDelivery(List<string> learnAimRefs, CancellationToken cancellationToken)
         {
-            LARS_LearningDelivery learningDelivery = null;
+            List<LARS_LearningDelivery> learningDelivery = null;
             try
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
                     return null;
                 }
-                learningDelivery = _lars.LARS_LearningDelivery.SingleOrDefault(ld => ld.LearnAimRef == learnAimRef);
+                learningDelivery = await _lars.LARS_LearningDelivery.Where(ld => learnAimRefs.Contains(ld.LearnAimRef)).ToListAsync(cancellationToken);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Failed to get lars learning delivery with learnAimRef {learnAimRef}", ex);
+                _logger.LogError($"Failed to get lars learning delivery", ex);
             }
 
             return learningDelivery;
@@ -128,6 +138,27 @@ namespace ESFA.DC.ESF.ReportingService.Services
             }
 
             return providerName;
+        }
+
+        public async Task<IList<ContractDeliverableCodeMapping>> GetContractDeliverableCodeMapping(List<string> deliverableCodes, CancellationToken cancellationToken)
+        {
+            List<ContractDeliverableCodeMapping> codeMapping = null;
+            try
+            {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    return null;
+                }
+                codeMapping = await _fcsContext.ContractDeliverableCodeMappings
+                    .Where(m => deliverableCodes.Contains(m.ExternalDeliverableCode) 
+                                          && m.FundingStreamPeriodCode == FundingStreamPeriodCode).ToListAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to get FCS ContractDeliverableCodeMapping", ex);
+            }
+
+            return codeMapping;
         }
     }
 }

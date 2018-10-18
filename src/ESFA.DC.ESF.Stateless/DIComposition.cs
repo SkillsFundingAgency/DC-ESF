@@ -62,6 +62,8 @@ using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.Mapping.Interface;
 using ESFA.DC.Queueing;
 using ESFA.DC.Queueing.Interface;
+using ESFA.DC.ReferenceData.FCS.Model;
+using ESFA.DC.ReferenceData.FCS.Model.Interface;
 using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
 using ESFA.DC.ServiceFabric.Helpers.Interfaces;
@@ -142,6 +144,11 @@ namespace ESFA.DC.ESF.Service.Stateless
             var esfConfig = configHelper.GetSectionValues<ESFConfiguration>("ESFSection");
             containerBuilder.Register(c => new ESF_DataStoreEntities(esfConfig.ESFConnectionString))
                 .As<IESF_DataStoreEntities>()
+                .InstancePerLifetimeScope();
+
+            var fcsConfig = configHelper.GetSectionValues<FCSConfiguration>("FCSSection");
+            containerBuilder.Register(c => new FcsContext(fcsConfig.FCSConnectionString))
+                .As<IFcsContext>()
                 .InstancePerLifetimeScope();
 
             var referenceData = configHelper.GetSectionValues<ReferenceDataConfig>("ReferenceDataSection");
@@ -308,7 +315,8 @@ namespace ESFA.DC.ESF.Service.Stateless
 
         private static void RegisterRepositories(ContainerBuilder containerBuilder)
         {
-            containerBuilder.RegisterType<IlrEsfRepository>().As<IIlrEsfRepository>();
+            containerBuilder.RegisterType<FM70Repository>().As<IFM70Repository>();
+            containerBuilder.RegisterType<ValidRepository>().As<IValidRepository>();
         }
 
         private static void RegisterHelpers(ContainerBuilder containerBuilder)

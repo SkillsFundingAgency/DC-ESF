@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using ESFA.DC.ILR1819.DataStore.EF;
 
 namespace ESFA.DC.ESF.ReportingService.Tests.Builders
 {
     public class FM70PeriodosedValuesBuilder
     {
-        public static List<ESF_LearningDeliveryDeliverable_PeriodisedValues> BuildModel()
+        public static async Task<IList<ESF_LearningDeliveryDeliverable_PeriodisedValues>> BuildModel()
         {
             return new List<ESF_LearningDeliveryDeliverable_PeriodisedValues>
             {

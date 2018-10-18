@@ -139,6 +139,7 @@
   <ItemGroup>
     <Compile Include="AzureStorageKeyValuePersistenceConfig.cs" />
     <Compile Include="AzureStorageOptions.cs" />
+    <Compile Include="FCSConfiguration.cs" />
     <Compile Include="ESFConfiguration.cs" />
     <Compile Include="IRL1819Configuration.cs" />
     <Compile Include="JobStatusQueueConfig.cs" />

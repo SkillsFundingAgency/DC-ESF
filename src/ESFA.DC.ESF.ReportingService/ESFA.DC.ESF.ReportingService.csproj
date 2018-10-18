@@ -134,11 +134,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractReportBuilder.cs" />
+    <Compile Include="Mappers\AimAndDeliverableMapper.cs" />
     <Compile Include="Reports\AimAndDeliverableReport.cs" />
     <Compile Include="Reports\FundingSummary\ReportDataTemplate.cs" />
-    <Compile Include="Repositories\IlrEsfRepository.cs" />
+    <Compile Include="Repositories\FM70Repository.cs" />
     <Compile Include="Services\ReferenceDataService.cs" />
-    <Compile Include="Repositories\ValidLearnerRepository.cs" />
+    <Compile Include="Repositories\ValidRepository.cs" />
     <Compile Include="Strategies\FundingSummaryReport\CSVRowHelpers\DataRowHelper.cs" />
     <Compile Include="Strategies\FundingSummaryReport\CSVRowHelpers\CumulativeRowHelper.cs" />
     <Compile Include="Strategies\FundingSummaryReport\CSVRowHelpers\TitleRowHelper.cs" />

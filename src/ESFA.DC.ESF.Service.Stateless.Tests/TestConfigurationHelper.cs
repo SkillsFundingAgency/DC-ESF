@@ -1,7 +1,7 @@
 ﻿using ESFA.DC.ESF.Service.Config;
 using ESFA.DC.ServiceFabric.Helpers.Interfaces;
 
-namespace ESFA.DC.ILR1819.DataStore.Stateless.Test
+namespace ESFA.DC.ESF.Service.Stateless.Tests
 {
     public sealed class TestConfigurationHelper : IConfigurationHelper
     {
@@ -16,20 +16,20 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless.Test
                     };
 
                 case "DataStoreSection":
-                    return (T)(object)new PersistDataConfiguration()
+                    return (T)(object)new PersistDataConfiguration
                     {
                         DataStoreConnectionString = "Server=.;Database=myDataBase;User Id=myUsername;Password = myPassword;"
                     };
                 //case "TopicAndTaskSection":
                 //    return (T)GetTopicsAndTasks();
                 case "AzureStorageSection":
-                    return (T)(object)new AzureStorageOptions()
+                    return (T)(object)new AzureStorageOptions
                     {
                         AzureBlobConnectionString = "AzureBlobConnectionString",
                         AzureBlobContainerName = "AzureBlobContainerName"
                     };
                 case "ServiceBusSettings":
-                    return (T)(object)new ServiceBusOptions()
+                    return (T)(object)new ServiceBusOptions
                     {
                         AuditQueueName = "AuditQueueName",
                         ServiceBusConnectionString = "ServiceBusConnectionString",
@@ -64,23 +64,5 @@ namespace ESFA.DC.ILR1819.DataStore.Stateless.Test
 
             return default(T);
         }
-
-        //public static ITopicAndTaskSectionOptions GetTopicsAndTasks()
-        //{
-        //    return new TopicAndTaskSectionOptions()
-        //    {
-        //        TopicReports_TaskGenerateAllbOccupancyReport = "TopicReports_TaskGenerateAllbOccupancyReport",
-        //        TopicReports_TaskGenerateValidationReport = "TopicReports_TaskGenerateValidationReport",
-        //        TopicReports_TaskGenerateFundingSummaryReport = "TopicReports_TaskGenerateFundingSummaryReport",
-        //        TopicDeds = "TopicDeds",
-        //        TopicDeds_TaskPersistDataToDeds = "TopicDeds_TaskPersistDataToDeds",
-        //        TopicFunding = "TopicFunding",
-        //        TopicReports = "TopicReports",
-        //        TopicReports_TaskGenerateMainOccupancyReport = "TopicReports_TaskGenerateMainOccupancyReport",
-        //        TopicReports_TaskGenerateSummaryOfFunding1619Report = "TopicReports_TaskGenerateSummaryOfFunding1619Report",
-        //        TopicValidation = "TopicValidation",
-        //        TopicReports_TaskGenerateMathsAndEnglishReport = "TopicReports_TaskGenerateMathsAndEnglishReport"
-        //    };
-        //}
     }
 }

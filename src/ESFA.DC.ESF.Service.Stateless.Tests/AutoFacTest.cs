@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Autofac;
 using ESFA.DC.ESF.Service.Stateless;
 using ESFA.DC.ESF.Service.Stateless.Handlers;
+using ESFA.DC.ESF.Service.Stateless.Tests;
 using ESFA.DC.JobContext;
 using ESFA.DC.JobContext.Interface;
 using ESFA.DC.JobContextManager.Interface;
