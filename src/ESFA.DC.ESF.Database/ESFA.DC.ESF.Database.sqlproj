@@ -74,6 +74,9 @@
     <Build Include="Security\User_RW.sql" />
     <Build Include="Security\RoleMemberships.sql" />
     <Build Include="Security\Staging.sql" />
+    <Build Include="Security\Role_DataProcessor.sql" />
+    <Build Include="Security\Role_DataViewer.sql" />
+    <Build Include="Security\User_DsciUser.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="zzz.Script.PostDeployment.sql" />
@@ -87,16 +90,20 @@
       <DefaultValue>0.0.0</DefaultValue>
       <Value>$(SqlCmdVar__1)</Value>
     </SqlCmdVariable>
+    <SqlCmdVariable Include="DsciUserPassword">
+      <DefaultValue>NotUseLocally#</DefaultValue>
+      <Value>$(SqlCmdVar__6)</Value>
+    </SqlCmdVariable>
     <SqlCmdVariable Include="RELEASE_RELEASENAME">
       <DefaultValue>From Dev Machine</DefaultValue>
       <Value>$(SqlCmdVar__3)</Value>
     </SqlCmdVariable>
     <SqlCmdVariable Include="ROUserPassword">
-      <DefaultValue>NotUseLocally</DefaultValue>
+      <DefaultValue>NotUseLocally#</DefaultValue>
       <Value>$(SqlCmdVar__4)</Value>
     </SqlCmdVariable>
     <SqlCmdVariable Include="RWUserPassword">
-      <DefaultValue>NotUseLocally#</DefaultValue>
+      <DefaultValue>NotUseLocally##</DefaultValue>
       <Value>$(SqlCmdVar__5)</Value>
     </SqlCmdVariable>
   </ItemGroup>
