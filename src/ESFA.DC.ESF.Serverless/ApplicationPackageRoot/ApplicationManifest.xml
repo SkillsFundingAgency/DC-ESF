@@ -22,7 +22,7 @@
     <Parameter Name="LARSConnectionString" DefaultValue="" />
     <Parameter Name="OrganisationConnectionString" DefaultValue="" />
     <Parameter Name="PostcodesConnectionString" DefaultValue="" />
-    <Parameter Name="LargeEmployersConnectionString" DefaultValue="" />
+    <Parameter Name="ULNConnectionstring" DefaultValue="" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
        should match the Name and Version attributes of the ServiceManifest element defined in the 
@@ -71,7 +71,7 @@
             <Parameter Name="LARSConnectionString" Value="[LARSConnectionString]" />
             <Parameter Name="PostcodesConnectionString" Value="[PostcodesConnectionString]" />
             <Parameter Name="OrganisationConnectionString" Value="[OrganisationConnectionString]" />
-            <Parameter Name="LargeEmployersConnectionString" Value="[LargeEmployersConnectionString]" />
+            <Parameter Name="ULNConnectionstring" Value="[ULNConnectionstring]" />
           </Section>
         </Settings>
       </ConfigOverride>

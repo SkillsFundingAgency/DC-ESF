@@ -27,6 +27,8 @@ namespace ESFA.DC.ESF.ReportingService.Reports
         private readonly IValidRepository _validRepository;
 
         private readonly IFM70Repository _fm70Repository;
+        
+        private const string FundingStreamPeriodCode = "ESF1420";
 
         private readonly string[] _reportMonths = 
         {
@@ -165,7 +167,8 @@ namespace ESFA.DC.ESF.ReportingService.Reports
                     var learnerMonitorings = learnMonitorings.Where(m => m.LearnRefNumber == learner.LearnRefNumber).ToList();
                     var learnerDeliveryMonitorings = deliveryMonitorings.Where(m => m.LearnRefNumber == learner.LearnRefNumber).ToList();
                     var deliverableCode = fm70Deliverable?.DeliverableCode;
-                    var fcsMapping = fcsCodeMappings.SingleOrDefault(f => f.ExternalDeliverableCode == deliverableCode);
+                    var fcsMapping = fcsCodeMappings.SingleOrDefault(f => f.ExternalDeliverableCode == deliverableCode
+                                                                          && f.FundingStreamPeriodCode == FundingStreamPeriodCode);
 
                     var larsDelivery = larsDeliveries.SingleOrDefault(l => l.LearnAimRef == delivery.LearnAimRef);
 

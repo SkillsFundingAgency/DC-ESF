@@ -7,5 +7,7 @@
         string PostcodesConnectionString { get; set; }
 
         string OrganisationConnectionString { get; set; }
+
+        string ULNConnectionString { get; set; }
     }
 }

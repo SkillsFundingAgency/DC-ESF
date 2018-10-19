@@ -52,6 +52,9 @@
     <Reference Include="ESFA.DC.Data.Postcodes.Model, Version=0.1.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.Data.Postcodes.Model.0.1.3-beta0001\lib\net461\ESFA.DC.Data.Postcodes.Model.dll</HintPath>
     </Reference>
+    <Reference Include="ESFA.DC.Data.ULN.Model, Version=0.1.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.Data.ULN.Model.0.1.3-beta0001\lib\net461\ESFA.DC.Data.ULN.Model.dll</HintPath>
+    </Reference>
     <Reference Include="ESFA.DC.ILR1819.Database.EF, Version=0.1.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.ILR1819.Database.EF.0.1.6-beta0001\lib\net46\ESFA.DC.ILR1819.Database.EF.dll</HintPath>
     </Reference>
@@ -123,6 +126,7 @@
     <Compile Include="Controllers\IServiceController.cs" />
     <Compile Include="Controllers\IStorageController.cs" />
     <Compile Include="Controllers\IValidationController.cs" />
+    <Compile Include="DataAccessLayer\IEsfRepository.cs" />
     <Compile Include="DataStore\IStoreClear.cs" />
     <Compile Include="DataStore\IStoreESF.cs" />
     <Compile Include="DataStore\IStoreFileDetails.cs" />
@@ -152,6 +156,10 @@
     <Compile Include="Validation\IValidatorCommand.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ESFA.DC.ESF.Database.EF\ESFA.DC.ESF.Database.EF.csproj">
+      <Project>{4eb48ed9-3f5c-449b-9078-3330dd98f29c}</Project>
+      <Name>ESFA.DC.ESF.Database.EF</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.ESF.Models\ESFA.DC.ESF.Models.csproj">
       <Project>{e2cbcc6a-eeaf-45ee-b00f-de5b110c9306}</Project>
       <Name>ESFA.DC.ESF.Models</Name>

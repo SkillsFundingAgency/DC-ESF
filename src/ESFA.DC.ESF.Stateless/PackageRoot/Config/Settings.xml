@@ -39,6 +39,6 @@
     <Parameter Name="LARSConnectionString" Value="" />
     <Parameter Name="PostcodesConnectionString" Value="" />
     <Parameter Name="OrganisationConnectionString" Value="" />
-    <Parameter Name="LargeEmployersConnectionString" Value="" />
+    <Parameter Name="ULNConnectionString" Value="" />
   </Section>
 </Settings>

@@ -9,6 +9,8 @@ using ESFA.DC.Data.Organisatons.Model;
 using ESFA.DC.Data.Organisatons.Model.Interface;
 using ESFA.DC.Data.Postcodes.Model;
 using ESFA.DC.Data.Postcodes.Model.Interfaces;
+using ESFA.DC.Data.ULN.Model;
+using ESFA.DC.Data.ULN.Model.Interfaces;
 using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ESF.DataAccessLayer;
 using ESFA.DC.ESF.Database.EF;
@@ -30,7 +32,6 @@ using ESFA.DC.ESF.ReportingService;
 using ESFA.DC.ESF.ReportingService.Reports;
 using ESFA.DC.ESF.ReportingService.Reports.FundingSummary;
 using ESFA.DC.ESF.ReportingService.Repositories;
-using ESFA.DC.ESF.ReportingService.Services;
 using ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHelpers;
 using ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.Ilr;
 using ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.SuppData;
@@ -172,6 +173,12 @@ namespace ESFA.DC.ESF.Service.Stateless
                 var referenceDataConfig = c.Resolve<IReferenceDataConfig>();
                 return new Organisations(referenceDataConfig.OrganisationConnectionString);
             }).As<IOrganisations>().InstancePerLifetimeScope();
+
+            containerBuilder.Register(c =>
+            {
+                var referenceDataConfig = c.Resolve<IReferenceDataConfig>();
+                return new ULN(referenceDataConfig.ULNConnectionString);
+            }).As<IULN>().InstancePerLifetimeScope();
         }
 
         private static void RegisterServiceBusConfig(ContainerBuilder containerBuilder,
@@ -314,6 +321,7 @@ namespace ESFA.DC.ESF.Service.Stateless
 
         private static void RegisterRepositories(ContainerBuilder containerBuilder)
         {
+            containerBuilder.RegisterType<EsfRepository>().As<IEsfRepository>();
             containerBuilder.RegisterType<FM70Repository>().As<IFM70Repository>();
             containerBuilder.RegisterType<ValidRepository>().As<IValidRepository>();
             containerBuilder.RegisterType<ReferenceDataRepository>().As<IReferenceDataRepository>();

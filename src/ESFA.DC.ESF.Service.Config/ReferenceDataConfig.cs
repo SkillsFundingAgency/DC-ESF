@@ -9,5 +9,7 @@ namespace ESFA.DC.ESF.Service.Config
         public string PostcodesConnectionString { get; set; }
 
         public string OrganisationConnectionString { get; set; }
+
+        public string ULNConnectionString { get; set; }
     }
 }
