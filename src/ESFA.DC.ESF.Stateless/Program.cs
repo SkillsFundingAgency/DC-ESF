@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
+using Autofac;
 using Autofac.Integration.ServiceFabric;
+using ESFA.DC.JobContextManager.Interface;
+using ESFA.DC.JobContextManager.Model;
 using ESFA.DC.ServiceFabric.Helpers;
 
 namespace ESFA.DC.ESF.Service.Stateless
@@ -29,6 +32,8 @@ namespace ESFA.DC.ESF.Service.Stateless
 
                 using (var container = builder.Build())
                 {
+                    var testResolution = container.Resolve<IJobContextManager<JobContextMessage>>();
+
                     ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(Stateless).Name);
 
                     // Prevents this host process from terminating so services keep running.

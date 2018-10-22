@@ -10,14 +10,14 @@
     <Parameter Name="AzureBlobConnectionString" DefaultValue="" />
     <Parameter Name="AzureBlobContainerName" DefaultValue="" />
     <Parameter Name="JobStatusQueueName" DefaultValue="" />
-    <Parameter Name="JobStatusConnectionString" DefaultValue="" />
+    <Parameter Name="AuditQueueName" DefaultValue="" />
     <Parameter Name="ILR1819ConnectionString" DefaultValue="" />
     <Parameter Name="ESFConnectionString" DefaultValue="" />
     <Parameter Name="FCSConnectionString" DefaultValue="" />
     <Parameter Name="LARSConnectionString" DefaultValue="" />
     <Parameter Name="OrganisationConnectionString" DefaultValue="" />
     <Parameter Name="PostcodesConnectionString" DefaultValue="" />
-    <Parameter Name="ULNConnectionstring" DefaultValue="" />
+    <Parameter Name="ULNConnectionString" DefaultValue="" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
        should match the Name and Version attributes of the ServiceManifest element defined in the 
@@ -31,6 +31,8 @@
             <Parameter Name="ServiceBusConnectionString" Value="[ServiceBusConnectionString]" />
             <Parameter Name="TopicName" Value="[TopicName]" />
             <Parameter Name="SubscriptionName" Value="[SubscriptionName]" />
+            <Parameter Name="JobStatusQueueName" Value="[JobStatusQueueName]" />
+            <Parameter Name="AuditQueueName" Value="[AuditQueueName]" />
           </Section>
           <Section Name="VersionSection">
             <Parameter Name="ServiceReleaseVersion" Value="[ServiceReleaseVersion]" />
@@ -51,15 +53,11 @@
           <Section Name="FCSSection">
             <Parameter Name="FCSConnectionString" Value="[FCSConnectionString]" />
           </Section>
-          <Section Name="JobStatusSection">
-            <Parameter Name="JobStatusQueueName" Value="[JobStatusQueueName]" />
-            <Parameter Name="JobStatusConnectionString" Value="[JobStatusConnectionString]" />
-          </Section>
           <Section Name="ReferenceDataSection">
             <Parameter Name="LARSConnectionString" Value="[LARSConnectionString]" />
             <Parameter Name="PostcodesConnectionString" Value="[PostcodesConnectionString]" />
             <Parameter Name="OrganisationConnectionString" Value="[OrganisationConnectionString]" />
-            <Parameter Name="ULNConnectionstring" Value="[ULNConnectionstring]" />
+            <Parameter Name="ULNConnectionString" Value="[ULNConnectionString]" />
           </Section>
         </Settings>
       </ConfigOverride>

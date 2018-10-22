@@ -33,6 +33,7 @@ namespace ESFA.DC.ESF.Service.Stateless.Tests
                     {
                         AuditQueueName = "AuditQueueName",
                         ServiceBusConnectionString = "ServiceBusConnectionString",
+                        JobStatusQueueName = "JobStatusQueueName",
                         TopicName = "TopicName",
                         SubscriptionName = "DataStore"
                     };
@@ -51,8 +52,6 @@ namespace ESFA.DC.ESF.Service.Stateless.Tests
                     {
                         ESFConnectionString = "Server=.;Database=myDataBase;User Id=myUsername;Password = myPassword;"
                     };
-                case "JobStatusSection":
-                    return (T) (object) new JobStatusQueueOptions();
                 case "ReferenceDataSection":
                     return (T)(object)new ReferenceDataConfig
                     {

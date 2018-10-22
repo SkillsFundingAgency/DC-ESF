@@ -132,7 +132,7 @@ namespace ESFA.DC.ESF.Service.Stateless
 
             containerBuilder.RegisterType<AzureStorageKeyValuePersistenceService>()
                 .Keyed<IKeyValuePersistenceService>(PersistenceStorageKeys.Blob)
-                .As<IStreamableKeyValuePersistenceService>()
+                .As<IStreamableKeyValuePersistenceService>().As<IKeyValuePersistenceService>()
                 .InstancePerLifetimeScope();
 
             var ilrConfig = configHelper.GetSectionValues<IRL1819Configuration>("ILR1819Section");
@@ -184,17 +184,16 @@ namespace ESFA.DC.ESF.Service.Stateless
         private static void RegisterServiceBusConfig(ContainerBuilder containerBuilder,
             IConfigurationHelper configHelper)
         {
-            // get ServiceBus, Azurestorage config values and register container
             var serviceBusOptions =
                 configHelper.GetSectionValues<ServiceBusOptions>("ServiceBusSettings");
             containerBuilder.RegisterInstance(serviceBusOptions).As<ServiceBusOptions>().SingleInstance();
 
-            // register Jobcontext services
             var topicConfig = new ServiceBusTopicConfig(
                 serviceBusOptions.ServiceBusConnectionString,
                 serviceBusOptions.TopicName,
                 serviceBusOptions.SubscriptionName,
                 Environment.ProcessorCount);
+
             containerBuilder.Register(c =>
             {
                 var topicSubscriptionSevice =
@@ -216,41 +215,23 @@ namespace ESFA.DC.ESF.Service.Stateless
 
             containerBuilder.Register(c =>
             {
-                var topicSubscriptionConfig = new TopicConfiguration(serviceBusOptions.ServiceBusConnectionString,
-                    serviceBusOptions.TopicName, serviceBusOptions.SubscriptionName, 1,
-                    maximumCallbackTimeSpan: TimeSpan.FromMinutes(40));
-
-                return new TopicSubscriptionSevice<JobContextDto>(
-                    topicSubscriptionConfig,
-                    c.Resolve<IJsonSerializationService>(),
-                    c.Resolve<ILogger>());
-            }).As<ITopicSubscriptionService<JobContextDto>>();
-
-            //containerBuilder.RegisterType<TopicPublishServiceStub<JobContextDto>>().As<ITopicPublishService<JobContextDto>>();
-
-            containerBuilder.Register(c =>
-            {
-                var auditPublishConfig = new QueueConfiguration(serviceBusOptions.ServiceBusConnectionString,
+                var config = new QueueConfiguration(serviceBusOptions.ServiceBusConnectionString,
                     serviceBusOptions.AuditQueueName, 1);
 
                 return new QueuePublishService<AuditingDto>(
-                    auditPublishConfig,
+                    config,
                     c.Resolve<IJsonSerializationService>());
             }).As<IQueuePublishService<AuditingDto>>();
 
-            var jobStatusQueueOptions =
-                configHelper.GetSectionValues<JobStatusQueueOptions>("JobStatusSection");
-            containerBuilder.RegisterInstance(jobStatusQueueOptions).As<JobStatusQueueOptions>().SingleInstance();
+            containerBuilder.Register(c =>
+            {
+                var config = new QueueConfiguration(serviceBusOptions.ServiceBusConnectionString,
+                    serviceBusOptions.JobStatusQueueName, 1);
 
-            var jobStatusPublishConfig = new JobStatusQueueConfig(
-                jobStatusQueueOptions.JobStatusConnectionString,
-                jobStatusQueueOptions.JobStatusQueueName,
-                Environment.ProcessorCount);
-
-            containerBuilder.Register(c => new QueuePublishService<JobStatusDto>(
-                    jobStatusPublishConfig,
-                    c.Resolve<IJsonSerializationService>()))
-                .As<IQueuePublishService<JobStatusDto>>();
+                return new QueuePublishService<JobStatusDto>(
+                    config,
+                    c.Resolve<IJsonSerializationService>());
+            }).As<IQueuePublishService<JobStatusDto>>();
         }
 
         private static void RegisterMessageHandler(ContainerBuilder containerBuilder)
@@ -517,14 +498,21 @@ namespace ESFA.DC.ESF.Service.Stateless
         {
             containerBuilder.RegisterType<ValidationResultReport>().As<IValidationResultReport>();
 
-            containerBuilder.RegisterType<ValidationResultReport>().As<IValidationReport>();
-            containerBuilder.RegisterType<ValidationErrorReport>().As<IValidationReport>();
+            containerBuilder.RegisterType<ValidationResultReport>().As<IValidationReport>()
+                .WithAttributeFiltering()
+                .InstancePerLifetimeScope();
+            containerBuilder.RegisterType<ValidationErrorReport>().As<IValidationReport>()
+                .WithAttributeFiltering()
+                .InstancePerLifetimeScope();
             containerBuilder.Register(c => new List<IValidationReport>(c.Resolve<IEnumerable<IValidationReport>>()))
                 .As<IList<IValidationReport>>();
 
-
-            containerBuilder.RegisterType<FundingSummaryReport>().As<IModelReport>();
-            containerBuilder.RegisterType<AimAndDeliverableReport>().As<IModelReport>();
+            containerBuilder.RegisterType<FundingSummaryReport>().As<IModelReport>()
+                .WithAttributeFiltering()
+                .InstancePerLifetimeScope();
+            containerBuilder.RegisterType<AimAndDeliverableReport>().As<IModelReport>()
+                .WithAttributeFiltering()
+                .InstancePerLifetimeScope();
             containerBuilder.Register(c => new List<IModelReport>(c.Resolve<IEnumerable<IModelReport>>()))
                 .As<IList<IModelReport>>();
         }

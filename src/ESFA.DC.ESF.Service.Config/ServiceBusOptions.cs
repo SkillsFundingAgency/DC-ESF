@@ -4,6 +4,8 @@
     {
         public string AuditQueueName { get; set; }
 
+        public string JobStatusQueueName { get; set; }
+
         public string ServiceBusConnectionString { get; set; }
 
         public string TopicName { get; set; }

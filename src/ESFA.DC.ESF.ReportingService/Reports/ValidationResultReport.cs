@@ -22,7 +22,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports
 
         public ValidationResultReport(IDateTimeProvider dateTimeProvider,
             IJsonSerializationService jsonSerializationService,
-            [KeyFilter(PersistenceStorageKeys.Blob)] IKeyValuePersistenceService storage) 
+            [KeyFilter(PersistenceStorageKeys.Blob)]IKeyValuePersistenceService storage) 
             : base(dateTimeProvider)
         {
             ReportFileName = "ESF Supplementary Data Rule Violation Report";

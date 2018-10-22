@@ -142,8 +142,6 @@
     <Compile Include="FCSConfiguration.cs" />
     <Compile Include="ESFConfiguration.cs" />
     <Compile Include="IRL1819Configuration.cs" />
-    <Compile Include="JobStatusQueueConfig.cs" />
-    <Compile Include="JobStatusQueueOptions.cs" />
     <Compile Include="LoggerOptions.cs" />
     <Compile Include="PersistDataConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
