@@ -4,12 +4,16 @@
     <Parameter Name="ESFA.DC.ESF.Service.Stateless_InstanceCount" Value="-1" />
     <Parameter Name="ServiceReleaseVersion" Value="__ServiceReleaseVersion__" />
     <Parameter Name="TopicName" Value="__TopicName__" />
+    <Parameter Name="SubscriptionName" Value="__SubscriptionName__" />
+    <Parameter Name="JobStatusQueueName" Value="__JobStatusQueueName__" />
+    <Parameter Name="JobStatusConnectionString" Value="__JobStatusConnectionString__" />
     <Parameter Name="ServiceBusConnectionString" Value="__ServiceBusConnectionStringServiceFabric__" />
     <Parameter Name="LoggerConnectionstring" Value="__LoggerConnectionstring__" />
     <Parameter Name="AzureBlobConnectionString" Value="__AzureBlobConnectionString__" />
+    <Parameter Name="AzureBlobContainerName" Value="__AzureBlobContainerName__" />
     <Parameter Name="ILR1819ConnectionString" Value="__ILR1819ConnectionString__" />
     <Parameter Name="ESFConnectionString" Value="__ESFConnectionString__" />
-    <Parameter Name="LARSConnectionString" Value="__LARSConnectionString" />
+    <Parameter Name="LARSConnectionString" Value="__LARSConnectionString__" />
     <Parameter Name="OrganisationConnectionString" Value="__OrganisationConnectionString__" />
     <Parameter Name="PostcodesConnectionString" Value="__PostcodesConnectionString__" />
     <Parameter Name="ULNConnectionstring" Value="__ULNConnectionstring__" />

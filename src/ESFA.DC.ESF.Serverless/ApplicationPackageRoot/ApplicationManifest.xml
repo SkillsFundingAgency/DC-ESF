@@ -3,19 +3,14 @@
   <Parameters>
     <Parameter Name="ESFA.DC.ESF.Service.Stateless_InstanceCount" DefaultValue="-1" />
     <Parameter Name="ServiceReleaseVersion" DefaultValue="" />
-    <Parameter Name="AuditQueueName" DefaultValue="" />
     <Parameter Name="ServiceBusConnectionString" DefaultValue="" />
     <Parameter Name="LoggerConnectionstring" DefaultValue="" />
     <Parameter Name="TopicName" DefaultValue="" />
     <Parameter Name="SubscriptionName" DefaultValue="" />
     <Parameter Name="AzureBlobConnectionString" DefaultValue="" />
     <Parameter Name="AzureBlobContainerName" DefaultValue="" />
-    <Parameter Name="ULNConnectionstring" DefaultValue="" />
-    <Parameter Name="MaxMessageSize" DefaultValue="" />
-    <Parameter Name="RedisConnectionString" DefaultValue="" />
     <Parameter Name="JobStatusQueueName" DefaultValue="" />
     <Parameter Name="JobStatusConnectionString" DefaultValue="" />
-    <Parameter Name="ValidationErrorsConnectionString" DefaultValue="" />
     <Parameter Name="ILR1819ConnectionString" DefaultValue="" />
     <Parameter Name="ESFConnectionString" DefaultValue="" />
     <Parameter Name="FCSConnectionString" DefaultValue="" />
@@ -33,16 +28,12 @@
       <ConfigOverride Name="Config">
         <Settings>
           <Section Name="ServiceBusSettings">
-            <Parameter Name="AuditQueueName" Value="[AuditQueueName]" />
             <Parameter Name="ServiceBusConnectionString" Value="[ServiceBusConnectionString]" />
             <Parameter Name="TopicName" Value="[TopicName]" />
             <Parameter Name="SubscriptionName" Value="[SubscriptionName]" />
           </Section>
           <Section Name="VersionSection">
             <Parameter Name="ServiceReleaseVersion" Value="[ServiceReleaseVersion]" />
-          </Section>
-          <Section Name="DataTransportSettings">
-            <Parameter Name="MaxMessageSize" Value="[MaxMessageSize]" />
           </Section>
           <Section Name="LoggerSection">
             <Parameter Name="LoggerConnectionstring" Value="[LoggerConnectionstring]" />
@@ -55,13 +46,10 @@
             <Parameter Name="ILR1819ConnectionString" Value="[ILR1819ConnectionString]" />
           </Section>
           <Section Name="ESFSection">
-            <Parameter Name="ESFConnectionString" Value="" />
+            <Parameter Name="ESFConnectionString" Value="[ESFConnectionString]" />
           </Section>
           <Section Name="FCSSection">
-            <Parameter Name="FCSConnectionString" Value="" />
-          </Section>
-          <Section Name="RedisSection">
-            <Parameter Name="RedisConnectionString" Value="[RedisConnectionString]" />
+            <Parameter Name="FCSConnectionString" Value="[FCSConnectionString]" />
           </Section>
           <Section Name="JobStatusSection">
             <Parameter Name="JobStatusQueueName" Value="[JobStatusQueueName]" />
