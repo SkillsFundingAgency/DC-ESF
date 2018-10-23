@@ -36,8 +36,7 @@ namespace ESFA.DC.ESF.ReportingService
         }
 
         public async Task FileLevelErrorReport(
-            IList<SupplementaryDataModel> models,
-            IList<ValidationErrorModel> errors,
+            SupplementaryDataWrapper wrapper,
             SourceFileModel sourceFile,
             CancellationToken cancellationToken)
         {
@@ -46,12 +45,11 @@ namespace ESFA.DC.ESF.ReportingService
                 return;
             }
 
-            await _resultReport.GenerateReport(models, sourceFile, errors, null, cancellationToken);
+            await _resultReport.GenerateReport(sourceFile, wrapper, null, cancellationToken);
         }
 
         public async Task ProduceReports(
-            IList<SupplementaryDataModel> models,
-            IList<ValidationErrorModel> errors,
+            SupplementaryDataWrapper wrapper,
             SourceFileModel sourceFile,
             CancellationToken cancellationToken)
         {
@@ -68,12 +66,12 @@ namespace ESFA.DC.ESF.ReportingService
 
                     foreach (var validationReport in _validationReports)
                     {
-                        await validationReport.GenerateReport(models, sourceFile, errors, archive, cancellationToken);
+                        await validationReport.GenerateReport(sourceFile, wrapper, archive, cancellationToken);
                     }
 
                     foreach (var report in _esfReports)
                     {
-                        // todo
+                        await report.GenerateReport(wrapper, sourceFile, archive, cancellationToken);
                     }
 
                     if (cancellationToken.IsCancellationRequested)

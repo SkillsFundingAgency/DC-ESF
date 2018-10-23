@@ -35,7 +35,7 @@ namespace ESFA.DC.ESF.DataStore
 
         public async Task<bool> StoreData(
             SourceFileModel sourceFile,
-            IEnumerable<SupplementaryDataModel> models,
+            SupplementaryDataWrapper wrapper,
             CancellationToken cancellationToken)
         {
             bool successfullyCommitted = false;
@@ -62,7 +62,7 @@ namespace ESFA.DC.ESF.DataStore
 
                     int fileId = await _storeFileDetails.StoreAsync(connection, transaction, cancellationToken, sourceFile);
 
-                    await _store.StoreAsync(connection, transaction, fileId, models, cancellationToken);
+                    await _store.StoreAsync(connection, transaction, fileId, wrapper.SupplementaryDataModels, cancellationToken);
 
                     transaction = connection.BeginTransaction();
 

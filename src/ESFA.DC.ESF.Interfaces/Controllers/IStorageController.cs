@@ -9,7 +9,7 @@ namespace ESFA.DC.ESF.Interfaces.Controllers
     {
         Task<bool> StoreData(
             SourceFileModel sourceFile,
-            IEnumerable<SupplementaryDataModel> models,
+            SupplementaryDataWrapper supplementaryDataWrapper,
             CancellationToken cancellationToken);
     }
 }

@@ -51,16 +51,10 @@ namespace ESFA.DC.ESF.Services
                 using (TextReader sr = new StringReader(esf))
                 {
                     var csvReader = new CsvReader(sr);
-                    csvReader.Configuration.HasHeaderRecord = true;
                     csvReader.Configuration.RegisterClassMap(new ESFMapper());
 
-                    csvReader.ValidateHeader(typeof(SupplementaryDataModel));
                     model = csvReader.GetRecords<SupplementaryDataModel>().ToList();
                 }
-            }
-            catch (ValidationException)
-            {
-                throw;
             }
             catch (Exception ex)
             {

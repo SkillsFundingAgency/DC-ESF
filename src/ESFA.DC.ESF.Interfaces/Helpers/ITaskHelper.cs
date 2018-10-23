@@ -10,7 +10,7 @@ namespace ESFA.DC.ESF.Interfaces.Helpers
     {
         Task ExecuteTasks(IReadOnlyList<ITaskItem> tasks,
             SourceFileModel sourceFileModel,
-            IList<SupplementaryDataModel> records,
+            SupplementaryDataWrapper supplementaryDataWrapper,
             CancellationToken cancellationToken);
     }
 }

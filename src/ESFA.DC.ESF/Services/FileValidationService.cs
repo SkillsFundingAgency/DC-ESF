@@ -28,12 +28,13 @@ namespace ESFA.DC.ESF.Services
             _logger = logger;
         }
 
-        public async Task<bool> GetFile(
+        public async Task<SupplementaryDataWrapper> GetFile(
             SourceFileModel sourceFileModel,
-            IList<SupplementaryDataModel> esfRecords,
-            IList<ValidationErrorModel> errors,
             CancellationToken cancellationToken)
         {
+            SupplementaryDataWrapper wrapper = new SupplementaryDataWrapper();
+            IList<SupplementaryDataModel> esfRecords = new List<SupplementaryDataModel>();
+            IList<ValidationErrorModel> errors = new List<ValidationErrorModel>();
             try
             {
                 esfRecords = await _fileHelper.GetESFRecords(sourceFileModel, cancellationToken);
@@ -52,17 +53,18 @@ namespace ESFA.DC.ESF.Services
                     ErrorMessage = "The file format is incorrect. Please check the field headers are as per the Guidance document.",
                     IsWarning = false
                 });
-                return false;
+                return null;
             }
 
-            return true;
+            wrapper.SupplementaryDataModels = esfRecords;
+            wrapper.ValidErrorModels = errors;
+            return wrapper;
         }
 
-        public async Task<bool> RunFileValidators(SourceFileModel sourceFileModel,
-            IList<SupplementaryDataModel> models,
-            IList<ValidationErrorModel> errors)
+        public async Task<SupplementaryDataWrapper> RunFileValidators(SourceFileModel sourceFileModel,
+            SupplementaryDataWrapper wrapper)
         {
-            foreach (var model in models)
+            foreach (var model in wrapper.SupplementaryDataModels)
             {
                 foreach (var validator in _validators)
                 {
@@ -73,17 +75,17 @@ namespace ESFA.DC.ESF.Services
                         continue;
                     }
 
-                    errors.Add(new ValidationErrorModel
+                    wrapper.ValidErrorModels.Add(new ValidationErrorModel
                     {
                         RuleName = validator.ErrorName,
                         ErrorMessage = validator.ErrorMessage,
                         IsWarning = false
                     });
-                    return false;
+                    return wrapper;
                 }
             }
 
-            return true;
+            return wrapper;
         }
     }
 }

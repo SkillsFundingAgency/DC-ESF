@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ESF.Models;
 
@@ -11,8 +10,7 @@ namespace ESFA.DC.ESF.Interfaces.Strategies
 
         bool IsMatch(string taskName);
         Task Execute(SourceFileModel sourceFile,
-            IList<SupplementaryDataModel> esfRecords,
-            IList<ValidationErrorModel> errors,
+            SupplementaryDataWrapper supplementaryDataWrapper,
             CancellationToken cancellationToken);
     }
 }

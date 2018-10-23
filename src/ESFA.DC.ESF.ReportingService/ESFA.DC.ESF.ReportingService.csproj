@@ -221,6 +221,10 @@
       <Project>{e2cbcc6a-eeaf-45ee-b00f-de5b110c9306}</Project>
       <Name>ESFA.DC.ESF.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ESFA.DC.ESF.Utils\ESFA.DC.ESF.Utils.csproj">
+      <Project>{adee745c-d320-464e-a618-8e2ed140c47f}</Project>
+      <Name>ESFA.DC.ESF.Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ESF.Interfaces.Controllers;
@@ -32,22 +33,19 @@ namespace ESFA.DC.ESF
             IReadOnlyList<ITaskItem> tasks,
             CancellationToken cancellationToken)
         {
-            IList<SupplementaryDataModel> esfRecords = new List<SupplementaryDataModel>();
-            IList<ValidationErrorModel> errors = new List<ValidationErrorModel>();
-
             var sourceFileModel = _fileHelper.GetSourceFileData(jobContextMessage);
 
-            var validSchema = await _fileValidationService.GetFile(sourceFileModel, esfRecords, errors, cancellationToken);
-            var passedFileValidation = await _fileValidationService.RunFileValidators(sourceFileModel, esfRecords, errors);
+            var wrapper = await _fileValidationService.GetFile(sourceFileModel, cancellationToken);
+            wrapper = await _fileValidationService.RunFileValidators(sourceFileModel, wrapper);
 
-            if (validSchema && passedFileValidation)
+            if (!wrapper.ValidErrorModels.Any())
             {
-                await _taskHelper.ExecuteTasks(tasks, sourceFileModel, esfRecords, cancellationToken);
+                await _taskHelper.ExecuteTasks(tasks, sourceFileModel, wrapper, cancellationToken);
 
                 return;
             }
 
-            await _reportingController.FileLevelErrorReport(esfRecords, errors, sourceFileModel, cancellationToken);
+            await _reportingController.FileLevelErrorReport(wrapper, sourceFileModel, cancellationToken);
         }
     }
 }

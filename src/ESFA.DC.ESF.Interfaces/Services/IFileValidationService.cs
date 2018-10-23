@@ -7,14 +7,11 @@ namespace ESFA.DC.ESF.Interfaces.Services
 {
     public interface IFileValidationService
     {
-        Task<bool> GetFile(
+        Task<SupplementaryDataWrapper> GetFile(
             SourceFileModel sourceFileModel,
-            IList<SupplementaryDataModel> esfRecords,
-            IList<ValidationErrorModel> errors,
             CancellationToken cancellationToken);
 
-        Task<bool> RunFileValidators(SourceFileModel sourceFileModel,
-            IList<SupplementaryDataModel> models,
-            IList<ValidationErrorModel> errors);
+        Task<SupplementaryDataWrapper> RunFileValidators(SourceFileModel sourceFileModel,
+            SupplementaryDataWrapper wrapper);
     }
 }

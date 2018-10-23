@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ESFA.DC.ESF.Interfaces\ESFA.DC.ESF.Interfaces.csproj" />
     <ProjectReference Include="..\ESFA.DC.ESF.Models\ESFA.DC.ESF.Models.csproj" />
+    <ProjectReference Include="..\ESFA.DC.ESF.Utils\ESFA.DC.ESF.Utils.csproj" />
   </ItemGroup>
 
 </Project>

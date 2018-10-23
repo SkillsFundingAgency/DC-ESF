@@ -79,10 +79,11 @@ namespace ESFA.DC.ESF.ReportingService.Tests
                 validRepoMock.Object,
                 fm70RepoMock.Object);
 
-            List<SupplementaryDataModel> suppData = new List<SupplementaryDataModel>();
+            SupplementaryDataWrapper wrapper = new SupplementaryDataWrapper();
+            wrapper.SupplementaryDataModels = new List<SupplementaryDataModel>();
             SourceFileModel sourceFile = new SourceFileModel();
 
-            await aimAndDeliverableReport.GenerateReport(suppData, sourceFile, null, CancellationToken.None);
+            await aimAndDeliverableReport.GenerateReport(wrapper, sourceFile, null, CancellationToken.None);
 
             Assert.True(!string.IsNullOrEmpty(csv));
         }

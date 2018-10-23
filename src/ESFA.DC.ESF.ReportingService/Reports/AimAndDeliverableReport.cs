@@ -58,7 +58,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports
         }
 
         public async Task GenerateReport(
-            IList<SupplementaryDataModel> data, 
+            SupplementaryDataWrapper wrapper, 
             SourceFileModel sourceFile,
             ZipArchive archive, 
             CancellationToken cancellationToken)

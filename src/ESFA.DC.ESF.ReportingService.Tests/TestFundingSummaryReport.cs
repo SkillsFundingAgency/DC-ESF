@@ -64,9 +64,10 @@ namespace ESFA.DC.ESF.ReportingService.Tests
 
             SourceFileModel sourceFile = GetEsfSourceFileModel();
 
-            IList<SupplementaryDataModel> suppData = SupplementaryDataModelBuilder.GetModels();
+            SupplementaryDataWrapper wrapper = new SupplementaryDataWrapper();
+            wrapper.SupplementaryDataModels = SupplementaryDataModelBuilder.GetModels();
 
-            await fundingSummaryReport.GenerateReport(suppData, sourceFile, null, CancellationToken.None);
+            await fundingSummaryReport.GenerateReport(wrapper, sourceFile, null, CancellationToken.None);
 
             storage.Verify(s => s.SaveAsync($"{filename}.csv", It.IsAny<string>(), It.IsAny<CancellationToken>()));
 

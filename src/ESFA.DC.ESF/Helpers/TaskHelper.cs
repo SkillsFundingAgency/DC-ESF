@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using ESFA.DC.ESF.Interfaces.Helpers;
 using ESFA.DC.ESF.Interfaces.Strategies;
 using ESFA.DC.ESF.Models;
-using ESFA.DC.JobContext.Interface;
 using ESFA.DC.JobContextManager.Model.Interface;
 
 namespace ESFA.DC.ESF.Helpers
@@ -21,7 +20,7 @@ namespace ESFA.DC.ESF.Helpers
 
         public async Task ExecuteTasks(IReadOnlyList<ITaskItem> tasks,
             SourceFileModel sourceFileModel,
-            IList<SupplementaryDataModel> records, 
+            SupplementaryDataWrapper supplementaryDataWrapper, 
             CancellationToken cancellationToken)
         {
             foreach (ITaskItem taskItem in tasks)
@@ -31,7 +30,7 @@ namespace ESFA.DC.ESF.Helpers
                     Parallel.ForEach(
                        taskItem.Tasks,
                        new ParallelOptions { CancellationToken = cancellationToken },
-                       async task => { await HandleTask(records, task, sourceFileModel, cancellationToken); });
+                       async task => { await HandleTask(supplementaryDataWrapper, task, sourceFileModel, cancellationToken); });
                 }
                 else
                 {
@@ -42,27 +41,26 @@ namespace ESFA.DC.ESF.Helpers
                             break;
                         }
 
-                        await HandleTask(records, task, sourceFileModel, cancellationToken);
+                        await HandleTask(supplementaryDataWrapper, task, sourceFileModel, cancellationToken);
                     }
                 }
             }
         }
 
-        private async Task HandleTask(IList<SupplementaryDataModel> records,
+        private async Task HandleTask(SupplementaryDataWrapper wrapper,
             string task,
             SourceFileModel sourceFile,
             CancellationToken cancellationToken)
         {
-            IList<ValidationErrorModel> errors = new List<ValidationErrorModel>();
-
-            foreach (var handler in _taskHandlers.OrderBy(t => t.Order))
+            var orderedHandlers = _taskHandlers.OrderBy(t => t.Order);
+            foreach (var handler in orderedHandlers)
             {
                 if (!handler.IsMatch(task))
                 {
                     continue;
                 }
 
-                await handler.Execute(sourceFile, records, errors, cancellationToken);
+                await handler.Execute(sourceFile, wrapper, cancellationToken);
                 break;
             }
         }

@@ -26,13 +26,12 @@ namespace ESFA.DC.ESF.Strategies
 
         public async Task Execute(
             SourceFileModel sourceFile,
-            IList<SupplementaryDataModel> esfRecords, 
-            IList<ValidationErrorModel> errors,
+            SupplementaryDataWrapper wrapper,
             CancellationToken cancellationToken)
         {
-            foreach (var model in esfRecords)
+            foreach (var model in wrapper.SupplementaryDataModels)
             {
-                await _controller.ValidateData(esfRecords, model);
+                await _controller.ValidateData(wrapper.SupplementaryDataModels, model);
 
                 if (_controller.RejectFile)
                 {
@@ -41,17 +40,17 @@ namespace ESFA.DC.ESF.Strategies
 
                 foreach (var error in _controller.Errors)
                 {
-                    errors.Add(error);
+                    wrapper.ValidErrorModels.Add(error);
                 }
             }
 
-            esfRecords = FilterOutInvalidRows(esfRecords, errors);
+            wrapper.SupplementaryDataModels = FilterOutInvalidRows(wrapper);
         }
 
-        private IList<SupplementaryDataModel> FilterOutInvalidRows(IList<SupplementaryDataModel> models,
-            IList<ValidationErrorModel> errors)
+        private IList<SupplementaryDataModel> FilterOutInvalidRows(
+            SupplementaryDataWrapper wrapper)
         {
-            return models.Where(model => !errors.Any(e => e.ConRefNumber == model.ConRefNumber 
+            return  wrapper.SupplementaryDataModels.Where(model => ! wrapper.ValidErrorModels.Any(e => e.ConRefNumber == model.ConRefNumber 
                                                           && e.DeliverableCode == model.DeliverableCode 
                                                           && e.CalendarYear == model.CalendarYear 
                                                           && e.CalendarMonth == model.CalendarMonth 

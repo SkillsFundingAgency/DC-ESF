@@ -32,13 +32,12 @@ namespace ESFA.DC.ESF.ReportingService.Reports
         }
 
         public async Task GenerateReport(
-            IList<SupplementaryDataModel> data,
             SourceFileModel sourceFile,
-            IList<ValidationErrorModel> validationErrors,
+            SupplementaryDataWrapper wrapper,
             ZipArchive archive,
             CancellationToken cancellationToken)
         {
-            var report = GetValidationReport(data, validationErrors);
+            var report = GetValidationReport(wrapper.SupplementaryDataModels, wrapper.ValidErrorModels);
 
             var fileName = GetExternalFilename(sourceFile.UKPRN, sourceFile.JobId ?? 0, sourceFile.SuppliedDate ?? DateTime.MinValue);
 

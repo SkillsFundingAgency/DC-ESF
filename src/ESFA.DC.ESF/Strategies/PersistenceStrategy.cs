@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ESF.Interfaces.Controllers;
 using ESFA.DC.ESF.Interfaces.Strategies;
@@ -30,11 +29,10 @@ namespace ESFA.DC.ESF.Strategies
 
         public async Task Execute(
             SourceFileModel sourceFile,
-            IList<SupplementaryDataModel> esfRecords,
-            IList<ValidationErrorModel> errors,
+            SupplementaryDataWrapper supplementaryDataWrapper,
             CancellationToken cancellationToken)
         {
-            var success = await _storageController.StoreData(sourceFile, esfRecords, cancellationToken);
+            var success = await _storageController.StoreData(sourceFile, supplementaryDataWrapper, cancellationToken);
 
             if (!success)
             {

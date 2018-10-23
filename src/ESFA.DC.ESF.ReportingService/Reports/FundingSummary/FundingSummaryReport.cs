@@ -16,6 +16,7 @@ using ESFA.DC.ESF.Interfaces.Reports;
 using ESFA.DC.ESF.Interfaces.Strategies;
 using ESFA.DC.ESF.Models;
 using ESFA.DC.ESF.Models.Reports.FundingSummaryReport;
+using ESFA.DC.ESF.Utils;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.IO.Interfaces;
 
@@ -66,7 +67,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
         }
 
         public async Task GenerateReport(
-            IList<SupplementaryDataModel> data,
+            SupplementaryDataWrapper wrapper,
             SourceFileModel sourceFile,
             ZipArchive archive,
             CancellationToken cancellationToken)
@@ -78,7 +79,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             var ilrFileData = await _repository.GetFileDetails(ukPrn, cancellationToken);
 
             var reportHeader = PopulateReportHeader(sourceFile, ilrFileData, ukPrn, cancellationToken);
-            var reportData = await PopulateReportData(ukPrn, ilrFileData, data, cancellationToken);
+            var reportData = await PopulateReportData(ukPrn, ilrFileData, wrapper.SupplementaryDataModels, cancellationToken);
             var reportFooter = PopulateReportFooter(cancellationToken);
 
             using (var ms = new MemoryStream())
@@ -109,9 +110,9 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
         {
             // todo get other years data
 
-            string preparationDate = GetPreparedDateFromFileName(sourceFile.FileName);
-            var year = GetFundingYearFromFileName(sourceFile.FileName);
-            var secondYear = GetSecondYearFromReportYear(year);
+            string preparationDate = FileNameHelper.GetPreparedDateFromFileName(sourceFile.FileName);
+            var year = FileNameHelper.GetFundingYearFromFileName(sourceFile.FileName);
+            var secondYear = FileNameHelper.GetSecondYearFromReportYear(year);
 
             var header = new FundingHeader
             {
@@ -173,7 +174,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
                 }
             }
 
-            var fundingYear = GetFundingYearFromFileName(ilrFileDetail.Filename);
+            var fundingYear = FileNameHelper.GetFundingYearFromFileName(ilrFileDetail.Filename);
             var yearData = reportData.SelectMany(rd => rd.YearlyValues);
             foreach (var model in yearData)
             {
@@ -278,7 +279,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
                                 if (i < years)
                                 {
                                     var reportYear = rowWithYearlyData.YearlyValues[i].FundingYear;
-                                    var reportYear2 = GetSecondYearFromReportYear(reportYear);
+                                    var reportYear2 = FileNameHelper.GetSecondYearFromReportYear(reportYear);
                                     writer.WriteField($"{reportYear.ToString()}/{reportYear2} Subtotal");
                                     continue;
                                 }
@@ -340,47 +341,6 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             writer.NextRecord();
             writer.WriteField("Report generated at : ");
             writer.WriteField($"{footerData.ReportGeneratedAt.ToShortTimeString()} on {footerData.ReportGeneratedAt.ToShortDateString()}");
-        }
-
-        private int GetFundingYearFromFileName(
-            string fileName)
-        {
-            if (fileName == null)
-            {
-                return 0;
-            }
-
-            var fileNameParts = fileName.Split('-');
-            if (fileNameParts.Length < 4)
-            {
-                return 0;
-            }
-
-            var constructedYear = $"{fileNameParts[3].Substring(0, 4)}";
-
-            int.TryParse(constructedYear, out var year);
-            return year;
-        }
-
-        private string  GetSecondYearFromReportYear(int year)
-        {
-            return year.ToString().Length > 3 ?  
-                (Convert.ToInt32(year.ToString().Substring(year.ToString().Length - 2)) + 1).ToString() : 
-                string.Empty;
-        }
-
-        private string GetPreparedDateFromFileName(
-            string fileName)
-        {
-            if (fileName == null)
-            {
-                return null;
-            }
-
-            var fileNameParts = fileName.Split('-');
-            return fileNameParts.Length <= 4 || fileNameParts[3].Length < 8 ? 
-                string.Empty : 
-                $"{fileNameParts[3].Substring(0,4)}/{fileNameParts[3].Substring(4, 2)}/{fileNameParts[3].Substring(6, 2)}";
         }
     }
 }
