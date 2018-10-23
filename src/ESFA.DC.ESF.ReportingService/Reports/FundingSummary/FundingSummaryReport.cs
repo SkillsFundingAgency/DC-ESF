@@ -174,7 +174,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
                 }
             }
 
-            var fundingYear = FileNameHelper.GetFundingYearFromFileName(ilrFileDetail.Filename);
+            var fundingYear = FileNameHelper.GetFundingYearFromILRFileName(ilrFileDetail.Filename);
             var yearData = reportData.SelectMany(rd => rd.YearlyValues);
             foreach (var model in yearData)
             {

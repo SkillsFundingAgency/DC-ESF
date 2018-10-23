@@ -24,6 +24,26 @@ namespace ESFA.DC.ESF.Utils
             return year;
         }
 
+        public static int GetFundingYearFromILRFileName(
+            string fileName)
+        {
+            if (fileName == null)
+            {
+                return 0;
+            }
+
+            var fileNameParts = fileName.Split('-');
+            if (fileNameParts.Length < 6)
+            {
+                return 0;
+            }
+
+            var constructedYear = $"{fileNameParts[3].Substring(0, 4)}";
+
+            int.TryParse(constructedYear, out var year);
+            return year;
+        }
+
         public static string GetSecondYearFromReportYear(int year)
         {
             return year.ToString().Length > 3 ?
