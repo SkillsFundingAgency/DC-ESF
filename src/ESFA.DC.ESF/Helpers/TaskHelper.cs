@@ -34,7 +34,8 @@ namespace ESFA.DC.ESF.Helpers
                 }
                 else
                 {
-                    foreach (var task in taskItem.Tasks)
+                    var subTasks = taskItem.Tasks;
+                    foreach (var task in subTasks)
                     {
                         if (cancellationToken.IsCancellationRequested)
                         {

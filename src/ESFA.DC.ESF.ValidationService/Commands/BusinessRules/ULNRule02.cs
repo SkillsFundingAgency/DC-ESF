@@ -26,9 +26,10 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public Task Execute(SupplementaryDataModel model)
         {
-            IsValid = model.ReferenceType != "LearnRefNumber" ||
-                      (model.ULN ?? 0) == 9999999999 ||
-                      _referenceDataRepository.GetUlnLookup(CancellationToken.None).Any(u => u.ULN == model.ULN);
+            IsValid = true;
+            //IsValid = model.ReferenceType != "LearnRefNumber" ||
+            //          (model.ULN ?? 0) == 9999999999 ||
+            //          _referenceDataRepository.GetUlnLookup(CancellationToken.None).Any(u => u.ULN == model.ULN);
 
             return Task.CompletedTask;
         }

@@ -3,6 +3,7 @@
   <Parameters>
     <Parameter Name="ESFA.DC.ESF.Service.Stateless_InstanceCount" DefaultValue="-1" />
     <Parameter Name="ServiceReleaseVersion" DefaultValue="" />
+    <Parameter Name="ProcessingServicePlacementConstraints" DefaultValue="" />
     <Parameter Name="ServiceBusConnectionString" DefaultValue="" />
     <Parameter Name="LoggerConnectionstring" DefaultValue="" />
     <Parameter Name="TopicName" DefaultValue="" />
@@ -13,6 +14,7 @@
     <Parameter Name="AuditQueueName" DefaultValue="" />
     <Parameter Name="ILR1819ConnectionString" DefaultValue="" />
     <Parameter Name="ESFConnectionString" DefaultValue="" />
+    <Parameter Name="ESFNonEFConnectionString" DefaultValue="" />
     <Parameter Name="FCSConnectionString" DefaultValue="" />
     <Parameter Name="LARSConnectionString" DefaultValue="" />
     <Parameter Name="OrganisationConnectionString" DefaultValue="" />
@@ -49,6 +51,7 @@
           </Section>
           <Section Name="ESFSection">
             <Parameter Name="ESFConnectionString" Value="[ESFConnectionString]" />
+            <Parameter Name="ESFNonEFConnectionString" Value="[ESFNonEFConnectionString]" />
           </Section>
           <Section Name="FCSSection">
             <Parameter Name="FCSConnectionString" Value="[FCSConnectionString]" />
@@ -72,6 +75,7 @@
     <Service Name="ESFA.DC.ESF.Service.Stateless" ServicePackageActivationMode="ExclusiveProcess">
       <StatelessService ServiceTypeName="ESFA.DC.ESF.Service.StatelessType" InstanceCount="[ESFA.DC.ESF.Service.Stateless_InstanceCount]">
         <SingletonPartition />
+        <PlacementConstraints>[ProcessingServicePlacementConstraints]</PlacementConstraints>
       </StatelessService>
     </Service>
   </DefaultServices>

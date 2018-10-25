@@ -3,5 +3,7 @@
     public class ESFConfiguration
     {
         public string ESFConnectionString { get; set; }
+
+        public string ESFNonEFConnectionString { get; set; }
     }
 }

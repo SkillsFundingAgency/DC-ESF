@@ -13,25 +13,24 @@ namespace ESFA.DC.ESF.ValidationService.Commands
 
         public bool IsValid { get; private set; }
 
-        public IList<ValidationErrorModel> Errors { get; }
+        public IList<ValidationErrorModel> Errors { get; private set; }
 
         public bool RejectFile => false;
 
         public FieldDefinitionCommand(IList<IFieldDefinitionValidator> validators)
         {
             _validators = validators;
-
-            Errors = new List<ValidationErrorModel>();
         }
 
         public int Priority => 2;
 
         public async Task Execute(SupplementaryDataModel model)
         {
+            Errors = new List<ValidationErrorModel>();
             IsValid = true;
             foreach (var validator in _validators)
             {
-                await validator.Execute(model);
+                validator.Execute(model);
             }
 
             var failed = _validators.Where(v => !v.IsValid).ToList();

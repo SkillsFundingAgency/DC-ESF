@@ -177,7 +177,7 @@ namespace ESFA.DC.ESF.DataAccessLayer
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Failed to get FCS ContractDeliverableCodeMapping", ex);
+                _logger.LogError("Failed to get FCS ContractDeliverableCodeMapping", ex);
             }
 
             return codeMapping;

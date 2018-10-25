@@ -38,6 +38,7 @@ namespace ESFA.DC.ESF.Services
 
             await _getESFLock.WaitAsync(cancellationToken);
 
+            _logger.LogInfo("Try and get csv from Azure blob.");
             try
             {
                 if (cancellationToken.IsCancellationRequested)

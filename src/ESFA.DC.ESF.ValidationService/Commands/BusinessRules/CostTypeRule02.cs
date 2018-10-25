@@ -10,7 +10,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
     {
         private readonly List<string> _AC01InvalidCostTypes = new List<string>
         {
-            Constants.CostTypeStaffPT, Constants.CostTypeStaffFT, "Other Costs", "Staff Expenses", String.Empty
+            Constants.CostTypeStaffPT, Constants.CostTypeStaffFT, "Other Costs", "Staff Expenses", string.Empty
         };
 
         private readonly List<string> _SDCodes = new List<string>
@@ -43,7 +43,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
                 _SDCodes.Contains(model.DeliverableCode) && model.CostType != "Unit Cost"
                 ||
                 _deliveryCodes.Contains(model.DeliverableCode) &&
-                (model.CostType != "Unit Cost" || model.CostType != "Unit Cost Deduction")
+                (model.CostType != "Unit Cost" && model.CostType != "Unit Cost Deduction")
                 ||
                 (model.DeliverableCode == "NR01" || model.DeliverableCode == "RQ01") &&
                 model.CostType != "Funding Adjustment";

@@ -28,25 +28,27 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public async Task Execute(SupplementaryDataModel model)
         {
-            var mappings = await _referenceDataRepository.GetContractDeliverableCodeMapping(new List<string> { model.DeliverableCode },
-                CancellationToken.None);
+            //var mappings = await _referenceDataRepository.GetContractDeliverableCodeMapping(new List<string> { model.DeliverableCode },
+            //    CancellationToken.None);
 
-            var year = model.CalendarYear ?? 0;
-            var month = model.CalendarMonth ?? 0;
+            //var year = model.CalendarYear ?? 0;
+            //var month = model.CalendarMonth ?? 0;
 
-            if (year == 0 || month == 0)
-            {
-                IsValid = false;
-                return;
-            }
+            //if (year == 0 || month == 0)
+            //{
+            //    IsValid = false;
+            //    return;
+            //}
 
-            var startDateMonthEnd = new DateTime(year, month, DateTime.DaysInMonth(year, month));
+            //var startDateMonthEnd = new DateTime(year, month, DateTime.DaysInMonth(year, month));
 
-            var contractMatches = mappings.Where(m =>
-                m.ContractDeliverable.ContractAllocation.ContractAllocationNumber == model.ConRefNumber
-                && m.ContractDeliverable.ContractAllocation.StartDate > startDateMonthEnd).ToList();
+            //var contractMatches = mappings.Where(m =>
+            //    m.ContractDeliverable.ContractAllocation.ContractAllocationNumber == model.ConRefNumber
+            //    && m.ContractDeliverable.ContractAllocation.StartDate > startDateMonthEnd).ToList();
 
-            IsValid = contractMatches.Any();
+            //IsValid = contractMatches.Any();
+
+            IsValid = true;
         }
     }
 }

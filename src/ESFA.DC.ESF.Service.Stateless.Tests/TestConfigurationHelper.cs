@@ -14,12 +14,6 @@ namespace ESFA.DC.ESF.Service.Stateless.Tests
                     {
                         ServiceReleaseVersion = "1.2.3.4"
                     };
-
-                case "DataStoreSection":
-                    return (T)(object)new PersistDataConfiguration
-                    {
-                        DataStoreConnectionString = "Server=.;Database=myDataBase;User Id=myUsername;Password = myPassword;"
-                    };
                 //case "TopicAndTaskSection":
                 //    return (T)GetTopicsAndTasks();
                 case "AzureStorageSection":
@@ -40,7 +34,7 @@ namespace ESFA.DC.ESF.Service.Stateless.Tests
                 case "LoggerSection":
                     return (T)(object)new LoggerOptions
                     {
-                        LoggerConnectionString = "Server=.;Database=myDataBase;User Id=myUsername;Password = myPassword;"
+                        LoggerConnectionstring = "Server=.;Database=myDataBase;User Id=myUsername;Password = myPassword;"
                     };
                 case "ILR1819Section":
                     return (T)(object)new IRL1819Configuration
@@ -50,7 +44,8 @@ namespace ESFA.DC.ESF.Service.Stateless.Tests
                 case "ESFSection":
                     return (T)(object)new ESFConfiguration
                     {
-                        ESFConnectionString = "Server=.;Database=myDataBase;User Id=myUsername;Password = myPassword;"
+                        ESFConnectionString = "Server=.;Database=myDataBase;User Id=myUsername;Password = myPassword;",
+                        ESFNonEFConnectionString = "Server=.;Database=myDataBase;User Id=myUsername;Password = myPassword;"
                     };
                 case "ReferenceDataSection":
                     return (T)(object)new ReferenceDataConfig

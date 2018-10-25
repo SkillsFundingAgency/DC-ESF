@@ -1,11 +1,12 @@
-﻿using ESFA.DC.Queueing;
+﻿using System;
+using ESFA.DC.Queueing;
 
 namespace ESFA.DC.ESF.Service.Config
 {
     public class ServiceBusTopicConfig : TopicConfiguration
     {
-        public ServiceBusTopicConfig(string connectionString, string topicName, string subscriptionName, int maxConcurrentCalls, int minimumBackoffSeconds = 5, int maximumBackoffSeconds = 50, int maximumRetryCount = 10)
-            : base(connectionString, topicName, subscriptionName, maxConcurrentCalls, minimumBackoffSeconds, maximumBackoffSeconds, maximumRetryCount)
+        public ServiceBusTopicConfig(string connectionString, string topicName, string subscriptionName, int maxConcurrentCalls, TimeSpan ts, int minimumBackoffSeconds = 5, int maximumBackoffSeconds = 50, int maximumRetryCount = 10)
+            : base(connectionString, topicName, subscriptionName, maxConcurrentCalls, minimumBackoffSeconds, maximumBackoffSeconds, maximumRetryCount, ts)
         {
         }
     }

@@ -131,7 +131,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports
             var learnAimRefs = learningDeliveries.Select(ld => ld.LearnAimRef).ToList();
             var deliverableCodes = fm70Deliverables?.Select(d => d.DeliverableCode).ToList();
 
-            var fcsCodeMappings = await _referenceDataService.GetContractDeliverableCodeMapping(deliverableCodes, cancellationToken);
+            //var fcsCodeMappings = await _referenceDataService.GetContractDeliverableCodeMapping(deliverableCodes, cancellationToken);
             var larsDeliveries = await _referenceDataService.GetLarsLearningDelivery(learnAimRefs, cancellationToken);
 
             var reportData = new List<AimAndDeliverableModel>();
@@ -167,8 +167,8 @@ namespace ESFA.DC.ESF.ReportingService.Reports
                     var learnerMonitorings = learnMonitorings.Where(m => m.LearnRefNumber == learner.LearnRefNumber).ToList();
                     var learnerDeliveryMonitorings = deliveryMonitorings.Where(m => m.LearnRefNumber == learner.LearnRefNumber).ToList();
                     var deliverableCode = fm70Deliverable?.DeliverableCode;
-                    var fcsMapping = fcsCodeMappings.SingleOrDefault(f => f.ExternalDeliverableCode == deliverableCode
-                                                                          && f.FundingStreamPeriodCode == FundingStreamPeriodCode);
+                    //var fcsMapping = fcsCodeMappings.SingleOrDefault(f => f.ExternalDeliverableCode == deliverableCode
+                                                                         // && f.FundingStreamPeriodCode == FundingStreamPeriodCode);
 
                     var larsDelivery = larsDeliveries.SingleOrDefault(l => l.LearnAimRef == delivery.LearnAimRef);
 
@@ -193,7 +193,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports
                             AimSeqNumber = delivery.AimSeqNumber,
                             ConRefNumber = delivery.ConRefNumber,
                             DeliverableCode = deliverableCode,
-                            DeliverableName = fcsMapping?.DeliverableName,
+                            DeliverableName = string.Empty, //fcsMapping?.DeliverableName,
                             LearnAimRef = delivery.LearnAimRef,
                             DeliverableUnitCost = fm70Deliverable?.DeliverableUnitCost,
                             ApplicWeightFundRate = fm70Delivery?.ApplicWeightFundRate,

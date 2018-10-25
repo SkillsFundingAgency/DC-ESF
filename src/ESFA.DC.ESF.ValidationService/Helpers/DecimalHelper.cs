@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 
 namespace ESFA.DC.ESF.ValidationService.Helpers
 {
@@ -10,8 +11,13 @@ namespace ESFA.DC.ESF.ValidationService.Helpers
             int floatingPointLength)
         {
             var stringValue = value.ToString(CultureInfo.InvariantCulture);
-            return stringValue.Substring(0, stringValue.IndexOf('.') - 1).Length <= integerPartLength &&
-                    stringValue.Substring(stringValue.IndexOf('.')).Length <= floatingPointLength;
+            if (stringValue.Contains("."))
+            {
+                return stringValue.Substring(0, stringValue.IndexOf('.') - 1).Length <= integerPartLength &&
+                       stringValue.Substring(stringValue.IndexOf('.')).Length <= floatingPointLength;
+            }
+
+            return stringValue.Length <= integerPartLength;
         }
     }
 }

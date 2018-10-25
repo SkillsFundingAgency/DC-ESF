@@ -11,7 +11,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands
     {
         private readonly IList<ICrossRecordValidator> _validators;
 
-        public IList<ValidationErrorModel> Errors { get; }
+        public IList<ValidationErrorModel> Errors { get; private set; }
 
         public bool RejectFile => false;
 
@@ -24,16 +24,15 @@ namespace ESFA.DC.ESF.ValidationService.Commands
         public CrossRecordCommands(IList<ICrossRecordValidator> validators)
         {
             _validators = validators;
-
-            Errors = new List<ValidationErrorModel>();
         }
 
         public async Task Execute(SupplementaryDataModel model)
         {
+            Errors = new List<ValidationErrorModel>();
             IsValid = true;
             foreach (var validator in _validators)
             {
-                await validator.Execute(AllRecords, model);
+                validator.Execute(AllRecords, model);
             }
 
             var failed = _validators.Where(v => !v.IsValid).ToList();

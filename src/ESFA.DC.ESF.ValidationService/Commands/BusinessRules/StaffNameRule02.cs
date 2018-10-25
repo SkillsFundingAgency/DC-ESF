@@ -19,7 +19,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public Task Execute(SupplementaryDataModel model)
         {
-            IsValid = Regex.IsMatch(model.StaffName, Pattern);
+            IsValid = string.IsNullOrEmpty(model.StaffName) || Regex.IsMatch(model.StaffName, Pattern);
             return Task.CompletedTask;
         }
     }

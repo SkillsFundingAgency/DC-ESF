@@ -4,6 +4,6 @@ namespace ESFA.DC.ESF.Service.Config
 {
     public class LoggerOptions : ILoggerOptions
     {
-        public string LoggerConnectionString { get; set; }
+        public string LoggerConnectionstring { get; set; }
     }
 }

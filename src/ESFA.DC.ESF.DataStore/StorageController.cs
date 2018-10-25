@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,21 +13,18 @@ namespace ESFA.DC.ESF.DataStore
     public class StorageController : IStorageController
     {
         private readonly IStoreESF _store;
-        private readonly IStoreClear _storeClear;
         private readonly IStoreFileDetails _storeFileDetails;
-        private readonly PersistDataConfiguration _persistDataConfiguration;
+        private readonly ESFConfiguration _dbConfiguration;
         private readonly ILogger _logger;
 
         public StorageController(
-            PersistDataConfiguration persistDataConfiguration,
+            ESFConfiguration databaseConfiguration,
             IStoreESF store,
-            IStoreClear storeClear,
             IStoreFileDetails storeFileDetails,
             ILogger logger)
         {
-            _persistDataConfiguration = persistDataConfiguration;
+            _dbConfiguration = databaseConfiguration;
             _store = store;
-            _storeClear = storeClear;
             _storeFileDetails = storeFileDetails;
             _logger = logger;
         }
@@ -41,7 +37,7 @@ namespace ESFA.DC.ESF.DataStore
             bool successfullyCommitted = false;
 
             using (SqlConnection connection =
-                new SqlConnection(_persistDataConfiguration.DataStoreConnectionString))
+                new SqlConnection(_dbConfiguration.ESFNonEFConnectionString))
             {
                 SqlTransaction transaction = null;
                 try
@@ -58,7 +54,8 @@ namespace ESFA.DC.ESF.DataStore
 
                     var ukPrn = Convert.ToInt32(sourceFile.UKPRN);
 
-                    await _storeClear.ClearAsync(ukPrn, sourceFile.FileName, cancellationToken);
+                    var storeClear = new StoreClear(connection, transaction);
+                    await storeClear.ClearAsync(ukPrn, sourceFile.FileName, cancellationToken);
 
                     int fileId = await _storeFileDetails.StoreAsync(connection, transaction, cancellationToken, sourceFile);
 

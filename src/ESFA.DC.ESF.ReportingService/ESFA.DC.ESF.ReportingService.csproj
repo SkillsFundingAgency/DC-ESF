@@ -75,17 +75,17 @@
     <Reference Include="ESFA.DC.DateTimeProvider.Interface, Version=0.1.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.DateTimeProvider.Interface.0.1.6-beta0001\lib\netstandard2.0\ESFA.DC.DateTimeProvider.Interface.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.ILR1819.Database.EF, Version=0.1.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILR1819.Database.EF.0.1.6-beta0001\lib\net46\ESFA.DC.ILR1819.Database.EF.dll</HintPath>
+    <Reference Include="ESFA.DC.ILR1819.Database.EF, Version=0.1.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILR1819.Database.EF.0.1.7-beta0001\lib\net46\ESFA.DC.ILR1819.Database.EF.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.ILR1819.DataStore.EF, Version=0.1.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILR1819.Database.EF.0.1.6-beta0001\lib\net46\ESFA.DC.ILR1819.DataStore.EF.dll</HintPath>
+    <Reference Include="ESFA.DC.ILR1819.DataStore.EF, Version=0.1.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILR1819.Database.EF.0.1.7-beta0001\lib\net46\ESFA.DC.ILR1819.DataStore.EF.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.ILR1819.DataStore.EF.Invalid, Version=0.1.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILR1819.Database.EF.0.1.6-beta0001\lib\net46\ESFA.DC.ILR1819.DataStore.EF.Invalid.dll</HintPath>
+    <Reference Include="ESFA.DC.ILR1819.DataStore.EF.Invalid, Version=0.1.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILR1819.Database.EF.0.1.7-beta0001\lib\net46\ESFA.DC.ILR1819.DataStore.EF.Invalid.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.ILR1819.DataStore.EF.Valid, Version=0.1.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILR1819.Database.EF.0.1.6-beta0001\lib\net46\ESFA.DC.ILR1819.DataStore.EF.Valid.dll</HintPath>
+    <Reference Include="ESFA.DC.ILR1819.DataStore.EF.Valid, Version=0.1.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILR1819.Database.EF.0.1.7-beta0001\lib\net46\ESFA.DC.ILR1819.DataStore.EF.Valid.dll</HintPath>
     </Reference>
     <Reference Include="ESFA.DC.IO.AzureStorage, Version=0.1.14.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.IO.AzureStorage.0.1.14-beta0001\lib\netstandard2.0\ESFA.DC.IO.AzureStorage.dll</HintPath>
@@ -93,8 +93,8 @@
     <Reference Include="ESFA.DC.IO.Interfaces, Version=0.1.12.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.IO.Interfaces.0.1.12-beta0001\lib\netstandard2.0\ESFA.DC.IO.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.Jobs.Model, Version=0.1.22.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.Jobs.Model.0.1.22-beta0001\lib\netstandard2.0\ESFA.DC.Jobs.Model.dll</HintPath>
+    <Reference Include="ESFA.DC.Jobs.Model, Version=0.1.24.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.Jobs.Model.0.1.24-beta0001\lib\netstandard2.0\ESFA.DC.Jobs.Model.dll</HintPath>
     </Reference>
     <Reference Include="ESFA.DC.JobStatus.Interface, Version=0.2.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.JobStatus.Interface.0.2.2-beta0001\lib\netstandard2.0\ESFA.DC.JobStatus.Interface.dll</HintPath>
@@ -111,8 +111,8 @@
     <Reference Include="Microsoft.Azure.KeyVault.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Azure.KeyVault.Core.1.0.0\lib\net40\Microsoft.Azure.KeyVault.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Storage, Version=9.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\WindowsAzure.Storage.9.2.0\lib\net45\Microsoft.WindowsAzure.Storage.dll</HintPath>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=9.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAzure.Storage.9.3.0\lib\net45\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>

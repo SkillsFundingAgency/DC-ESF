@@ -27,13 +27,15 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public async Task Execute(SupplementaryDataModel model)
         {
-            var mappings = await _referenceDataRepository.GetContractDeliverableCodeMapping(new List<string> {model.DeliverableCode},
-                CancellationToken.None);
+            //var mappings = await _referenceDataRepository.GetContractDeliverableCodeMapping(new List<string> {model.DeliverableCode},
+            //    CancellationToken.None);
 
-            var contractMatches = mappings.Where(m =>
-                m.ContractDeliverable.ContractAllocation.ContractAllocationNumber == model.ConRefNumber).ToList();
+            //var contractMatches = mappings.Where(m =>
+            //    m.ContractDeliverable.ContractAllocation.ContractAllocationNumber == model.ConRefNumber).ToList();
 
-            IsValid = contractMatches.Any();
+            //IsValid = contractMatches.Any();
+
+            IsValid = true;
         }
     }
 }

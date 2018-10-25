@@ -88,6 +88,7 @@
     <Folder Include="dbo\Tables\" />
     <Folder Include="Security" />
     <Folder Include="zzDeploymentProfiles" />
+    <Folder Include="dbo\Stored Procedures" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\SourceFile.sql" />
@@ -102,6 +103,7 @@
     <Build Include="Security\Role_DataProcessor.sql" />
     <Build Include="Security\Role_DataViewer.sql" />
     <Build Include="Security\User_DsciUser.sql" />
+    <Build Include="dbo\Stored Procedures\DeleteExistingRecords.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="zzz.Script.PostDeployment.sql" />

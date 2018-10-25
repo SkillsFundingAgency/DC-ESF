@@ -38,6 +38,7 @@ using ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.SuppData;
 using ESFA.DC.ESF.Service.Config;
 using ESFA.DC.ESF.Service.Stateless.Handlers;
 using ESFA.DC.ESF.Services;
+using ESFA.DC.ESF.Strategies;
 using ESFA.DC.ESF.ValidationService;
 using ESFA.DC.ESF.ValidationService.Commands;
 using ESFA.DC.ESF.ValidationService.Commands.BusinessRules;
@@ -85,7 +86,7 @@ namespace ESFA.DC.ESF.Service.Stateless
             RegisterPersistence(container, configHelper);
             RegisterServiceBusConfig(container, configHelper);
             RegisterJobContextManagementServices(container);
-            RegisterLogger(container);
+            RegisterLogger(container, configHelper);
             RegisterSerializers(container);
             RegisterMessageHandler(container);
 
@@ -147,6 +148,7 @@ namespace ESFA.DC.ESF.Service.Stateless
             containerBuilder.Register(c => new ESF_DataStoreEntities(esfConfig.ESFConnectionString))
                 .As<IESF_DataStoreEntities>()
                 .InstancePerLifetimeScope();
+            containerBuilder.RegisterInstance(esfConfig).As<ESFConfiguration>().SingleInstance();
 
             var fcsConfig = configHelper.GetSectionValues<FCSConfiguration>("FCSSection");
             containerBuilder.Register(c => new FcsContext(fcsConfig.FCSConnectionString))
@@ -192,7 +194,8 @@ namespace ESFA.DC.ESF.Service.Stateless
                 serviceBusOptions.ServiceBusConnectionString,
                 serviceBusOptions.TopicName,
                 serviceBusOptions.SubscriptionName,
-                Environment.ProcessorCount);
+                Environment.ProcessorCount,
+                TimeSpan.FromMinutes(30));
 
             containerBuilder.Register(c =>
             {
@@ -251,11 +254,13 @@ namespace ESFA.DC.ESF.Service.Stateless
             containerBuilder.RegisterType<JsonSerializationService>().As<IJsonSerializationService>();
         }
 
-        private static void RegisterLogger(ContainerBuilder containerBuilder)
+        private static void RegisterLogger(ContainerBuilder containerBuilder, IConfigurationHelper configHelper)
         {
+            var loggerConfig = configHelper.GetSectionValues<LoggerOptions>("LoggerSection");
+            
             containerBuilder.RegisterInstance(new LoggerOptions
             {
-                LoggerConnectionString = @"Server=(local);Database=Logging;Trusted_Connection=True;"
+                LoggerConnectionstring = loggerConfig.LoggerConnectionstring
             }).As<ILoggerOptions>().SingleInstance();
 
             containerBuilder.Register(c =>
@@ -268,7 +273,8 @@ namespace ESFA.DC.ESF.Service.Stateless
                         new MsSqlServerApplicationLoggerOutputSettings
                         {
                             MinimumLogLevel = LogLevel.Verbose,
-                            ConnectionString = loggerOptions.LoggerConnectionString
+                            ConnectionString = loggerOptions.LoggerConnectionstring,
+                            LogsTableName = "Logs"
                         },
                         new ConsoleApplicationLoggerOutputSettings
                         {
@@ -326,6 +332,12 @@ namespace ESFA.DC.ESF.Service.Stateless
 
         private static void RegisterStrategies(ContainerBuilder containerBuilder)
         {
+            containerBuilder.RegisterType<PersistenceStrategy>().As<ITaskStrategy>();
+            containerBuilder.RegisterType<ValidationStrategy>().As<ITaskStrategy>();
+            containerBuilder.RegisterType<ReportingStrategy>().As<ITaskStrategy>();
+            containerBuilder.Register(c => new List<ITaskStrategy>(c.Resolve<IEnumerable<ITaskStrategy>>()))
+                .As<IList<ITaskStrategy>>();
+
             containerBuilder.RegisterType<DataRowHelper>().As<IRowHelper>();
             containerBuilder.RegisterType<TitleRowHelper>().As<IRowHelper>();
             containerBuilder.RegisterType<SpacerRowHelper>().As<IRowHelper>();
@@ -519,7 +531,6 @@ namespace ESFA.DC.ESF.Service.Stateless
 
         private static void RegisterStorage(ContainerBuilder containerBuilder)
         {
-            containerBuilder.RegisterType<StoreClear>().As<IStoreClear>();
             containerBuilder.RegisterType<StoreFileDetails>().As<IStoreFileDetails>();
             containerBuilder.RegisterType<StoreESF>().As<IStoreESF>();
         }

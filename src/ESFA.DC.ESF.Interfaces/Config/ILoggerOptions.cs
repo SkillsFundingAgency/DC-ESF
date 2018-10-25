@@ -2,6 +2,6 @@
 {
     public interface ILoggerOptions
     {
-        string LoggerConnectionString { get; }
+        string LoggerConnectionstring { get; }
     }
 }
