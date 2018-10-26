@@ -9,7 +9,7 @@ namespace ESFA.DC.ESF.ReportingService.Mappers
         public ValidationErrorMapper()
         {
             int i = 0;
-            Map(m => m.IsWarning ? "W" : "E").Index(i++).Name("Error/Warning");
+            Map(m => m.IsWarning).ConvertUsing(c => c.IsWarning ? "W" : "E").Index(i++).Name("Error/Warning");
             Map(m => m.RuleName).Index(i++).Name("RuleName");
             Map(m => m.ErrorMessage).Index(i++).Name("ErrorMessage");
             Map(m => m.ConRefNumber).Index(i++).Name("ConRefNumber");

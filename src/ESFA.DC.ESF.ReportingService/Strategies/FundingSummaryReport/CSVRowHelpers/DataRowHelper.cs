@@ -67,21 +67,26 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
             }
             else
             {
-                foreach (var strategy in _ilrStrategies)
+                if (ilrData != null)
                 {
-                    if (row.AttributeNames != null)
+                    foreach (var strategy in _ilrStrategies)
                     {
-                        if (!strategy.IsMatch(row.DeliverableCode, row.AttributeNames))
+                        if (row.AttributeNames != null)
+                        {
+                            if (!strategy.IsMatch(row.DeliverableCode, row.AttributeNames))
+                            {
+                                continue;
+                            }
+                        }
+
+                        if (!strategy.IsMatch(row.DeliverableCode))
                         {
                             continue;
                         }
+
+                        strategy.Execute(ilrData, reportRowYearlyValues);
+                        break;
                     }
-                    if (!strategy.IsMatch(row.DeliverableCode))
-                    {
-                        continue;   
-                    }
-                    strategy.Execute(ilrData, reportRowYearlyValues);
-                    break;
                 }
             }
             

@@ -61,8 +61,6 @@ namespace ESFA.DC.ESF.DataStore
 
                     await _store.StoreAsync(connection, transaction, fileId, wrapper.SupplementaryDataModels, cancellationToken);
 
-                    transaction = connection.BeginTransaction();
-
                     transaction.Commit();
                     successfullyCommitted = true;
                 }

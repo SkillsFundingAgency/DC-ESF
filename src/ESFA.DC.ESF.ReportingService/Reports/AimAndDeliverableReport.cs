@@ -73,8 +73,11 @@ namespace ESFA.DC.ESF.ReportingService.Reports
 
             var ukPrn = Convert.ToInt32(sourceFile.UKPRN);
             string csv = await GetCsv(ukPrn, cancellationToken);
-            await _storage.SaveAsync($"{externalFileName}.csv", csv, cancellationToken);
-            await WriteZipEntry(archive, $"{fileName}.csv", csv);
+            if (csv != null)
+            {
+                await _storage.SaveAsync($"{externalFileName}.csv", csv, cancellationToken);
+                await WriteZipEntry(archive, $"{fileName}.csv", csv);
+            }
         }
 
         private async Task<string> GetCsv(int ukPrn, CancellationToken cancellationToken)

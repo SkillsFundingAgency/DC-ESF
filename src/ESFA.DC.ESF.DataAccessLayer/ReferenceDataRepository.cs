@@ -133,7 +133,7 @@ namespace ESFA.DC.ESF.DataAccessLayer
                     return null;
                 }
 
-                providerName = _organisations.Org_Details.FirstOrDefault(o => o.UKPRN == ukPrn)?.Name;
+                providerName = ""; // _organisations.Org_Details.FirstOrDefault(o => o.UKPRN == ukPrn)?.Name;
             }
             catch (Exception ex)
             {

@@ -23,8 +23,8 @@ namespace ESFA.DC.ESF.DataStore
                 new SqlCommand("[dbo].[DeleteExistingRecords]", _connection, _transaction))
             {
                 sqlCommand.CommandType = CommandType.StoredProcedure;
-                //sqlCommand.Parameters.Add("@ukprn", SqlDbType.Int).Value = ukPrn;
-                //sqlCommand.Parameters.Add("@fileName", SqlDbType.NVarChar).Value = filename;
+                sqlCommand.Parameters.Add("@ukprn", SqlDbType.Int).Value = ukPrn;
+                sqlCommand.Parameters.Add("@fileName", SqlDbType.NVarChar).Value = filename;
                 sqlCommand.CommandTimeout = 600;
                 await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
             }

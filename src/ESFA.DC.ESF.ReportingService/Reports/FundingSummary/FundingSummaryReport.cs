@@ -126,8 +126,8 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
                     new FundingHeader.FundingHeaderYear
                     {
                         Header = $"{year.ToString()}/{secondYear}",
-                        ILRFile = fileData.Filename,
-                        LastILRFileUpdate = fileData.SubmittedTime.ToString(),
+                        ILRFile = fileData?.Filename,
+                        LastILRFileUpdate = fileData?.SubmittedTime.ToString(),
                         FilePreparationDate = preparationDate != null && DateTime.TryParse(preparationDate, out var prepDate) 
                             ? prepDate.ToShortDateString() : string.Empty
                     }
@@ -174,7 +174,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
                 }
             }
 
-            var fundingYear = FileNameHelper.GetFundingYearFromILRFileName(ilrFileDetail.Filename);
+            var fundingYear = FileNameHelper.GetFundingYearFromILRFileName(ilrFileDetail?.Filename);
             var yearData = reportData.SelectMany(rd => rd.YearlyValues);
             foreach (var model in yearData)
             {
