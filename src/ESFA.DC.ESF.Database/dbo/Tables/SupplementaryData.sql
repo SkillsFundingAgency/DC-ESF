@@ -1,5 +1,5 @@
-﻿CREATE TABLE [dbo].[SupplementaryDataModel] (
-    [SupplementaryDataModelId]        INT            IDENTITY (1, 1) NOT NULL,
+﻿CREATE TABLE [dbo].[SupplementaryData] (
+    [SupplementaryDataId]        INT            IDENTITY (1, 1) NOT NULL,
     [ConRefNumber]               VARCHAR (20)   NOT NULL,
     [DeliverableCode]            VARCHAR (10)   NOT NULL,
     [CalendarYear]               INT            NOT NULL,
@@ -16,7 +16,7 @@
     [ProjectHours]               DECIMAL (8, 2) NULL,
     [OrgHours]                   DECIMAL (8, 2) NULL,
     [SourceFileId]               INT            NOT NULL,
-    CONSTRAINT [PK_SupplementaryDataModel] PRIMARY KEY CLUSTERED ([ConRefNumber] ASC, [DeliverableCode] ASC, [CalendarYear] ASC, [CalendarMonth] ASC, [CostType] ASC, [ReferenceType] ASC, [Reference] ASC),
+    CONSTRAINT [PK_SupplementaryData] PRIMARY KEY CLUSTERED ([ConRefNumber] ASC, [DeliverableCode] ASC, [CalendarYear] ASC, [CalendarMonth] ASC, [CostType] ASC, [ReferenceType] ASC, [Reference] ASC),
     CONSTRAINT [FK_SourceFile] FOREIGN KEY ([SourceFileId]) REFERENCES [dbo].[SourceFile] ([SourceFileId])
 );
 
