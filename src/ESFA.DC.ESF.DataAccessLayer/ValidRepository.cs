@@ -9,7 +9,7 @@ using ESFA.DC.ILR1819.DataStore.EF.Valid;
 using ESFA.DC.ILR1819.DataStore.EF.Valid.Interfaces;
 using ESFA.DC.Logging.Interfaces;
 
-namespace ESFA.DC.ESF.ReportingService.Repositories
+namespace ESFA.DC.ESF.DataAccessLayer
 {
     public class ValidRepository : IValidRepository
     {

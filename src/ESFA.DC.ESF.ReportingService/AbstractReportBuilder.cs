@@ -66,6 +66,9 @@ namespace ESFA.DC.ESF.ReportingService
                     csvWriter.WriteHeader<TModel>();
                     csvWriter.NextRecord();
                     csvWriter.WriteRecords(records);
+
+                    csvWriter.Flush();
+                    textWriter.Flush();
                 }
             }
         }

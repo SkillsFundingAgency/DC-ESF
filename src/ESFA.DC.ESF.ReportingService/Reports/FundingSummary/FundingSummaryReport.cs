@@ -90,6 +90,9 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
                     using (var csvWriter = new CsvWriter(textWriter))
                     {
                         GenerateCsv(csvWriter, reportHeader, reportData, reportFooter);
+
+                        csvWriter.Flush();
+                        textWriter.Flush();
                     }
                 }
 
@@ -176,6 +179,11 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             }
 
             var fundingYear = FileNameHelper.GetFundingYearFromILRFileName(ilrFileDetail?.Filename);
+            if (fundingYear == default(int))
+            {
+                return reportData;
+            }
+
             var yearData = reportData.SelectMany(rd => rd.YearlyValues);
             foreach (var model in yearData)
             {
@@ -192,7 +200,8 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             FundingFooter footerData)
         {
             // report header
-            writer.WriteField("Provider Name : ");
+            var text = "Provider Name : ";
+            writer.WriteField(text);
             writer.WriteField(headerData.ProviderName);
             writer.NextRecord();
 

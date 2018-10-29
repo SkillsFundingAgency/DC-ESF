@@ -31,7 +31,6 @@ using ESFA.DC.ESF.Interfaces.Validation;
 using ESFA.DC.ESF.ReportingService;
 using ESFA.DC.ESF.ReportingService.Reports;
 using ESFA.DC.ESF.ReportingService.Reports.FundingSummary;
-using ESFA.DC.ESF.ReportingService.Repositories;
 using ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHelpers;
 using ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.Ilr;
 using ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.SuppData;

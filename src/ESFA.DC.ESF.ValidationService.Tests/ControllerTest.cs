@@ -28,7 +28,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests
 
             await controller.ValidateData(GetSupplementaryDataList(), GetSupplementaryData());
 
-            Assert.True(!controller.Errors.Any());
+            Assert.True(controller.Errors.Any());
         }
 
         private IList<SupplementaryDataModel> GetSupplementaryDataList()
