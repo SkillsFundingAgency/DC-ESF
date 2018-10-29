@@ -11,6 +11,11 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
     {
         private readonly IReferenceDataRepository _referenceDataRepository;
 
+        public ULNRule02(IReferenceDataRepository referenceDataRepository)
+        {
+            _referenceDataRepository = referenceDataRepository;
+        }
+
         public string ErrorMessage => "The ULN is not a valid ULN.";
 
         public string ErrorName => "ULN_02";
@@ -18,11 +23,6 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
         public bool IsWarning => false;
 
         public bool IsValid { get; private set; }
-
-        public ULNRule02(IReferenceDataRepository referenceDataRepository)
-        {
-            _referenceDataRepository = referenceDataRepository;
-        }
 
         public Task Execute(SupplementaryDataModel model)
         {

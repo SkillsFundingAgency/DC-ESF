@@ -49,7 +49,8 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             "December"
         };
 
-        public FundingSummaryReport(IDateTimeProvider dateTimeProvider,
+        public FundingSummaryReport(
+            IDateTimeProvider dateTimeProvider,
             [KeyFilter(PersistenceStorageKeys.Blob)] IKeyValuePersistenceService storage,
             IFM70Repository repository,
             IList<IRowHelper> rowHelpers,
@@ -119,7 +120,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
                 UKPRN = ukPrn.ToString(),
                 SupplementaryDataFile = sourceFile.FileName,
                 ContractReferenceNumber = sourceFile.ConRefNumber,
-                ProviderName =  _referenceRepository.GetProviderName(ukPrn, cancellationToken),
+                ProviderName = _referenceRepository.GetProviderName(ukPrn, cancellationToken),
                 LastSupplementaryDataFileUpdate = sourceFile.SuppliedDate.ToString(),
                 FundingYears = new List<FundingHeader.FundingHeaderYear>
                 {
@@ -128,7 +129,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
                         Header = $"{year.ToString()}/{secondYear}",
                         ILRFile = fileData?.Filename,
                         LastILRFileUpdate = fileData?.SubmittedTime.ToString(),
-                        FilePreparationDate = preparationDate != null && DateTime.TryParse(preparationDate, out var prepDate) 
+                        FilePreparationDate = preparationDate != null && DateTime.TryParse(preparationDate, out var prepDate)
                             ? prepDate.ToShortDateString() : string.Empty
                     }
                 }
@@ -168,9 +169,9 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
                     {
                         continue;
                     }
+
                     rowHelper.Execute(reportData, fundingReportRow, data, ilrData);
                     break;
-
                 }
             }
 
@@ -205,6 +206,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
                 writer.WriteField(year.Header);
                 writer.WriteField(string.Empty);
             }
+
             writer.NextRecord();
 
             writer.WriteField("Contract Reference Number : ");
@@ -217,6 +219,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
                 writer.WriteField(year.ILRFile);
                 writer.WriteField(string.Empty);
             }
+
             writer.NextRecord();
 
             writer.WriteField("Supplementary Data File : ");
@@ -229,6 +232,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
                 writer.WriteField(year.LastILRFileUpdate);
                 writer.WriteField(string.Empty);
             }
+
             writer.NextRecord();
 
             writer.WriteField("Last Supplementary Data File Update : ");
@@ -241,6 +245,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
                 writer.WriteField(year.FilePreparationDate);
                 writer.WriteField(string.Empty);
             }
+
             writer.NextRecord();
 
             writer.WriteField("Security Classification : ");
@@ -300,10 +305,12 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
                                 writer.WriteField(value);
                             }
                         }
+
                         foreach (var rowTotal in rowModel.Totals)
                         {
                             writer.WriteField(rowTotal);
                         }
+
                         writer.NextRecord();
                         break;
                     case RowType.Cumulative:
@@ -315,10 +322,12 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
                                 writer.WriteField(value);
                             }
                         }
+
                         foreach (var rowTotal in rowModel.Totals)
                         {
                             writer.WriteField(rowTotal);
                         }
+
                         writer.WriteField("n/a");
                         writer.NextRecord();
                         break;

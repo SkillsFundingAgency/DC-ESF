@@ -42,7 +42,6 @@ namespace ESFA.DC.ESF.DataStore
                 SqlTransaction transaction = null;
                 try
                 {
-
                     await connection.OpenAsync(cancellationToken);
 
                     if (cancellationToken.IsCancellationRequested)
@@ -85,7 +84,6 @@ namespace ESFA.DC.ESF.DataStore
             }
 
             return successfullyCommitted;
-
         }
     }
 }

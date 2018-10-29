@@ -110,7 +110,7 @@ namespace ESFA.DC.ESF.Service.Stateless
             RegisterServices(container);
 
             RegisterRepositories(container);
-            
+
             return container;
         }
 
@@ -183,7 +183,8 @@ namespace ESFA.DC.ESF.Service.Stateless
             }).As<IULN>().InstancePerLifetimeScope();
         }
 
-        private static void RegisterServiceBusConfig(ContainerBuilder containerBuilder,
+        private static void RegisterServiceBusConfig(
+            ContainerBuilder containerBuilder,
             IConfigurationHelper configHelper)
         {
             var serviceBusOptions =
@@ -218,8 +219,10 @@ namespace ESFA.DC.ESF.Service.Stateless
 
             containerBuilder.Register(c =>
             {
-                var config = new QueueConfiguration(serviceBusOptions.ServiceBusConnectionString,
-                    serviceBusOptions.AuditQueueName, 1);
+                var config = new QueueConfiguration(
+                    serviceBusOptions.ServiceBusConnectionString,
+                    serviceBusOptions.AuditQueueName,
+                    1);
 
                 return new QueuePublishService<AuditingDto>(
                     config,
@@ -228,8 +231,10 @@ namespace ESFA.DC.ESF.Service.Stateless
 
             containerBuilder.Register(c =>
             {
-                var config = new QueueConfiguration(serviceBusOptions.ServiceBusConnectionString,
-                    serviceBusOptions.JobStatusQueueName, 1);
+                var config = new QueueConfiguration(
+                    serviceBusOptions.ServiceBusConnectionString,
+                    serviceBusOptions.JobStatusQueueName,
+                    1);
 
                 return new QueuePublishService<JobStatusDto>(
                     config,
@@ -257,7 +262,7 @@ namespace ESFA.DC.ESF.Service.Stateless
         private static void RegisterLogger(ContainerBuilder containerBuilder, IConfigurationHelper configHelper)
         {
             var loggerConfig = configHelper.GetSectionValues<LoggerOptions>("LoggerSection");
-            
+
             containerBuilder.RegisterInstance(new LoggerOptions
             {
                 LoggerConnectionstring = loggerConfig.LoggerConnectionstring
@@ -312,6 +317,8 @@ namespace ESFA.DC.ESF.Service.Stateless
             containerBuilder.RegisterType<FM70Repository>().As<IFM70Repository>();
             containerBuilder.RegisterType<ValidRepository>().As<IValidRepository>();
             containerBuilder.RegisterType<ReferenceDataRepository>().As<IReferenceDataRepository>();
+            containerBuilder.RegisterType<ReferenceDataCache>().As<IReferenceDataCache>()
+                .InstancePerLifetimeScope();
         }
 
         private static void RegisterHelpers(ContainerBuilder containerBuilder)

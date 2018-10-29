@@ -13,6 +13,11 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
     {
         private readonly IReferenceDataRepository _referenceDataRepository;
 
+        public CalendarYearCalendarMonthRule03(IReferenceDataRepository referenceDataRepository)
+        {
+            _referenceDataRepository = referenceDataRepository;
+        }
+
         public string ErrorMessage => "The CalendarMonth and CalendarYear is after the contract allocation end date.";
 
         public string ErrorName => "CalendarYearCalendarMonth_03";
@@ -20,11 +25,6 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
         public bool IsWarning => false;
 
         public bool IsValid { get; private set; }
-
-        public CalendarYearCalendarMonthRule03(IReferenceDataRepository referenceDataRepository)
-        {
-            _referenceDataRepository = referenceDataRepository;
-        }
 
         public async Task Execute(SupplementaryDataModel model)
         {

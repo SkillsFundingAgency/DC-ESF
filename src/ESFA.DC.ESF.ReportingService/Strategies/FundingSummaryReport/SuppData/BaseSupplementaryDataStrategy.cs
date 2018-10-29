@@ -26,7 +26,7 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.SuppData
         }
 
         public void Execute(
-            IList<SupplementaryDataModel> data, 
+            IList<SupplementaryDataModel> data,
             IList<FundingSummaryReportYearlyValueModel> yearlyData)
         {
             // todo for each year of data

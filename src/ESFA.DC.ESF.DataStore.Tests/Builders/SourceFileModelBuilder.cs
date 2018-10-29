@@ -1,5 +1,5 @@
-﻿using ESFA.DC.ESF.Models;
-using System;
+﻿using System;
+using ESFA.DC.ESF.Models;
 
 namespace ESFA.DC.ESF.DataStore.Tests.Builders
 {

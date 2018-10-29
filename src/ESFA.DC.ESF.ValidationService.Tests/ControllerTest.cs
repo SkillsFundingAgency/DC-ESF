@@ -21,10 +21,10 @@ namespace ESFA.DC.ESF.ValidationService.Tests
         public async Task TestController()
         {
             Mock<IReferenceDataRepository> repoMock = new Mock<IReferenceDataRepository>();
-            repoMock.Setup(m => m.GetUlnLookup(It.IsAny<CancellationToken>())).Returns(new List<UniqueLearnerNumber>());
+            repoMock.Setup(m => m.GetUlnLookup(It.IsAny<IList<long>>(), It.IsAny<CancellationToken>())).Returns(new List<UniqueLearnerNumber>());
 
             var validators = GetValidators(repoMock);
-            ValidationController controller = new ValidationController(validators);
+            var controller = new ValidationController(validators);
 
             await controller.ValidateData(GetSupplementaryDataList(), GetSupplementaryData());
 
@@ -93,7 +93,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests
                         new ULNRule04(),
                         new ValueRule01(),
                         new ValueRule02(),
-                        new ValueRule03()   
+                        new ValueRule03()
                     }),
                 new CrossRecordCommands(
                     new List<ICrossRecordValidator>

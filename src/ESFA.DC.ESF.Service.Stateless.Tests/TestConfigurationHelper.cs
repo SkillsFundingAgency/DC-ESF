@@ -10,7 +10,7 @@ namespace ESFA.DC.ESF.Service.Stateless.Tests
             switch (sectionName)
             {
                 case "VersionSection":
-                    return (T) (object) new VersionInfo
+                    return (T)(object)new VersionInfo
                     {
                         ServiceReleaseVersion = "1.2.3.4"
                     };

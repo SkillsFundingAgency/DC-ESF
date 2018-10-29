@@ -6,10 +6,10 @@ namespace ESFA.DC.ESF.Interfaces.Controllers
 {
     public interface IValidationController
     {
-        Task ValidateData(IList<SupplementaryDataModel> allModels, SupplementaryDataModel model);
-
         bool RejectFile { get; }
 
         IList<ValidationErrorModel> Errors { get; }
+
+        Task ValidateData(IList<SupplementaryDataModel> allModels, SupplementaryDataModel model);
     }
 }

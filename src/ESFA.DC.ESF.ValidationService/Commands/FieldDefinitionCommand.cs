@@ -11,16 +11,16 @@ namespace ESFA.DC.ESF.ValidationService.Commands
     {
         private readonly IList<IFieldDefinitionValidator> _validators;
 
+        public FieldDefinitionCommand(IList<IFieldDefinitionValidator> validators)
+        {
+            _validators = validators;
+        }
+
         public bool IsValid { get; private set; }
 
         public IList<ValidationErrorModel> Errors { get; private set; }
 
         public bool RejectFile => false;
-
-        public FieldDefinitionCommand(IList<IFieldDefinitionValidator> validators)
-        {
-            _validators = validators;
-        }
 
         public int Priority => 2;
 

@@ -9,7 +9,7 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.Ilr
     {
         private const string PeriodPrefix = "Period_";
 
-        protected  virtual string DeliverableCode { get; set; }
+        protected virtual string DeliverableCode { get; set; }
 
         protected virtual List<string> AttributeNames { get; set; }
 

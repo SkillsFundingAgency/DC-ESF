@@ -7,7 +7,6 @@ namespace ESFA.DC.ESF.Database.EF
         public ESF_DataStoreEntities(string connectionString)
             : base(connectionString)
         {
-            
         }
     }
 }

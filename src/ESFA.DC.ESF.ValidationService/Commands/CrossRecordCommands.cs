@@ -11,6 +11,11 @@ namespace ESFA.DC.ESF.ValidationService.Commands
     {
         private readonly IList<ICrossRecordValidator> _validators;
 
+        public CrossRecordCommands(IList<ICrossRecordValidator> validators)
+        {
+            _validators = validators;
+        }
+
         public IList<ValidationErrorModel> Errors { get; private set; }
 
         public bool RejectFile => false;
@@ -20,11 +25,6 @@ namespace ESFA.DC.ESF.ValidationService.Commands
         public int Priority => 3;
 
         public IList<SupplementaryDataModel> AllRecords { get; set; }
-
-        public CrossRecordCommands(IList<ICrossRecordValidator> validators)
-        {
-            _validators = validators;
-        }
 
         public async Task Execute(SupplementaryDataModel model)
         {

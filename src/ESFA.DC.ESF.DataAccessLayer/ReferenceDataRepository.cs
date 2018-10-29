@@ -24,8 +24,12 @@ namespace ESFA.DC.ESF.DataAccessLayer
         private readonly IOrganisations _organisations;
         private readonly IFcsContext _fcsContext;
         private readonly IULN _ulnContext;
-
+        private readonly IReferenceDataCache _dataCache;
         private readonly ILogger _logger;
+
+        private readonly object _ulnLock = new object();
+        private readonly object _larsDeliveryLock = new object();
+        private readonly object _codeMappingLock = new object();
 
         public ReferenceDataRepository(
             ILogger logger,
@@ -33,7 +37,8 @@ namespace ESFA.DC.ESF.DataAccessLayer
             ILARS lars,
             IOrganisations organisations,
             IFcsContext fcsContext,
-            IULN ulnContext)
+            IULN ulnContext,
+            IReferenceDataCache dataCache)
         {
             _logger = logger;
             _postcodes = postcodes;
@@ -41,6 +46,7 @@ namespace ESFA.DC.ESF.DataAccessLayer
             _organisations = organisations;
             _fcsContext = fcsContext;
             _ulnContext = ulnContext;
+            _dataCache = dataCache;
         }
 
         public string GetPostcodeVersion(CancellationToken cancellationToken)
@@ -84,7 +90,7 @@ namespace ESFA.DC.ESF.DataAccessLayer
             return version;
         }
 
-        public async Task<IList<LARS_LearningDelivery>> GetLarsLearningDelivery(List<string> learnAimRefs, CancellationToken cancellationToken)
+        public IList<LARS_LearningDelivery> GetLarsLearningDelivery(IList<string> learnAimRefs, CancellationToken cancellationToken)
         {
             List<LARS_LearningDelivery> learningDelivery = null;
             try
@@ -93,7 +99,26 @@ namespace ESFA.DC.ESF.DataAccessLayer
                 {
                     return null;
                 }
-                learningDelivery = await _lars.LARS_LearningDelivery.Where(ld => learnAimRefs.Contains(ld.LearnAimRef)).ToListAsync(cancellationToken);
+
+                var uncached = new List<string>();
+                lock (_larsDeliveryLock)
+                {
+                    foreach (var learnAimRef in learnAimRefs)
+                    {
+                        if (_dataCache.LarsLearningDeliveries.All(x => x.LearnAimRef != learnAimRef))
+                        {
+                            uncached.Add(learnAimRef);
+                        }
+                    }
+
+                    if (uncached.Any())
+                    {
+                        _dataCache.LarsLearningDeliveries.AddRange(_lars.LARS_LearningDelivery
+                            .Where(x => uncached.Contains(x.LearnAimRef)).ToList());
+                    }
+                }
+
+                learningDelivery = _dataCache.LarsLearningDeliveries.Where(l => learnAimRefs.Contains(l.LearnAimRef)).ToList();
             }
             catch (Exception ex)
             {
@@ -133,7 +158,12 @@ namespace ESFA.DC.ESF.DataAccessLayer
                     return null;
                 }
 
-                providerName = ""; // _organisations.Org_Details.FirstOrDefault(o => o.UKPRN == ukPrn)?.Name;
+                if (!_dataCache.ProviderNameByUkprn.ContainsKey(ukPrn))
+                {
+                    _dataCache.ProviderNameByUkprn[ukPrn] = _organisations.Org_Details.FirstOrDefault(o => o.UKPRN == ukPrn)?.Name;
+                }
+
+                providerName = _dataCache.ProviderNameByUkprn[ukPrn];
             }
             catch (Exception ex)
             {
@@ -143,7 +173,7 @@ namespace ESFA.DC.ESF.DataAccessLayer
             return providerName;
         }
 
-        public List<UniqueLearnerNumber> GetUlnLookup(CancellationToken cancellationToken)
+        public IList<UniqueLearnerNumber> GetUlnLookup(IList<long> searchUlns, CancellationToken cancellationToken)
         {
             List<UniqueLearnerNumber> ulns = null;
             try
@@ -153,7 +183,33 @@ namespace ESFA.DC.ESF.DataAccessLayer
                     return null;
                 }
 
-                ulns = _ulnContext.UniqueLearnerNumbers.Select(x => x).ToList();
+                var uniqueUlns = searchUlns.Distinct();
+                var unknownUlns = new List<long>();
+                lock (_ulnLock)
+                {
+                    foreach (var uln in uniqueUlns)
+                    {
+                        if (_dataCache.Ulns.All(u => u.ULN != uln))
+                        {
+                            unknownUlns.Add(uln);
+                        }
+                    }
+
+                    if (unknownUlns.Any())
+                    {
+                        var result = new List<UniqueLearnerNumber>();
+                        var ulnShards = SplitList(unknownUlns, 5000);
+                        foreach (var shard in ulnShards)
+                        {
+                            result.AddRange(_ulnContext.UniqueLearnerNumbers
+                                .Where(u => shard.Contains(u.ULN)).ToList());
+                        }
+
+                        _dataCache.Ulns.AddRange(result);
+                    }
+                }
+
+                ulns = _dataCache.Ulns.Where(x => searchUlns.Contains(x.ULN)).ToList();
             }
             catch (Exception ex)
             {
@@ -163,7 +219,7 @@ namespace ESFA.DC.ESF.DataAccessLayer
             return ulns;
         }
 
-        public async Task<IList<ContractDeliverableCodeMapping>> GetContractDeliverableCodeMapping(List<string> deliverableCodes, CancellationToken cancellationToken)
+        public IList<ContractDeliverableCodeMapping> GetContractDeliverableCodeMapping(IList<string> deliverableCodes, CancellationToken cancellationToken)
         {
             List<ContractDeliverableCodeMapping> codeMapping = null;
             try
@@ -172,8 +228,27 @@ namespace ESFA.DC.ESF.DataAccessLayer
                 {
                     return null;
                 }
-                codeMapping = await _fcsContext.ContractDeliverableCodeMappings
-                    .Where(m => deliverableCodes.Contains(m.ExternalDeliverableCode)).ToListAsync(cancellationToken);
+
+                var uncached = new List<string>();
+                lock (_codeMappingLock)
+                {
+                    foreach (var deliverableCode in deliverableCodes)
+                    {
+                        if (_dataCache.CodeMappings.All(x => x.ExternalDeliverableCode != deliverableCode))
+                        {
+                            uncached.Add(deliverableCode);
+                        }
+                    }
+
+                    if (uncached.Any())
+                    {
+                        _dataCache.CodeMappings.AddRange(_fcsContext.ContractDeliverableCodeMappings
+                            .Where(x => uncached.Contains(x.ExternalDeliverableCode)).ToList());
+                    }
+                }
+
+                codeMapping = _dataCache.CodeMappings
+                    .Where(m => deliverableCodes.Contains(m.ExternalDeliverableCode)).ToList();
             }
             catch (Exception ex)
             {
@@ -181,6 +256,16 @@ namespace ESFA.DC.ESF.DataAccessLayer
             }
 
             return codeMapping;
+        }
+
+        private IEnumerable<IEnumerable<long>> SplitList(IEnumerable<long> ulns, int nSize = 30)
+        {
+            var ulnList = ulns.ToList();
+
+            for (var i = 0; i < ulnList.Count; i += nSize)
+            {
+                yield return ulnList.GetRange(i, Math.Min(nSize, ulnList.Count - i));
+            }
         }
     }
 }

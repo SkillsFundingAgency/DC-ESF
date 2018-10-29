@@ -6,8 +6,6 @@ namespace ESFA.DC.ESF.Interfaces.Validation
 {
     public interface IValidatorCommand
     {
-        Task Execute(SupplementaryDataModel model);
-
         IList<ValidationErrorModel> Errors { get; }
 
         bool RejectFile { get; }
@@ -15,5 +13,7 @@ namespace ESFA.DC.ESF.Interfaces.Validation
         bool IsValid { get; }
 
         int Priority { get; }
+
+        Task Execute(SupplementaryDataModel model);
     }
 }

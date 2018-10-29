@@ -6,6 +6,8 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 {
     public class FDStaffNameAL : IFieldDefinitionValidator
     {
+        private const int FieldLength = 100;
+
         public string ErrorName => "FD_StaffName_AL";
 
         public bool IsWarning => false;
@@ -13,8 +15,6 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
         public string ErrorMessage => $"The StaffName must not exceed {FieldLength} characters in length. Please adjust the value and resubmit the file.";
 
         public bool IsValid { get; private set; }
-
-        private const int FieldLength = 100;
 
         public Task Execute(SupplementaryDataModel model)
         {

@@ -11,7 +11,8 @@ namespace ESFA.DC.ESF.Interfaces.Services
             SourceFileModel sourceFileModel,
             CancellationToken cancellationToken);
 
-        Task<SupplementaryDataWrapper> RunFileValidators(SourceFileModel sourceFileModel,
+        Task<SupplementaryDataWrapper> RunFileValidators(
+            SourceFileModel sourceFileModel,
             SupplementaryDataWrapper wrapper);
     }
 }

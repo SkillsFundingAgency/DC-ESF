@@ -11,6 +11,11 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FileLevel
     {
         private readonly IEsfRepository _esfRepository;
 
+        public FileNameRule08(IEsfRepository esfRepository)
+        {
+            _esfRepository = esfRepository;
+        }
+
         public string ErrorMessage => "The date/time of the file is not greater than a previous transmission with the same ConRefNumber and UKPRN.";
 
         public bool IsValid { get; private set; }
@@ -20,11 +25,6 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FileLevel
         public string ErrorName => "Filename_08";
 
         public bool IsWarning => false;
-
-        public FileNameRule08(IEsfRepository esfRepository)
-        {
-            _esfRepository = esfRepository;
-        }
 
         public async Task Execute(SourceFileModel sourceFileModel, SupplementaryDataModel model)
         {

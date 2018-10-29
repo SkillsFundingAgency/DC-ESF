@@ -26,7 +26,7 @@ namespace ESFA.DC.ESF.DataStore.Tests
             var store = new StoreESF();
             var cancellationToken = default(CancellationToken);
             const int fileId = 1;
-            var model = new List<SupplementaryDataModel> {SupplementaryDataModelBuilder.BuildSupplementaryData()};
+            var model = new List<SupplementaryDataModel> { SupplementaryDataModelBuilder.BuildSupplementaryData() };
 
             using (SqlConnection connection =
                 new SqlConnection(ConfigurationManager.AppSettings["TestConnectionString"]))
@@ -40,7 +40,6 @@ namespace ESFA.DC.ESF.DataStore.Tests
                     await store.StoreAsync(connection, transaction, fileId, model, cancellationToken);
 
                     transaction.Commit();
-
                 }
                 catch (Exception ex)
                 {

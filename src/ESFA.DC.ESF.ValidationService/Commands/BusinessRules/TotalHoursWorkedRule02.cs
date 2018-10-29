@@ -18,7 +18,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public Task Execute(SupplementaryDataModel model)
         {
-            var staffCostTypes = new List<string> {"Staff Part Time", "Staff Full Time"};
+            var staffCostTypes = new List<string> { "Staff Part Time", "Staff Full Time" };
 
             IsValid = !staffCostTypes.Contains(model.CostType) || model.TotalHoursWorked == null;
 

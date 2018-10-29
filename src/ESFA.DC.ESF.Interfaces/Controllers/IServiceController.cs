@@ -7,7 +7,8 @@ namespace ESFA.DC.ESF.Interfaces.Controllers
 {
     public interface IServiceController
     {
-        Task RunTasks(IJobContextMessage jobContextMessage,
+        Task RunTasks(
+            IJobContextMessage jobContextMessage,
             IReadOnlyList<ITaskItem> tasks,
             CancellationToken cancellationToken);
     }

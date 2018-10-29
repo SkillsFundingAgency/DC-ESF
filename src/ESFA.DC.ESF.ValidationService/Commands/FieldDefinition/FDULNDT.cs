@@ -6,6 +6,10 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 {
     public class FDULNDT : IFieldDefinitionValidator
     {
+        private const long Min = 1000000000;
+
+        private const long Max = 9999999999;
+
         public string ErrorName => "FD_ULN_DT";
 
         public bool IsWarning => false;
@@ -13,10 +17,6 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
         public string ErrorMessage => $"ULN must be an integer between {Min} and {Max}. Please adjust the value and resubmit the file.";
 
         public bool IsValid { get; private set; }
-
-        private const long Min = 1000000000;
-
-        private const long Max = 9999999999;
 
         public Task Execute(SupplementaryDataModel model)
         {

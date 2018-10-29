@@ -38,7 +38,6 @@ namespace ESFA.DC.ESF.DataStore.Tests
                     await store.StoreAsync(connection, transaction, cancellationToken, model);
 
                     transaction.Commit();
-
                 }
                 catch (Exception ex)
                 {

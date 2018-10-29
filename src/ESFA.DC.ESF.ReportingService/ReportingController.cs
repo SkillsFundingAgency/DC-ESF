@@ -55,6 +55,8 @@ namespace ESFA.DC.ESF.ReportingService
         {
             _logger.LogInfo("ESF Reporting service called");
 
+            //if wrapper supplementary data is empty then "Report Only", go get data for ukPrn
+
             using (var memoryStream = new MemoryStream())
             {
                 using (var archive = new ZipArchive(memoryStream, ZipArchiveMode.Create, true))

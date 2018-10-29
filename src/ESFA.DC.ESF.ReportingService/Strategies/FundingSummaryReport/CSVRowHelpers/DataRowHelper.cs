@@ -16,6 +16,8 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
 
         private readonly IList<IILRDataStrategy> _ilrStrategies;
 
+        private readonly RowType RowType = RowType.Data;
+
         public DataRowHelper(
             IList<ISupplementaryDataStrategy> esfStrategies,
             IList<IILRDataStrategy> ilrStrategies)
@@ -23,8 +25,6 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
             _esfStrategies = esfStrategies;
             _ilrStrategies = ilrStrategies;
         }
-
-        private readonly RowType RowType = RowType.Data;
 
         public bool IsMatch(RowType rowType)
         {
@@ -57,10 +57,12 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
                             continue;
                         }
                     }
+
                     if (!strategy.IsMatch(row.DeliverableCode))
                     {
                         continue;
                     }
+
                     strategy.Execute(esfDataModels, reportRowYearlyValues);
                     break;
                 }
@@ -89,7 +91,7 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
                     }
                 }
             }
-            
+
             reportRow.YearlyValues = reportRowYearlyValues;
 
             reportRowYearlyValues.ForEach(v =>

@@ -23,9 +23,9 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
             IList<ESF_LearningDeliveryDeliverable_PeriodisedValues> ilrData)
         {
             var deliverableCodes = row.DeliverableCode?.Split(',').ToList();
-            
-            var reportRowsToTotal = deliverableCodes == null ? 
-                reportOutput.Where(r => r.RowType == RowType.Data).ToList() : 
+
+            var reportRowsToTotal = deliverableCodes == null ?
+                reportOutput.Where(r => r.RowType == RowType.Data).ToList() :
                 reportOutput.Where(r => deliverableCodes.Contains(r.DeliverableCode) && r.RowType == RowType.Data).ToList();
 
             if (!reportRowsToTotal.Any())
@@ -33,7 +33,7 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
                 return;
             }
 
-            var rowModel =new FundingSummaryReportRowModel
+            var rowModel = new FundingSummaryReportRowModel
             {
                 RowType = RowType.Total,
                 Title = row.Title,
@@ -54,7 +54,7 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
                 {
                     yearlyModel.Values[i] = GetPeriodTotals(periodValues, i);
                 }
-                
+
                 yearlyValueTotals.Add(yearlyModel);
             }
 
@@ -71,7 +71,7 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
         }
 
         private decimal GetPeriodTotals(
-            List<FundingSummaryReportYearlyValueModel> yearlyModel, 
+            List<FundingSummaryReportYearlyValueModel> yearlyModel,
             int period)
         {
             var total = 0M;

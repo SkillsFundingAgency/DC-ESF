@@ -6,6 +6,6 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.SuppData
     {
         protected override string DeliverableCode => "NR01";
 
-        protected override string ReferenceType => "Authorised Claims";      
+        protected override string ReferenceType => "Authorised Claims";
     }
 }

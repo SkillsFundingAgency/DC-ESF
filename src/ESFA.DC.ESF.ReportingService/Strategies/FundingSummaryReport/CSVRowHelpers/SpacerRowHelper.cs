@@ -21,7 +21,7 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
             IList<SupplementaryDataModel> esfDataModels,
             IList<ESF_LearningDeliveryDeliverable_PeriodisedValues> ilrData)
         {
-            reportOutput.Add( new FundingSummaryReportRowModel
+            reportOutput.Add(new FundingSummaryReportRowModel
             {
                 RowType = RowType
             });

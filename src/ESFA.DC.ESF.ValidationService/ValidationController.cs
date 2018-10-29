@@ -11,14 +11,14 @@ namespace ESFA.DC.ESF.ValidationService
     {
         private readonly IList<IValidatorCommand> _validatorCommands;
 
-        public bool RejectFile { get; private set; }
-
-        public IList<ValidationErrorModel> Errors { get; private set; }
-
         public ValidationController(IList<IValidatorCommand> validatorCommands)
         {
             _validatorCommands = validatorCommands.OrderBy(c => c.Priority).ToList();
         }
+
+        public bool RejectFile { get; private set; }
+
+        public IList<ValidationErrorModel> Errors { get; private set; }
 
         public async Task ValidateData(IList<SupplementaryDataModel> allModels, SupplementaryDataModel model)
         {
@@ -52,5 +52,5 @@ namespace ESFA.DC.ESF.ValidationService
                 break;
             }
         }
-    }    
+    }
 }

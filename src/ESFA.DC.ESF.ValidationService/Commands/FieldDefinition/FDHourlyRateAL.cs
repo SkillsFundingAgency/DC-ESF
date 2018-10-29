@@ -7,6 +7,10 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 {
     public class FDHourlyRateAL : IFieldDefinitionValidator
     {
+        private const int IntegerPartLength = 6;
+
+        private const int PrecisionLength = 2;
+
         public string ErrorName => "FD_HourlyRate_AL";
 
         public bool IsWarning => false;
@@ -15,13 +19,9 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 
         public bool IsValid { get; private set; }
 
-        private const int IntegerPartLength = 6;
-
-        private const int PrecisionLength = 2;
-
         public Task Execute(SupplementaryDataModel model)
         {
-            IsValid = string.IsNullOrEmpty(model.HourlyRate.ToString().Trim()) 
+            IsValid = string.IsNullOrEmpty(model.HourlyRate.ToString().Trim())
                       || DecimalHelper.CheckDecimalLengthAndPrecision(model.HourlyRate ?? 0.0M, IntegerPartLength, PrecisionLength);
 
             return Task.CompletedTask;

@@ -81,7 +81,7 @@ namespace ESFA.DC.ESF.Models.Reports
         public DateTime? EligibleOutcomeCollectionDate { get; set; }
 
         public DateTime? EligibleOutcomeDateProgressionLength { get; set; }
-        
+
         public string EligibleProgressionOutcomeType { get; set; }
 
         public long? EligibleProgressionOutcomeCode { get; set; }

@@ -59,8 +59,7 @@ namespace ESFA.DC.ESF.ReportingService.Tests
                 ilrRepo.Object,
                 rowHelpers,
                 referenceDataService.Object,
-                versionInfo.Object
-            );
+                versionInfo.Object);
 
             SourceFileModel sourceFile = GetEsfSourceFileModel();
 

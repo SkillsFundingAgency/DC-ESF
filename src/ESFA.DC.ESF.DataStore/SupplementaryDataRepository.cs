@@ -8,6 +8,5 @@ namespace ESFA.DC.ESF.DataStore
 {
     public class SupplementaryDataRepository
     {
-
     }
 }

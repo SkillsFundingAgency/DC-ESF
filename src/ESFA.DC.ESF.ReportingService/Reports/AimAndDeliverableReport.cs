@@ -20,6 +20,8 @@ namespace ESFA.DC.ESF.ReportingService.Reports
 {
     public class AimAndDeliverableReport : AbstractReportBuilder, IModelReport
     {
+        private const string FundingStreamPeriodCode = "ESF1420";
+
         private readonly IKeyValuePersistenceService _storage;
 
         private readonly IReferenceDataRepository _referenceDataService;
@@ -27,10 +29,8 @@ namespace ESFA.DC.ESF.ReportingService.Reports
         private readonly IValidRepository _validRepository;
 
         private readonly IFM70Repository _fm70Repository;
-        
-        private const string FundingStreamPeriodCode = "ESF1420";
 
-        private readonly string[] _reportMonths = 
+        private readonly string[] _reportMonths =
         {
             "Aug-18",
             "Sep-18",
@@ -42,7 +42,8 @@ namespace ESFA.DC.ESF.ReportingService.Reports
             "Mar-19"
         };
 
-        public AimAndDeliverableReport(IDateTimeProvider dateTimeProvider,
+        public AimAndDeliverableReport(
+            IDateTimeProvider dateTimeProvider,
             [KeyFilter(PersistenceStorageKeys.Blob)]IKeyValuePersistenceService storage,
             IReferenceDataRepository referenceDataService,
             IValidRepository validRepository,
@@ -58,9 +59,9 @@ namespace ESFA.DC.ESF.ReportingService.Reports
         }
 
         public async Task GenerateReport(
-            SupplementaryDataWrapper wrapper, 
+            SupplementaryDataWrapper wrapper,
             SourceFileModel sourceFile,
-            ZipArchive archive, 
+            ZipArchive archive,
             CancellationToken cancellationToken)
         {
             var externalFileName = GetExternalFilename(sourceFile.UKPRN, sourceFile.JobId ?? 0, sourceFile.SuppliedDate ?? DateTime.MinValue);
@@ -129,13 +130,12 @@ namespace ESFA.DC.ESF.ReportingService.Reports
             var fm70Deliverables = fm70LearningDeliveryDeliverablesTask.Result;
             var fm70DeliverablePeriods = fm70DeliverablePeriodTask.Result;
             var fm70Outcomes = fm70OutcomesTask.Result;
-            
 
             var learnAimRefs = learningDeliveries.Select(ld => ld.LearnAimRef).ToList();
             var deliverableCodes = fm70Deliverables?.Select(d => d.DeliverableCode).ToList();
 
             //var fcsCodeMappings = await _referenceDataService.GetContractDeliverableCodeMapping(deliverableCodes, cancellationToken);
-            var larsDeliveries = await _referenceDataService.GetLarsLearningDelivery(learnAimRefs, cancellationToken);
+            var larsDeliveries = _referenceDataService.GetLarsLearningDelivery(learnAimRefs, cancellationToken);
 
             var reportData = new List<AimAndDeliverableModel>();
 
@@ -145,12 +145,12 @@ namespace ESFA.DC.ESF.ReportingService.Reports
                 foreach (var delivery in deliveries)
                 {
                     var fm70Delivery = fm70LearningDeliveries?.SingleOrDefault(d =>
-                        d.LearnRefNumber == learner.LearnRefNumber 
+                        d.LearnRefNumber == learner.LearnRefNumber
                         && d.AimSeqNumber == delivery.AimSeqNumber);
                     var fm70Deliverable = fm70Deliverables?.SingleOrDefault(d =>
                         d.LearnRefNumber == learner.LearnRefNumber
                         && d.AimSeqNumber == delivery.AimSeqNumber);
-                    
+
                     var deliveryFam = learnerDeliveryFams.SingleOrDefault(l =>
                         l.LearnRefNumber == learner.LearnRefNumber
                         && l.AimSeqNumber == delivery.AimSeqNumber
@@ -179,7 +179,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports
                         p.LearnRefNumber == learner.LearnRefNumber
                         && p.AimSeqNumber == delivery.AimSeqNumber
                         && p.DeliverableCode == fm70Deliverable?.DeliverableCode);
-                    
+
                     foreach (var period in fm70Periods)
                     {
                         var total = period?.StartEarnings ?? 0 + period?.AchievementEarnings ?? 0

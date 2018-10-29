@@ -7,6 +7,10 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 {
     public class FDTotalHoursWorkedAL : IFieldDefinitionValidator
     {
+        private const int IntegerPartLength = 6;
+
+        private const int PrecisionLength = 2;
+
         public string ErrorName => "FD_TotalHoursWorked_AL";
 
         public bool IsWarning => false;
@@ -15,13 +19,9 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 
         public bool IsValid { get; private set; }
 
-        private const int IntegerPartLength = 6;
-
-        private const int PrecisionLength = 2;
-
         public Task Execute(SupplementaryDataModel model)
         {
-            IsValid = string.IsNullOrEmpty(model.TotalHoursWorked.ToString().Trim()) 
+            IsValid = string.IsNullOrEmpty(model.TotalHoursWorked.ToString().Trim())
                       || DecimalHelper.CheckDecimalLengthAndPrecision(model.TotalHoursWorked ?? 0.0M, IntegerPartLength, PrecisionLength);
 
             return Task.CompletedTask;

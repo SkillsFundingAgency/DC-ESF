@@ -21,7 +21,7 @@ namespace ESFA.DC.ESF.Service.Stateless
                 // an instance of the class is created in this host process.
 
                 var builder = DIComposition.BuildContainer(new ConfigurationHelper());
-                
+
                 builder.RegisterServiceFabricSupport();
 
                 // Register the stateless service.

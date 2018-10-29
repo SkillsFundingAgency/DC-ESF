@@ -17,10 +17,10 @@ namespace ESFA.DC.ESF.Interfaces.DataAccessLayer
 
         string GetProviderName(int ukPrn, CancellationToken cancellationToken);
 
-        List<UniqueLearnerNumber> GetUlnLookup(CancellationToken cancellationToken);
+        IList<UniqueLearnerNumber> GetUlnLookup(IList<long> searchUlns, CancellationToken cancellationToken);
 
-        Task<IList<LARS_LearningDelivery>> GetLarsLearningDelivery(List<string> learnAimRefs, CancellationToken cancellationToken);
+        IList<LARS_LearningDelivery> GetLarsLearningDelivery(IList<string> learnAimRefs, CancellationToken cancellationToken);
 
-        Task<IList<ContractDeliverableCodeMapping>> GetContractDeliverableCodeMapping(List<string> deliverableCodes, CancellationToken cancellationToken);
+        IList<ContractDeliverableCodeMapping> GetContractDeliverableCodeMapping(IList<string> deliverableCodes, CancellationToken cancellationToken);
     }
 }

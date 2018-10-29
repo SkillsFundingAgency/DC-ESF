@@ -10,6 +10,13 @@ namespace ESFA.DC.ESF.Service.Stateless
     {
         public static readonly ServiceEventSource Current = new ServiceEventSource();
 
+        private const int MessageEventId = 1;
+        private const int ServiceMessageEventId = 2;
+        private const int ServiceTypeRegisteredEventId = 3;
+        private const int ServiceHostInitializationFailedEventId = 4;
+        private const int ServiceRequestStartEventId = 5;
+        private const int ServiceRequestStopEventId = 6;
+
         static ServiceEventSource()
         {
             // A workaround for the problem where ETW activities do not get tracked until Tasks infrastructure is initialized.
@@ -18,18 +25,9 @@ namespace ESFA.DC.ESF.Service.Stateless
         }
 
         // Instance constructor is private to enforce singleton semantics
-        private ServiceEventSource() : base() { }
-
-        #region Keywords
-        // Event keywords can be used to categorize events. 
-        // Each keyword is a bit flag. A single event can be associated with multiple keywords (via EventAttribute.Keywords property).
-        // Keywords must be defined as a public class named 'Keywords' inside EventSource that uses them.
-        public static class Keywords
+        private ServiceEventSource()
         {
-            public const EventKeywords Requests = (EventKeywords)0x1L;
-            public const EventKeywords ServiceInitialization = (EventKeywords)0x2L;
         }
-        #endregion
 
         #region Events
         // Define an instance method for each event you want to record and apply an [Event] attribute to it.
@@ -50,7 +48,6 @@ namespace ESFA.DC.ESF.Service.Stateless
             }
         }
 
-        private const int MessageEventId = 1;
         [Event(MessageEventId, Level = EventLevel.Informational, Message = "{0}")]
         public void Message(string message)
         {
@@ -78,10 +75,38 @@ namespace ESFA.DC.ESF.Service.Stateless
             }
         }
 
+        [Event(ServiceTypeRegisteredEventId, Level = EventLevel.Informational, Message = "Service host process {0} registered service type {1}", Keywords = Keywords.ServiceInitialization)]
+        public void ServiceTypeRegistered(int hostProcessId, string serviceType)
+        {
+            WriteEvent(ServiceTypeRegisteredEventId, hostProcessId, serviceType);
+        }
+
+        [Event(ServiceHostInitializationFailedEventId, Level = EventLevel.Error, Message = "Service host initialization failed", Keywords = Keywords.ServiceInitialization)]
+        public void ServiceHostInitializationFailed(string exception)
+        {
+            WriteEvent(ServiceHostInitializationFailedEventId, exception);
+        }
+
+        // A pair of events sharing the same name prefix with a "Start"/"Stop" suffix implicitly marks boundaries of an event tracing activity.
+        // These activities can be automatically picked up by debugging and profiling tools, which can compute their execution time, child activities,
+        // and other statistics.
+
+        [Event(ServiceRequestStartEventId, Level = EventLevel.Informational, Message = "Service request '{0}' started", Keywords = Keywords.Requests)]
+        public void ServiceRequestStart(string requestTypeName)
+        {
+            WriteEvent(ServiceRequestStartEventId, requestTypeName);
+        }
+
+        [Event(ServiceRequestStopEventId, Level = EventLevel.Informational, Message = "Service request '{0}' finished", Keywords = Keywords.Requests)]
+        public void ServiceRequestStop(string requestTypeName, string exception = "")
+        {
+            WriteEvent(ServiceRequestStopEventId, requestTypeName, exception);
+        }
+        #endregion
+
         // For very high-frequency events it might be advantageous to raise events using WriteEventCore API.
         // This results in more efficient parameter handling, but requires explicit allocation of EventData structure and unsafe code.
         // To enable this code path, define UNSAFE conditional compilation symbol and turn on unsafe code support in project properties.
-        private const int ServiceMessageEventId = 2;
         [Event(ServiceMessageEventId, Level = EventLevel.Informational, Message = "{7}")]
         private
 #if UNSAFE
@@ -118,38 +143,6 @@ namespace ESFA.DC.ESF.Service.Stateless
 #endif
         }
 
-        private const int ServiceTypeRegisteredEventId = 3;
-        [Event(ServiceTypeRegisteredEventId, Level = EventLevel.Informational, Message = "Service host process {0} registered service type {1}", Keywords = Keywords.ServiceInitialization)]
-        public void ServiceTypeRegistered(int hostProcessId, string serviceType)
-        {
-            WriteEvent(ServiceTypeRegisteredEventId, hostProcessId, serviceType);
-        }
-
-        private const int ServiceHostInitializationFailedEventId = 4;
-        [Event(ServiceHostInitializationFailedEventId, Level = EventLevel.Error, Message = "Service host initialization failed", Keywords = Keywords.ServiceInitialization)]
-        public void ServiceHostInitializationFailed(string exception)
-        {
-            WriteEvent(ServiceHostInitializationFailedEventId, exception);
-        }
-
-        // A pair of events sharing the same name prefix with a "Start"/"Stop" suffix implicitly marks boundaries of an event tracing activity.
-        // These activities can be automatically picked up by debugging and profiling tools, which can compute their execution time, child activities,
-        // and other statistics.
-        private const int ServiceRequestStartEventId = 5;
-        [Event(ServiceRequestStartEventId, Level = EventLevel.Informational, Message = "Service request '{0}' started", Keywords = Keywords.Requests)]
-        public void ServiceRequestStart(string requestTypeName)
-        {
-            WriteEvent(ServiceRequestStartEventId, requestTypeName);
-        }
-
-        private const int ServiceRequestStopEventId = 6;
-        [Event(ServiceRequestStopEventId, Level = EventLevel.Informational, Message = "Service request '{0}' finished", Keywords = Keywords.Requests)]
-        public void ServiceRequestStop(string requestTypeName, string exception = "")
-        {
-            WriteEvent(ServiceRequestStopEventId, requestTypeName, exception);
-        }
-        #endregion
-
         #region Private methods
 #if UNSAFE
         private int SizeInBytes(string s)
@@ -164,6 +157,17 @@ namespace ESFA.DC.ESF.Service.Stateless
             }
         }
 #endif
+        #endregion
+
+        #region Keywords
+        // Event keywords can be used to categorize events.
+        // Each keyword is a bit flag. A single event can be associated with multiple keywords (via EventAttribute.Keywords property).
+        // Keywords must be defined as a public class named 'Keywords' inside EventSource that uses them.
+        public static class Keywords
+        {
+            public const EventKeywords Requests = (EventKeywords)0x1L;
+            public const EventKeywords ServiceInitialization = (EventKeywords)0x2L;
+        }
         #endregion
     }
 }

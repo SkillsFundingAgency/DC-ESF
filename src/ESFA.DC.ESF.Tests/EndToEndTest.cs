@@ -6,8 +6,8 @@ using Autofac.Integration.ServiceFabric;
 using ESFA.DC.ESF.Interfaces.Controllers;
 using ESFA.DC.JobContextManager.Model;
 using ESFA.DC.JobContextManager.Model.Interface;
-using ESFA.DC.ServiceFabric.Helpers;
 using ESFA.DC.Logging.Interfaces;
+using ESFA.DC.ServiceFabric.Helpers;
 using Xunit;
 
 namespace ESFA.DC.ESF.Tests
@@ -47,12 +47,12 @@ namespace ESFA.DC.ESF.Tests
                 TopicPointer = 0,
                 KeyValuePairs = new Dictionary<string, object>
                 {
-                    {"UkPrn", "10034309"},
-                    {"Container", "esf-files"},
-                    {"Filename", "SUPPDATA-10034309-ESF-2270-20180909-090911.csv"}
+                    { "UkPrn", "10034309" },
+                    { "Container", "esf-files" },
+                    { "Filename", "SUPPDATA-10034309-ESF-2270-20180909-090911.csv" }
                 },
                 Topics = new List<ITopicItem>
-                {                   
+                {
                     new TopicItem
                     {
                         SubscriptionName = "Process",

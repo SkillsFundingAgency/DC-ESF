@@ -18,8 +18,7 @@ namespace ESFA.DC.ESF.DataAccessLayer
 
         public FM70Repository(
             IILR1819_DataStoreEntities context,
-            ILogger logger
-            )
+            ILogger logger)
         {
             _context = context;
             _logger = logger;

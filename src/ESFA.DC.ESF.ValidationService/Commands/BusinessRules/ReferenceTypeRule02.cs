@@ -18,15 +18,15 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
         public Task Execute(SupplementaryDataModel model)
         {
             var employeeIdCostTypes = new List<string>
-                {"Staff Part Time", "Staff Full Time", "Staff Expenses", "Apportioned Cost"};
+                { "Staff Part Time", "Staff Full Time", "Staff Expenses", "Apportioned Cost" };
 
             var invoiceCostTypes = new List<string> { "Other Costs", "Apportioned Cost" };
 
             var grantRecipientCostTypes = new List<string> { "Grant", "Grant Management" };
 
-            var unitReferenceTypes = new List<string> {"LearnRefNumber", "Company Name", "Other"};
+            var unitReferenceTypes = new List<string> { "LearnRefNumber", "Company Name", "Other" };
 
-            var unitCostTypes = new List<string> {"Unit Cost", "Unit Cost Deduction"};
+            var unitCostTypes = new List<string> { "Unit Cost", "Unit Cost Deduction" };
 
             var adjustmentReferenceTypes = new List<string> { "Authorised Claims", "Audit Adjustment" };
 

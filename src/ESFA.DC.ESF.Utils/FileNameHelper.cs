@@ -66,19 +66,23 @@ namespace ESFA.DC.ESF.Utils
                   $"{fileNameParts[4].Substring(0, 2)}:{fileNameParts[4].Substring(2, 2)}:{fileNameParts[4].Substring(4, 2)}";
         }
 
-
         public static string[] SplitFileName(string fileName)
         {
             const int lengthOfDateTimePart = 15;
 
             fileName = fileName.Replace(".csv", string.Empty);
 
+            if (fileName.Contains("/"))
+            {
+                fileName = fileName.Substring(fileName.LastIndexOf('/') + 1);
+            }
+
             var parts = new string[5];
             parts[0] = fileName.Substring(0, fileName.IndexOf('-'));
             parts[1] = fileName.Substring(parts[0].Length + 1, fileName.IndexOf('-', parts[0].Length));
 
             var startOfConRefNumIndex = parts[0].Length + parts[1].Length + 2;
-            var lengthOfConRefNum = (fileName.Length - lengthOfDateTimePart -1) - startOfConRefNumIndex;
+            var lengthOfConRefNum = (fileName.Length - lengthOfDateTimePart - 1) - startOfConRefNumIndex;
             parts[2] = fileName.Substring(startOfConRefNumIndex, lengthOfConRefNum);
 
             var dateTimePart = fileName.Substring(fileName.Length - lengthOfDateTimePart);

@@ -9,7 +9,9 @@ namespace ESFA.DC.ESF.Interfaces.Strategies
         int Order { get; }
 
         bool IsMatch(string taskName);
-        Task Execute(SourceFileModel sourceFile,
+
+        Task Execute(
+            SourceFileModel sourceFile,
             SupplementaryDataWrapper supplementaryDataWrapper,
             CancellationToken cancellationToken);
     }

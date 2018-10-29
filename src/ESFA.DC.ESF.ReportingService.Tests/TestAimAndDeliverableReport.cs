@@ -36,10 +36,10 @@ namespace ESFA.DC.ESF.ReportingService.Tests
 
             var refRepoMock = new Mock<IReferenceDataRepository>();
             refRepoMock.Setup(m =>
-                    m.GetContractDeliverableCodeMapping(It.IsAny<List<string>>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new List<ContractDeliverableCodeMapping>()); // todo
-            refRepoMock.Setup(m => m.GetLarsLearningDelivery(It.IsAny<List<string>>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new List<LARS_LearningDelivery>()); // todo
+                    m.GetContractDeliverableCodeMapping(It.IsAny<IList<string>>(), It.IsAny<CancellationToken>()))
+                .Returns(new List<ContractDeliverableCodeMapping>()); // todo
+            refRepoMock.Setup(m => m.GetLarsLearningDelivery(It.IsAny<IList<string>>(), It.IsAny<CancellationToken>()))
+                .Returns(new List<LARS_LearningDelivery>()); // todo
 
             var validRepoMock = new Mock<IValidRepository>();
             validRepoMock.Setup(m => m.GetLearners(It.IsAny<int>(), It.IsAny<CancellationToken>()))
@@ -92,7 +92,6 @@ namespace ESFA.DC.ESF.ReportingService.Tests
         {
             return new List<Learner>
             {
-                
             };
         }
     }

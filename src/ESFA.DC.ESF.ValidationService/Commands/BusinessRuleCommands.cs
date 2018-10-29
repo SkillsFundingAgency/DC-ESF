@@ -11,6 +11,11 @@ namespace ESFA.DC.ESF.ValidationService.Commands
     {
         private readonly IList<IBusinessRuleValidator> _validators;
 
+        public BusinessRuleCommands(IList<IBusinessRuleValidator> validators)
+        {
+            _validators = validators;
+        }
+
         public bool IsValid { get; private set; }
 
         public IList<ValidationErrorModel> Errors { get; private set; }
@@ -18,11 +23,6 @@ namespace ESFA.DC.ESF.ValidationService.Commands
         public int Priority => 4;
 
         public bool RejectFile => false;
-
-        public BusinessRuleCommands(IList<IBusinessRuleValidator> validators)
-        {
-            _validators = validators;
-        }
 
         public async Task Execute(SupplementaryDataModel model)
         {

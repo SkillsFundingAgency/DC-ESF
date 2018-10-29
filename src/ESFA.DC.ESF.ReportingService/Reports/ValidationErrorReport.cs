@@ -19,11 +19,11 @@ namespace ESFA.DC.ESF.ReportingService.Reports
     {
         private readonly IKeyValuePersistenceService _storage;
 
-        public ValidationErrorReport(IDateTimeProvider dateTimeProvider,
-                [KeyFilter(PersistenceStorageKeys.Blob)] IKeyValuePersistenceService storage)
+        public ValidationErrorReport(
+            IDateTimeProvider dateTimeProvider,
+            [KeyFilter(PersistenceStorageKeys.Blob)] IKeyValuePersistenceService storage)
             : base(dateTimeProvider)
         {
-
             ReportFileName = "ESF Supplementary Data Rule Violation Report";
 
             _storage = storage;

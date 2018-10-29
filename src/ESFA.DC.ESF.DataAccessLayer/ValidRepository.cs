@@ -74,7 +74,7 @@ namespace ESFA.DC.ESF.ReportingService.Repositories
                     return null;
                 }
 
-                deliveryFams =  await _context.LearningDeliveryFAMs.Where(l => l.UKPRN == ukPrn).ToListAsync(cancellationToken);
+                deliveryFams = await _context.LearningDeliveryFAMs.Where(l => l.UKPRN == ukPrn).ToListAsync(cancellationToken);
             }
             catch (Exception ex)
             {
