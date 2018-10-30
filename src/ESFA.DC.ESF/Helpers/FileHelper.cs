@@ -31,7 +31,6 @@ namespace ESFA.DC.ESF.Helpers
 
             string[] fileNameParts = FileNameHelper.SplitFileName(fileName);
 
-
             if (fileNameParts.Length != 5)
             {
                 throw new ArgumentException($"{nameof(JobContextMessageKey.Filename)} is invalid");

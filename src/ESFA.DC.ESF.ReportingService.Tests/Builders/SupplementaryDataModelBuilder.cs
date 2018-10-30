@@ -11,8 +11,8 @@ namespace ESFA.DC.ESF.ReportingService.Tests.Builders
             {
                 new SupplementaryDataModel
                 {
-                    ConRefNumber = "12345678901234567890",
-                    ULN = 12345678,
+                    ConRefNumber = "ESF-2108",
+                    ULN = 9900000004,
                     DeliverableCode = "ST01",
                     CostType = "test",
                     Reference = "test",

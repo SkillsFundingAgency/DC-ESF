@@ -134,7 +134,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports
             var learnAimRefs = learningDeliveries.Select(ld => ld.LearnAimRef).ToList();
             var deliverableCodes = fm70Deliverables?.Select(d => d.DeliverableCode).ToList();
 
-            //var fcsCodeMappings = await _referenceDataService.GetContractDeliverableCodeMapping(deliverableCodes, cancellationToken);
+            var fcsCodeMappings = _referenceDataService.GetContractDeliverableCodeMapping(deliverableCodes, cancellationToken);
             var larsDeliveries = _referenceDataService.GetLarsLearningDelivery(learnAimRefs, cancellationToken);
 
             var reportData = new List<AimAndDeliverableModel>();
@@ -147,7 +147,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports
                     var fm70Delivery = fm70LearningDeliveries?.SingleOrDefault(d =>
                         d.LearnRefNumber == learner.LearnRefNumber
                         && d.AimSeqNumber == delivery.AimSeqNumber);
-                    var fm70Deliverable = fm70Deliverables?.SingleOrDefault(d =>
+                    var fm70DeliveryDeliverables = fm70Deliverables?.Where(d =>
                         d.LearnRefNumber == learner.LearnRefNumber
                         && d.AimSeqNumber == delivery.AimSeqNumber);
 
@@ -169,79 +169,89 @@ namespace ESFA.DC.ESF.ReportingService.Reports
 
                     var learnerMonitorings = learnMonitorings.Where(m => m.LearnRefNumber == learner.LearnRefNumber).ToList();
                     var learnerDeliveryMonitorings = deliveryMonitorings.Where(m => m.LearnRefNumber == learner.LearnRefNumber).ToList();
-                    var deliverableCode = fm70Deliverable?.DeliverableCode;
-                    //var fcsMapping = fcsCodeMappings.SingleOrDefault(f => f.ExternalDeliverableCode == deliverableCode
-                                                                         // && f.FundingStreamPeriodCode == FundingStreamPeriodCode);
-
                     var larsDelivery = larsDeliveries.SingleOrDefault(l => l.LearnAimRef == delivery.LearnAimRef);
 
-                    var fm70Periods = fm70DeliverablePeriods.Where(p =>
-                        p.LearnRefNumber == learner.LearnRefNumber
-                        && p.AimSeqNumber == delivery.AimSeqNumber
-                        && p.DeliverableCode == fm70Deliverable?.DeliverableCode);
-
-                    foreach (var period in fm70Periods)
+                    foreach (var fm70Deliverable in fm70DeliveryDeliverables)
                     {
-                        var total = period?.StartEarnings ?? 0 + period?.AchievementEarnings ?? 0
-                                    + period?.AdditionalProgCostEarnings ?? 0 + period?.ProgressionEarnings ?? 0;
-                        if (period.ReportingVolume == 0 && period.DeliverableVolume == 0 && total == 0)
+                        var deliverableCode = fm70Deliverable?.DeliverableCode;
+                        var fcsMapping = fcsCodeMappings.SingleOrDefault(f =>
+                            f.ExternalDeliverableCode == deliverableCode
+                            && f.FundingStreamPeriodCode == FundingStreamPeriodCode);
+
+                        var fm70Periods = fm70DeliverablePeriods.Where(p =>
+                            p.LearnRefNumber == learner.LearnRefNumber
+                            && p.AimSeqNumber == delivery.AimSeqNumber
+                            && p.DeliverableCode == fm70Deliverable?.DeliverableCode);
+
+                        foreach (var period in fm70Periods)
                         {
-                            continue;
+                            var total = period?.StartEarnings ?? 0 + period?.AchievementEarnings ?? 0
+                                        + period?.AdditionalProgCostEarnings ?? 0 + period?.ProgressionEarnings ?? 0;
+                            if (period.ReportingVolume == 0 && period.DeliverableVolume == 0 && total == 0)
+                            {
+                                continue;
+                            }
+
+                            var reportModel = new AimAndDeliverableModel
+                            {
+                                LearnRefNumber = learner.LearnRefNumber,
+                                ULN = learner.ULN,
+                                AimSeqNumber = delivery.AimSeqNumber,
+                                ConRefNumber = delivery.ConRefNumber,
+                                DeliverableCode = deliverableCode,
+                                DeliverableName = fcsMapping?.DeliverableName,
+                                LearnAimRef = delivery.LearnAimRef,
+                                DeliverableUnitCost = fm70Deliverable?.DeliverableUnitCost,
+                                ApplicWeightFundRate = fm70Delivery?.ApplicWeightFundRate,
+                                AimValue = fm70Delivery?.AimValue,
+                                LearnAimRefTitle = larsDelivery?.LearnAimRefTitle,
+                                PMUKPRN = learner.PMUKPRN,
+                                CampId = learner.CampId,
+                                ProvSpecLearnMonA = learnerMonitorings
+                                    ?.SingleOrDefault(m => m.ProvSpecLearnMonOccur == "A")?.ProvSpecLearnMon,
+                                ProvSpecLearnMonB = learnerMonitorings
+                                    ?.SingleOrDefault(m => m.ProvSpecLearnMonOccur == "B")?.ProvSpecLearnMon,
+                                SWSupAimId = delivery.SWSupAimId,
+                                NotionalNVQLevelv2 = larsDelivery?.NotionalNVQLevelv2,
+                                SectorSubjectAreaTier2 = larsDelivery?.SectorSubjectAreaTier2,
+                                AdjustedAreaCostFactor = fm70Delivery?.AdjustedAreaCostFactor,
+                                AdjustedPremiumFactor = fm70Delivery?.AdjustedPremiumFactor,
+                                LearnStartDate = delivery.LearnStartDate,
+                                LDESFEngagementStartDate = fm70Delivery?.LDESFEngagementStartDate,
+                                LearnPlanEndDate = delivery.LearnPlanEndDate,
+                                CompStatus = delivery.CompStatus,
+                                LearnActEndDate = delivery.LearnActEndDate,
+                                Outcome = delivery.Outcome,
+                                AddHours = delivery.AddHours,
+                                LearnDelFAMCode = deliveryFam?.LearnDelFAMCode,
+                                ProvSpecDelMonA = learnerDeliveryMonitorings
+                                    ?.SingleOrDefault(m => m.ProvSpecDelMonOccur == "A")?.ProvSpecDelMon,
+                                ProvSpecDelMonB = learnerDeliveryMonitorings
+                                    ?.SingleOrDefault(m => m.ProvSpecDelMonOccur == "B")?.ProvSpecDelMon,
+                                ProvSpecDelMonC = learnerDeliveryMonitorings
+                                    ?.SingleOrDefault(m => m.ProvSpecDelMonOccur == "C")?.ProvSpecDelMon,
+                                ProvSpecDelMonD = learnerDeliveryMonitorings
+                                    ?.SingleOrDefault(m => m.ProvSpecDelMonOccur == "D")?.ProvSpecDelMon,
+                                PartnerUKPRN = delivery.PartnerUKPRN,
+                                DelLocPostCode = delivery.DelLocPostCode,
+                                LatestPossibleStartDate = fm70Delivery?.LatestPossibleStartDate,
+                                EligibleProgressionOutomeStartDate = fm70Delivery?.EligibleProgressionOutomeStartDate,
+                                EligibleOutcomeEndDate = outcome?.OutEndDate,
+                                EligibleOutcomeCollectionDate = outcome?.OutCollDate,
+                                EligibleOutcomeDateProgressionLength = fm70Outcome?.OutcomeDateForProgression,
+                                EligibleProgressionOutcomeType = fm70Delivery?.EligibleProgressionOutcomeType,
+                                EligibleProgressionOutcomeCode = fm70Delivery?.EligibleProgressionOutcomeCode,
+                                Period = _reportMonths[period?.Period - 1 ?? 0],
+                                DeliverableVolume = period?.DeliverableVolume,
+                                StartEarnings = period?.StartEarnings,
+                                AchievementEarnings = period?.AchievementEarnings,
+                                AdditionalProgCostEarnings = period?.AdditionalProgCostEarnings,
+                                ProgressionEarnings = period?.ProgressionEarnings,
+                                TotalEarnings = total
+                            };
+
+                            reportData.Add(reportModel);
                         }
-
-                        var reportModel = new AimAndDeliverableModel
-                        {
-                            LearnRefNumber = learner.LearnRefNumber,
-                            ULN = learner.ULN,
-                            AimSeqNumber = delivery.AimSeqNumber,
-                            ConRefNumber = delivery.ConRefNumber,
-                            DeliverableCode = deliverableCode,
-                            DeliverableName = string.Empty, //fcsMapping?.DeliverableName,
-                            LearnAimRef = delivery.LearnAimRef,
-                            DeliverableUnitCost = fm70Deliverable?.DeliverableUnitCost,
-                            ApplicWeightFundRate = fm70Delivery?.ApplicWeightFundRate,
-                            AimValue = fm70Delivery?.AimValue,
-                            LearnAimRefTitle = larsDelivery?.LearnAimRefTitle,
-                            PMUKPRN = learner.PMUKPRN,
-                            CampId = learner.CampId,
-                            ProvSpecLearnMonA = learnerMonitorings?.SingleOrDefault(m => m.ProvSpecLearnMonOccur == "A")?.ProvSpecLearnMon,
-                            ProvSpecLearnMonB = learnerMonitorings?.SingleOrDefault(m => m.ProvSpecLearnMonOccur == "B")?.ProvSpecLearnMon,
-                            SWSupAimId = delivery.SWSupAimId,
-                            NotionalNVQLevelv2 = larsDelivery?.NotionalNVQLevelv2,
-                            SectorSubjectAreaTier2 = larsDelivery?.SectorSubjectAreaTier2,
-                            AdjustedAreaCostFactor = fm70Delivery?.AdjustedAreaCostFactor,
-                            AdjustedPremiumFactor = fm70Delivery?.AdjustedPremiumFactor,
-                            LearnStartDate = delivery.LearnStartDate,
-                            LDESFEngagementStartDate = fm70Delivery?.LDESFEngagementStartDate,
-                            LearnPlanEndDate = delivery.LearnPlanEndDate,
-                            CompStatus = delivery.CompStatus,
-                            LearnActEndDate = delivery.LearnActEndDate,
-                            Outcome = delivery.Outcome,
-                            AddHours = delivery.AddHours,
-                            LearnDelFAMCode = deliveryFam?.LearnDelFAMCode,
-                            ProvSpecDelMonA = learnerDeliveryMonitorings?.SingleOrDefault(m => m.ProvSpecDelMonOccur == "A")?.ProvSpecDelMon,
-                            ProvSpecDelMonB = learnerDeliveryMonitorings?.SingleOrDefault(m => m.ProvSpecDelMonOccur == "B")?.ProvSpecDelMon,
-                            ProvSpecDelMonC = learnerDeliveryMonitorings?.SingleOrDefault(m => m.ProvSpecDelMonOccur == "C")?.ProvSpecDelMon,
-                            ProvSpecDelMonD = learnerDeliveryMonitorings?.SingleOrDefault(m => m.ProvSpecDelMonOccur == "D")?.ProvSpecDelMon,
-                            PartnerUKPRN = delivery.PartnerUKPRN,
-                            DelLocPostCode = delivery.DelLocPostCode,
-                            LatestPossibleStartDate = fm70Delivery?.LatestPossibleStartDate,
-                            EligibleProgressionOutomeStartDate = fm70Delivery?.EligibleProgressionOutomeStartDate,
-                            EligibleOutcomeEndDate = outcome?.OutEndDate,
-                            EligibleOutcomeCollectionDate = outcome?.OutCollDate,
-                            EligibleOutcomeDateProgressionLength = fm70Outcome?.OutcomeDateForProgression,
-                            EligibleProgressionOutcomeType = fm70Delivery?.EligibleProgressionOutcomeType,
-                            EligibleProgressionOutcomeCode = fm70Delivery?.EligibleProgressionOutcomeCode,
-                            Period = _reportMonths[period?.Period - 1 ?? 0],
-                            DeliverableVolume = period?.DeliverableVolume,
-                            StartEarnings = period?.StartEarnings,
-                            AchievementEarnings = period?.AchievementEarnings,
-                            AdditionalProgCostEarnings = period?.AdditionalProgCostEarnings,
-                            ProgressionEarnings = period?.ProgressionEarnings,
-                            TotalEarnings = total
-                        };
-
-                        reportData.Add(reportModel);
                     }
                 }
             }

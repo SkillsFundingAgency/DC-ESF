@@ -29,7 +29,8 @@ namespace ESFA.DC.ESF
             _reportingController = reportingController;
         }
 
-        public async Task RunTasks(IJobContextMessage jobContextMessage,
+        public async Task RunTasks(
+            IJobContextMessage jobContextMessage,
             IReadOnlyList<ITaskItem> tasks,
             CancellationToken cancellationToken)
         {

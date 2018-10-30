@@ -10,6 +10,11 @@ namespace ESFA.DC.ESF.Strategies
     {
         private readonly IReportingController _reportingController;
 
+        public ReportingStrategy(IReportingController reportingController)
+        {
+            _reportingController = reportingController;
+        }
+
         public int Order => 2;
 
         public bool IsMatch(string taskName)
@@ -17,14 +22,9 @@ namespace ESFA.DC.ESF.Strategies
             return taskName == Constants.ReportingTask;
         }
 
-        public ReportingStrategy(IReportingController reportingController)
-        {
-            _reportingController = reportingController;
-        }
-
         public async Task Execute(
-            SourceFileModel sourceFile, 
-            SupplementaryDataWrapper supplementaryDataWrapper, 
+            SourceFileModel sourceFile,
+            SupplementaryDataWrapper supplementaryDataWrapper,
             CancellationToken cancellationToken)
         {
             await _reportingController.ProduceReports(supplementaryDataWrapper, sourceFile, cancellationToken);

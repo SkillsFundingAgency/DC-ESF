@@ -19,7 +19,8 @@ namespace ESFA.DC.ESF.Services
 
         private readonly ILogger _logger;
 
-        public FileValidationService(IList<IFileLevelValidator> validators,
+        public FileValidationService(
+            IList<IFileLevelValidator> validators,
             IFileHelper fileHelper,
             ILogger logger)
         {
@@ -61,7 +62,8 @@ namespace ESFA.DC.ESF.Services
             return wrapper;
         }
 
-        public async Task<SupplementaryDataWrapper> RunFileValidators(SourceFileModel sourceFileModel,
+        public async Task<SupplementaryDataWrapper> RunFileValidators(
+            SourceFileModel sourceFileModel,
             SupplementaryDataWrapper wrapper)
         {
             foreach (var model in wrapper.SupplementaryDataModels)

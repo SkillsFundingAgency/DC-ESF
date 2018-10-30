@@ -200,8 +200,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             FundingFooter footerData)
         {
             // report header
-            var text = "Provider Name : ";
-            writer.WriteField(text);
+            writer.WriteField("Provider Name : ");
             writer.WriteField(headerData.ProviderName);
             writer.NextRecord();
 

@@ -26,7 +26,7 @@ namespace ESFA.DC.ESF.ReportingService.Tests
         public async Task TestFundingSummaryReportGeneration()
         {
             var dateTime = DateTime.UtcNow;
-            var filename = $"10001639_1_ESF Funding Summary Report {dateTime:yyyyMMdd-HHmmss}";
+            var filename = $"10005752_1_ESF Funding Summary Report {dateTime:yyyyMMdd-HHmmss}";
             var csv = string.Empty;
 
             Mock<IDateTimeProvider> dateTimeProviderMock = new Mock<IDateTimeProvider>();
@@ -77,8 +77,8 @@ namespace ESFA.DC.ESF.ReportingService.Tests
         {
             return new FileDetail
             {
-                UKPRN = 10001639,
-                Filename = "ILR-10001639-1819-20180704-120055-03.xml",
+                UKPRN = 10005752,
+                Filename = "ILR-10005752-1819-20181004-152148-02.xml",
                 SubmittedTime = DateTime.Now
             };
         }
@@ -87,10 +87,10 @@ namespace ESFA.DC.ESF.ReportingService.Tests
         {
             return new SourceFileModel
             {
-                UKPRN = "10001639",
+                UKPRN = "10005752",
                 JobId = 1,
-                ConRefNumber = "12345678901234567890",
-                FileName = "SUPPDATA-10001639-12345678901234567890-20181017-120000.CSV",
+                ConRefNumber = "ESF-2108",
+                FileName = "SUPPDATA-10005752-ESF-2108-20180909-090911.CSV",
                 SuppliedDate = DateTime.Now,
                 PreparationDate = DateTime.Now.AddDays(-1)
             };

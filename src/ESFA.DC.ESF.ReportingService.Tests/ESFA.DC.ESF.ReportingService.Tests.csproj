@@ -145,8 +145,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builders\FM70ModelsBuilder.cs" />
     <Compile Include="Builders\FM70PeriodosedValuesBuilder.cs" />
+    <Compile Include="Builders\ReferenceDataBuilder.cs" />
     <Compile Include="Builders\SupplementaryDataModelBuilder.cs" />
+    <Compile Include="Builders\ValidLearnerModelsBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestAimAndDeliverableReport.cs" />
     <Compile Include="TestFundingSummaryReport.cs" />
@@ -156,10 +159,11 @@
     <None Include="ESFA.DC.ESF.ReportingService.Tests.ruleset">
       <SubType>Designer</SubType>
     </None>
-    <None Include="FM70.json">
+    <None Include="FM70.json" />
+    <None Include="packages.config" />
+    <None Include="SUPPDATA-10005752-ESF-2108-20180909-090911.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
@@ -185,7 +189,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ILR-10001639-1819-20180704-120055-03.xml">
+    <Content Include="ILR-10005752-1819-20181004-152148-02.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

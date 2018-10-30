@@ -12,8 +12,6 @@ namespace ESFA.DC.ESF.Strategies
         private readonly IStorageController _storageController;
         private readonly ILogger _logger;
 
-        public int Order => 3;
-
         public PersistenceStrategy(
             IStorageController storageController,
             ILogger logger)
@@ -21,6 +19,8 @@ namespace ESFA.DC.ESF.Strategies
             _storageController = storageController;
             _logger = logger;
         }
+
+        public int Order => 3;
 
         public bool IsMatch(string taskName)
         {

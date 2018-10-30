@@ -26,7 +26,7 @@ namespace ESFA.DC.ESF
             _logger.LogInfo("ESF callback invoked");
 
             var tasks = jobContextMessage.Topics[jobContextMessage.TopicPointer].Tasks;
-            if(!tasks.Any())
+            if (!tasks.Any())
             {
                 _logger.LogInfo("ESF. No tasks to run.");
                 return true;
@@ -38,7 +38,7 @@ namespace ESFA.DC.ESF
             }
 
             await _controller.RunTasks(jobContextMessage, tasks, cancellationToken);
-            
+
             return true;
         }
     }

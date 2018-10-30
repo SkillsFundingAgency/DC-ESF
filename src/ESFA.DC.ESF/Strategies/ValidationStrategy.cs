@@ -50,11 +50,11 @@ namespace ESFA.DC.ESF.Strategies
         private IList<SupplementaryDataModel> FilterOutInvalidRows(
             SupplementaryDataWrapper wrapper)
         {
-            return  wrapper.SupplementaryDataModels.Where(model => ! wrapper.ValidErrorModels.Any(e => e.ConRefNumber == model.ConRefNumber 
-                                                          && e.DeliverableCode == model.DeliverableCode 
-                                                          && e.CalendarYear == model.CalendarYear 
-                                                          && e.CalendarMonth == model.CalendarMonth 
-                                                          && e.ReferenceType == model.ReferenceType 
+            return wrapper.SupplementaryDataModels.Where(model => !wrapper.ValidErrorModels.Any(e => e.ConRefNumber == model.ConRefNumber
+                                                          && e.DeliverableCode == model.DeliverableCode
+                                                          && e.CalendarYear == model.CalendarYear
+                                                          && e.CalendarMonth == model.CalendarMonth
+                                                          && e.ReferenceType == model.ReferenceType
                                                           && e.Reference == model.Reference)).ToList();
         }
     }

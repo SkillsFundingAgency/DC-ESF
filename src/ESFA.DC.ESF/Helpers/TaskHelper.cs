@@ -18,9 +18,10 @@ namespace ESFA.DC.ESF.Helpers
             _taskHandlers = taskHandlers;
         }
 
-        public async Task ExecuteTasks(IReadOnlyList<ITaskItem> tasks,
+        public async Task ExecuteTasks(
+            IReadOnlyList<ITaskItem> tasks,
             SourceFileModel sourceFileModel,
-            SupplementaryDataWrapper supplementaryDataWrapper, 
+            SupplementaryDataWrapper supplementaryDataWrapper,
             CancellationToken cancellationToken)
         {
             foreach (ITaskItem taskItem in tasks)
@@ -48,7 +49,8 @@ namespace ESFA.DC.ESF.Helpers
             }
         }
 
-        private async Task HandleTask(SupplementaryDataWrapper wrapper,
+        private async Task HandleTask(
+            SupplementaryDataWrapper wrapper,
             string task,
             SourceFileModel sourceFile,
             CancellationToken cancellationToken)

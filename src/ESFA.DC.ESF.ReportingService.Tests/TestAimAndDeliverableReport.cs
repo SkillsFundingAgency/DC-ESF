@@ -7,6 +7,7 @@ using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ESF.Interfaces.DataAccessLayer;
 using ESFA.DC.ESF.Models;
 using ESFA.DC.ESF.ReportingService.Reports;
+using ESFA.DC.ESF.ReportingService.Tests.Builders;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.EF.Valid;
 using ESFA.DC.IO.Interfaces;
@@ -23,7 +24,7 @@ namespace ESFA.DC.ESF.ReportingService.Tests
         {
             var csv = string.Empty;
             var dateTime = DateTime.UtcNow;
-            var filename = $"10033670_1_ESF Aim and Deliverable Report {dateTime:yyyyMMdd-HHmmss}";
+            var filename = $"10005752_2_ESF Aim and Deliverable Report {dateTime:yyyyMMdd-HHmmss}";
 
             var dateTimeProviderMock = new Mock<IDateTimeProvider>();
             dateTimeProviderMock.Setup(x => x.GetNowUtc()).Returns(dateTime);
@@ -37,40 +38,36 @@ namespace ESFA.DC.ESF.ReportingService.Tests
             var refRepoMock = new Mock<IReferenceDataRepository>();
             refRepoMock.Setup(m =>
                     m.GetContractDeliverableCodeMapping(It.IsAny<IList<string>>(), It.IsAny<CancellationToken>()))
-                .Returns(new List<ContractDeliverableCodeMapping>()); // todo
+                .Returns(ReferenceDataBuilder.BuildContractDeliverableCodeMapping());
             refRepoMock.Setup(m => m.GetLarsLearningDelivery(It.IsAny<IList<string>>(), It.IsAny<CancellationToken>()))
-                .Returns(new List<LARS_LearningDelivery>()); // todo
+                .Returns(ReferenceDataBuilder.BuildLarsLearningDeliveries());
 
             var validRepoMock = new Mock<IValidRepository>();
             validRepoMock.Setup(m => m.GetLearners(It.IsAny<int>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new List<Learner>()); // todo
+                .ReturnsAsync(ValidLearnerModelsBuilder.BuildLearners());
             validRepoMock.Setup(m => m.GetLearningDeliveries(It.IsAny<int>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new List<LearningDelivery>()); // todo
+                .ReturnsAsync(ValidLearnerModelsBuilder.BuildLearningDeliveries());
             validRepoMock.Setup(m => m.GetLearningDeliveryFAMs(It.IsAny<int>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new List<LearningDeliveryFAM>()); // todo
+                .ReturnsAsync(ValidLearnerModelsBuilder.BuildLearningDeliveryFams());
             validRepoMock.Setup(m => m.GetDPOutcomes(It.IsAny<int>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new List<DPOutcome>()); // todo
+                .ReturnsAsync(new List<DPOutcome>());
             validRepoMock.Setup(m =>
                     m.GetProviderSpecDeliveryMonitorings(It.IsAny<int>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new List<ProviderSpecDeliveryMonitoring>()); // todo
+                .ReturnsAsync(new List<ProviderSpecDeliveryMonitoring>());
             validRepoMock
                 .Setup(m => m.GetProviderSpecLearnerMonitorings(It.IsAny<int>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new List<ProviderSpecLearnerMonitoring>()); // todo
+                .ReturnsAsync(new List<ProviderSpecLearnerMonitoring>());
 
             var fm70RepoMock = new Mock<IFM70Repository>();
-            fm70RepoMock.Setup(m => m.GetFileDetails(It.IsAny<int>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new FileDetail()); // todo
             fm70RepoMock.Setup(m => m.GetLearningDeliveries(It.IsAny<int>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new List<ESF_LearningDelivery>()); // todo
+                .ReturnsAsync(FM70ModelsBuilder.BuildLearningDeliveries());
             fm70RepoMock.Setup(m => m.GetLearningDeliveryDeliverables(It.IsAny<int>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new List<ESF_LearningDeliveryDeliverable>()); // todo
+                .ReturnsAsync(FM70ModelsBuilder.BuildLearningDeliveryDeliverables());
             fm70RepoMock.Setup(m =>
                     m.GetLearningDeliveryDeliverablePeriods(It.IsAny<int>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new List<ESF_LearningDeliveryDeliverable_Period>()); // todo
+                .ReturnsAsync(FM70ModelsBuilder.BuildDeliveryDeliverablePeriods());
             fm70RepoMock.Setup(m => m.GetOutcomes(It.IsAny<int>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new List<ESF_DPOutcome>()); // todo
-            fm70RepoMock.Setup(m => m.GetPeriodisedValues(It.IsAny<int>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new List<ESF_LearningDeliveryDeliverable_PeriodisedValues>()); // todo
+                .ReturnsAsync(new List<ESF_DPOutcome>());
 
             var aimAndDeliverableReport = new AimAndDeliverableReport(
                 dateTimeProviderMock.Object,
@@ -79,19 +76,27 @@ namespace ESFA.DC.ESF.ReportingService.Tests
                 validRepoMock.Object,
                 fm70RepoMock.Object);
 
-            SupplementaryDataWrapper wrapper = new SupplementaryDataWrapper();
-            wrapper.SupplementaryDataModels = new List<SupplementaryDataModel>();
-            SourceFileModel sourceFile = new SourceFileModel();
+            var wrapper = new SupplementaryDataWrapper
+            {
+                SupplementaryDataModels = new List<SupplementaryDataModel>()
+            };
+            SourceFileModel sourceFile = GetEsfSourceFileModel();
 
             await aimAndDeliverableReport.GenerateReport(wrapper, sourceFile, null, CancellationToken.None);
 
             Assert.True(!string.IsNullOrEmpty(csv));
         }
 
-        private IList<Learner> GetLearners()
+        private SourceFileModel GetEsfSourceFileModel()
         {
-            return new List<Learner>
+            return new SourceFileModel
             {
+                UKPRN = "10005752",
+                JobId = 2,
+                ConRefNumber = "ESF-2108",
+                FileName = "SUPPDATA-10005752-ESF-2108-20180909-090911.CSV",
+                SuppliedDate = DateTime.Now,
+                PreparationDate = DateTime.Now.AddDays(-1)
             };
         }
     }
