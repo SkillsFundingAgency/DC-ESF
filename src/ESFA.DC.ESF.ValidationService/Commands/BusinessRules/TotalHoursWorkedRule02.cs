@@ -19,7 +19,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
         {
             var staffCostTypes = new List<string> { Constants.CostTypeStaffPT, Constants.CostTypeStaffFT };
 
-            IsValid = !staffCostTypes.Contains(model.CostType) || model.TotalHoursWorked == null;
+            IsValid = staffCostTypes.Contains(model.CostType) || model.TotalHoursWorked == null;
 
             return Task.CompletedTask;
         }

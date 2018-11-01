@@ -16,9 +16,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public Task Execute(SupplementaryDataModel model)
         {
-            IsValid = !(model.ReferenceType != "LearnRefNumber"
-                        &&
-                        model.ULN != null);
+            IsValid = model.ReferenceType == "LearnRefNumber" || model.ULN == null;
 
             return Task.CompletedTask;
         }

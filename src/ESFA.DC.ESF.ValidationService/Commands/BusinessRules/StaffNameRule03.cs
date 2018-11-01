@@ -16,7 +16,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public Task Execute(SupplementaryDataModel model)
         {
-            IsValid = model.ReferenceType != "EmployeeID" || string.IsNullOrEmpty(model.StaffName.Trim());
+            IsValid = model.ReferenceType == "EmployeeID" || string.IsNullOrEmpty(model.StaffName?.Trim());
 
             return Task.CompletedTask;
         }

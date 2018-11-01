@@ -18,9 +18,9 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public Task Execute(SupplementaryDataModel model)
         {
-            IsValid = !(
-                (model.ULN ?? 0) == 9999999999 &&
-                MonthYearHelper.GetCalendarDateTime(model.CalendarYear, model.CalendarMonth) > DateTime.Now.AddMonths(-2));
+            IsValid =
+                (model.ULN ?? 0) == 9999999999 ||
+                MonthYearHelper.GetCalendarDateTime(model.CalendarYear, model.CalendarMonth) > DateTime.Now.AddMonths(-2);
 
             return Task.CompletedTask;
         }

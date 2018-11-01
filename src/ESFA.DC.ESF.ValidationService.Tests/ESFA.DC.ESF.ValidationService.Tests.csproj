@@ -127,6 +127,10 @@
     <Compile Include="BusinessRuleTests\CostTypeRuleTests.cs" />
     <Compile Include="BusinessRuleTests\DeliverableCodeTests.cs" />
     <Compile Include="BusinessRuleTests\HourlyRuleTests.cs" />
+    <Compile Include="BusinessRuleTests\ReferenceRuleTests.cs" />
+    <Compile Include="BusinessRuleTests\StaffNameRuleTests.cs" />
+    <Compile Include="BusinessRuleTests\UlnRuleTests.cs" />
+    <Compile Include="BusinessRuleTests\ValueRuleTests.cs" />
     <Compile Include="ControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -224,7 +224,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             var model = new SupplementaryDataModel
             {
                 CostType = "Don't need total",
-                TotalHoursWorked = null
+                TotalHoursWorked = 30
             };
 
             var rule = new TotalHoursWorkedRule02();
@@ -238,8 +238,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
         {
             var model = new SupplementaryDataModel
             {
-                CostType = Constants.CostTypeStaffFT,
-                TotalHoursWorked = 30
+                CostType = "Don't need total",
+                TotalHoursWorked = null
             };
 
             var rule = new TotalHoursWorkedRule02();

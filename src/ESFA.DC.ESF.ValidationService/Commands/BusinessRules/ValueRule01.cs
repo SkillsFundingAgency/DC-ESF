@@ -29,9 +29,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public Task Execute(SupplementaryDataModel model)
         {
-            IsValid = !(_costTypesRequiringValue.Contains(model.CostType)
-                        &&
-                        model.Value == null);
+            IsValid = !_costTypesRequiringValue.Contains(model.CostType) || model.Value != null;
 
             return Task.CompletedTask;
         }

@@ -16,9 +16,9 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public Task Execute(SupplementaryDataModel model)
         {
-            IsValid = !((model.CostType == "Unit Cost" || model.CostType == "Unit Cost Deduction")
-                        &&
-                        model.Value != null);
+            IsValid = !(model.CostType == "Unit Cost" || model.CostType == "Unit Cost Deduction")
+                        ||
+                        model.Value == null;
 
             return Task.CompletedTask;
         }

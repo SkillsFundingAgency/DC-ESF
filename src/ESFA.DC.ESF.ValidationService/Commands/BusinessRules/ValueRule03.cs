@@ -16,9 +16,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public Task Execute(SupplementaryDataModel model)
         {
-            IsValid = !(model.CostType == Constants.CostTypeStaffPT
-                        &&
-                        model.Value > model.HourlyRate * model.TotalHoursWorked);
+            IsValid = model.CostType != Constants.CostTypeStaffPT || model.Value <= model.HourlyRate * model.TotalHoursWorked;
 
             return Task.CompletedTask;
         }
