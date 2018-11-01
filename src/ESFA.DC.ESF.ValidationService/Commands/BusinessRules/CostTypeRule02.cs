@@ -34,19 +34,19 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
         public Task Execute(SupplementaryDataModel model)
         {
             var errorCondition =
-                model.DeliverableCode == "AC01" && _AC01InvalidCostTypes.Contains(model.CostType)
+                (model.DeliverableCode == "AC01" && _AC01InvalidCostTypes.Contains(model.CostType))
                 ||
-                model.DeliverableCode == "CG01" && model.CostType != "Grant"
+                (model.DeliverableCode == "CG01" && model.CostType != "Grant")
                 ||
-                model.DeliverableCode == "CG02" && model.CostType != "Grant Management"
+                (model.DeliverableCode == "CG02" && model.CostType != "Grant Management")
                 ||
-                _SDCodes.Contains(model.DeliverableCode) && model.CostType != "Unit Cost"
+                (_SDCodes.Contains(model.DeliverableCode) && model.CostType != "Unit Cost")
                 ||
-                _deliveryCodes.Contains(model.DeliverableCode) &&
-                (model.CostType != "Unit Cost" && model.CostType != "Unit Cost Deduction")
+                (_deliveryCodes.Contains(model.DeliverableCode) &&
+                (model.CostType != "Unit Cost" && model.CostType != "Unit Cost Deduction"))
                 ||
-                (model.DeliverableCode == "NR01" || model.DeliverableCode == "RQ01") &&
-                model.CostType != "Funding Adjustment";
+                ((model.DeliverableCode == "NR01" || model.DeliverableCode == "RQ01") &&
+                model.CostType != "Funding Adjustment");
 
             IsValid = !errorCondition;
             return Task.CompletedTask;

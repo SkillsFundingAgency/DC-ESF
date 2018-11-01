@@ -26,9 +26,10 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public bool IsValid { get; private set; }
 
-        public async Task Execute(SupplementaryDataModel model)
+        public Task Execute(SupplementaryDataModel model)
         {
-            //var mappings = await _referenceDataRepository.GetContractDeliverableCodeMapping(new List<string> { model.DeliverableCode },
+            //var mappings = _referenceDataRepository.GetContractDeliverableCodeMapping(
+            //    new List<string> { model.DeliverableCode },
             //    CancellationToken.None);
 
             //var year = model.CalendarYear ?? 0;
@@ -37,18 +38,20 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
             //if (year == 0 || month == 0)
             //{
             //    IsValid = false;
-            //    return;
+            //    return Task.CompletedTask;
             //}
 
             //var startDateMonthEnd = new DateTime(year, month, DateTime.DaysInMonth(year, month));
 
             //var contractMatches = mappings.Where(m =>
             //    m.ContractDeliverable.ContractAllocation.ContractAllocationNumber == model.ConRefNumber
-            //    && m.ContractDeliverable.ContractAllocation.StartDate > startDateMonthEnd).ToList();
+            //    && m.ContractDeliverable.ContractAllocation.StartDate < startDateMonthEnd).ToList();
 
             //IsValid = contractMatches.Any();
+            //return Task.CompletedTask;
 
             IsValid = true;
+            return Task.CompletedTask;
         }
     }
 }

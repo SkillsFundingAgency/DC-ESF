@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using ESFA.DC.ESF.Interfaces.Controllers;
 using ESFA.DC.ESF.Interfaces.Validation;
 using ESFA.DC.ESF.Models;
 
@@ -18,7 +17,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public Task Execute(SupplementaryDataModel model)
         {
-            var staffCostTypes = new List<string> { "Staff Part Time", "Staff Full Time" };
+            var staffCostTypes = new List<string> { Constants.CostTypeStaffPT, Constants.CostTypeStaffFT };
 
             IsValid = !staffCostTypes.Contains(model.CostType) || model.TotalHoursWorked == null;
 

@@ -139,7 +139,7 @@ namespace ESFA.DC.ESF.Service.Stateless
             containerBuilder.Register(c => new ILR1819_DataStoreEntities(ilrConfig.ILR1819ConnectionString))
                 .As<IILR1819_DataStoreEntities>()
                 .InstancePerLifetimeScope();
-            containerBuilder.Register(c => new ILR1819_DataStoreEntitiesValid(ilrConfig.ILR1819ConnectionString))
+            containerBuilder.Register(c => new ILR1819_DataStoreEntitiesValid(ilrConfig.ILR1819ValidConnectionString))
                 .As<IILR1819_DataStoreEntitiesValid>()
                 .InstancePerLifetimeScope();
 

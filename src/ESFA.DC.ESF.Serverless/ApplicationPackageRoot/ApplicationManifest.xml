@@ -13,6 +13,7 @@
     <Parameter Name="JobStatusQueueName" DefaultValue="" />
     <Parameter Name="AuditQueueName" DefaultValue="" />
     <Parameter Name="ILR1819ConnectionString" DefaultValue="" />
+    <Parameter Name="ILR1819ValidConnectionString" DefaultValue="" />
     <Parameter Name="ESFConnectionString" DefaultValue="" />
     <Parameter Name="ESFNonEFConnectionString" DefaultValue="" />
     <Parameter Name="FCSConnectionString" DefaultValue="" />
@@ -48,6 +49,7 @@
           </Section>
           <Section Name="ILR1819Section">
             <Parameter Name="ILR1819ConnectionString" Value="[ILR1819ConnectionString]" />
+            <Parameter Name="ILR1819ValidConnectionString" Value="[ILR1819ValidConnectionString]" />
           </Section>
           <Section Name="ESFSection">
             <Parameter Name="ESFConnectionString" Value="[ESFConnectionString]" />

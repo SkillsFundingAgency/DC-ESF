@@ -19,6 +19,7 @@
   </Section>
   <Section Name="ILR1819Section">
     <Parameter Name="ILR1819ConnectionString" Value="" />
+    <Parameter Name="ILR1819ValidConnectionString" Value="" />
   </Section>
   <Section Name="ESFSection">
     <Parameter Name="ESFConnectionString" Value="" />
