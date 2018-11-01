@@ -29,6 +29,7 @@ using ESFA.DC.ESF.Interfaces.Services;
 using ESFA.DC.ESF.Interfaces.Strategies;
 using ESFA.DC.ESF.Interfaces.Validation;
 using ESFA.DC.ESF.ReportingService;
+using ESFA.DC.ESF.ReportingService.Comparers;
 using ESFA.DC.ESF.ReportingService.Reports;
 using ESFA.DC.ESF.ReportingService.Reports.FundingSummary;
 using ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHelpers;
@@ -533,6 +534,9 @@ namespace ESFA.DC.ESF.Service.Stateless
                 .InstancePerLifetimeScope();
             containerBuilder.Register(c => new List<IModelReport>(c.Resolve<IEnumerable<IModelReport>>()))
                 .As<IList<IModelReport>>();
+
+            containerBuilder.RegisterType<AimAndDeliverableComparer>().As<IAimAndDeliverableComparer>()
+                .InstancePerLifetimeScope();
         }
 
         private static void RegisterStorage(ContainerBuilder containerBuilder)

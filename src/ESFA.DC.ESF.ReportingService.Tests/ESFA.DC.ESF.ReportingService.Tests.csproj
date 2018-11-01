@@ -145,6 +145,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AimAndDeliverableComparerTests.cs" />
     <Compile Include="Builders\FM70ModelsBuilder.cs" />
     <Compile Include="Builders\FM70PeriodosedValuesBuilder.cs" />
     <Compile Include="Builders\ReferenceDataBuilder.cs" />

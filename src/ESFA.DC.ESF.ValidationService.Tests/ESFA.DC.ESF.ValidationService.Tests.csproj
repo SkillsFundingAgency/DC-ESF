@@ -132,6 +132,7 @@
     <Compile Include="BusinessRuleTests\UlnRuleTests.cs" />
     <Compile Include="BusinessRuleTests\ValueRuleTests.cs" />
     <Compile Include="ControllerTest.cs" />
+    <Compile Include="CrossRecordRuleTests\DuplicateTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

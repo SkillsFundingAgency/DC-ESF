@@ -150,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractReportBuilder.cs" />
+    <Compile Include="Comparers\AimAndDeliverableComparer.cs" />
     <Compile Include="Mappers\AimAndDeliverableMapper.cs" />
     <Compile Include="Reports\AimAndDeliverableReport.cs" />
     <Compile Include="Reports\FundingSummary\ReportDataTemplate.cs" />

@@ -13,6 +13,7 @@ using ESFA.DC.ESF.Interfaces.DataAccessLayer;
 using ESFA.DC.ESF.Interfaces.Reports;
 using ESFA.DC.ESF.Models;
 using ESFA.DC.ESF.Models.Reports;
+using ESFA.DC.ESF.ReportingService.Comparers;
 using ESFA.DC.ESF.ReportingService.Mappers;
 using ESFA.DC.IO.Interfaces;
 
@@ -29,6 +30,8 @@ namespace ESFA.DC.ESF.ReportingService.Reports
         private readonly IValidRepository _validRepository;
 
         private readonly IFM70Repository _fm70Repository;
+
+        private readonly AimAndDeliverableComparer _comparer;
 
         private readonly string[] _reportMonths =
         {
@@ -47,13 +50,15 @@ namespace ESFA.DC.ESF.ReportingService.Reports
             [KeyFilter(PersistenceStorageKeys.Blob)]IKeyValuePersistenceService storage,
             IReferenceDataRepository referenceDataService,
             IValidRepository validRepository,
-            IFM70Repository fm70Repository)
+            IFM70Repository fm70Repository,
+            IAimAndDeliverableComparer comparer)
             : base(dateTimeProvider)
         {
             _storage = storage;
             _referenceDataService = referenceDataService;
             _validRepository = validRepository;
             _fm70Repository = fm70Repository;
+            _comparer = comparer as AimAndDeliverableComparer;
 
             ReportFileName = "ESF Aim and Deliverable Report";
         }
@@ -255,6 +260,8 @@ namespace ESFA.DC.ESF.ReportingService.Reports
                     }
                 }
             }
+
+            reportData.Sort(_comparer);
 
             using (var ms = new MemoryStream())
             {

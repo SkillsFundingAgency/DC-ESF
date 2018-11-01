@@ -6,6 +6,7 @@ using ESFA.DC.Data.LARS.Model;
 using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ESF.Interfaces.DataAccessLayer;
 using ESFA.DC.ESF.Models;
+using ESFA.DC.ESF.ReportingService.Comparers;
 using ESFA.DC.ESF.ReportingService.Reports;
 using ESFA.DC.ESF.ReportingService.Tests.Builders;
 using ESFA.DC.ILR1819.DataStore.EF;
@@ -69,12 +70,15 @@ namespace ESFA.DC.ESF.ReportingService.Tests
             fm70RepoMock.Setup(m => m.GetOutcomes(It.IsAny<int>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new List<ESF_DPOutcome>());
 
+            var comparer = new AimAndDeliverableComparer();
+
             var aimAndDeliverableReport = new AimAndDeliverableReport(
                 dateTimeProviderMock.Object,
                 storage.Object,
                 refRepoMock.Object,
                 validRepoMock.Object,
-                fm70RepoMock.Object);
+                fm70RepoMock.Object,
+                comparer);
 
             var wrapper = new SupplementaryDataWrapper
             {
