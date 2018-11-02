@@ -133,6 +133,15 @@
     <Compile Include="BusinessRuleTests\ValueRuleTests.cs" />
     <Compile Include="ControllerTest.cs" />
     <Compile Include="CrossRecordRuleTests\DuplicateTests.cs" />
+    <Compile Include="FieldDefinitionRuleTests\CalendarRuleTests.cs" />
+    <Compile Include="FieldDefinitionRuleTests\ValueTests.cs" />
+    <Compile Include="FieldDefinitionRuleTests\ULNTests.cs" />
+    <Compile Include="FieldDefinitionRuleTests\StaffNameTests.cs" />
+    <Compile Include="FieldDefinitionRuleTests\ReferenceTests.cs" />
+    <Compile Include="FieldDefinitionRuleTests\CostTypeRuleTests.cs" />
+    <Compile Include="FieldDefinitionRuleTests\ConRefNumberTests.cs" />
+    <Compile Include="FieldDefinitionRuleTests\DeliverableCodeTests.cs" />
+    <Compile Include="FieldDefinitionRuleTests\HourlyRateTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -168,6 +177,7 @@
       <Name>ESFA.DC.ESF.ValidationService</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
