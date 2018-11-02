@@ -18,7 +18,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 
         public Task Execute(SupplementaryDataModel model)
         {
-            IsValid = !string.IsNullOrEmpty(model.CostType.Trim()) && model.ConRefNumber.Length <= FieldLength;
+            IsValid = !string.IsNullOrEmpty(model.CostType?.Trim()) && model.CostType.Length <= FieldLength;
 
             return Task.CompletedTask;
         }

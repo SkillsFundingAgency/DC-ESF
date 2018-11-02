@@ -29,6 +29,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests
             await controller.ValidateData(GetSupplementaryDataList(), GetSupplementaryData());
 
             Assert.True(controller.Errors.Any());
+            ULNRule03 ulnRule03 = new ULNRule03();
+            Assert.True(controller.Errors[1].ErrorMessage == ulnRule03.ErrorMessage);
         }
 
         private IList<SupplementaryDataModel> GetSupplementaryDataList()
