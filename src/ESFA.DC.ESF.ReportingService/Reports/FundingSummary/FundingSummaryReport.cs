@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Aspose.Cells;
 using Autofac.Features.AttributeFilters;
 using CsvHelper;
 using ESFA.DC.DateTimeProvider.Interface;
@@ -13,9 +16,14 @@ using ESFA.DC.ESF.Interfaces;
 using ESFA.DC.ESF.Interfaces.Config;
 using ESFA.DC.ESF.Interfaces.DataAccessLayer;
 using ESFA.DC.ESF.Interfaces.Reports;
+using ESFA.DC.ESF.Interfaces.Services;
 using ESFA.DC.ESF.Interfaces.Strategies;
 using ESFA.DC.ESF.Models;
+using ESFA.DC.ESF.Models.Generation;
+using ESFA.DC.ESF.Models.Reports;
 using ESFA.DC.ESF.Models.Reports.FundingSummaryReport;
+using ESFA.DC.ESF.Models.Styling;
+using ESFA.DC.ESF.ReportingService.Mappers;
 using ESFA.DC.ESF.Utils;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.IO.Interfaces;
@@ -24,145 +32,133 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
 {
     public class FundingSummaryReport : AbstractReportBuilder, IModelReport
     {
-        private readonly IKeyValuePersistenceService _storage;
-
+        private readonly IStreamableKeyValuePersistenceService _storage;
         private readonly IList<IRowHelper> _rowHelpers;
-
         private readonly IFM70Repository _repository;
-
         private readonly IReferenceDataRepository _referenceRepository;
-
+        private readonly IExcelStyleProvider _excelStyleProvider;
+        private readonly IDateTimeProvider _dateTimeProvider;
         private readonly IVersionInfo _versionInfo;
 
-        private readonly string[] _calendarMonths = {
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December"
-        };
+        private readonly List<FundingSummaryModel> fundingSummaryModels;
+        private readonly ModelProperty[] _cachedModelProperties;
+        private readonly FundingSummaryMapper _fundingSummaryMapper;
+        private readonly object[] _cachedHeaders;
 
         public FundingSummaryReport(
             IDateTimeProvider dateTimeProvider,
-            [KeyFilter(PersistenceStorageKeys.Blob)] IKeyValuePersistenceService storage,
+            IValueProvider valueProvider,
+            [KeyFilter(PersistenceStorageKeys.Blob)] IStreamableKeyValuePersistenceService storage,
             IFM70Repository repository,
             IList<IRowHelper> rowHelpers,
             IReferenceDataRepository referenceDataRepository,
+            IExcelStyleProvider excelStyleProvider,
             IVersionInfo versionInfo)
-            : base(dateTimeProvider)
+            : base(dateTimeProvider, valueProvider)
         {
+            _dateTimeProvider = dateTimeProvider;
             _storage = storage;
             _repository = repository;
             _rowHelpers = rowHelpers;
             _referenceRepository = referenceDataRepository;
+            _excelStyleProvider = excelStyleProvider;
             _versionInfo = versionInfo;
 
             ReportFileName = "ESF Funding Summary Report";
+            fundingSummaryModels = new List<FundingSummaryModel>();
+            _fundingSummaryMapper = new FundingSummaryMapper();
+            _cachedModelProperties = _fundingSummaryMapper.MemberMaps.OrderBy(x => x.Data.Index).Select(x => new ModelProperty(x.Data.Names.Names.ToArray(), (PropertyInfo)x.Data.Member)).ToArray();
+            _cachedHeaders = GetHeaderEntries();
         }
 
         public async Task GenerateReport(
-            SupplementaryDataWrapper wrapper,
+            SupplementaryDataWrapper supplementaryDataWrapper,
             SourceFileModel sourceFile,
             ZipArchive archive,
             CancellationToken cancellationToken)
         {
-            string csv;
-            var utF8Encoding = new UTF8Encoding(false, true);
-            var ukPrn = Convert.ToInt32(sourceFile.UKPRN);
+            int ukPrn = Convert.ToInt32(sourceFile.UKPRN);
+            FileDetail ilrFileData = await _repository.GetFileDetails(ukPrn, cancellationToken);
 
-            var ilrFileData = await _repository.GetFileDetails(ukPrn, cancellationToken);
+            FundingSummaryHeaderModel fundingSummaryHeaderModel = PopulateReportHeader(sourceFile, ilrFileData, ukPrn, cancellationToken);
+            await PopulateReportData(ukPrn, ilrFileData, supplementaryDataWrapper.SupplementaryDataModels, cancellationToken);
+            FundingSummaryFooterModel fundingSummaryFooterModel = PopulateReportFooter(cancellationToken);
 
-            var reportHeader = PopulateReportHeader(sourceFile, ilrFileData, ukPrn, cancellationToken);
-            var reportData = await PopulateReportData(ukPrn, ilrFileData, wrapper.SupplementaryDataModels, cancellationToken);
-            var reportFooter = PopulateReportFooter(cancellationToken);
+            string csv = GetReportCsv(fundingSummaryHeaderModel, fundingSummaryFooterModel);
 
-            using (var ms = new MemoryStream())
-            {
-                using (TextWriter textWriter = new StreamWriter(ms, utF8Encoding, 1024, true))
-                {
-                    using (var csvWriter = new CsvWriter(textWriter))
-                    {
-                        GenerateCsv(csvWriter, reportHeader, reportData, reportFooter);
-
-                        csvWriter.Flush();
-                        textWriter.Flush();
-                    }
-                }
-
-                csv = Encoding.UTF8.GetString(ms.ToArray());
-            }
-
-            var externalFileName = GetExternalFilename(sourceFile.UKPRN, sourceFile.JobId ?? 0, sourceFile.SuppliedDate ?? DateTime.MinValue);
-            var fileName = GetFilename(sourceFile.UKPRN, sourceFile.JobId ?? 0, sourceFile.SuppliedDate ?? DateTime.MinValue);
+            string externalFileName = GetExternalFilename(sourceFile.UKPRN, sourceFile.JobId ?? 0, sourceFile.SuppliedDate ?? DateTime.MinValue);
+            string fileName = GetFilename(sourceFile.UKPRN, sourceFile.JobId ?? 0, sourceFile.SuppliedDate ?? DateTime.MinValue);
 
             await _storage.SaveAsync($"{externalFileName}.csv", csv, cancellationToken);
             await WriteZipEntry(archive, $"{fileName}.csv", csv);
+
+            Workbook workbook = GetWorkbookReport(fundingSummaryHeaderModel, fundingSummaryFooterModel);
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                workbook.Save(ms, SaveFormat.Xlsx);
+                await _storage.SaveAsync($"{externalFileName}.xlsx", ms, cancellationToken);
+                await WriteZipEntry(archive, $"{fileName}.xlsx", ms, cancellationToken);
+            }
         }
 
-        private FundingHeader PopulateReportHeader(
+        private FundingSummaryHeaderModel PopulateReportHeader(
             SourceFileModel sourceFile,
             FileDetail fileData,
             int ukPrn,
             CancellationToken cancellationToken)
         {
-            // todo get other years data
-
+            // Todo: get other years data
             string preparationDate = FileNameHelper.GetPreparedDateFromFileName(sourceFile.FileName);
-            var year = FileNameHelper.GetFundingYearFromFileName(sourceFile.FileName);
-            var secondYear = FileNameHelper.GetSecondYearFromReportYear(year);
+            int year = FileNameHelper.GetFundingYearFromFileName(sourceFile.FileName);
+            string secondYear = FileNameHelper.GetSecondYearFromReportYear(year);
 
-            var header = new FundingHeader
+            var header = new FundingSummaryHeaderModel
             {
-                UKPRN = ukPrn.ToString(),
-                SupplementaryDataFile = sourceFile.FileName,
-                ContractReferenceNumber = sourceFile.ConRefNumber,
                 ProviderName = _referenceRepository.GetProviderName(ukPrn, cancellationToken),
-                LastSupplementaryDataFileUpdate = sourceFile.SuppliedDate.ToString(),
-                FundingYears = new List<FundingHeader.FundingHeaderYear>
-                {
-                    new FundingHeader.FundingHeaderYear
-                    {
-                        Header = $"{year.ToString()}/{secondYear}",
-                        ILRFile = fileData?.Filename,
-                        LastILRFileUpdate = fileData?.SubmittedTime.ToString(),
-                        FilePreparationDate = preparationDate != null && DateTime.TryParse(preparationDate, out var prepDate)
-                            ? prepDate.ToShortDateString() : string.Empty
-                    }
-                }
+                Ukprn = new[] { ukPrn.ToString(), string.Empty, string.Empty, string.Empty, "2015/16", "2016/17", "2017/18", "2018/19" },
+                ContractReferenceNumber = new[] { sourceFile.ConRefNumber, string.Empty, string.Empty, "ILR File :" },
+                SupplementaryDataFile = new[] { sourceFile.FileName, string.Empty, string.Empty, "Last ILR File Update :" },
+                LastSupplementaryDataFileUpdate = new[] { sourceFile.SuppliedDate?.ToString("dd/MM/yyyy"), string.Empty, string.Empty, "File Preparation Date :" }
+                //FundingYears = new List<FundingSummaryHeaderModel.FundingHeaderYear>
+                //{
+                //    new FundingSummaryHeaderModel.FundingHeaderYear
+                //    {
+                //        Header = $"{year.ToString()}/{secondYear}",
+                //        ILRFile = fileData?.Filename,
+                //        LastILRFileUpdate = fileData?.SubmittedTime?.ToString("dd/MM/yyyy"),
+                //        FilePreparationDate = preparationDate != null && DateTime.TryParse(preparationDate, out var prepDate)
+                //            ? prepDate.ToShortDateString() : string.Empty
+                //    }
+                //}
             };
 
             return header;
         }
 
-        private FundingFooter PopulateReportFooter(CancellationToken cancellationToken)
+        private FundingSummaryFooterModel PopulateReportFooter(CancellationToken cancellationToken)
         {
-            return new FundingFooter
+            var dateTimeNowUtc = _dateTimeProvider.GetNowUtc();
+            var dateTimeNowUk = _dateTimeProvider.ConvertUtcToUk(dateTimeNowUtc);
+
+            return new FundingSummaryFooterModel
             {
-                ReportGeneratedAt = DateTime.Now,
-                LARSData = _referenceRepository.GetLarsVersion(cancellationToken),
+                ReportGeneratedAt = "Report generated at " + dateTimeNowUk.ToString("HH:mm:ss") + " on " + dateTimeNowUk.ToString("dd/MM/yyyy"),
+                LarsData = _referenceRepository.GetLarsVersion(cancellationToken),
                 OrganisationData = _referenceRepository.GetOrganisationVersion(cancellationToken),
                 PostcodeData = _referenceRepository.GetPostcodeVersion(cancellationToken),
                 ApplicationVersion = _versionInfo.ServiceReleaseVersion
             };
         }
 
-        private async Task<List<FundingSummaryReportRowModel>> PopulateReportData(
+        private async Task PopulateReportData(
             int ukPrn,
             FileDetail ilrFileDetail,
             IList<SupplementaryDataModel> data,
             CancellationToken cancellationToken)
         {
-            var reportData = new List<FundingSummaryReportRowModel>();
-
-            var ilrData = await _repository.GetPeriodisedValues(ukPrn, cancellationToken);
-            // todo get other years data
+            IList<ESF_LearningDeliveryDeliverable_PeriodisedValues> ilrData = await _repository.GetPeriodisedValues(ukPrn, cancellationToken);
+            // Todo: Get other years data
 
             foreach (var fundingReportRow in ReportDataTemplate.FundingModelRowDefinitions)
             {
@@ -173,7 +169,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
                         continue;
                     }
 
-                    rowHelper.Execute(reportData, fundingReportRow, data, ilrData);
+                    rowHelper.Execute(fundingSummaryModels, fundingReportRow, data, ilrData);
                     break;
                 }
             }
@@ -181,183 +177,153 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             var fundingYear = FileNameHelper.GetFundingYearFromILRFileName(ilrFileDetail?.Filename);
             if (fundingYear == default(int))
             {
-                return reportData;
+                return;
             }
 
-            var yearData = reportData.SelectMany(rd => rd.YearlyValues);
+            var yearData = fundingSummaryModels.SelectMany(rd => rd.YearlyValues);
             foreach (var model in yearData)
             {
                 model.FundingYear = fundingYear;
             }
-
-            return reportData;
         }
 
-        private void GenerateCsv(
-            CsvWriter writer,
-            FundingHeader headerData,
-            List<FundingSummaryReportRowModel> reportData,
-            FundingFooter footerData)
+        private string GetReportCsv(FundingSummaryHeaderModel fundingSummaryHeaderModel, FundingSummaryFooterModel fundingSummaryFooterModel)
         {
-            // report header
-            writer.WriteField("Provider Name : ");
-            writer.WriteField(headerData.ProviderName);
-            writer.NextRecord();
-
-            writer.WriteField("UKPRN : ");
-            writer.WriteField(headerData.UKPRN);
-            writer.WriteField(string.Empty);
-            writer.WriteField(string.Empty);
-            writer.WriteField(string.Empty);
-            foreach (var year in headerData.FundingYears)
+            using (MemoryStream ms = new MemoryStream())
             {
-                writer.WriteField(year.Header);
-                writer.WriteField(string.Empty);
-            }
-
-            writer.NextRecord();
-
-            writer.WriteField("Contract Reference Number : ");
-            writer.WriteField(headerData.ContractReferenceNumber);
-            writer.WriteField(string.Empty);
-            writer.WriteField(string.Empty);
-            writer.WriteField("ILR File : ");
-            foreach (var year in headerData.FundingYears)
-            {
-                writer.WriteField(year.ILRFile);
-                writer.WriteField(string.Empty);
-            }
-
-            writer.NextRecord();
-
-            writer.WriteField("Supplementary Data File : ");
-            writer.WriteField(headerData.SupplementaryDataFile);
-            writer.WriteField(string.Empty);
-            writer.WriteField(string.Empty);
-            writer.WriteField("Last ILR File Update : ");
-            foreach (var year in headerData.FundingYears)
-            {
-                writer.WriteField(year.LastILRFileUpdate);
-                writer.WriteField(string.Empty);
-            }
-
-            writer.NextRecord();
-
-            writer.WriteField("Last Supplementary Data File Update : ");
-            writer.WriteField(headerData.LastSupplementaryDataFileUpdate);
-            writer.WriteField(string.Empty);
-            writer.WriteField(string.Empty);
-            writer.WriteField("File Preparation Date : ");
-            foreach (var year in headerData.FundingYears)
-            {
-                writer.WriteField(year.FilePreparationDate);
-                writer.WriteField(string.Empty);
-            }
-
-            writer.NextRecord();
-
-            writer.WriteField("Security Classification : ");
-            writer.WriteField(headerData.SecurityClassification);
-            writer.NextRecord();
-            writer.NextRecord();
-
-            // report body
-            writer.WriteField("European Social Fund 2014-2020");
-            writer.NextRecord();
-
-            var rowWithYearlyData = reportData.FirstOrDefault(r => r.YearlyValues.Count > 0);
-            foreach (var rowModel in reportData)
-            {
-                switch (rowModel.RowType)
+                UTF8Encoding utF8Encoding = new UTF8Encoding(false, true);
+                using (TextWriter textWriter = new StreamWriter(ms, utF8Encoding))
                 {
-                    case RowType.Spacer:
-                        writer.NextRecord();
-                        break;
-                    case RowType.Title:
-                        writer.WriteField(rowModel.Title);
-
-                        if (rowWithYearlyData != null)
+                    using (CsvWriter csvWriter = new CsvWriter(textWriter))
+                    {
+                        WriteCsvRecords<FundingSummaryHeaderMapper, FundingSummaryHeaderModel>(csvWriter, fundingSummaryHeaderModel);
+                        foreach (FundingSummaryModel fundingSummaryModel in fundingSummaryModels)
                         {
-                            foreach (var yearlyValues in rowWithYearlyData.YearlyValues)
+                            if (string.IsNullOrEmpty(fundingSummaryModel.Title))
                             {
-                                for (var i = 0; i < yearlyValues.Values.Length; i++)
-                                {
-                                    writer.WriteField($"{_calendarMonths[i]} {yearlyValues.FundingYear}");
-                                }
+                                WriteCsvRecords(csvWriter);
+                                continue;
                             }
 
-                            var years = rowWithYearlyData.YearlyValues.Count;
-                            for (var i = 0; i < rowWithYearlyData.Totals.Count; i++)
+                            if (fundingSummaryModel.HeaderType == HeaderType.TitleOnly)
                             {
-                                if (i < years)
-                                {
-                                    var reportYear = rowWithYearlyData.YearlyValues[i].FundingYear;
-                                    var reportYear2 = FileNameHelper.GetSecondYearFromReportYear(reportYear);
-                                    writer.WriteField($"{reportYear.ToString()}/{reportYear2} Subtotal");
-                                    continue;
-                                }
-
-                                writer.WriteField("Grand Total");
+                                WriteCsvRecords(csvWriter, (object)fundingSummaryModel.Title);
+                                continue;
                             }
-                        }
 
-                        writer.NextRecord();
-                        break;
-                    case RowType.Data:
-                    case RowType.Total:
-                        writer.WriteField(rowModel.Title);
-                        foreach (var yearlyValues in rowModel.YearlyValues)
-                        {
-                            foreach (var value in yearlyValues.Values)
+                            if (fundingSummaryModel.HeaderType == HeaderType.All)
                             {
-                                writer.WriteField(value);
+                                _fundingSummaryMapper.MemberMaps.Single(x => x.Data.Index == 0).Name(fundingSummaryModel.Title);
+                                _cachedHeaders[0] = fundingSummaryModel.Title;
+                                WriteCsvRecords(csvWriter, _cachedHeaders);
+                                continue;
                             }
+
+                            WriteCsvRecords(csvWriter, _fundingSummaryMapper, _cachedModelProperties, fundingSummaryModel);
                         }
 
-                        foreach (var rowTotal in rowModel.Totals)
-                        {
-                            writer.WriteField(rowTotal);
-                        }
+                        WriteCsvRecords<FundingSummaryFooterMapper, FundingSummaryFooterModel>(csvWriter, fundingSummaryFooterModel);
 
-                        writer.NextRecord();
-                        break;
-                    case RowType.Cumulative:
-                        writer.WriteField(rowModel.Title);
-                        foreach (var yearlyValues in rowModel.YearlyValues)
-                        {
-                            foreach (var value in yearlyValues.Values)
-                            {
-                                writer.WriteField(value);
-                            }
-                        }
+                        csvWriter.Flush();
+                        textWriter.Flush();
+                        return Encoding.UTF8.GetString(ms.ToArray());
+                    }
+                }
+            }
+        }
 
-                        foreach (var rowTotal in rowModel.Totals)
-                        {
-                            writer.WriteField(rowTotal);
-                        }
+        private Workbook GetWorkbookReport(
+            FundingSummaryHeaderModel fundingSummaryHeaderModel,
+            FundingSummaryFooterModel fundingSummaryFooterModel)
+        {
+            Workbook workbook = new Workbook();
+            CellStyle[] cellStyles = _excelStyleProvider.GetFundingSummaryStyles(workbook);
+            Worksheet sheet = workbook.Worksheets[0];
 
-                        writer.WriteField("n/a");
-                        writer.NextRecord();
-                        break;
+            WriteExcelRecords(sheet, new FundingSummaryHeaderMapper(), new List<FundingSummaryHeaderModel> { fundingSummaryHeaderModel }, cellStyles[5], cellStyles[5], true);
+            foreach (FundingSummaryModel fundingSummaryModel in fundingSummaryModels)
+            {
+                if (string.IsNullOrEmpty(fundingSummaryModel.Title))
+                {
+                    WriteExcelRecords(sheet);
+                    continue;
+                }
+
+                CellStyle excelHeaderStyle = _excelStyleProvider.GetCellStyle(cellStyles, fundingSummaryModel.ExcelHeaderStyle);
+
+                if (fundingSummaryModel.HeaderType == HeaderType.TitleOnly)
+                {
+                    WriteExcelRecords(sheet, fundingSummaryModel.Title, excelHeaderStyle, 17);
+                    continue;
+                }
+
+                if (fundingSummaryModel.HeaderType == HeaderType.All)
+                {
+                    _fundingSummaryMapper.MemberMaps.Single(x => x.Data.Index == 0).Name(fundingSummaryModel.Title);
+                    _cachedHeaders[0] = fundingSummaryModel.Title;
+                    WriteExcelRecords(sheet, _fundingSummaryMapper, _cachedHeaders, excelHeaderStyle);
+                    continue;
+                }
+
+                CellStyle excelRecordStyle = _excelStyleProvider.GetCellStyle(cellStyles, fundingSummaryModel.ExcelRecordStyle);
+
+                WriteExcelRecords(sheet, _fundingSummaryMapper, _cachedModelProperties, fundingSummaryModel, excelRecordStyle);
+            }
+
+            WriteExcelRecords(sheet, new FundingSummaryFooterMapper(), new List<FundingSummaryFooterModel> { fundingSummaryFooterModel }, cellStyles[5], cellStyles[5], true);
+
+            return workbook;
+        }
+
+        private object[] GetHeaderEntries()
+        {
+            List<object> values = new List<object>();
+            foreach (ModelProperty cachedModelProperty in _cachedModelProperties)
+            {
+                if (typeof(IEnumerable).IsAssignableFrom(cachedModelProperty.MethodInfo.PropertyType))
+                {
+                    BuildYears(values, cachedModelProperty.Names);
+                    BuildTotals(values, cachedModelProperty.Names);
+                }
+                else
+                {
+                    values.Add(cachedModelProperty.Names[0]);
                 }
             }
 
-            //report footer
-            writer.NextRecord();
-            writer.WriteField("Application Version : ");
-            writer.WriteField(footerData.ApplicationVersion);
-            writer.NextRecord();
-            writer.WriteField("LARS Data : ");
-            writer.WriteField(footerData.LARSData);
-            writer.NextRecord();
-            writer.WriteField("Postcode Data : ");
-            writer.WriteField(footerData.PostcodeData);
-            writer.NextRecord();
-            writer.WriteField("Organisation Data : ");
-            writer.WriteField(footerData.OrganisationData);
-            writer.NextRecord();
-            writer.WriteField("Report generated at : ");
-            writer.WriteField($"{footerData.ReportGeneratedAt.ToShortTimeString()} on {footerData.ReportGeneratedAt.ToShortDateString()}");
+            return values.ToArray();
+        }
+
+        private void BuildTotals(List<object> values, string[] names)
+        {
+            for (int i = 2016; i < 2020; i++)
+            {
+                foreach (string name in names)
+                {
+                    if (!name.Contains("{Y}"))
+                    {
+                        return;
+                    }
+
+                    values.Add(name.Replace("{Y}", i.ToString()));
+                }
+            }
+        }
+
+        private void BuildYears(List<object> values, string[] names)
+        {
+            for (int i = 2016; i < 2020; i++)
+            {
+                foreach (string name in names)
+                {
+                    if (!name.Contains("{SP}"))
+                    {
+                        return;
+                    }
+
+                    values.Add(name.Replace("{SP}", (i - 1).ToString()).Replace("{SY}", i.ToString().Substring(2)));
+                }
+            }
         }
     }
 }

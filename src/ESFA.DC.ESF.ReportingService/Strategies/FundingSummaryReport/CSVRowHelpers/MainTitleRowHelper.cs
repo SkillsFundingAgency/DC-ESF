@@ -7,9 +7,9 @@ using ESFA.DC.ILR1819.DataStore.EF;
 
 namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHelpers
 {
-    public class TitleRowHelper : IRowHelper
+    public sealed class MainTitleRowHelper : IRowHelper
     {
-        private readonly RowType RowType = RowType.Title;
+        private readonly RowType RowType = RowType.MainTitle;
 
         public bool IsMatch(RowType rowType)
         {

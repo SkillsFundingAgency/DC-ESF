@@ -8,6 +8,7 @@ using Autofac.Features.AttributeFilters;
 using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ESF.Interfaces;
 using ESFA.DC.ESF.Interfaces.Reports;
+using ESFA.DC.ESF.Interfaces.Services;
 using ESFA.DC.ESF.Models;
 using ESFA.DC.IO.Interfaces;
 using ESFA.DC.Jobs.Model;
@@ -22,9 +23,10 @@ namespace ESFA.DC.ESF.ReportingService.Reports
 
         public ValidationResultReport(
             IDateTimeProvider dateTimeProvider,
+            IValueProvider valueProvider,
             IJsonSerializationService jsonSerializationService,
             [KeyFilter(PersistenceStorageKeys.Blob)]IKeyValuePersistenceService storage)
-            : base(dateTimeProvider)
+            : base(dateTimeProvider, valueProvider)
         {
             ReportFileName = "ESF Supplementary Data Rule Violation Report";
 

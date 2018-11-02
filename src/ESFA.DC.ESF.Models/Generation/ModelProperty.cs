@@ -4,13 +4,13 @@ namespace ESFA.DC.ESF.Models.Generation
 {
     public sealed class ModelProperty
     {
-        public ModelProperty(object name, PropertyInfo methodInfo)
+        public ModelProperty(string[] names, PropertyInfo methodInfo)
         {
-            Name = name;
+            Names = names;
             MethodInfo = methodInfo;
         }
 
-        public object Name { get; }
+        public string[] Names { get; }
 
         public PropertyInfo MethodInfo { get; }
     }

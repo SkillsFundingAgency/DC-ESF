@@ -6,9 +6,11 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac.Features.AttributeFilters;
+using CsvHelper;
 using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ESF.Interfaces;
 using ESFA.DC.ESF.Interfaces.Reports;
+using ESFA.DC.ESF.Interfaces.Services;
 using ESFA.DC.ESF.Models;
 using ESFA.DC.ESF.ReportingService.Mappers;
 using ESFA.DC.IO.Interfaces;
@@ -21,8 +23,10 @@ namespace ESFA.DC.ESF.ReportingService.Reports
 
         public ValidationErrorReport(
             IDateTimeProvider dateTimeProvider,
-            [KeyFilter(PersistenceStorageKeys.Blob)] IKeyValuePersistenceService storage)
-            : base(dateTimeProvider)
+            IValueProvider valueProvider,
+            [KeyFilter(PersistenceStorageKeys.Blob)]
+            IKeyValuePersistenceService storage)
+            : base(dateTimeProvider, valueProvider)
         {
             ReportFileName = "ESF Supplementary Data Rule Violation Report";
 
@@ -35,10 +39,10 @@ namespace ESFA.DC.ESF.ReportingService.Reports
             ZipArchive archive,
             CancellationToken cancellationToken)
         {
-            var csv = GetCsv(wrapper.ValidErrorModels);
+            string csv = GetCsv(wrapper.ValidErrorModels);
 
-            var externalFileName = GetExternalFilename(sourceFile.UKPRN, sourceFile.JobId ?? 0, sourceFile.SuppliedDate ?? DateTime.MinValue);
-            var fileName = GetFilename(sourceFile.UKPRN, sourceFile.JobId ?? 0, sourceFile.SuppliedDate ?? DateTime.MinValue);
+            string externalFileName = GetExternalFilename(sourceFile.UKPRN, sourceFile.JobId ?? 0, sourceFile.SuppliedDate ?? DateTime.MinValue);
+            string fileName = GetFilename(sourceFile.UKPRN, sourceFile.JobId ?? 0, sourceFile.SuppliedDate ?? DateTime.MinValue);
 
             await _storage.SaveAsync($"{externalFileName}.csv", csv, cancellationToken);
             await WriteZipEntry(archive, $"{fileName}.csv", csv);
@@ -46,10 +50,19 @@ namespace ESFA.DC.ESF.ReportingService.Reports
 
         private string GetCsv(IList<ValidationErrorModel> validationErrorModels)
         {
-            using (var ms = new MemoryStream())
+            using (MemoryStream ms = new MemoryStream())
             {
-                BuildCsvReport<ValidationErrorMapper, ValidationErrorModel>(ms, validationErrorModels);
-                return Encoding.UTF8.GetString(ms.ToArray());
+                UTF8Encoding utF8Encoding = new UTF8Encoding(false, true);
+                using (TextWriter textWriter = new StreamWriter(ms, utF8Encoding))
+                {
+                    using (CsvWriter csvWriter = new CsvWriter(textWriter))
+                    {
+                        WriteCsvRecords<ValidationErrorMapper, ValidationErrorModel>(csvWriter, validationErrorModels);
+                        csvWriter.Flush();
+                        textWriter.Flush();
+                        return Encoding.UTF8.GetString(ms.ToArray());
+                    }
+                }
             }
         }
     }

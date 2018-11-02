@@ -32,6 +32,7 @@ using ESFA.DC.ESF.ReportingService;
 using ESFA.DC.ESF.ReportingService.Comparers;
 using ESFA.DC.ESF.ReportingService.Reports;
 using ESFA.DC.ESF.ReportingService.Reports.FundingSummary;
+using ESFA.DC.ESF.ReportingService.Services;
 using ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHelpers;
 using ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.Ilr;
 using ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.SuppData;
@@ -301,6 +302,10 @@ namespace ESFA.DC.ESF.Service.Stateless
                 .InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<FileValidationService>().As<IFileValidationService>();
+
+            containerBuilder.RegisterType<ExcelStyleProvider>().As<IExcelStyleProvider>();
+
+            containerBuilder.RegisterType<ValueProvider>().As<IValueProvider>().SingleInstance();
         }
 
         private static void RegisterControllers(ContainerBuilder containerBuilder)
@@ -350,6 +355,7 @@ namespace ESFA.DC.ESF.Service.Stateless
             containerBuilder.RegisterType<SpacerRowHelper>().As<IRowHelper>();
             containerBuilder.RegisterType<TotalRowHelper>().As<IRowHelper>();
             containerBuilder.RegisterType<CumulativeRowHelper>().As<IRowHelper>();
+            containerBuilder.RegisterType<MainTitleRowHelper>().As<IRowHelper>();
             containerBuilder.Register(c => new List<IRowHelper>(c.Resolve<IEnumerable<IRowHelper>>()))
                 .As<IList<IRowHelper>>();
 
