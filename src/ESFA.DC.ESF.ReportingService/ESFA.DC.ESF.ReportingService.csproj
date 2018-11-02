@@ -154,6 +154,7 @@
     <Compile Include="Mappers\AimAndDeliverableMapper.cs" />
     <Compile Include="Reports\AimAndDeliverableReport.cs" />
     <Compile Include="Reports\FundingSummary\ReportDataTemplate.cs" />
+    <Compile Include="Services\SupplementaryDataService.cs" />
     <Compile Include="Strategies\FundingSummaryReport\CSVRowHelpers\DataRowHelper.cs" />
     <Compile Include="Strategies\FundingSummaryReport\CSVRowHelpers\CumulativeRowHelper.cs" />
     <Compile Include="Strategies\FundingSummaryReport\CSVRowHelpers\TitleRowHelper.cs" />

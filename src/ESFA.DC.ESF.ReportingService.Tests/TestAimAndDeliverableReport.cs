@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using ESFA.DC.Data.LARS.Model;
 using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ESF.Interfaces.DataAccessLayer;
 using ESFA.DC.ESF.Models;
@@ -12,7 +11,6 @@ using ESFA.DC.ESF.ReportingService.Tests.Builders;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.EF.Valid;
 using ESFA.DC.IO.Interfaces;
-using ESFA.DC.ReferenceData.FCS.Model;
 using Moq;
 using Xunit;
 
