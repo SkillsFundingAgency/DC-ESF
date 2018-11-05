@@ -176,6 +176,7 @@
     <Compile Include="Validation\ICrossRecordValidator.cs" />
     <Compile Include="Validation\IFieldDefinitionValidator.cs" />
     <Compile Include="Validation\IFileLevelValidator.cs" />
+    <Compile Include="Validation\IPopulationService.cs" />
     <Compile Include="Validation\IValidatorCommand.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -31,7 +31,7 @@ namespace ESFA.DC.ESF.Strategies
         {
             foreach (var model in wrapper.SupplementaryDataModels)
             {
-                await _controller.ValidateData(wrapper.SupplementaryDataModels, model);
+                await _controller.ValidateData(wrapper.SupplementaryDataModels, model, cancellationToken);
 
                 if (_controller.RejectFile)
                 {

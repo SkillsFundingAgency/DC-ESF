@@ -67,7 +67,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
         {
             var referenceRepo = new Mock<IReferenceDataRepository>();
             referenceRepo
-                .Setup(x => x.GetUlnLookup(It.IsAny<IList<long>>(), It.IsAny<CancellationToken>()))
+                .Setup(x => x.GetUlnLookup(It.IsAny<IList<long?>>(), It.IsAny<CancellationToken>()))
                 .Returns(new List<UniqueLearnerNumber> { new UniqueLearnerNumber { ULN = 1990909009 } });
 
             var model = new SupplementaryDataModel

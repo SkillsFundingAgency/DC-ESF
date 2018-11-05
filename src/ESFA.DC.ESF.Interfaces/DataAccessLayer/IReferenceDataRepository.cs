@@ -17,7 +17,7 @@ namespace ESFA.DC.ESF.Interfaces.DataAccessLayer
 
         string GetProviderName(int ukPrn, CancellationToken cancellationToken);
 
-        IList<UniqueLearnerNumber> GetUlnLookup(IList<long> searchUlns, CancellationToken cancellationToken);
+        IList<UniqueLearnerNumber> GetUlnLookup(IList<long?> searchUlns, CancellationToken cancellationToken);
 
         IList<LARS_LearningDelivery> GetLarsLearningDelivery(IList<string> learnAimRefs, CancellationToken cancellationToken);
 

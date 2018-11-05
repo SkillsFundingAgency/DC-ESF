@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ESF.Interfaces.DataAccessLayer;
@@ -27,9 +28,9 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
         public Task Execute(SupplementaryDataModel model)
         {
             IsValid = true;
-            //IsValid = model.ReferenceType != "LearnRefNumber" ||
-            //          (model.ULN ?? 0) == 9999999999 ||
-            //          _referenceDataRepository.GetUlnLookup(CancellationToken.None).Any(u => u.ULN == model.ULN);
+            IsValid = model.ReferenceType != "LearnRefNumber" ||
+                      (model.ULN ?? 0) == 9999999999 ||
+                      _referenceDataRepository.GetUlnLookup(new List<long?> { model.ULN ?? 0 }, CancellationToken.None).Any(u => u.ULN == model.ULN);
 
             return Task.CompletedTask;
         }

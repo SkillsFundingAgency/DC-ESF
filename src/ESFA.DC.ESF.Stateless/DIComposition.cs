@@ -45,6 +45,7 @@ using ESFA.DC.ESF.ValidationService.Commands.BusinessRules;
 using ESFA.DC.ESF.ValidationService.Commands.CrossRecord;
 using ESFA.DC.ESF.ValidationService.Commands.FieldDefinition;
 using ESFA.DC.ESF.ValidationService.Commands.FileLevel;
+using ESFA.DC.ESF.ValidationService.Services;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.EF.Interfaces;
 using ESFA.DC.ILR1819.DataStore.EF.Valid;
@@ -301,6 +302,7 @@ namespace ESFA.DC.ESF.Service.Stateless
                 .InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<FileValidationService>().As<IFileValidationService>();
+            containerBuilder.RegisterType<PopulationService>().As<IPopulationService>();
         }
 
         private static void RegisterControllers(ContainerBuilder containerBuilder)
