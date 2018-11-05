@@ -10,9 +10,9 @@ namespace ESFA.DC.ESF.Interfaces.Strategies
         bool IsMatch(RowType rowType);
 
         void Execute(
-            IList<FundingSummaryReportRowModel> reportOutput,
+            IList<FundingSummaryModel> reportOutput,
             FundingReportRow row,
             IList<SupplementaryDataModel> esfDataModels,
-            IList<ESF_LearningDeliveryDeliverable_PeriodisedValues> irlData);
+            IList<ESF_LearningDeliveryDeliverable_PeriodisedValues> ilrData);
     }
 }

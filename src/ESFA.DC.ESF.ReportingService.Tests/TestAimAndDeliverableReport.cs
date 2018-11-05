@@ -7,6 +7,7 @@ using ESFA.DC.ESF.Interfaces.DataAccessLayer;
 using ESFA.DC.ESF.Models;
 using ESFA.DC.ESF.ReportingService.Comparers;
 using ESFA.DC.ESF.ReportingService.Reports;
+using ESFA.DC.ESF.ReportingService.Services;
 using ESFA.DC.ESF.ReportingService.Tests.Builders;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.EF.Valid;
@@ -69,6 +70,7 @@ namespace ESFA.DC.ESF.ReportingService.Tests
                 .ReturnsAsync(new List<ESF_DPOutcome>());
 
             var comparer = new AimAndDeliverableComparer();
+            var valueProvider = new ValueProvider();
 
             var aimAndDeliverableReport = new AimAndDeliverableReport(
                 dateTimeProviderMock.Object,
@@ -76,6 +78,7 @@ namespace ESFA.DC.ESF.ReportingService.Tests
                 refRepoMock.Object,
                 validRepoMock.Object,
                 fm70RepoMock.Object,
+                valueProvider,
                 comparer);
 
             var wrapper = new SupplementaryDataWrapper

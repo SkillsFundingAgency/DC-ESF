@@ -16,15 +16,12 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
         }
 
         public void Execute(
-            IList<FundingSummaryReportRowModel> reportOutput,
+            IList<FundingSummaryModel> reportOutput,
             FundingReportRow row,
             IList<SupplementaryDataModel> esfDataModels,
             IList<ESF_LearningDeliveryDeliverable_PeriodisedValues> ilrData)
         {
-            reportOutput.Add(new FundingSummaryReportRowModel
-            {
-                RowType = RowType
-            });
+            reportOutput.Add(new FundingSummaryModel());
         }
     }
 }

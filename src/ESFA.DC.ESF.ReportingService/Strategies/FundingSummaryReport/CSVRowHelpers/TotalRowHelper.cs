@@ -2,6 +2,7 @@
 using System.Linq;
 using ESFA.DC.ESF.Interfaces.Strategies;
 using ESFA.DC.ESF.Models;
+using ESFA.DC.ESF.Models.Reports;
 using ESFA.DC.ESF.Models.Reports.FundingSummaryReport;
 using ESFA.DC.ILR1819.DataStore.EF;
 
@@ -9,38 +10,42 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
 {
     public class TotalRowHelper : IRowHelper
     {
-        private readonly RowType RowType = RowType.Total;
-
         public bool IsMatch(RowType rowType)
         {
-            return rowType == RowType;
+            return rowType == RowType.Total || rowType == RowType.FinalTotal;
         }
 
         public void Execute(
-            IList<FundingSummaryReportRowModel> reportOutput,
+            IList<FundingSummaryModel> reportOutput,
             FundingReportRow row,
             IList<SupplementaryDataModel> esfDataModels,
             IList<ESF_LearningDeliveryDeliverable_PeriodisedValues> ilrData)
         {
-            var deliverableCodes = row.DeliverableCode?.Split(',').ToList();
+            List<string> deliverableCodes = row.DeliverableCode?.Split(',').Select(x => x.Trim())
+                .Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
 
-            var reportRowsToTotal = deliverableCodes == null ?
-                reportOutput.Where(r => r.RowType == RowType.Data).ToList() :
-                reportOutput.Where(r => deliverableCodes.Contains(r.DeliverableCode) && r.RowType == RowType.Data).ToList();
+            List<FundingSummaryModel> reportRowsToTotal = deliverableCodes == null ?
+                reportOutput.Where(r => r.ExcelRecordStyle == 4).ToList() :
+                reportOutput.Where(r => deliverableCodes.Contains(r.DeliverableCode) && r.ExcelRecordStyle == 4).ToList();
 
             if (!reportRowsToTotal.Any())
             {
                 return;
             }
 
-            var rowModel = new FundingSummaryReportRowModel
+            FundingSummaryModel rowModel = new FundingSummaryModel(row.Title, HeaderType.None, 2)
             {
-                RowType = RowType.Total,
-                Title = row.Title,
-                DeliverableCode = row.DeliverableCode
+                DeliverableCode = row.DeliverableCode,
+                ExcelRecordStyle = 2
             };
 
-            var yearlyValueTotals = new List<FundingSummaryReportYearlyValueModel>();
+            if (row.RowType == RowType.FinalTotal)
+            {
+                rowModel.ExcelHeaderStyle = 0;
+                rowModel.ExcelRecordStyle = 0;
+            }
+
+            List<FundingSummaryReportYearlyValueModel> yearlyValueTotals = new List<FundingSummaryReportYearlyValueModel>();
             foreach (var yearlyValue in reportRowsToTotal.First().YearlyValues)
             {
                 var yearlyModel = new FundingSummaryReportYearlyValueModel
@@ -48,7 +53,7 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
                     FundingYear = yearlyValue.FundingYear
                 };
 
-                var periodValues = reportRowsToTotal.SelectMany(r => r.YearlyValues).ToList();
+                List<FundingSummaryReportYearlyValueModel> periodValues = reportRowsToTotal.SelectMany(r => r.YearlyValues).ToList();
 
                 for (var i = 0; i < (periodValues.FirstOrDefault()?.Values.Length ?? 0); i++)
                 {
@@ -74,7 +79,7 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
             List<FundingSummaryReportYearlyValueModel> yearlyModel,
             int period)
         {
-            var total = 0M;
+            decimal total = 0M;
             foreach (var model in yearlyModel)
             {
                 total += model.Values[period];
