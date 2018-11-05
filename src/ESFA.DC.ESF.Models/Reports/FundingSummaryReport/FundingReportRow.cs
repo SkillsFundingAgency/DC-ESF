@@ -4,12 +4,14 @@ namespace ESFA.DC.ESF.Models.Reports.FundingSummaryReport
 {
     public enum RowType
     {
+        Spacer,
         MainTitle,
         Title,
         Data,
         Total,
-        Spacer,
-        Cumulative
+        FinalTotal,
+        Cumulative,
+        FinalCumulative
     }
 
     public class FundingReportRow

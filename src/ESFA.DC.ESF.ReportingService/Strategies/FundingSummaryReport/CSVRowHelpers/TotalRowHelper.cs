@@ -10,11 +10,9 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
 {
     public class TotalRowHelper : IRowHelper
     {
-        private readonly RowType RowType = RowType.Total;
-
         public bool IsMatch(RowType rowType)
         {
-            return rowType == RowType;
+            return rowType == RowType.Total || rowType == RowType.FinalTotal;
         }
 
         public void Execute(
@@ -37,8 +35,15 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
 
             FundingSummaryModel rowModel = new FundingSummaryModel(row.Title, HeaderType.None, 2)
             {
-                DeliverableCode = row.DeliverableCode
+                DeliverableCode = row.DeliverableCode,
+                ExcelRecordStyle = 2
             };
+
+            if (row.RowType == RowType.FinalTotal)
+            {
+                rowModel.ExcelHeaderStyle = 0;
+                rowModel.ExcelRecordStyle = 0;
+            }
 
             List<FundingSummaryReportYearlyValueModel> yearlyValueTotals = new List<FundingSummaryReportYearlyValueModel>();
             foreach (var yearlyValue in reportRowsToTotal.First().YearlyValues)

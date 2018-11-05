@@ -138,8 +138,8 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             new FundingReportRow { DeliverableCode = "SD01, SD02, SD03, SD04, SD05, SD06, SD07, SD08, SD09, SD10", RowType = RowType.Total, Title = "Total Specification Defined (£)" },
             new FundingReportRow { RowType = RowType.Spacer },
 
-            new FundingReportRow { RowType = RowType.Total, Title = "<ESF-1> Total (£)" },
-            new FundingReportRow { RowType = RowType.Cumulative, Title = "<ESF-1> Cumulative (£)" },
+            new FundingReportRow { RowType = RowType.FinalTotal, Title = "<ESF-1> Total (£)" },
+            new FundingReportRow { RowType = RowType.FinalCumulative, Title = "<ESF-1> Cumulative (£)" },
             new FundingReportRow { RowType = RowType.Spacer }
         };
     }

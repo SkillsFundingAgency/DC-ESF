@@ -82,6 +82,17 @@ namespace ESFA.DC.ESF.ReportingService.Services
 
             cellStyles.Add(new CellStyle(style6, styleFlag6));
 
+            Style style7 = workbook.CreateStyle();
+            style7.Font.Color = System.Drawing.Color.Red;
+            style7.Font.Size = 10;
+            style7.Font.IsBold = true;
+            style7.Font.Name = "Arial";
+
+            StyleFlag styleFlag7 = new StyleFlag();
+            styleFlag7.Font = true;
+
+            cellStyles.Add(new CellStyle(style7, styleFlag7));
+
             return cellStyles.ToArray();
         }
 

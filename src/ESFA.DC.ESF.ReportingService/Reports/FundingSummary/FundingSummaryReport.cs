@@ -43,7 +43,10 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
         private readonly List<FundingSummaryModel> fundingSummaryModels;
         private readonly ModelProperty[] _cachedModelProperties;
         private readonly FundingSummaryMapper _fundingSummaryMapper;
-        private readonly object[] _cachedHeaders;
+
+        private object[] _cachedHeaders;
+        private CellStyle[] cellStyles;
+        private int reportWidth = 1;
 
         public FundingSummaryReport(
             IDateTimeProvider dateTimeProvider,
@@ -68,7 +71,6 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             fundingSummaryModels = new List<FundingSummaryModel>();
             _fundingSummaryMapper = new FundingSummaryMapper();
             _cachedModelProperties = _fundingSummaryMapper.MemberMaps.OrderBy(x => x.Data.Index).Select(x => new ModelProperty(x.Data.Names.Names.ToArray(), (PropertyInfo)x.Data.Member)).ToArray();
-            _cachedHeaders = GetHeaderEntries();
         }
 
         public async Task GenerateReport(
@@ -84,6 +86,20 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             await PopulateReportData(ukPrn, ilrFileData, supplementaryDataWrapper.SupplementaryDataModels, cancellationToken);
             FundingSummaryFooterModel fundingSummaryFooterModel = PopulateReportFooter(cancellationToken);
 
+            FundingSummaryModel rowOfData = fundingSummaryModels.FirstOrDefault(x => x.DeliverableCode == "ST01");
+            List<YearAndDataLengthModel> yearAndDataLengthModels = new List<YearAndDataLengthModel>();
+            if (rowOfData != null)
+            {
+                int valCount = rowOfData.YearlyValues.Sum(x => x.Values.Length);
+                reportWidth = valCount + rowOfData.Totals.Count + 2;
+                foreach (FundingSummaryReportYearlyValueModel fundingSummaryReportYearlyValueModel in rowOfData.YearlyValues)
+                {
+                    yearAndDataLengthModels.Add(new YearAndDataLengthModel(fundingSummaryReportYearlyValueModel.FundingYear, fundingSummaryReportYearlyValueModel.Values.Length));
+                }
+            }
+
+            _cachedHeaders = GetHeaderEntries(yearAndDataLengthModels);
+
             string csv = GetReportCsv(fundingSummaryHeaderModel, fundingSummaryFooterModel);
 
             string externalFileName = GetExternalFilename(sourceFile.UKPRN, sourceFile.JobId ?? 0, sourceFile.SuppliedDate ?? DateTime.MinValue);
@@ -93,12 +109,27 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             await WriteZipEntry(archive, $"{fileName}.csv", csv);
 
             Workbook workbook = GetWorkbookReport(fundingSummaryHeaderModel, fundingSummaryFooterModel);
+            ApplyAdditionalFormatting(workbook, rowOfData);
 
             using (MemoryStream ms = new MemoryStream())
             {
                 workbook.Save(ms, SaveFormat.Xlsx);
                 await _storage.SaveAsync($"{externalFileName}.xlsx", ms, cancellationToken);
                 await WriteZipEntry(archive, $"{fileName}.xlsx", ms, cancellationToken);
+            }
+        }
+
+        private void ApplyAdditionalFormatting(Workbook workbook, FundingSummaryModel rowOfData)
+        {
+            Worksheet worksheet = workbook.Worksheets[0];
+            worksheet.Cells.CreateRange(1, 5, 4, 1).ApplyStyle(cellStyles[6].Style, cellStyles[6].StyleFlag); // Header
+            if (rowOfData != null)
+            {
+                int valCount = rowOfData.YearlyValues.Sum(x => x.Values.Length);
+                int nonYearCount = rowOfData.YearlyValues.Sum(x => x.FundingYear != 2018 ? x.Values.Length : 0);
+                int yearCount = rowOfData.YearlyValues.Sum(x => x.FundingYear == 2018 ? x.Values.Length : 0);
+                worksheet.Cells.CreateRange(9, nonYearCount + 1, 110, yearCount).ApplyStyle(cellStyles[6].Style, cellStyles[6].StyleFlag); // Current Year
+                worksheet.Cells.CreateRange(9, valCount + rowOfData.Totals.Count, 110, 1).ApplyStyle(cellStyles[6].Style, cellStyles[6].StyleFlag); // Current Year Subtotal
             }
         }
 
@@ -116,7 +147,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             var header = new FundingSummaryHeaderModel
             {
                 ProviderName = _referenceRepository.GetProviderName(ukPrn, cancellationToken),
-                Ukprn = new[] { ukPrn.ToString(), string.Empty, string.Empty, string.Empty, "2015/16", "2016/17", "2017/18", "2018/19" },
+                Ukprn = new[] { ukPrn.ToString(), string.Empty, string.Empty, string.Empty, "2015/16", string.Empty, "2016/17", string.Empty, "2017/18", string.Empty, "2018/19" },
                 ContractReferenceNumber = new[] { sourceFile.ConRefNumber, string.Empty, string.Empty, "ILR File :" },
                 SupplementaryDataFile = new[] { sourceFile.FileName, string.Empty, string.Empty, "Last ILR File Update :" },
                 LastSupplementaryDataFileUpdate = new[] { sourceFile.SuppliedDate?.ToString("dd/MM/yyyy"), string.Empty, string.Empty, "File Preparation Date :" }
@@ -237,7 +268,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             FundingSummaryFooterModel fundingSummaryFooterModel)
         {
             Workbook workbook = new Workbook();
-            CellStyle[] cellStyles = _excelStyleProvider.GetFundingSummaryStyles(workbook);
+            cellStyles = _excelStyleProvider.GetFundingSummaryStyles(workbook);
             Worksheet sheet = workbook.Worksheets[0];
 
             WriteExcelRecords(sheet, new FundingSummaryHeaderMapper(), new List<FundingSummaryHeaderModel> { fundingSummaryHeaderModel }, cellStyles[5], cellStyles[5], true);
@@ -253,7 +284,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
 
                 if (fundingSummaryModel.HeaderType == HeaderType.TitleOnly)
                 {
-                    WriteExcelRecords(sheet, fundingSummaryModel.Title, excelHeaderStyle, 17);
+                    WriteExcelRecords(sheet, fundingSummaryModel.Title, excelHeaderStyle, reportWidth);
                     continue;
                 }
 
@@ -275,15 +306,15 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             return workbook;
         }
 
-        private object[] GetHeaderEntries()
+        private object[] GetHeaderEntries(List<YearAndDataLengthModel> yearAndDataLengthModels)
         {
             List<object> values = new List<object>();
             foreach (ModelProperty cachedModelProperty in _cachedModelProperties)
             {
                 if (typeof(IEnumerable).IsAssignableFrom(cachedModelProperty.MethodInfo.PropertyType))
                 {
-                    BuildYears(values, cachedModelProperty.Names);
-                    BuildTotals(values, cachedModelProperty.Names);
+                    BuildYears(values, cachedModelProperty.Names, yearAndDataLengthModels);
+                    BuildTotals(values, cachedModelProperty.Names, yearAndDataLengthModels);
                 }
                 else
                 {
@@ -294,34 +325,66 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             return values.ToArray();
         }
 
-        private void BuildTotals(List<object> values, string[] names)
+        private void BuildTotals(
+            List<object> values,
+            string[] names,
+            List<YearAndDataLengthModel> yearAndDataLengthModels)
         {
             for (int i = 2016; i < 2020; i++)
             {
+                YearAndDataLengthModel yearAndDataLengthModel = yearAndDataLengthModels.SingleOrDefault(x => x.Year == i);
+                if (yearAndDataLengthModel == null)
+                {
+                    continue;
+                }
+
+                int counter = 0;
                 foreach (string name in names)
                 {
+                    if (counter > yearAndDataLengthModel.DataLength)
+                    {
+                        break;
+                    }
+
                     if (!name.Contains("{Y}"))
                     {
                         return;
                     }
 
                     values.Add(name.Replace("{Y}", i.ToString()));
+                    counter++;
                 }
             }
         }
 
-        private void BuildYears(List<object> values, string[] names)
+        private void BuildYears(
+            List<object> values,
+            string[] names,
+            List<YearAndDataLengthModel> yearAndDataLengthModels)
         {
             for (int i = 2016; i < 2020; i++)
             {
+                YearAndDataLengthModel yearAndDataLengthModel = yearAndDataLengthModels.SingleOrDefault(x => x.Year == i);
+                if (yearAndDataLengthModel == null)
+                {
+                    continue;
+                }
+
+                int counter = 0;
                 foreach (string name in names)
                 {
+                    if (counter > yearAndDataLengthModel.DataLength)
+                    {
+                        break;
+                    }
+
                     if (!name.Contains("{SP}"))
                     {
                         return;
                     }
 
                     values.Add(name.Replace("{SP}", (i - 1).ToString()).Replace("{SY}", i.ToString().Substring(2)));
+                    counter++;
                 }
             }
         }

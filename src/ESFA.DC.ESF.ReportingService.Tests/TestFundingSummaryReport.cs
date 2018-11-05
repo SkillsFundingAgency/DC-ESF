@@ -128,6 +128,7 @@ namespace ESFA.DC.ESF.ReportingService.Tests
                 new TitleRowHelper(),
                 new TotalRowHelper(),
                 new CumulativeRowHelper(),
+                new MainTitleRowHelper(),
                 new DataRowHelper(
                     new List<ISupplementaryDataStrategy>
                     {

@@ -22,7 +22,7 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
             IList<SupplementaryDataModel> esfDataModels,
             IList<ESF_LearningDeliveryDeliverable_PeriodisedValues> ilrData)
         {
-            reportOutput.Add(new FundingSummaryModel(row.Title, HeaderType.TitleOnly, 0));
+            reportOutput.Add(new FundingSummaryModel(row.Title, HeaderType.All, 2));
         }
     }
 }
