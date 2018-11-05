@@ -7,10 +7,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac.Features.AttributeFilters;
+using CsvHelper;
 using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ESF.Interfaces;
 using ESFA.DC.ESF.Interfaces.DataAccessLayer;
 using ESFA.DC.ESF.Interfaces.Reports;
+using ESFA.DC.ESF.Interfaces.Services;
 using ESFA.DC.ESF.Models;
 using ESFA.DC.ESF.Models.Reports;
 using ESFA.DC.ESF.ReportingService.Comparers;
@@ -51,8 +53,9 @@ namespace ESFA.DC.ESF.ReportingService.Reports
             IReferenceDataRepository referenceDataService,
             IValidRepository validRepository,
             IFM70Repository fm70Repository,
+            IValueProvider valueProvider,
             IAimAndDeliverableComparer comparer)
-            : base(dateTimeProvider)
+            : base(dateTimeProvider, valueProvider)
         {
             _storage = storage;
             _referenceDataService = referenceDataService;
@@ -103,16 +106,20 @@ namespace ESFA.DC.ESF.ReportingService.Reports
             taskList.Add(learnerDeliveryFamTask);
             var outcomesTask = _validRepository.GetDPOutcomes(ukPrn, cancellationToken);
             taskList.Add(outcomesTask);
-            var providerLearnMonitoringsTask = _validRepository.GetProviderSpecLearnerMonitorings(ukPrn, cancellationToken);
+            var providerLearnMonitoringsTask =
+                _validRepository.GetProviderSpecLearnerMonitorings(ukPrn, cancellationToken);
             taskList.Add(providerLearnMonitoringsTask);
-            var providerDeliveryMonitoringsTask = _validRepository.GetProviderSpecDeliveryMonitorings(ukPrn, cancellationToken);
+            var providerDeliveryMonitoringsTask =
+                _validRepository.GetProviderSpecDeliveryMonitorings(ukPrn, cancellationToken);
             taskList.Add(providerDeliveryMonitoringsTask);
 
             var fm70LearningDeliveryTask = _fm70Repository.GetLearningDeliveries(ukPrn, cancellationToken);
             taskList.Add(fm70LearningDeliveryTask);
-            var fm70LearningDeliveryDeliverablesTask = _fm70Repository.GetLearningDeliveryDeliverables(ukPrn, cancellationToken);
+            var fm70LearningDeliveryDeliverablesTask =
+                _fm70Repository.GetLearningDeliveryDeliverables(ukPrn, cancellationToken);
             taskList.Add(fm70LearningDeliveryDeliverablesTask);
-            var fm70DeliverablePeriodTask = _fm70Repository.GetLearningDeliveryDeliverablePeriods(ukPrn, cancellationToken);
+            var fm70DeliverablePeriodTask =
+                _fm70Repository.GetLearningDeliveryDeliverablePeriods(ukPrn, cancellationToken);
             taskList.Add(fm70DeliverablePeriodTask);
             var fm70OutcomesTask = _fm70Repository.GetOutcomes(ukPrn, cancellationToken);
             taskList.Add(fm70OutcomesTask);
@@ -139,7 +146,8 @@ namespace ESFA.DC.ESF.ReportingService.Reports
             var learnAimRefs = learningDeliveries.Select(ld => ld.LearnAimRef).ToList();
             var deliverableCodes = fm70Deliverables?.Select(d => d.DeliverableCode).ToList();
 
-            var fcsCodeMappings = _referenceDataService.GetContractDeliverableCodeMapping(deliverableCodes, cancellationToken);
+            var fcsCodeMappings =
+                _referenceDataService.GetContractDeliverableCodeMapping(deliverableCodes, cancellationToken);
             var larsDeliveries = _referenceDataService.GetLarsLearningDelivery(learnAimRefs, cancellationToken);
 
             var reportData = new List<AimAndDeliverableModel>();
@@ -172,8 +180,10 @@ namespace ESFA.DC.ESF.ReportingService.Reports
                                                                         && o.OutCode == outcomeCode
                                                                         && o.OutStartDate == outcomeStartDate);
 
-                    var learnerMonitorings = learnMonitorings.Where(m => m.LearnRefNumber == learner.LearnRefNumber).ToList();
-                    var learnerDeliveryMonitorings = deliveryMonitorings.Where(m => m.LearnRefNumber == learner.LearnRefNumber).ToList();
+                    var learnerMonitorings =
+                        learnMonitorings.Where(m => m.LearnRefNumber == learner.LearnRefNumber).ToList();
+                    var learnerDeliveryMonitorings = deliveryMonitorings
+                        .Where(m => m.LearnRefNumber == learner.LearnRefNumber).ToList();
                     var larsDelivery = larsDeliveries.SingleOrDefault(l => l.LearnAimRef == delivery.LearnAimRef);
 
                     foreach (var fm70Deliverable in fm70DeliveryDeliverables)
@@ -263,10 +273,20 @@ namespace ESFA.DC.ESF.ReportingService.Reports
 
             reportData.Sort(_comparer);
 
-            using (var ms = new MemoryStream())
+            using (MemoryStream ms = new MemoryStream())
             {
-                BuildCsvReport<AimAndDeliverableMapper, AimAndDeliverableModel>(ms, reportData);
-                return Encoding.UTF8.GetString(ms.ToArray());
+                UTF8Encoding utF8Encoding = new UTF8Encoding(false, true);
+                using (TextWriter textWriter = new StreamWriter(ms, utF8Encoding))
+                {
+                    using (CsvWriter csvWriter = new CsvWriter(textWriter))
+                    {
+                        WriteCsvRecords<AimAndDeliverableMapper, AimAndDeliverableModel>(csvWriter, reportData);
+
+                        csvWriter.Flush();
+                        textWriter.Flush();
+                        return Encoding.UTF8.GetString(ms.ToArray());
+                    }
+                }
             }
         }
     }

@@ -52,8 +52,8 @@
     <CodeAnalysisRuleSet>ESFA.DC.ESF.ReportingService.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Aspose.Cells, Version=18.7.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
-      <HintPath>..\packages\Aspose.Cells.18.7.0\lib\net40\Aspose.Cells.dll</HintPath>
+    <Reference Include="Aspose.Cells, Version=18.10.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
+      <HintPath>..\packages\Aspose.Cells.18.10.0\lib\net40\Aspose.Cells.dll</HintPath>
     </Reference>
     <Reference Include="Autofac, Version=4.9.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.4.9.0-beta1\lib\net45\Autofac.dll</HintPath>
@@ -144,6 +144,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -152,10 +153,18 @@
     <Compile Include="AbstractReportBuilder.cs" />
     <Compile Include="Comparers\AimAndDeliverableComparer.cs" />
     <Compile Include="Mappers\AimAndDeliverableMapper.cs" />
+    <Compile Include="Mappers\FundingSummaryFooterMapper.cs" />
+    <Compile Include="Mappers\FundingSummaryHeaderMapper.cs" />
+    <Compile Include="Mappers\FundingSummaryMapper.cs" />
+    <Compile Include="Mappers\FundingSummaryReportYearlyValueMapper.cs" />
     <Compile Include="Reports\AimAndDeliverableReport.cs" />
     <Compile Include="Reports\FundingSummary\ReportDataTemplate.cs" />
+    <Compile Include="Services\ExcelStyleProvider.cs" />
+    <Compile Include="Services\SupplementaryDataService.cs" />
+    <Compile Include="Services\ValueProvider.cs" />
     <Compile Include="Strategies\FundingSummaryReport\CSVRowHelpers\DataRowHelper.cs" />
     <Compile Include="Strategies\FundingSummaryReport\CSVRowHelpers\CumulativeRowHelper.cs" />
+    <Compile Include="Strategies\FundingSummaryReport\CSVRowHelpers\MainTitleRowHelper.cs" />
     <Compile Include="Strategies\FundingSummaryReport\CSVRowHelpers\TitleRowHelper.cs" />
     <Compile Include="Strategies\FundingSummaryReport\CSVRowHelpers\SpacerRowHelper.cs" />
     <Compile Include="Strategies\FundingSummaryReport\CSVRowHelpers\TotalRowHelper.cs" />
@@ -226,7 +235,6 @@
     <Compile Include="Strategies\FundingSummaryReport\SuppData\RQ01RegulatedLearningAuthorisedClaims.cs" />
     <Compile Include="Strategies\FundingSummaryReport\SuppData\RQ01RegulatedLearningAuditAdjustment.cs" />
     <Compile Include="Strategies\FundingSummaryReport\SuppData\ST01LearnerAssessmentAndPlanAdjustments.cs" />
-    <Compile Include="Helpers\ExcelHelper.cs" />
     <Compile Include="Mappers\ValidationErrorMapper.cs" />
     <Compile Include="ReportingController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

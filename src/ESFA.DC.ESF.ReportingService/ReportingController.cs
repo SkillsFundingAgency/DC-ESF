@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ESF.Interfaces.Controllers;
+using ESFA.DC.ESF.Interfaces.DataAccessLayer;
 using ESFA.DC.ESF.Interfaces.Reports;
 using ESFA.DC.ESF.Models;
 using ESFA.DC.IO.Interfaces;
@@ -17,6 +19,7 @@ namespace ESFA.DC.ESF.ReportingService
         private readonly IStreamableKeyValuePersistenceService _streamableKeyValuePersistenceService;
 
         private readonly IValidationResultReport _resultReport;
+        private readonly IEsfRepository _esfRepository;
 
         private readonly IList<IValidationReport> _validationReports;
         private readonly IList<IModelReport> _esfReports;
@@ -55,7 +58,10 @@ namespace ESFA.DC.ESF.ReportingService
         {
             _logger.LogInfo("ESF Reporting service called");
 
-            //if wrapper supplementary data is empty then "Report Only", go get data for ukPrn
+            if (!wrapper.SupplementaryDataModels.Any() && string.IsNullOrEmpty(sourceFile.FileName))
+            {
+                // todo ... get data from ESF database, only received reporting task
+            }
 
             using (var memoryStream = new MemoryStream())
             {

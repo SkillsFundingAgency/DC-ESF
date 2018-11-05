@@ -34,19 +34,23 @@ namespace ESFA.DC.ESF
             IReadOnlyList<ITaskItem> tasks,
             CancellationToken cancellationToken)
         {
-            var sourceFileModel = _fileHelper.GetSourceFileData(jobContextMessage);
-
-            var wrapper = await _fileValidationService.GetFile(sourceFileModel, cancellationToken);
-            wrapper = _fileValidationService.RunFileValidators(sourceFileModel, wrapper);
-
-            if (!wrapper.ValidErrorModels.Any())
+            var wrapper = new SupplementaryDataWrapper();
+            var sourceFileModel = new SourceFileModel();
+            if (tasks.SelectMany(t => t.Tasks).Contains(Constants.ValidationTask))
             {
-                await _taskHelper.ExecuteTasks(tasks, sourceFileModel, wrapper, cancellationToken);
+                sourceFileModel = _fileHelper.GetSourceFileData(jobContextMessage);
 
-                return;
+                wrapper = await _fileValidationService.GetFile(sourceFileModel, cancellationToken);
+                wrapper = _fileValidationService.RunFileValidators(sourceFileModel, wrapper);
+
+                if (wrapper.ValidErrorModels.Any())
+                {
+                    await _reportingController.FileLevelErrorReport(wrapper, sourceFileModel, cancellationToken);
+                    return;
+                }
             }
 
-            await _reportingController.FileLevelErrorReport(wrapper, sourceFileModel, cancellationToken);
+            await _taskHelper.ExecuteTasks(tasks, sourceFileModel, wrapper, cancellationToken);
         }
     }
 }

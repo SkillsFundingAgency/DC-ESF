@@ -2,6 +2,7 @@
 using System.Linq;
 using ESFA.DC.ESF.Interfaces.Strategies;
 using ESFA.DC.ESF.Models;
+using ESFA.DC.ESF.Models.Reports;
 using ESFA.DC.ESF.Models.Reports.FundingSummaryReport;
 using ESFA.DC.ILR1819.DataStore.EF;
 
@@ -9,26 +10,26 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
 {
     public class CumulativeRowHelper : IRowHelper
     {
-        private readonly RowType RowType = RowType.Cumulative;
-
         public bool IsMatch(RowType rowType)
         {
-            return rowType == RowType;
+            return rowType == RowType.Cumulative || rowType == RowType.FinalCumulative;
         }
 
         public void Execute(
-            IList<FundingSummaryReportRowModel> reportOutput,
+            IList<FundingSummaryModel> reportOutput,
             FundingReportRow row,
             IList<SupplementaryDataModel> esfDataModels,
             IList<ESF_LearningDeliveryDeliverable_PeriodisedValues> ilrData)
         {
-            var rowModel = new FundingSummaryReportRowModel
-            {
-                RowType = RowType.Total,
-                Title = row.Title,
-            };
+            FundingSummaryModel rowModel = new FundingSummaryModel(row.Title, HeaderType.None, 3);
+            FundingSummaryModel grandTotalRow = reportOutput.FirstOrDefault(r => r.Title == "<ESF-1> Total (£)");
 
-            var grandTotalRow = reportOutput.FirstOrDefault(r => r.RowType == RowType.Total && string.IsNullOrEmpty(r.DeliverableCode));
+            if (row.RowType == RowType.FinalCumulative)
+            {
+                rowModel.ExcelHeaderStyle = 0;
+                rowModel.ExcelRecordStyle = 0;
+            }
+
             if (grandTotalRow == null)
             {
                 reportOutput.Add(rowModel);
