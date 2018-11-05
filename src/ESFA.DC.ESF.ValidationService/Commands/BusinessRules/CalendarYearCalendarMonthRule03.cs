@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using ESFA.DC.ESF.Interfaces.DataAccessLayer;
 using ESFA.DC.ESF.Interfaces.Validation;
 using ESFA.DC.ESF.Models;
@@ -24,9 +23,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public bool IsWarning => false;
 
-        public bool IsValid { get; private set; }
-
-        public Task Execute(SupplementaryDataModel model)
+        public bool Execute(SupplementaryDataModel model)
         {
             //var mappings = _referenceDataRepository.GetContractDeliverableCodeMapping(
             //    new List<string> { model.DeliverableCode },
@@ -37,8 +34,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
             //if (year == 0 || month == 0)
             //{
-            //    IsValid = false;
-            //    return Task.CompletedTask;
+            //    return false;
             //}
 
             //var startDateMonth = new DateTime(year, month, 1);
@@ -47,12 +43,11 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
             //    m.ContractDeliverable.ContractAllocation.ContractAllocationNumber == model.ConRefNumber
             //    && m.ContractDeliverable.ContractAllocation.EndDate > startDateMonth).ToList();
 
-            //IsValid = contractMatches.Any();
+            //return contractMatches.Any();
 
-            //return Task.CompletedTask;
+            //
 
-            IsValid = true;
-            return Task.CompletedTask;
+            return true;
         }
     }
 }

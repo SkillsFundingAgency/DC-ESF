@@ -21,9 +21,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
             var rule = new CalendarMonthRule01();
 
-            rule.Execute(model);
-
-            Assert.False(rule.IsValid);
+            Assert.False(rule.Execute(model));
         }
 
         [Fact]
@@ -35,9 +33,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
             var rule = new CalendarMonthRule01();
 
-            rule.Execute(model);
-
-            Assert.True(rule.IsValid);
+            Assert.True(rule.Execute(model));
         }
 
         [Fact]
@@ -50,9 +46,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
             var rule = new CalendarYearCalendarMonthRule01();
 
-            rule.Execute(model);
-
-            Assert.False(rule.IsValid);
+            Assert.False(rule.Execute(model));
         }
 
         [Fact]
@@ -65,9 +59,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
             var rule = new CalendarYearCalendarMonthRule01();
 
-            rule.Execute(model);
-
-            Assert.True(rule.IsValid);
+            Assert.True(rule.Execute(model));
         }
 
         //[Fact]
@@ -100,10 +92,9 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
         //        CalendarYear = 2017
         //    };
         //    var rule = new CalendarYearCalendarMonthRule02(referenceRepo.Object);
+        //
 
-        //    rule.Execute(model);
-
-        //    Assert.False(rule.IsValid);
+        //    Assert.False(rule.Execute(model));
         //}
 
         //[Fact]
@@ -137,9 +128,9 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
         //    };
         //    var rule = new CalendarYearCalendarMonthRule02(referenceRepo.Object);
 
-        //    rule.Execute(model);
+        //
 
-        //    Assert.True(rule.IsValid);
+        //    Assert.True(rule.Execute(model));
         //}
 
         //[Fact]
@@ -173,9 +164,9 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
         //    };
         //    var rule = new CalendarYearCalendarMonthRule03(referenceRepo.Object);
 
-        //    rule.Execute(model);
+        //
 
-        //    Assert.False(rule.IsValid);
+        //    Assert.False(rule.Execute(model));
         //}
 
         //[Fact]
@@ -209,9 +200,9 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
         //    };
         //    var rule = new CalendarYearCalendarMonthRule03(referenceRepo.Object);
 
-        //    rule.Execute(model);
+        //
 
-        //    Assert.True(rule.IsValid);
+        //    Assert.True(rule.Execute(model));
         //}
 
         [Fact]
@@ -223,9 +214,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
             var rule = new CalendarYearRule01();
 
-            rule.Execute(model);
-
-            Assert.False(rule.IsValid);
+            Assert.False(rule.Execute(model));
         }
 
         [Fact]
@@ -237,9 +226,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
             var rule = new CalendarYearRule01();
 
-            rule.Execute(model);
-
-            Assert.True(rule.IsValid);
+            Assert.True(rule.Execute(model));
         }
     }
 }

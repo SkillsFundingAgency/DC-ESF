@@ -15,9 +15,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
             };
             var rule = new FDProviderSpecifiedReferenceAL();
 
-            rule.Execute(model);
-
-            Assert.False(rule.IsValid);
+            Assert.False(rule.Execute(model));
         }
 
         [Fact]
@@ -29,9 +27,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
             };
             var rule = new FDProviderSpecifiedReferenceAL();
 
-            rule.Execute(model);
-
-            Assert.True(rule.IsValid);
+            Assert.True(rule.Execute(model));
         }
 
         [Fact]
@@ -43,9 +39,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
             };
             var rule = new FDReferenceAL();
 
-            rule.Execute(model);
-
-            Assert.False(rule.IsValid);
+            Assert.False(rule.Execute(model));
         }
 
         [Fact]
@@ -57,9 +51,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
             };
             var rule = new FDReferenceAL();
 
-            rule.Execute(model);
-
-            Assert.True(rule.IsValid);
+            Assert.True(rule.Execute(model));
         }
 
         [Fact]
@@ -71,9 +63,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
             };
             var rule = new FDReferenceMA();
 
-            rule.Execute(model);
-
-            Assert.False(rule.IsValid);
+            Assert.False(rule.Execute(model));
         }
 
         [Fact]
@@ -85,9 +75,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
             };
             var rule = new FDReferenceMA();
 
-            rule.Execute(model);
-
-            Assert.True(rule.IsValid);
+            Assert.True(rule.Execute(model));
         }
 
         [Fact]
@@ -99,9 +87,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
             };
             var rule = new FDReferenceTypeAL();
 
-            rule.Execute(model);
-
-            Assert.False(rule.IsValid);
+            Assert.False(rule.Execute(model));
         }
 
         [Fact]
@@ -113,9 +99,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
             };
             var rule = new FDReferenceTypeAL();
 
-            rule.Execute(model);
-
-            Assert.True(rule.IsValid);
+            Assert.True(rule.Execute(model));
         }
 
         [Fact]
@@ -127,9 +111,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
             };
             var rule = new FDReferenceTypeMA();
 
-            rule.Execute(model);
-
-            Assert.False(rule.IsValid);
+            Assert.False(rule.Execute(model));
         }
 
         [Fact]
@@ -141,9 +123,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
             };
             var rule = new FDReferenceTypeMA();
 
-            rule.Execute(model);
-
-            Assert.True(rule.IsValid);
+            Assert.True(rule.Execute(model));
         }
     }
 }

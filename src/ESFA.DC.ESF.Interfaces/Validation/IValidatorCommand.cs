@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 using ESFA.DC.ESF.Models;
 
 namespace ESFA.DC.ESF.Interfaces.Validation
@@ -10,10 +9,8 @@ namespace ESFA.DC.ESF.Interfaces.Validation
 
         bool RejectFile { get; }
 
-        bool IsValid { get; }
-
         int Priority { get; }
 
-        Task Execute(SupplementaryDataModel model);
+        bool Execute(SupplementaryDataModel model);
     }
 }

@@ -22,9 +22,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new ULNRule01();
-            rule.Execute(model);
 
-            Assert.False(rule.IsValid);
+            Assert.False(rule.Execute(model));
         }
 
         [Fact]
@@ -37,9 +36,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new ULNRule01();
-            rule.Execute(model);
 
-            Assert.True(rule.IsValid);
+            Assert.True(rule.Execute(model));
         }
 
         [Fact]
@@ -57,9 +55,9 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             //};
 
             //var rule = new ULNRule02(referenceRepo.Object);
-            //rule.Execute(model);
+            //
 
-            //Assert.False(rule.IsValid);
+            //Assert.False(rule.Execute(model));
         }
 
         [Fact]
@@ -77,9 +75,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new ULNRule02(referenceRepo.Object);
-            rule.Execute(model);
 
-            Assert.True(rule.IsValid);
+            Assert.True(rule.Execute(model));
         }
 
         [Fact]
@@ -94,9 +91,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new ULNRule03();
-            rule.Execute(model);
 
-            Assert.False(rule.IsValid);
+            Assert.False(rule.Execute(model));
         }
 
         [Fact]
@@ -111,9 +107,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new ULNRule03();
-            rule.Execute(model);
 
-            Assert.True(rule.IsValid);
+            Assert.True(rule.Execute(model));
         }
 
         [Fact]
@@ -126,9 +121,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new ULNRule04();
-            rule.Execute(model);
 
-            Assert.False(rule.IsValid);
+            Assert.False(rule.Execute(model));
         }
 
         [Fact]
@@ -141,9 +135,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new ULNRule04();
-            rule.Execute(model);
 
-            Assert.True(rule.IsValid);
+            Assert.True(rule.Execute(model));
         }
     }
 }

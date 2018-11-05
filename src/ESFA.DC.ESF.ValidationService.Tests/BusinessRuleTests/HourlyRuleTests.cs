@@ -16,9 +16,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new HourlyRateRule01();
-            rule.Execute(model);
 
-            Assert.False(rule.IsValid);
+            Assert.False(rule.Execute(model));
         }
 
         [Fact]
@@ -31,9 +30,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new HourlyRateRule01();
-            rule.Execute(model);
 
-            Assert.True(rule.IsValid);
+            Assert.True(rule.Execute(model));
         }
 
         [Fact]
@@ -46,9 +44,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new OrgHoursRule01();
-            rule.Execute(model);
 
-            Assert.False(rule.IsValid);
+            Assert.False(rule.Execute(model));
         }
 
         [Fact]
@@ -61,9 +58,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new OrgHoursRule01();
-            rule.Execute(model);
 
-            Assert.True(rule.IsValid);
+            Assert.True(rule.Execute(model));
         }
 
         [Fact]
@@ -76,9 +72,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new OrgHoursRule02();
-            rule.Execute(model);
 
-            Assert.False(rule.IsValid);
+            Assert.False(rule.Execute(model));
         }
 
         [Fact]
@@ -91,9 +86,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new OrgHoursRule02();
-            rule.Execute(model);
 
-            Assert.True(rule.IsValid);
+            Assert.True(rule.Execute(model));
         }
 
         [Fact]
@@ -107,9 +101,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new ProjectHoursOrgHoursRule01();
-            rule.Execute(model);
 
-            Assert.False(rule.IsValid);
+            Assert.False(rule.Execute(model));
         }
 
         [Fact]
@@ -123,9 +116,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new ProjectHoursOrgHoursRule01();
-            rule.Execute(model);
 
-            Assert.True(rule.IsValid);
+            Assert.True(rule.Execute(model));
         }
 
         [Fact]
@@ -138,9 +130,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new ProjectHoursRule01();
-            rule.Execute(model);
 
-            Assert.False(rule.IsValid);
+            Assert.False(rule.Execute(model));
         }
 
         [Fact]
@@ -153,9 +144,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new ProjectHoursRule01();
-            rule.Execute(model);
 
-            Assert.True(rule.IsValid);
+            Assert.True(rule.Execute(model));
         }
 
         [Fact]
@@ -168,9 +158,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new ProjectHoursRule02();
-            rule.Execute(model);
 
-            Assert.False(rule.IsValid);
+            Assert.False(rule.Execute(model));
         }
 
         [Fact]
@@ -183,9 +172,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new ProjectHoursRule02();
-            rule.Execute(model);
 
-            Assert.True(rule.IsValid);
+            Assert.True(rule.Execute(model));
         }
 
         [Fact]
@@ -198,9 +186,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new TotalHoursWorkedRule01();
-            rule.Execute(model);
 
-            Assert.False(rule.IsValid);
+            Assert.False(rule.Execute(model));
         }
 
         [Fact]
@@ -213,9 +200,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new TotalHoursWorkedRule01();
-            rule.Execute(model);
 
-            Assert.True(rule.IsValid);
+            Assert.True(rule.Execute(model));
         }
 
         [Fact]
@@ -228,9 +214,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new TotalHoursWorkedRule02();
-            rule.Execute(model);
 
-            Assert.False(rule.IsValid);
+            Assert.False(rule.Execute(model));
         }
 
         [Fact]
@@ -243,9 +228,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new TotalHoursWorkedRule02();
-            rule.Execute(model);
 
-            Assert.True(rule.IsValid);
+            Assert.True(rule.Execute(model));
         }
     }
 }

@@ -15,9 +15,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
             };
             var rule = new FDValueAL();
 
-            rule.Execute(model);
-
-            Assert.False(rule.IsValid);
+            Assert.False(rule.Execute(model));
         }
 
         [Fact]
@@ -29,9 +27,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
             };
             var rule = new FDValueAL();
 
-            rule.Execute(model);
-
-            Assert.True(rule.IsValid);
+            Assert.True(rule.Execute(model));
         }
     }
 }

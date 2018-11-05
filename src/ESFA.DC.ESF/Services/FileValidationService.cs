@@ -62,7 +62,7 @@ namespace ESFA.DC.ESF.Services
             return wrapper;
         }
 
-        public async Task<SupplementaryDataWrapper> RunFileValidators(
+        public SupplementaryDataWrapper RunFileValidators(
             SourceFileModel sourceFileModel,
             SupplementaryDataWrapper wrapper)
         {
@@ -70,9 +70,7 @@ namespace ESFA.DC.ESF.Services
             {
                 foreach (var validator in _validators)
                 {
-                    await validator.Execute(sourceFileModel, model);
-
-                    if (validator.IsValid)
+                    if (validator.Execute(sourceFileModel, model))
                     {
                         continue;
                     }

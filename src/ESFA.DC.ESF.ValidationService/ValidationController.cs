@@ -42,9 +42,7 @@ namespace ESFA.DC.ESF.ValidationService
                     ((ICrossRecordCommand)command).AllRecords = allModels;
                 }
 
-                await command.Execute(model);
-
-                if (command.IsValid)
+                if (command.Execute(model))
                 {
                     continue;
                 }

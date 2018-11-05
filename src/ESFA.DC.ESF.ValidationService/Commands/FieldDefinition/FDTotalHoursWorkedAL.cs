@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using ESFA.DC.ESF.Interfaces.Validation;
+﻿using ESFA.DC.ESF.Interfaces.Validation;
 using ESFA.DC.ESF.Models;
 using ESFA.DC.ESF.ValidationService.Helpers;
 
@@ -17,14 +16,10 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 
         public string ErrorMessage => $"The TotalHoursWorked does not conform to the decimal ({IntegerPartLength + PrecisionLength},{PrecisionLength}) field type. Please adjust the value and resubmit the file.";
 
-        public bool IsValid { get; private set; }
-
-        public Task Execute(SupplementaryDataModel model)
+        public bool Execute(SupplementaryDataModel model)
         {
-            IsValid = string.IsNullOrEmpty(model.TotalHoursWorked.ToString().Trim())
+            return string.IsNullOrEmpty(model.TotalHoursWorked.ToString().Trim())
                       || DecimalHelper.CheckDecimalLengthAndPrecision(model.TotalHoursWorked ?? 0.0M, IntegerPartLength, PrecisionLength);
-
-            return Task.CompletedTask;
         }
     }
 }
