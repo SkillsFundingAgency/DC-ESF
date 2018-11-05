@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using ESFA.DC.ESF.Interfaces.Validation;
+﻿using ESFA.DC.ESF.Interfaces.Validation;
 using ESFA.DC.ESF.Models;
 
 namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
@@ -12,12 +11,9 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public bool IsWarning => false;
 
-        public bool IsValid { get; private set; }
-
-        public Task Execute(SupplementaryDataModel model)
+        public bool Execute(SupplementaryDataModel model)
         {
-            IsValid = model.CalendarYear != null && model.CalendarYear >= 2016 && model.CalendarYear <= 2019;
-            return Task.CompletedTask;
+            return model.CalendarYear != null && model.CalendarYear >= 2016 && model.CalendarYear <= 2019;
         }
     }
 }

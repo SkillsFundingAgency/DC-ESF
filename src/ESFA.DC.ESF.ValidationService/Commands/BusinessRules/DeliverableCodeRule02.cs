@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using ESFA.DC.ESF.Interfaces.DataAccessLayer;
 using ESFA.DC.ESF.Interfaces.Validation;
 using ESFA.DC.ESF.Models;
@@ -23,9 +22,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public bool IsWarning => false;
 
-        public bool IsValid { get; private set; }
-
-        public async Task Execute(SupplementaryDataModel model)
+        public bool Execute(SupplementaryDataModel model)
         {
             //var mappings = await _referenceDataRepository.GetContractDeliverableCodeMapping(new List<string> {model.DeliverableCode},
             //    CancellationToken.None);
@@ -33,9 +30,9 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
             //var contractMatches = mappings.Where(m =>
             //    m.ContractDeliverable.ContractAllocation.ContractAllocationNumber == model.ConRefNumber).ToList();
 
-            //IsValid = contractMatches.Any();
+            //return contractMatches.Any();
 
-            IsValid = true;
+            return true;
         }
     }
 }

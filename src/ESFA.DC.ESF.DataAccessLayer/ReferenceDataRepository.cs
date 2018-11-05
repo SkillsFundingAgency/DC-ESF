@@ -173,7 +173,7 @@ namespace ESFA.DC.ESF.DataAccessLayer
             return providerName;
         }
 
-        public IList<UniqueLearnerNumber> GetUlnLookup(IList<long> searchUlns, CancellationToken cancellationToken)
+        public IList<UniqueLearnerNumber> GetUlnLookup(IList<long?> searchUlns, CancellationToken cancellationToken)
         {
             List<UniqueLearnerNumber> ulns = null;
             try
@@ -184,7 +184,7 @@ namespace ESFA.DC.ESF.DataAccessLayer
                 }
 
                 var uniqueUlns = searchUlns.Distinct();
-                var unknownUlns = new List<long>();
+                var unknownUlns = new List<long?>();
                 lock (_ulnLock)
                 {
                     foreach (var uln in uniqueUlns)
@@ -258,7 +258,7 @@ namespace ESFA.DC.ESF.DataAccessLayer
             return codeMapping;
         }
 
-        private IEnumerable<IEnumerable<long>> SplitList(IEnumerable<long> ulns, int nSize = 30)
+        private IEnumerable<List<long?>> SplitList(IEnumerable<long?> ulns, int nSize = 30)
         {
             var ulnList = ulns.ToList();
 

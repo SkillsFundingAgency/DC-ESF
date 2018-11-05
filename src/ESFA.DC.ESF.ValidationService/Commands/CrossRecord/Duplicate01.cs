@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using ESFA.DC.ESF.Interfaces.Validation;
 using ESFA.DC.ESF.Models;
 
@@ -14,11 +13,9 @@ namespace ESFA.DC.ESF.ValidationService.Commands.CrossRecord
 
         public string ErrorMessage => "This record is a duplicate.";
 
-        public bool IsValid { get; private set; }
-
-        public Task Execute(IList<SupplementaryDataModel> allRecords, SupplementaryDataModel model)
+        public bool Execute(IList<SupplementaryDataModel> allRecords, SupplementaryDataModel model)
         {
-            IsValid = allRecords != null && allRecords.Count(
+            return allRecords != null && allRecords.Count(
                           m => m.ConRefNumber == model.ConRefNumber &&
                                m.DeliverableCode == model.DeliverableCode &&
                                m.CalendarYear == model.CalendarYear &&
@@ -26,8 +23,6 @@ namespace ESFA.DC.ESF.ValidationService.Commands.CrossRecord
                                m.CostType == model.CostType &&
                                m.ReferenceType == model.ReferenceType &&
                                m.Reference == model.Reference) == 1;
-
-            return Task.CompletedTask;
         }
     }
 }

@@ -40,8 +40,8 @@ namespace ESFA.DC.ESF
             {
                 sourceFileModel = _fileHelper.GetSourceFileData(jobContextMessage);
 
-                wrapper = await _fileValidationService.GetFile(sourceFileModel, cancellationToken);
-                wrapper = await _fileValidationService.RunFileValidators(sourceFileModel, wrapper);
+            var wrapper = await _fileValidationService.GetFile(sourceFileModel, cancellationToken);
+            wrapper = _fileValidationService.RunFileValidators(sourceFileModel, wrapper);
 
                 if (wrapper.ValidErrorModels.Any())
                 {

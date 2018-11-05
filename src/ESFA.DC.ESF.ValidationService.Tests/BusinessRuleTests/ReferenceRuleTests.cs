@@ -17,9 +17,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new ProviderSpecifiedReferenceRule01();
-            rule.Execute(model);
 
-            Assert.False(rule.IsValid);
+            Assert.False(rule.Execute(model));
         }
 
         [Fact]
@@ -31,9 +30,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new ProviderSpecifiedReferenceRule01();
-            rule.Execute(model);
 
-            Assert.True(rule.IsValid);
+            Assert.True(rule.Execute(model));
         }
 
         [Fact]
@@ -47,9 +45,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new ReferenceRule01();
-            rule.Execute(model);
 
-            Assert.False(rule.IsValid);
+            Assert.False(rule.Execute(model));
         }
 
         [Fact]
@@ -61,9 +58,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new ReferenceRule01();
-            rule.Execute(model);
 
-            Assert.True(rule.IsValid);
+            Assert.True(rule.Execute(model));
         }
 
         [Fact]
@@ -75,9 +71,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new ReferenceTypeRule01();
-            rule.Execute(model);
 
-            Assert.False(rule.IsValid);
+            Assert.False(rule.Execute(model));
         }
 
         [Fact]
@@ -89,9 +84,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new ReferenceTypeRule01();
-            rule.Execute(model);
 
-            Assert.True(rule.IsValid);
+            Assert.True(rule.Execute(model));
         }
 
         [Fact]
@@ -104,9 +98,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new ReferenceTypeRule02();
-            rule.Execute(model);
 
-            Assert.False(rule.IsValid);
+            Assert.False(rule.Execute(model));
         }
 
         [Fact]
@@ -119,9 +112,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new ReferenceTypeRule02();
-            rule.Execute(model);
 
-            Assert.True(rule.IsValid);
+            Assert.True(rule.Execute(model));
         }
     }
 }

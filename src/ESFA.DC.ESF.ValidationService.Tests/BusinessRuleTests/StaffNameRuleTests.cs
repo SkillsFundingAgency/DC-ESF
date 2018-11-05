@@ -16,9 +16,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new StaffNameRule01();
-            rule.Execute(model);
 
-            Assert.False(rule.IsValid);
+            Assert.False(rule.Execute(model));
         }
 
         [Fact]
@@ -31,9 +30,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new StaffNameRule01();
-            rule.Execute(model);
 
-            Assert.True(rule.IsValid);
+            Assert.True(rule.Execute(model));
         }
 
         [Fact]
@@ -45,9 +43,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new StaffNameRule02();
-            rule.Execute(model);
 
-            Assert.False(rule.IsValid);
+            Assert.False(rule.Execute(model));
         }
 
         [Fact]
@@ -59,9 +56,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new StaffNameRule02();
-            rule.Execute(model);
 
-            Assert.True(rule.IsValid);
+            Assert.True(rule.Execute(model));
         }
 
         [Fact]
@@ -74,9 +70,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new StaffNameRule03();
-            rule.Execute(model);
 
-            Assert.False(rule.IsValid);
+            Assert.False(rule.Execute(model));
         }
 
         [Fact]
@@ -89,9 +84,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
 
             var rule = new StaffNameRule03();
-            rule.Execute(model);
 
-            Assert.True(rule.IsValid);
+            Assert.True(rule.Execute(model));
         }
     }
 }

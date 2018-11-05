@@ -21,14 +21,19 @@ namespace ESFA.DC.ESF.ValidationService.Tests
         public async Task TestController()
         {
             Mock<IReferenceDataRepository> repoMock = new Mock<IReferenceDataRepository>();
-            repoMock.Setup(m => m.GetUlnLookup(It.IsAny<IList<long>>(), It.IsAny<CancellationToken>())).Returns(new List<UniqueLearnerNumber>());
+            repoMock.Setup(m => m.GetUlnLookup(It.IsAny<IList<long?>>(), It.IsAny<CancellationToken>())).Returns(new List<UniqueLearnerNumber>());
+
+            Mock<IPopulationService> popMock = new Mock<IPopulationService>();
+            popMock.Setup(m => m.PrePopulateUlnCache(It.IsAny<IList<long?>>(), It.IsAny<CancellationToken>()));
 
             var validators = GetValidators(repoMock);
-            var controller = new ValidationController(validators);
+            var controller = new ValidationController(validators, popMock.Object);
 
-            await controller.ValidateData(GetSupplementaryDataList(), GetSupplementaryData());
+            await controller.ValidateData(GetSupplementaryDataList(), GetSupplementaryData(), CancellationToken.None);
 
             Assert.True(controller.Errors.Any());
+            ULNRule03 ulnRule03 = new ULNRule03();
+            Assert.True(controller.Errors[2].ErrorMessage == ulnRule03.ErrorMessage);
         }
 
         private IList<SupplementaryDataModel> GetSupplementaryDataList()

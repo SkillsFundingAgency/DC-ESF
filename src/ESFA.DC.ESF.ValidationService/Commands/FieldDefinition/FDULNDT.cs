@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using ESFA.DC.ESF.Interfaces.Validation;
+﻿using ESFA.DC.ESF.Interfaces.Validation;
 using ESFA.DC.ESF.Models;
 
 namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
@@ -16,14 +15,10 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 
         public string ErrorMessage => $"ULN must be an integer between {Min} and {Max}. Please adjust the value and resubmit the file.";
 
-        public bool IsValid { get; private set; }
-
-        public Task Execute(SupplementaryDataModel model)
+        public bool Execute(SupplementaryDataModel model)
         {
             var uln = model.ULN ?? 0.0;
-            IsValid = uln >= Min && uln <= Max;
-
-            return Task.CompletedTask;
+            return uln >= Min && uln <= Max;
         }
     }
 }

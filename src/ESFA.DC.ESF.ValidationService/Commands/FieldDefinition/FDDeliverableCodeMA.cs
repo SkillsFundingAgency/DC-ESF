@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using ESFA.DC.ESF.Interfaces.Validation;
+﻿using ESFA.DC.ESF.Interfaces.Validation;
 using ESFA.DC.ESF.Models;
 
 namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
@@ -13,13 +12,9 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
         public string ErrorMessage =>
             "The DeliverableCode is mandatory. Please resubmit the file including the appropriate value.";
 
-        public bool IsValid { get; private set; }
-
-        public Task Execute(SupplementaryDataModel model)
+        public bool Execute(SupplementaryDataModel model)
         {
-            IsValid = model.DeliverableCode != null;
-
-            return Task.CompletedTask;
+            return model.DeliverableCode != null;
         }
     }
 }

@@ -15,9 +15,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
             var rule = new CostTypeRule01();
 
-            rule.Execute(model);
-
-            Assert.False(rule.IsValid);
+            Assert.False(rule.Execute(model));
         }
 
         [Fact]
@@ -29,9 +27,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
             var rule = new CostTypeRule01();
 
-            rule.Execute(model);
-
-            Assert.True(rule.IsValid);
+            Assert.True(rule.Execute(model));
         }
 
         [Fact]
@@ -44,9 +40,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
             var rule = new CostTypeRule02();
 
-            rule.Execute(model);
-
-            Assert.False(rule.IsValid);
+            Assert.False(rule.Execute(model));
         }
 
         [Fact]
@@ -59,9 +53,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             };
             var rule = new CostTypeRule02();
 
-            rule.Execute(model);
-
-            Assert.True(rule.IsValid);
+            Assert.True(rule.Execute(model));
         }
     }
 }
