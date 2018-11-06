@@ -551,6 +551,7 @@ namespace ESFA.DC.ESF.Service.Stateless
         {
             containerBuilder.RegisterType<StoreFileDetails>().As<IStoreFileDetails>();
             containerBuilder.RegisterType<StoreESF>().As<IStoreESF>();
+            containerBuilder.RegisterType<StoreValidation>().As<IStoreValidation>();
         }
     }
 }

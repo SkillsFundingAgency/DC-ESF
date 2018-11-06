@@ -11,5 +11,10 @@ namespace ESFA.DC.ESF.Interfaces.Controllers
             SourceFileModel sourceFile,
             SupplementaryDataWrapper supplementaryDataWrapper,
             CancellationToken cancellationToken);
+
+        Task<bool> StoreValidationOnly(
+            SourceFileModel sourceFile,
+            SupplementaryDataWrapper wrapper,
+            CancellationToken cancellationToken);
     }
 }

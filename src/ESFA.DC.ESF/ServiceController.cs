@@ -16,17 +16,20 @@ namespace ESFA.DC.ESF
         private readonly ITaskHelper _taskHelper;
         private readonly IFileValidationService _fileValidationService;
         private readonly IReportingController _reportingController;
+        private readonly IStorageController _storageController;
 
         public ServiceController(
             IFileHelper fileHelper,
             ITaskHelper taskHelper,
             IFileValidationService fileValidationService,
+            IStorageController storageController,
             IReportingController reportingController)
         {
             _fileHelper = fileHelper;
             _taskHelper = taskHelper;
             _fileValidationService = fileValidationService;
             _reportingController = reportingController;
+            _storageController = storageController;
         }
 
         public async Task RunTasks(
@@ -45,6 +48,7 @@ namespace ESFA.DC.ESF
 
                 if (wrapper.ValidErrorModels.Any())
                 {
+                    await _storageController.StoreValidationOnly(sourceFileModel, wrapper, cancellationToken);
                     await _reportingController.FileLevelErrorReport(wrapper, sourceFileModel, cancellationToken);
                     return;
                 }

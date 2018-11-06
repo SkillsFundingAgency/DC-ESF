@@ -155,6 +155,7 @@
     <Compile Include="DataStore\IStoreClear.cs" />
     <Compile Include="DataStore\IStoreESF.cs" />
     <Compile Include="DataStore\IStoreFileDetails.cs" />
+    <Compile Include="DataStore\IStoreValidation.cs" />
     <Compile Include="Helpers\IFileHelper.cs" />
     <Compile Include="Helpers\ITaskHelper.cs" />
     <Compile Include="IClassMapper.cs" />
