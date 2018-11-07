@@ -22,5 +22,7 @@ namespace ESFA.DC.ESF.Interfaces.DataAccessLayer
         IList<LARS_LearningDelivery> GetLarsLearningDelivery(IList<string> learnAimRefs, CancellationToken cancellationToken);
 
         IList<ContractDeliverableCodeMapping> GetContractDeliverableCodeMapping(IList<string> deliverableCodes, CancellationToken cancellationToken);
+
+        ContractAllocation GetContractAllocation(string conRefNum, int deliverableCode, CancellationToken cancellationToken, long? ukPrn = null);
     }
 }

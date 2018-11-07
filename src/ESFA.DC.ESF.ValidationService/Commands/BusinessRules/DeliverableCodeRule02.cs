@@ -10,10 +10,14 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
     public class DeliverableCodeRule02 : IBusinessRuleValidator
     {
         private readonly IReferenceDataRepository _referenceDataRepository;
+        private readonly IFcsCodeMappingHelper _mappingHelper;
 
-        public DeliverableCodeRule02(IReferenceDataRepository referenceDataRepository)
+        public DeliverableCodeRule02(
+            IReferenceDataRepository referenceDataRepository,
+            IFcsCodeMappingHelper mappingHelper)
         {
             _referenceDataRepository = referenceDataRepository;
+            _mappingHelper = mappingHelper;
         }
 
         public string ErrorMessage => "The DeliverableCode is not valid for the approved contract allocation.";
@@ -24,15 +28,10 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public bool Execute(SupplementaryDataModel model)
         {
-            //var mappings = await _referenceDataRepository.GetContractDeliverableCodeMapping(new List<string> {model.DeliverableCode},
-            //    CancellationToken.None);
+            var fcsDeliverableCode = _mappingHelper.GetFcsDeliverableCode(model, CancellationToken.None);
+            var contractAllocation = _referenceDataRepository.GetContractAllocation(model.ConRefNumber, fcsDeliverableCode, CancellationToken.None);
 
-            //var contractMatches = mappings.Where(m =>
-            //    m.ContractDeliverable.ContractAllocation.ContractAllocationNumber == model.ConRefNumber).ToList();
-
-            //return contractMatches.Any();
-
-            return true;
+            return contractAllocation != null;
         }
     }
 }

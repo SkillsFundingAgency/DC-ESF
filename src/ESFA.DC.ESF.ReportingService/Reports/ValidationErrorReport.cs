@@ -24,8 +24,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports
         public ValidationErrorReport(
             IDateTimeProvider dateTimeProvider,
             IValueProvider valueProvider,
-            [KeyFilter(PersistenceStorageKeys.Blob)]
-            IKeyValuePersistenceService storage)
+            IStreamableKeyValuePersistenceService storage)
             : base(dateTimeProvider, valueProvider)
         {
             ReportFileName = "ESF Supplementary Data Rule Violation Report";

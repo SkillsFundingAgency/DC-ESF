@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,18 +19,22 @@ namespace ESFA.DC.ESF.ValidationService.Tests
     public class ControllerTest
     {
         [Fact]
-        public async Task TestController()
+        public void TestController()
         {
             Mock<IReferenceDataRepository> repoMock = new Mock<IReferenceDataRepository>();
             repoMock.Setup(m => m.GetUlnLookup(It.IsAny<IList<long?>>(), It.IsAny<CancellationToken>())).Returns(new List<UniqueLearnerNumber>());
 
+            Mock<IFcsCodeMappingHelper> mapperMock = new Mock<IFcsCodeMappingHelper>();
+            mapperMock.Setup(m =>
+                m.GetFcsDeliverableCode(It.IsAny<SupplementaryDataModel>(), It.IsAny<CancellationToken>())).Returns(1);
+
             Mock<IPopulationService> popMock = new Mock<IPopulationService>();
             popMock.Setup(m => m.PrePopulateUlnCache(It.IsAny<IList<long?>>(), It.IsAny<CancellationToken>()));
 
-            var validators = GetValidators(repoMock);
+            var validators = GetValidators(repoMock, mapperMock);
             var controller = new ValidationController(validators, popMock.Object);
 
-            await controller.ValidateData(GetSupplementaryDataList(), GetSupplementaryData(), CancellationToken.None);
+            controller.ValidateData(GetSupplementaryDataList(), GetSupplementaryData(), GetEsfSourceFileModel(), CancellationToken.None);
 
             Assert.True(controller.Errors.Any());
             ULNRule03 ulnRule03 = new ULNRule03();
@@ -41,6 +46,19 @@ namespace ESFA.DC.ESF.ValidationService.Tests
             return new List<SupplementaryDataModel>
             {
                 GetSupplementaryData()
+            };
+        }
+
+        private SourceFileModel GetEsfSourceFileModel()
+        {
+            return new SourceFileModel
+            {
+                UKPRN = "10005752",
+                JobId = 1,
+                ConRefNumber = "ESF-2108",
+                FileName = "SUPPDATA-10005752-ESF-2108-20180909-090911.CSV",
+                SuppliedDate = DateTime.Now,
+                PreparationDate = DateTime.Now.AddDays(-1)
             };
         }
 
@@ -60,7 +78,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests
             };
         }
 
-        private IList<IValidatorCommand> GetValidators(Mock<IReferenceDataRepository> repoMock)
+        private IList<IValidatorCommand> GetValidators(Mock<IReferenceDataRepository> repoMock, Mock<IFcsCodeMappingHelper> mapperMock)
         {
             return new List<IValidatorCommand>
             {
@@ -69,13 +87,13 @@ namespace ESFA.DC.ESF.ValidationService.Tests
                     {
                         new CalendarMonthRule01(),
                         new CalendarYearCalendarMonthRule01(),
-                        new CalendarYearCalendarMonthRule02(repoMock.Object),
-                        new CalendarYearCalendarMonthRule03(repoMock.Object),
+                        new CalendarYearCalendarMonthRule02(repoMock.Object, mapperMock.Object),
+                        new CalendarYearCalendarMonthRule03(repoMock.Object, mapperMock.Object),
                         new CalendarYearRule01(),
                         new CostTypeRule01(),
                         new CostTypeRule02(),
                         new DeliverableCodeRule01(),
-                        new DeliverableCodeRule02(repoMock.Object),
+                        new DeliverableCodeRule02(repoMock.Object, mapperMock.Object),
                         new HourlyRateRule01(),
                         new HourlyRateRule02(),
                         new OrgHoursRule01(),

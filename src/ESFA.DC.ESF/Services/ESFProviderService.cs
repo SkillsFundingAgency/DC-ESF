@@ -25,7 +25,7 @@ namespace ESFA.DC.ESF.Services
 
         public ESFProviderService(
             ILogger logger,
-            [KeyFilter(PersistenceStorageKeys.Blob)] IKeyValuePersistenceService storage)
+            IStreamableKeyValuePersistenceService storage)
         {
             _logger = logger;
             _storage = storage;

@@ -46,6 +46,7 @@ using ESFA.DC.ESF.ValidationService.Commands.BusinessRules;
 using ESFA.DC.ESF.ValidationService.Commands.CrossRecord;
 using ESFA.DC.ESF.ValidationService.Commands.FieldDefinition;
 using ESFA.DC.ESF.ValidationService.Commands.FileLevel;
+using ESFA.DC.ESF.ValidationService.Helpers;
 using ESFA.DC.ESF.ValidationService.Services;
 using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.EF.Interfaces;
@@ -134,8 +135,7 @@ namespace ESFA.DC.ESF.Service.Stateless
                 .As<IAzureStorageKeyValuePersistenceServiceConfig>().SingleInstance();
 
             containerBuilder.RegisterType<AzureStorageKeyValuePersistenceService>()
-                .Keyed<IKeyValuePersistenceService>(PersistenceStorageKeys.Blob)
-                .As<IStreamableKeyValuePersistenceService>().As<IKeyValuePersistenceService>()
+                .As<IStreamableKeyValuePersistenceService>()
                 .InstancePerLifetimeScope();
 
             var ilrConfig = configHelper.GetSectionValues<IRL1819Configuration>("ILR1819Section");
@@ -332,6 +332,7 @@ namespace ESFA.DC.ESF.Service.Stateless
         {
             containerBuilder.RegisterType<FileHelper>().As<IFileHelper>();
             containerBuilder.RegisterType<TaskHelper>().As<ITaskHelper>();
+            containerBuilder.RegisterType<FcsCodeMappingHelper>().As<IFcsCodeMappingHelper>();
         }
 
         private static void RegisterCommands(ContainerBuilder containerBuilder)

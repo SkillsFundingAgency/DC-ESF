@@ -49,7 +49,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports
 
         public AimAndDeliverableReport(
             IDateTimeProvider dateTimeProvider,
-            [KeyFilter(PersistenceStorageKeys.Blob)]IKeyValuePersistenceService storage,
+            IStreamableKeyValuePersistenceService storage,
             IReferenceDataRepository referenceDataService,
             IValidRepository validRepository,
             IFM70Repository fm70Repository,

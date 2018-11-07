@@ -25,7 +25,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports
             IDateTimeProvider dateTimeProvider,
             IValueProvider valueProvider,
             IJsonSerializationService jsonSerializationService,
-            [KeyFilter(PersistenceStorageKeys.Blob)]IKeyValuePersistenceService storage)
+            IStreamableKeyValuePersistenceService storage)
             : base(dateTimeProvider, valueProvider)
         {
             ReportFileName = "ESF Supplementary Data Rule Violation Report";

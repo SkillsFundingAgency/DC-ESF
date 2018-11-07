@@ -12,10 +12,14 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
     public class CalendarYearCalendarMonthRule02 : IBusinessRuleValidator
     {
         private readonly IReferenceDataRepository _referenceDataRepository;
+        private readonly IFcsCodeMappingHelper _mappingHelper;
 
-        public CalendarYearCalendarMonthRule02(IReferenceDataRepository referenceDataRepository)
+        public CalendarYearCalendarMonthRule02(
+            IReferenceDataRepository referenceDataRepository,
+            IFcsCodeMappingHelper mappingHelper)
         {
             _referenceDataRepository = referenceDataRepository;
+            _mappingHelper = mappingHelper;
         }
 
         public string ErrorMessage => "The CalendarMonth and CalendarYear is prior to the contract allocation start date.";
@@ -26,28 +30,20 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public bool Execute(SupplementaryDataModel model)
         {
-            //var mappings = _referenceDataRepository.GetContractDeliverableCodeMapping(
-            //    new List<string> { model.DeliverableCode },
-            //    CancellationToken.None);
+            var year = model.CalendarYear ?? 0;
+            var month = model.CalendarMonth ?? 0;
 
-            //var year = model.CalendarYear ?? 0;
-            //var month = model.CalendarMonth ?? 0;
+            if (year == 0 || month == 0)
+            {
+                return false;
+            }
 
-            //if (year == 0 || month == 0)
-            //{
-            //    return false;
-            //    return Task.CompletedTask;
-            //}
+            var startDateMonthEnd = new DateTime(year, month, DateTime.DaysInMonth(year, month));
 
-            //var startDateMonthEnd = new DateTime(year, month, DateTime.DaysInMonth(year, month));
+            var fcsDeliverableCode = _mappingHelper.GetFcsDeliverableCode(model, CancellationToken.None);
+            var contractAllocation = _referenceDataRepository.GetContractAllocation(model.ConRefNumber, fcsDeliverableCode, CancellationToken.None);
 
-            //var contractMatches = mappings.Where(m =>
-            //    m.ContractDeliverable.ContractAllocation.ContractAllocationNumber == model.ConRefNumber
-            //    && m.ContractDeliverable.ContractAllocation.StartDate < startDateMonthEnd).ToList();
-
-            //return contractMatches.Any();
-
-            return true;
+            return contractAllocation != null && contractAllocation.StartDate < startDateMonthEnd;
         }
     }
 }

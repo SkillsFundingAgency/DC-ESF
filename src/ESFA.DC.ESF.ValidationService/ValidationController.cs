@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using ESFA.DC.ESF.Interfaces.Controllers;
 using ESFA.DC.ESF.Interfaces.Validation;
 using ESFA.DC.ESF.Models;
@@ -25,15 +25,19 @@ namespace ESFA.DC.ESF.ValidationService
 
         public IList<ValidationErrorModel> Errors { get; private set; }
 
-        public async Task ValidateData(
+        public void ValidateData(
             IList<SupplementaryDataModel> allModels,
             SupplementaryDataModel model,
+            SourceFileModel sourceFile,
             CancellationToken cancellationToken)
         {
             Errors = new List<ValidationErrorModel>();
 
             var allUlns = allModels.Select(m => m.ULN).ToList();
             _populationService.PrePopulateUlnCache(allUlns, cancellationToken);
+
+            var ukPrn = Convert.ToInt64(sourceFile.UKPRN);
+            _populationService.PrePopulateContractAllocations(ukPrn, allModels, cancellationToken);
 
             foreach (var command in _validatorCommands)
             {

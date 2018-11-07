@@ -40,18 +40,18 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
         private readonly IDateTimeProvider _dateTimeProvider;
         private readonly IVersionInfo _versionInfo;
 
-        private readonly List<FundingSummaryModel> fundingSummaryModels;
+        private readonly List<FundingSummaryModel> _fundingSummaryModels;
         private readonly ModelProperty[] _cachedModelProperties;
         private readonly FundingSummaryMapper _fundingSummaryMapper;
 
         private object[] _cachedHeaders;
-        private CellStyle[] cellStyles;
-        private int reportWidth = 1;
+        private CellStyle[] _cellStyles;
+        private int _reportWidth = 1;
 
         public FundingSummaryReport(
             IDateTimeProvider dateTimeProvider,
             IValueProvider valueProvider,
-            [KeyFilter(PersistenceStorageKeys.Blob)] IStreamableKeyValuePersistenceService storage,
+            IStreamableKeyValuePersistenceService storage,
             IFM70Repository repository,
             IList<IRowHelper> rowHelpers,
             IReferenceDataRepository referenceDataRepository,
@@ -68,7 +68,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             _versionInfo = versionInfo;
 
             ReportFileName = "ESF Funding Summary Report";
-            fundingSummaryModels = new List<FundingSummaryModel>();
+            _fundingSummaryModels = new List<FundingSummaryModel>();
             _fundingSummaryMapper = new FundingSummaryMapper();
             _cachedModelProperties = _fundingSummaryMapper.MemberMaps.OrderBy(x => x.Data.Index).Select(x => new ModelProperty(x.Data.Names.Names.ToArray(), (PropertyInfo)x.Data.Member)).ToArray();
         }
@@ -86,12 +86,12 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             await PopulateReportData(ukPrn, ilrFileData, supplementaryDataWrapper.SupplementaryDataModels, cancellationToken);
             FundingSummaryFooterModel fundingSummaryFooterModel = PopulateReportFooter(cancellationToken);
 
-            FundingSummaryModel rowOfData = fundingSummaryModels.FirstOrDefault(x => x.DeliverableCode == "ST01");
+            FundingSummaryModel rowOfData = _fundingSummaryModels.FirstOrDefault(x => x.DeliverableCode == "ST01");
             List<YearAndDataLengthModel> yearAndDataLengthModels = new List<YearAndDataLengthModel>();
             if (rowOfData != null)
             {
                 int valCount = rowOfData.YearlyValues.Sum(x => x.Values.Length);
-                reportWidth = valCount + rowOfData.Totals.Count + 2;
+                _reportWidth = valCount + rowOfData.Totals.Count + 2;
                 foreach (FundingSummaryReportYearlyValueModel fundingSummaryReportYearlyValueModel in rowOfData.YearlyValues)
                 {
                     yearAndDataLengthModels.Add(new YearAndDataLengthModel(fundingSummaryReportYearlyValueModel.FundingYear, fundingSummaryReportYearlyValueModel.Values.Length));
@@ -122,14 +122,14 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
         private void ApplyAdditionalFormatting(Workbook workbook, FundingSummaryModel rowOfData)
         {
             Worksheet worksheet = workbook.Worksheets[0];
-            worksheet.Cells.CreateRange(1, 5, 4, 1).ApplyStyle(cellStyles[6].Style, cellStyles[6].StyleFlag); // Header
+            worksheet.Cells.CreateRange(1, 5, 4, 1).ApplyStyle(_cellStyles[6].Style, _cellStyles[6].StyleFlag); // Header
             if (rowOfData != null)
             {
                 int valCount = rowOfData.YearlyValues.Sum(x => x.Values.Length);
                 int nonYearCount = rowOfData.YearlyValues.Sum(x => x.FundingYear != 2018 ? x.Values.Length : 0);
                 int yearCount = rowOfData.YearlyValues.Sum(x => x.FundingYear == 2018 ? x.Values.Length : 0);
-                worksheet.Cells.CreateRange(9, nonYearCount + 1, 110, yearCount).ApplyStyle(cellStyles[6].Style, cellStyles[6].StyleFlag); // Current Year
-                worksheet.Cells.CreateRange(9, valCount + rowOfData.Totals.Count, 110, 1).ApplyStyle(cellStyles[6].Style, cellStyles[6].StyleFlag); // Current Year Subtotal
+                worksheet.Cells.CreateRange(9, nonYearCount + 1, 110, yearCount).ApplyStyle(_cellStyles[6].Style, _cellStyles[6].StyleFlag); // Current Year
+                worksheet.Cells.CreateRange(9, valCount + rowOfData.Totals.Count, 110, 1).ApplyStyle(_cellStyles[6].Style, _cellStyles[6].StyleFlag); // Current Year Subtotal
             }
         }
 
@@ -200,7 +200,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
                         continue;
                     }
 
-                    rowHelper.Execute(fundingSummaryModels, fundingReportRow, data, ilrData);
+                    rowHelper.Execute(_fundingSummaryModels, fundingReportRow, data, ilrData);
                     break;
                 }
             }
@@ -211,7 +211,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
                 return;
             }
 
-            var yearData = fundingSummaryModels.SelectMany(rd => rd.YearlyValues);
+            var yearData = _fundingSummaryModels.SelectMany(rd => rd.YearlyValues);
             foreach (var model in yearData)
             {
                 model.FundingYear = fundingYear;
@@ -228,7 +228,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
                     using (CsvWriter csvWriter = new CsvWriter(textWriter))
                     {
                         WriteCsvRecords<FundingSummaryHeaderMapper, FundingSummaryHeaderModel>(csvWriter, fundingSummaryHeaderModel);
-                        foreach (FundingSummaryModel fundingSummaryModel in fundingSummaryModels)
+                        foreach (FundingSummaryModel fundingSummaryModel in _fundingSummaryModels)
                         {
                             if (string.IsNullOrEmpty(fundingSummaryModel.Title))
                             {
@@ -268,11 +268,11 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             FundingSummaryFooterModel fundingSummaryFooterModel)
         {
             Workbook workbook = new Workbook();
-            cellStyles = _excelStyleProvider.GetFundingSummaryStyles(workbook);
+            _cellStyles = _excelStyleProvider.GetFundingSummaryStyles(workbook);
             Worksheet sheet = workbook.Worksheets[0];
 
-            WriteExcelRecords(sheet, new FundingSummaryHeaderMapper(), new List<FundingSummaryHeaderModel> { fundingSummaryHeaderModel }, cellStyles[5], cellStyles[5], true);
-            foreach (FundingSummaryModel fundingSummaryModel in fundingSummaryModels)
+            WriteExcelRecords(sheet, new FundingSummaryHeaderMapper(), new List<FundingSummaryHeaderModel> { fundingSummaryHeaderModel }, _cellStyles[5], _cellStyles[5], true);
+            foreach (FundingSummaryModel fundingSummaryModel in _fundingSummaryModels)
             {
                 if (string.IsNullOrEmpty(fundingSummaryModel.Title))
                 {
@@ -280,11 +280,11 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
                     continue;
                 }
 
-                CellStyle excelHeaderStyle = _excelStyleProvider.GetCellStyle(cellStyles, fundingSummaryModel.ExcelHeaderStyle);
+                CellStyle excelHeaderStyle = _excelStyleProvider.GetCellStyle(_cellStyles, fundingSummaryModel.ExcelHeaderStyle);
 
                 if (fundingSummaryModel.HeaderType == HeaderType.TitleOnly)
                 {
-                    WriteExcelRecords(sheet, fundingSummaryModel.Title, excelHeaderStyle, reportWidth);
+                    WriteExcelRecords(sheet, fundingSummaryModel.Title, excelHeaderStyle, _reportWidth);
                     continue;
                 }
 
@@ -296,12 +296,12 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
                     continue;
                 }
 
-                CellStyle excelRecordStyle = _excelStyleProvider.GetCellStyle(cellStyles, fundingSummaryModel.ExcelRecordStyle);
+                CellStyle excelRecordStyle = _excelStyleProvider.GetCellStyle(_cellStyles, fundingSummaryModel.ExcelRecordStyle);
 
                 WriteExcelRecords(sheet, _fundingSummaryMapper, _cachedModelProperties, fundingSummaryModel, excelRecordStyle);
             }
 
-            WriteExcelRecords(sheet, new FundingSummaryFooterMapper(), new List<FundingSummaryFooterModel> { fundingSummaryFooterModel }, cellStyles[5], cellStyles[5], true);
+            WriteExcelRecords(sheet, new FundingSummaryFooterMapper(), new List<FundingSummaryFooterModel> { fundingSummaryFooterModel }, _cellStyles[5], _cellStyles[5], true);
 
             return workbook;
         }

@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using ESFA.DC.ESF.Interfaces.DataAccessLayer;
+using ESFA.DC.ESF.Interfaces.Validation;
 using ESFA.DC.ESF.Models;
 using ESFA.DC.ESF.ValidationService.Commands.BusinessRules;
 using ESFA.DC.ReferenceData.FCS.Model;
@@ -62,148 +62,121 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             Assert.True(rule.Execute(model));
         }
 
-        //[Fact]
-        //public void CalendarYearCalendarMonthRule02CatchesDatesPriorToContractDate()
-        //{
-        //    var mappings = new List<ContractDeliverableCodeMapping>
-        //    {
-        //        new ContractDeliverableCodeMapping
-        //        {
-        //            ContractDeliverable = new ContractDeliverable
-        //            {
-        //                ContractAllocation = new ContractAllocation
-        //                {
-        //                    StartDate = new DateTime(2017, 11, 1),
-        //                    ContractAllocationNumber = "ESF-2111"
-        //                }
-        //            }
-        //        }
-        //    };
+        [Fact]
+        public void CalendarYearCalendarMonthRule02CatchesDatesPriorToContractDate()
+        {
+            var allocation = new ContractAllocation
+            {
+                StartDate = new DateTime(2018, 01, 01)
+            };
 
-        //    var referenceRepo = new Mock<IReferenceDataRepository>();
-        //    referenceRepo
-        //        .Setup(x => x.GetContractDeliverableCodeMapping(It.IsAny<IList<string>>(), It.IsAny<CancellationToken>()))
-        //        .Returns(mappings);
+            var mapper = new Mock<IFcsCodeMappingHelper>();
+            mapper.Setup(
+                    x => x.GetFcsDeliverableCode(It.IsAny<SupplementaryDataModel>(), It.IsAny<CancellationToken>()))
+                .Returns(3);
 
-        //    var model = new SupplementaryDataModel
-        //    {
-        //        ConRefNumber = "ESF-2111",
-        //        CalendarMonth = 10,
-        //        CalendarYear = 2017
-        //    };
-        //    var rule = new CalendarYearCalendarMonthRule02(referenceRepo.Object);
-        //
+            var referenceRepo = new Mock<IReferenceDataRepository>();
+            referenceRepo
+                .Setup(x => x.GetContractAllocation(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<CancellationToken>(), It.IsAny<long?>()))
+                .Returns(allocation);
 
-        //    Assert.False(rule.Execute(model));
-        //}
+            var model = new SupplementaryDataModel
+            {
+                ConRefNumber = "ESF-2111",
+                CalendarMonth = 10,
+                CalendarYear = 2017
+            };
+            var rule = new CalendarYearCalendarMonthRule02(referenceRepo.Object, mapper.Object);
 
-        //[Fact]
-        //public void CalendarYearCalendarMonthRule02PassesDatesInTheContractPeriod()
-        //{
-        //    var mappings = new List<ContractDeliverableCodeMapping>
-        //    {
-        //        new ContractDeliverableCodeMapping
-        //        {
-        //            ContractDeliverable = new ContractDeliverable
-        //            {
-        //                ContractAllocation = new ContractAllocation
-        //                {
-        //                    StartDate = new DateTime(2017, 10, 1),
-        //                    ContractAllocationNumber = "ESF-2111"
-        //                }
-        //            }
-        //        }
-        //    };
+            Assert.False(rule.Execute(model));
+        }
 
-        //    var referenceRepo = new Mock<IReferenceDataRepository>();
-        //    referenceRepo
-        //        .Setup(x => x.GetContractDeliverableCodeMapping(It.IsAny<IList<string>>(), It.IsAny<CancellationToken>()))
-        //        .Returns(mappings);
+        [Fact]
+        public void CalendarYearCalendarMonthRule02PassesDatesInTheContractPeriod()
+        {
+            var allocation = new ContractAllocation
+            {
+                StartDate = new DateTime(2017, 11, 01)
+            };
 
-        //    var model = new SupplementaryDataModel
-        //    {
-        //        ConRefNumber = "ESF-2111",
-        //        CalendarMonth = 11,
-        //        CalendarYear = 2017
-        //    };
-        //    var rule = new CalendarYearCalendarMonthRule02(referenceRepo.Object);
+            var mapper = new Mock<IFcsCodeMappingHelper>();
+            mapper.Setup(
+                    x => x.GetFcsDeliverableCode(It.IsAny<SupplementaryDataModel>(), It.IsAny<CancellationToken>()))
+                .Returns(3);
 
-        //
+            var referenceRepo = new Mock<IReferenceDataRepository>();
+            referenceRepo
+                .Setup(x => x.GetContractAllocation(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<CancellationToken>(), It.IsAny<long?>()))
+                .Returns(allocation);
 
-        //    Assert.True(rule.Execute(model));
-        //}
+            var model = new SupplementaryDataModel
+            {
+                ConRefNumber = "ESF-2111",
+                CalendarMonth = 11,
+                CalendarYear = 2017
+            };
+            var rule = new CalendarYearCalendarMonthRule02(referenceRepo.Object, mapper.Object);
 
-        //[Fact]
-        //public void CalendarYearCalendarMonthRule03CatchesDatesAfterTheContractDate()
-        //{
-        //    var mappings = new List<ContractDeliverableCodeMapping>
-        //    {
-        //        new ContractDeliverableCodeMapping
-        //        {
-        //            ContractDeliverable = new ContractDeliverable
-        //            {
-        //                ContractAllocation = new ContractAllocation
-        //                {
-        //                    EndDate = new DateTime(2017, 11, 1),
-        //                    ContractAllocationNumber = "ESF-2111"
-        //                }
-        //            }
-        //        }
-        //    };
+            Assert.True(rule.Execute(model));
+        }
 
-        //    var referenceRepo = new Mock<IReferenceDataRepository>();
-        //    referenceRepo
-        //        .Setup(x => x.GetContractDeliverableCodeMapping(It.IsAny<IList<string>>(), It.IsAny<CancellationToken>()))
-        //        .Returns(mappings);
+        [Fact]
+        public void CalendarYearCalendarMonthRule03CatchesDatesAfterTheContractDate()
+        {
+            var allocation = new ContractAllocation
+            {
+                EndDate = new DateTime(2017, 11, 01)
+            };
 
-        //    var model = new SupplementaryDataModel
-        //    {
-        //        ConRefNumber = "ESF-2111",
-        //        CalendarMonth = 12,
-        //        CalendarYear = 2017
-        //    };
-        //    var rule = new CalendarYearCalendarMonthRule03(referenceRepo.Object);
+            var mapper = new Mock<IFcsCodeMappingHelper>();
+            mapper.Setup(
+                    x => x.GetFcsDeliverableCode(It.IsAny<SupplementaryDataModel>(), It.IsAny<CancellationToken>()))
+                .Returns(3);
 
-        //
+            var referenceRepo = new Mock<IReferenceDataRepository>();
+            referenceRepo
+                .Setup(x => x.GetContractAllocation(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<CancellationToken>(), It.IsAny<long?>()))
+                .Returns(allocation);
 
-        //    Assert.False(rule.Execute(model));
-        //}
+            var model = new SupplementaryDataModel
+            {
+                ConRefNumber = "ESF-2111",
+                CalendarMonth = 12,
+                CalendarYear = 2017
+            };
+            var rule = new CalendarYearCalendarMonthRule03(referenceRepo.Object, mapper.Object);
 
-        //[Fact]
-        //public void CalendarYearCalendarMonthRule03PassesDatesInTheContractPeriod()
-        //{
-        //    var mappings = new List<ContractDeliverableCodeMapping>
-        //    {
-        //        new ContractDeliverableCodeMapping
-        //        {
-        //            ContractDeliverable = new ContractDeliverable
-        //            {
-        //                ContractAllocation = new ContractAllocation
-        //                {
-        //                    EndDate = new DateTime(2017, 11, 1),
-        //                    ContractAllocationNumber = "ESF-2111"
-        //                }
-        //            }
-        //        }
-        //    };
+            Assert.False(rule.Execute(model));
+        }
 
-        //    var referenceRepo = new Mock<IReferenceDataRepository>();
-        //    referenceRepo
-        //        .Setup(x => x.GetContractDeliverableCodeMapping(It.IsAny<IList<string>>(), It.IsAny<CancellationToken>()))
-        //        .Returns(mappings);
+        [Fact]
+        public void CalendarYearCalendarMonthRule03PassesDatesInTheContractPeriod()
+        {
+            var allocation = new ContractAllocation
+            {
+                EndDate = new DateTime(2017, 11, 01)
+            };
 
-        //    var model = new SupplementaryDataModel
-        //    {
-        //        ConRefNumber = "ESF-2111",
-        //        CalendarMonth = 10,
-        //        CalendarYear = 2017
-        //    };
-        //    var rule = new CalendarYearCalendarMonthRule03(referenceRepo.Object);
+            var mapper = new Mock<IFcsCodeMappingHelper>();
+            mapper.Setup(
+                    x => x.GetFcsDeliverableCode(It.IsAny<SupplementaryDataModel>(), It.IsAny<CancellationToken>()))
+                .Returns(3);
 
-        //
+            var referenceRepo = new Mock<IReferenceDataRepository>();
+            referenceRepo
+                .Setup(x => x.GetContractAllocation(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<CancellationToken>(), It.IsAny<long?>()))
+                .Returns(allocation);
 
-        //    Assert.True(rule.Execute(model));
-        //}
+            var model = new SupplementaryDataModel
+            {
+                ConRefNumber = "ESF-2111",
+                CalendarMonth = 10,
+                CalendarYear = 2017
+            };
+            var rule = new CalendarYearCalendarMonthRule03(referenceRepo.Object, mapper.Object);
+
+            Assert.True(rule.Execute(model));
+        }
 
         [Fact]
         public void CalendarYearRule01CatchesYearsOutsideOfTheAllowedRange()

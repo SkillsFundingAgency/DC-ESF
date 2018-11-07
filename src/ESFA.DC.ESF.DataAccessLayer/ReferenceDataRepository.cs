@@ -11,6 +11,7 @@ using ESFA.DC.Data.Postcodes.Model.Interfaces;
 using ESFA.DC.Data.ULN.Model;
 using ESFA.DC.Data.ULN.Model.Interfaces;
 using ESFA.DC.ESF.Interfaces.DataAccessLayer;
+using ESFA.DC.ESF.Models.Validation;
 using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.ReferenceData.FCS.Model;
 using ESFA.DC.ReferenceData.FCS.Model.Interface;
@@ -256,6 +257,44 @@ namespace ESFA.DC.ESF.DataAccessLayer
             }
 
             return codeMapping;
+        }
+
+        public ContractAllocation GetContractAllocation(string conRefNum, int deliverableCode, CancellationToken cancellationToken, long? ukPrn = null)
+        {
+            try
+            {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    return null;
+                }
+
+                if (ukPrn != null && !_dataCache.ContractAllocations
+                    .Any(ca => ca.DeliverableCode == deliverableCode &&
+                               ca.ContractAllocation.ContractAllocationNumber == conRefNum))
+                {
+                    var contractAllocation = _fcsContext.Contractors.Where(c => c.Ukprn == ukPrn)
+                        .SelectMany(c => c.Contracts)
+                        .SelectMany(c => c.ContractAllocations).Where(ca => ca.ContractAllocationNumber == conRefNum)
+                        .Join(_fcsContext.ContractDeliverables.Where(cd => cd.DeliverableCode == deliverableCode), c => c.Id, d => d.ContractAllocationId, (c, d) => c)
+                        .FirstOrDefault();
+
+                    if (contractAllocation != null)
+                    {
+                        _dataCache.ContractAllocations.Add(new ContractAllocationCacheModel
+                        {
+                            DeliverableCode = deliverableCode,
+                            ContractAllocation = contractAllocation
+                        });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Failed to get FCS ContractDeliverableCodeMapping", ex);
+            }
+
+            return _dataCache.ContractAllocations.FirstOrDefault(ca => ca.DeliverableCode == deliverableCode &&
+                                                              ca.ContractAllocation.ContractAllocationNumber == conRefNum)?.ContractAllocation;
         }
 
         private IEnumerable<List<long?>> SplitList(IEnumerable<long?> ulns, int nSize = 30)
