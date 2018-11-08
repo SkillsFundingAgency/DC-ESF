@@ -86,11 +86,9 @@ namespace ESFA.DC.ESF.ReportingService.Tests
 
             await fundingSummaryReport.GenerateReport(wrapper, sourceFile, null, CancellationToken.None);
 
-            storage.Verify(s => s.SaveAsync($"{filename}.csv", It.IsAny<string>(), It.IsAny<CancellationToken>()));
             storage.Verify(s => s.SaveAsync($"{filename}.xlsx", It.IsAny<Stream>(), It.IsAny<CancellationToken>()));
 
-            Assert.True(!string.IsNullOrEmpty(csv));
-            Assert.NotEmpty(xlsx);
+           Assert.NotEmpty(xlsx);
 
 #if DEBUG
             File.WriteAllBytes($"{filename}.xlsx", xlsx);

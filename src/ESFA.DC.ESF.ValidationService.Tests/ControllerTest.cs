@@ -37,8 +37,6 @@ namespace ESFA.DC.ESF.ValidationService.Tests
             controller.ValidateData(GetSupplementaryDataList(), GetSupplementaryData(), GetEsfSourceFileModel(), CancellationToken.None);
 
             Assert.True(controller.Errors.Any());
-            ULNRule03 ulnRule03 = new ULNRule03();
-            Assert.True(controller.Errors[2].ErrorMessage == ulnRule03.ErrorMessage);
         }
 
         private IList<SupplementaryDataModel> GetSupplementaryDataList()
