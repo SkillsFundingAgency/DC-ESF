@@ -44,7 +44,11 @@ namespace ESFA.DC.ESF.ReportingService.Reports
             "Dec-18",
             "Jan-19",
             "Feb-19",
-            "Mar-19"
+            "Mar-19",
+            "Apr-18",
+            "May-19",
+            "Jun-19",
+            "Jul-19",
         };
 
         public AimAndDeliverableReport(
@@ -164,7 +168,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports
                         d.LearnRefNumber == learner.LearnRefNumber
                         && d.AimSeqNumber == delivery.AimSeqNumber);
 
-                    var deliveryFam = learnerDeliveryFams.SingleOrDefault(l =>
+                    var deliveryFam = learnerDeliveryFams?.SingleOrDefault(l =>
                         l.LearnRefNumber == learner.LearnRefNumber
                         && l.AimSeqNumber == delivery.AimSeqNumber
                         && l.LearnDelFAMType == "RES");
@@ -172,28 +176,28 @@ namespace ESFA.DC.ESF.ReportingService.Reports
                     var outcomeType = fm70Delivery?.EligibleProgressionOutcomeType;
                     var outcomeCode = fm70Delivery?.EligibleProgressionOutcomeCode;
                     var outcomeStartDate = fm70Delivery?.EligibleProgressionOutomeStartDate;
-                    var outcome = outcomes.SingleOrDefault(o => o.OutType == outcomeType
+                    var outcome = outcomes?.SingleOrDefault(o => o.OutType == outcomeType
                                                                 && o.OutCode == outcomeCode
                                                                 && o.OutStartDate == outcomeStartDate);
 
-                    var fm70Outcome = fm70Outcomes.SingleOrDefault(o => o.OutType == outcomeType
+                    var fm70Outcome = fm70Outcomes?.SingleOrDefault(o => o.OutType == outcomeType
                                                                         && o.OutCode == outcomeCode
                                                                         && o.OutStartDate == outcomeStartDate);
 
                     var learnerMonitorings =
-                        learnMonitorings.Where(m => m.LearnRefNumber == learner.LearnRefNumber).ToList();
+                        learnMonitorings?.Where(m => m.LearnRefNumber == learner.LearnRefNumber).ToList();
                     var learnerDeliveryMonitorings = deliveryMonitorings
-                        .Where(m => m.LearnRefNumber == learner.LearnRefNumber).ToList();
-                    var larsDelivery = larsDeliveries.SingleOrDefault(l => l.LearnAimRef == delivery.LearnAimRef);
+                        ?.Where(m => m.LearnRefNumber == learner.LearnRefNumber).ToList();
+                    var larsDelivery = larsDeliveries?.SingleOrDefault(l => l.LearnAimRef == delivery.LearnAimRef);
 
                     foreach (var fm70Deliverable in fm70DeliveryDeliverables)
                     {
                         var deliverableCode = fm70Deliverable?.DeliverableCode;
-                        var fcsMapping = fcsCodeMappings.SingleOrDefault(f =>
+                        var fcsMapping = fcsCodeMappings?.SingleOrDefault(f =>
                             f.ExternalDeliverableCode == deliverableCode
                             && f.FundingStreamPeriodCode == FundingStreamPeriodCode);
 
-                        var fm70Periods = fm70DeliverablePeriods.Where(p =>
+                        var fm70Periods = fm70DeliverablePeriods?.Where(p =>
                             p.LearnRefNumber == learner.LearnRefNumber
                             && p.AimSeqNumber == delivery.AimSeqNumber
                             && p.DeliverableCode == fm70Deliverable?.DeliverableCode);
@@ -273,12 +277,12 @@ namespace ESFA.DC.ESF.ReportingService.Reports
 
             reportData.Sort(_comparer);
 
-            using (MemoryStream ms = new MemoryStream())
+            using (var ms = new MemoryStream())
             {
-                UTF8Encoding utF8Encoding = new UTF8Encoding(false, true);
-                using (TextWriter textWriter = new StreamWriter(ms, utF8Encoding))
+                var utF8Encoding = new UTF8Encoding(false, true);
+                using (var textWriter = new StreamWriter(ms, utF8Encoding))
                 {
-                    using (CsvWriter csvWriter = new CsvWriter(textWriter))
+                    using (var csvWriter = new CsvWriter(textWriter))
                     {
                         WriteCsvRecords<AimAndDeliverableMapper, AimAndDeliverableModel>(csvWriter, reportData);
 
