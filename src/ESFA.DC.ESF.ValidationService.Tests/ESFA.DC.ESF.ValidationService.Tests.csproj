@@ -150,14 +150,6 @@
       <TransformOnBuild>true</TransformOnBuild>
       <SubType>Designer</SubType>
     </None>
-    <None Include="app.Debug.config">
-      <DependentUpon>app.config</DependentUpon>
-      <IsTransformFile>true</IsTransformFile>
-    </None>
-    <None Include="app.Release.config">
-      <DependentUpon>app.config</DependentUpon>
-      <IsTransformFile>true</IsTransformFile>
-    </None>
     <None Include="ESFA.DC.ESF.ValidationService.Tests.ruleset">
       <SubType>Designer</SubType>
     </None>

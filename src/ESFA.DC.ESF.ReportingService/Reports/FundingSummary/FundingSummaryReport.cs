@@ -5,14 +5,10 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Aspose.Cells;
-using Autofac.Features.AttributeFilters;
-using CsvHelper;
 using ESFA.DC.DateTimeProvider.Interface;
-using ESFA.DC.ESF.Interfaces;
 using ESFA.DC.ESF.Interfaces.Config;
 using ESFA.DC.ESF.Interfaces.DataAccessLayer;
 using ESFA.DC.ESF.Interfaces.Reports;
@@ -36,6 +32,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
         private readonly IList<IRowHelper> _rowHelpers;
         private readonly IFM70Repository _repository;
         private readonly IReferenceDataRepository _referenceRepository;
+        private readonly IReferenceDataCache _referenceDataCache;
         private readonly IExcelStyleProvider _excelStyleProvider;
         private readonly IDateTimeProvider _dateTimeProvider;
         private readonly IVersionInfo _versionInfo;
@@ -55,6 +52,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             IFM70Repository repository,
             IList<IRowHelper> rowHelpers,
             IReferenceDataRepository referenceDataRepository,
+            IReferenceDataCache referenceDataCache,
             IExcelStyleProvider excelStyleProvider,
             IVersionInfo versionInfo)
             : base(dateTimeProvider, valueProvider)
@@ -64,6 +62,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             _repository = repository;
             _rowHelpers = rowHelpers;
             _referenceRepository = referenceDataRepository;
+            _referenceDataCache = referenceDataCache;
             _excelStyleProvider = excelStyleProvider;
             _versionInfo = versionInfo;
 
@@ -100,13 +99,8 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
 
             _cachedHeaders = GetHeaderEntries(yearAndDataLengthModels);
 
-            string csv = GetReportCsv(fundingSummaryHeaderModel, fundingSummaryFooterModel);
-
             string externalFileName = GetExternalFilename(sourceFile.UKPRN, sourceFile.JobId ?? 0, sourceFile.SuppliedDate ?? DateTime.MinValue);
             string fileName = GetFilename(sourceFile.UKPRN, sourceFile.JobId ?? 0, sourceFile.SuppliedDate ?? DateTime.MinValue);
-
-            await _storage.SaveAsync($"{externalFileName}.csv", csv, cancellationToken);
-            await WriteZipEntry(archive, $"{fileName}.csv", csv);
 
             Workbook workbook = GetWorkbookReport(fundingSummaryHeaderModel, fundingSummaryFooterModel);
             ApplyAdditionalFormatting(workbook, rowOfData);
@@ -146,11 +140,12 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
 
             var header = new FundingSummaryHeaderModel
             {
-                ProviderName = _referenceRepository.GetProviderName(ukPrn, cancellationToken),
+                ProviderName = _referenceDataCache.GetProviderName(ukPrn, cancellationToken),
                 Ukprn = new[] { ukPrn.ToString(), string.Empty, string.Empty, string.Empty, "2015/16", string.Empty, "2016/17", string.Empty, "2017/18", string.Empty, "2018/19" },
                 ContractReferenceNumber = new[] { sourceFile.ConRefNumber, string.Empty, string.Empty, "ILR File :" },
                 SupplementaryDataFile = new[] { sourceFile.FileName, string.Empty, string.Empty, "Last ILR File Update :" },
                 LastSupplementaryDataFileUpdate = new[] { sourceFile.SuppliedDate?.ToString("dd/MM/yyyy"), string.Empty, string.Empty, "File Preparation Date :" }
+
                 //FundingYears = new List<FundingSummaryHeaderModel.FundingHeaderYear>
                 //{
                 //    new FundingSummaryHeaderModel.FundingHeaderYear
@@ -189,8 +184,8 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             CancellationToken cancellationToken)
         {
             IList<ESF_LearningDeliveryDeliverable_PeriodisedValues> ilrData = await _repository.GetPeriodisedValues(ukPrn, cancellationToken);
-            // Todo: Get other years data
 
+            // Todo: Get other years data
             foreach (var fundingReportRow in ReportDataTemplate.FundingModelRowDefinitions)
             {
                 foreach (var rowHelper in _rowHelpers)
@@ -218,51 +213,6 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             }
         }
 
-        private string GetReportCsv(FundingSummaryHeaderModel fundingSummaryHeaderModel, FundingSummaryFooterModel fundingSummaryFooterModel)
-        {
-            using (MemoryStream ms = new MemoryStream())
-            {
-                UTF8Encoding utF8Encoding = new UTF8Encoding(false, true);
-                using (TextWriter textWriter = new StreamWriter(ms, utF8Encoding))
-                {
-                    using (CsvWriter csvWriter = new CsvWriter(textWriter))
-                    {
-                        WriteCsvRecords<FundingSummaryHeaderMapper, FundingSummaryHeaderModel>(csvWriter, fundingSummaryHeaderModel);
-                        foreach (FundingSummaryModel fundingSummaryModel in _fundingSummaryModels)
-                        {
-                            if (string.IsNullOrEmpty(fundingSummaryModel.Title))
-                            {
-                                WriteCsvRecords(csvWriter);
-                                continue;
-                            }
-
-                            if (fundingSummaryModel.HeaderType == HeaderType.TitleOnly)
-                            {
-                                WriteCsvRecords(csvWriter, (object)fundingSummaryModel.Title);
-                                continue;
-                            }
-
-                            if (fundingSummaryModel.HeaderType == HeaderType.All)
-                            {
-                                _fundingSummaryMapper.MemberMaps.Single(x => x.Data.Index == 0).Name(fundingSummaryModel.Title);
-                                _cachedHeaders[0] = fundingSummaryModel.Title;
-                                WriteCsvRecords(csvWriter, _cachedHeaders);
-                                continue;
-                            }
-
-                            WriteCsvRecords(csvWriter, _fundingSummaryMapper, _cachedModelProperties, fundingSummaryModel);
-                        }
-
-                        WriteCsvRecords<FundingSummaryFooterMapper, FundingSummaryFooterModel>(csvWriter, fundingSummaryFooterModel);
-
-                        csvWriter.Flush();
-                        textWriter.Flush();
-                        return Encoding.UTF8.GetString(ms.ToArray());
-                    }
-                }
-            }
-        }
-
         private Workbook GetWorkbookReport(
             FundingSummaryHeaderModel fundingSummaryHeaderModel,
             FundingSummaryFooterModel fundingSummaryFooterModel)
@@ -272,7 +222,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             Worksheet sheet = workbook.Worksheets[0];
 
             WriteExcelRecords(sheet, new FundingSummaryHeaderMapper(), new List<FundingSummaryHeaderModel> { fundingSummaryHeaderModel }, _cellStyles[5], _cellStyles[5], true);
-            foreach (FundingSummaryModel fundingSummaryModel in _fundingSummaryModels)
+            foreach (var fundingSummaryModel in _fundingSummaryModels)
             {
                 if (string.IsNullOrEmpty(fundingSummaryModel.Title))
                 {
@@ -309,7 +259,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
         private object[] GetHeaderEntries(List<YearAndDataLengthModel> yearAndDataLengthModels)
         {
             List<object> values = new List<object>();
-            foreach (ModelProperty cachedModelProperty in _cachedModelProperties)
+            foreach (var cachedModelProperty in _cachedModelProperties)
             {
                 if (typeof(IEnumerable).IsAssignableFrom(cachedModelProperty.MethodInfo.PropertyType))
                 {

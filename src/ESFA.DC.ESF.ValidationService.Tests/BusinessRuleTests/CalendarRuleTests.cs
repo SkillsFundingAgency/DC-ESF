@@ -75,7 +75,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
                     x => x.GetFcsDeliverableCode(It.IsAny<SupplementaryDataModel>(), It.IsAny<CancellationToken>()))
                 .Returns(3);
 
-            var referenceRepo = new Mock<IReferenceDataRepository>();
+            var referenceRepo = new Mock<IReferenceDataCache>();
             referenceRepo
                 .Setup(x => x.GetContractAllocation(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<CancellationToken>(), It.IsAny<long?>()))
                 .Returns(allocation);
@@ -104,7 +104,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
                     x => x.GetFcsDeliverableCode(It.IsAny<SupplementaryDataModel>(), It.IsAny<CancellationToken>()))
                 .Returns(3);
 
-            var referenceRepo = new Mock<IReferenceDataRepository>();
+            var referenceRepo = new Mock<IReferenceDataCache>();
             referenceRepo
                 .Setup(x => x.GetContractAllocation(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<CancellationToken>(), It.IsAny<long?>()))
                 .Returns(allocation);
@@ -133,7 +133,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
                     x => x.GetFcsDeliverableCode(It.IsAny<SupplementaryDataModel>(), It.IsAny<CancellationToken>()))
                 .Returns(3);
 
-            var referenceRepo = new Mock<IReferenceDataRepository>();
+            var referenceRepo = new Mock<IReferenceDataCache>();
             referenceRepo
                 .Setup(x => x.GetContractAllocation(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<CancellationToken>(), It.IsAny<long?>()))
                 .Returns(allocation);
@@ -162,7 +162,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
                     x => x.GetFcsDeliverableCode(It.IsAny<SupplementaryDataModel>(), It.IsAny<CancellationToken>()))
                 .Returns(3);
 
-            var referenceRepo = new Mock<IReferenceDataRepository>();
+            var referenceRepo = new Mock<IReferenceDataCache>();
             referenceRepo
                 .Setup(x => x.GetContractAllocation(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<CancellationToken>(), It.IsAny<long?>()))
                 .Returns(allocation);

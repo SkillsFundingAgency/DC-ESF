@@ -9,11 +9,11 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 {
     public class ULNRule02 : IBusinessRuleValidator
     {
-        private readonly IReferenceDataRepository _referenceDataRepository;
+        private readonly IReferenceDataCache _referenceDataCache;
 
-        public ULNRule02(IReferenceDataRepository referenceDataRepository)
+        public ULNRule02(IReferenceDataCache referenceDataCache)
         {
-            _referenceDataRepository = referenceDataRepository;
+            _referenceDataCache = referenceDataCache;
         }
 
         public string ErrorMessage => "The ULN is not a valid ULN.";
@@ -26,7 +26,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
         {
             return model.ReferenceType != "LearnRefNumber" ||
                       (model.ULN ?? 0) == 9999999999 ||
-                      _referenceDataRepository.GetUlnLookup(new List<long?> { model.ULN ?? 0 }, CancellationToken.None).Any(u => u.ULN == model.ULN);
+                   _referenceDataCache.GetUlnLookup(new List<long?> { model.ULN ?? 0 }, CancellationToken.None).Any(u => u.ULN == model.ULN);
         }
     }
 }

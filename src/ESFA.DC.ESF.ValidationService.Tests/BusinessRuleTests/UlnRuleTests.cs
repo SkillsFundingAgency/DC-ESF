@@ -63,7 +63,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
         [Fact]
         public void ULNRule02PassesULNsFoundInLookup()
         {
-            var referenceRepo = new Mock<IReferenceDataRepository>();
+            var referenceRepo = new Mock<IReferenceDataCache>();
             referenceRepo
                 .Setup(x => x.GetUlnLookup(It.IsAny<IList<long?>>(), It.IsAny<CancellationToken>()))
                 .Returns(new List<UniqueLearnerNumber> { new UniqueLearnerNumber { ULN = 1990909009 } });

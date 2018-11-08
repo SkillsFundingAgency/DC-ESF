@@ -27,7 +27,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports
 
         private readonly IKeyValuePersistenceService _storage;
 
-        private readonly IReferenceDataRepository _referenceDataService;
+        private readonly IReferenceDataCache _referenceDataCache;
 
         private readonly IValidRepository _validRepository;
 
@@ -54,7 +54,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports
         public AimAndDeliverableReport(
             IDateTimeProvider dateTimeProvider,
             IStreamableKeyValuePersistenceService storage,
-            IReferenceDataRepository referenceDataService,
+            IReferenceDataCache referenceDataCache,
             IValidRepository validRepository,
             IFM70Repository fm70Repository,
             IValueProvider valueProvider,
@@ -62,7 +62,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports
             : base(dateTimeProvider, valueProvider)
         {
             _storage = storage;
-            _referenceDataService = referenceDataService;
+            _referenceDataCache = referenceDataCache;
             _validRepository = validRepository;
             _fm70Repository = fm70Repository;
             _comparer = comparer as AimAndDeliverableComparer;
@@ -151,8 +151,8 @@ namespace ESFA.DC.ESF.ReportingService.Reports
             var deliverableCodes = fm70Deliverables?.Select(d => d.DeliverableCode).ToList();
 
             var fcsCodeMappings =
-                _referenceDataService.GetContractDeliverableCodeMapping(deliverableCodes, cancellationToken);
-            var larsDeliveries = _referenceDataService.GetLarsLearningDelivery(learnAimRefs, cancellationToken);
+                _referenceDataCache.GetContractDeliverableCodeMapping(deliverableCodes, cancellationToken);
+            var larsDeliveries = _referenceDataCache.GetLarsLearningDelivery(learnAimRefs, cancellationToken);
 
             var reportData = new List<AimAndDeliverableModel>();
 

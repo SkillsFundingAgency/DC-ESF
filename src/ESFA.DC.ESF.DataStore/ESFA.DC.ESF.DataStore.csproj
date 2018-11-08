@@ -111,7 +111,6 @@
     <Compile Include="StoreValidation.cs" />
     <Compile Include="StoreESF.cs" />
     <Compile Include="StoreFileDetails.cs" />
-    <Compile Include="SupplementaryDataRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ESFA.DC.ESF.Database.EF\ESFA.DC.ESF.Database.EF.csproj">

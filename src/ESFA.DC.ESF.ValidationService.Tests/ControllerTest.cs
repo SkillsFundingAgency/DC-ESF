@@ -21,8 +21,8 @@ namespace ESFA.DC.ESF.ValidationService.Tests
         [Fact]
         public void TestController()
         {
-            Mock<IReferenceDataRepository> repoMock = new Mock<IReferenceDataRepository>();
-            repoMock.Setup(m => m.GetUlnLookup(It.IsAny<IList<long?>>(), It.IsAny<CancellationToken>())).Returns(new List<UniqueLearnerNumber>());
+            Mock<IReferenceDataCache> cacheMock = new Mock<IReferenceDataCache>();
+            cacheMock.Setup(m => m.GetUlnLookup(It.IsAny<IList<long?>>(), It.IsAny<CancellationToken>())).Returns(new List<UniqueLearnerNumber>());
 
             Mock<IFcsCodeMappingHelper> mapperMock = new Mock<IFcsCodeMappingHelper>();
             mapperMock.Setup(m =>
@@ -31,7 +31,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests
             Mock<IPopulationService> popMock = new Mock<IPopulationService>();
             popMock.Setup(m => m.PrePopulateUlnCache(It.IsAny<IList<long?>>(), It.IsAny<CancellationToken>()));
 
-            var validators = GetValidators(repoMock, mapperMock);
+            var validators = GetValidators(cacheMock, mapperMock);
             var controller = new ValidationController(validators, popMock.Object);
 
             controller.ValidateData(GetSupplementaryDataList(), GetSupplementaryData(), GetEsfSourceFileModel(), CancellationToken.None);
@@ -78,7 +78,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests
             };
         }
 
-        private IList<IValidatorCommand> GetValidators(Mock<IReferenceDataRepository> repoMock, Mock<IFcsCodeMappingHelper> mapperMock)
+        private IList<IValidatorCommand> GetValidators(Mock<IReferenceDataCache> cacheMock, Mock<IFcsCodeMappingHelper> mapperMock)
         {
             return new List<IValidatorCommand>
             {
@@ -87,13 +87,13 @@ namespace ESFA.DC.ESF.ValidationService.Tests
                     {
                         new CalendarMonthRule01(),
                         new CalendarYearCalendarMonthRule01(),
-                        new CalendarYearCalendarMonthRule02(repoMock.Object, mapperMock.Object),
-                        new CalendarYearCalendarMonthRule03(repoMock.Object, mapperMock.Object),
+                        new CalendarYearCalendarMonthRule02(cacheMock.Object, mapperMock.Object),
+                        new CalendarYearCalendarMonthRule03(cacheMock.Object, mapperMock.Object),
                         new CalendarYearRule01(),
                         new CostTypeRule01(),
                         new CostTypeRule02(),
                         new DeliverableCodeRule01(),
-                        new DeliverableCodeRule02(repoMock.Object, mapperMock.Object),
+                        new DeliverableCodeRule02(cacheMock.Object, mapperMock.Object),
                         new HourlyRateRule01(),
                         new HourlyRateRule02(),
                         new OrgHoursRule01(),
@@ -111,7 +111,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests
                         new TotalHoursWorkedRule01(),
                         new TotalHoursWorkedRule02(),
                         new ULNRule01(),
-                        new ULNRule02(repoMock.Object),
+                        new ULNRule02(cacheMock.Object),
                         new ULNRule03(),
                         new ULNRule04(),
                         new ValueRule01(),

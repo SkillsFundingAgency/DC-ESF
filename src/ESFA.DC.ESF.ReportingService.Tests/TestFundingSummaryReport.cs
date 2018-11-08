@@ -37,9 +37,6 @@ namespace ESFA.DC.ESF.ReportingService.Tests
             dateTimeProviderMock.Setup(x => x.ConvertUtcToUk(It.IsAny<DateTime>())).Returns(dateTime);
 
             Mock<IStreamableKeyValuePersistenceService> storage = new Mock<IStreamableKeyValuePersistenceService>();
-            storage.Setup(x => x.SaveAsync($"{filename}.csv", It.IsAny<string>(), It.IsAny<CancellationToken>()))
-                .Callback<string, string, CancellationToken>((key, value, ct) => csv = value)
-                .Returns(Task.CompletedTask);
             storage.Setup(x => x.SaveAsync($"{filename}.xlsx", It.IsAny<Stream>(), It.IsAny<CancellationToken>())).Callback<string, Stream, CancellationToken>(
                     (key, value, ct) =>
                     {
@@ -62,7 +59,9 @@ namespace ESFA.DC.ESF.ReportingService.Tests
             referenceDataService.Setup(m => m.GetLarsVersion(It.IsAny<CancellationToken>())).Returns("123456");
             referenceDataService.Setup(m => m.GetOrganisationVersion(It.IsAny<CancellationToken>())).Returns("234567");
             referenceDataService.Setup(m => m.GetPostcodeVersion(It.IsAny<CancellationToken>())).Returns("345678");
-            referenceDataService.Setup(m => m.GetProviderName(It.IsAny<int>(), It.IsAny<CancellationToken>())).Returns("Foo College");
+
+            Mock<IReferenceDataCache> referenceDataCache = new Mock<IReferenceDataCache>();
+            referenceDataCache.Setup(m => m.GetProviderName(It.IsAny<int>(), It.IsAny<CancellationToken>())).Returns("Foo College");
 
             Mock<IVersionInfo> versionInfo = new Mock<IVersionInfo>();
             versionInfo.Setup(m => m.ServiceReleaseVersion).Returns("1.2.3.4");
@@ -76,6 +75,7 @@ namespace ESFA.DC.ESF.ReportingService.Tests
                 ilrRepo.Object,
                 rowHelpers,
                 referenceDataService.Object,
+                referenceDataCache.Object,
                 excelStyleProvider,
                 versionInfo.Object);
 

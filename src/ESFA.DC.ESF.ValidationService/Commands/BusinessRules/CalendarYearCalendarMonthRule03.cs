@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using ESFA.DC.ESF.Interfaces.DataAccessLayer;
 using ESFA.DC.ESF.Interfaces.Validation;
@@ -10,14 +8,14 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 {
     public class CalendarYearCalendarMonthRule03 : IBusinessRuleValidator
     {
-        private readonly IReferenceDataRepository _referenceDataRepository;
+        private readonly IReferenceDataCache _referenceDataCache;
         private readonly IFcsCodeMappingHelper _mappingHelper;
 
         public CalendarYearCalendarMonthRule03(
-            IReferenceDataRepository referenceDataRepository,
+            IReferenceDataCache referenceDataCache,
             IFcsCodeMappingHelper mappingHelper)
         {
-            _referenceDataRepository = referenceDataRepository;
+            _referenceDataCache = referenceDataCache;
             _mappingHelper = mappingHelper;
         }
 
@@ -40,7 +38,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
             var startDateMonth = new DateTime(year, month, 1);
 
             var fcsDeliverableCode = _mappingHelper.GetFcsDeliverableCode(model, CancellationToken.None);
-            var contractAllocation = _referenceDataRepository.GetContractAllocation(model.ConRefNumber, fcsDeliverableCode, CancellationToken.None);
+            var contractAllocation = _referenceDataCache.GetContractAllocation(model.ConRefNumber, fcsDeliverableCode, CancellationToken.None);
 
             return contractAllocation != null && contractAllocation.EndDate > startDateMonth;
         }

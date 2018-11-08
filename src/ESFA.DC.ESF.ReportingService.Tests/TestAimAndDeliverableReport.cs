@@ -35,7 +35,7 @@ namespace ESFA.DC.ESF.ReportingService.Tests
                 .Callback<string, string, CancellationToken>((key, value, ct) => csv = value)
                 .Returns(Task.CompletedTask);
 
-            var refRepoMock = new Mock<IReferenceDataRepository>();
+            var refRepoMock = new Mock<IReferenceDataCache>();
             refRepoMock.Setup(m =>
                     m.GetContractDeliverableCodeMapping(It.IsAny<IList<string>>(), It.IsAny<CancellationToken>()))
                 .Returns(ReferenceDataBuilder.BuildContractDeliverableCodeMapping());

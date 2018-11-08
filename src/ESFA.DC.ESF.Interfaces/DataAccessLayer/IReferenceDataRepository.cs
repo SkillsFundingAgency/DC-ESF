@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.Data.LARS.Model;
 using ESFA.DC.Data.ULN.Model;
+using ESFA.DC.ESF.Models.Validation;
 using ESFA.DC.ReferenceData.FCS.Model;
 
 namespace ESFA.DC.ESF.Interfaces.DataAccessLayer
@@ -23,6 +24,6 @@ namespace ESFA.DC.ESF.Interfaces.DataAccessLayer
 
         IList<ContractDeliverableCodeMapping> GetContractDeliverableCodeMapping(IList<string> deliverableCodes, CancellationToken cancellationToken);
 
-        ContractAllocation GetContractAllocation(string conRefNum, int deliverableCode, CancellationToken cancellationToken, long? ukPrn = null);
+        ContractAllocationCacheModel GetContractAllocation(string conRefNum, int deliverableCode, CancellationToken cancellationToken, long? ukPrn = null);
     }
 }
