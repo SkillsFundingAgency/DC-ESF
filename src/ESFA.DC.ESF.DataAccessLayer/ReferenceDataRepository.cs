@@ -154,7 +154,7 @@ namespace ESFA.DC.ESF.DataAccessLayer
 
         public IList<UniqueLearnerNumber> GetUlnLookup(IList<long?> searchUlns, CancellationToken cancellationToken)
         {
-            List<UniqueLearnerNumber> ulns = null;
+            List<UniqueLearnerNumber> ulns = new List<UniqueLearnerNumber>();
             try
             {
                 if (cancellationToken.IsCancellationRequested)
