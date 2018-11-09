@@ -1,4 +1,4 @@
-﻿using ESFA.DC.ReferenceData.FCS.Model;
+﻿using System;
 
 namespace ESFA.DC.ESF.Models.Validation
 {
@@ -6,6 +6,10 @@ namespace ESFA.DC.ESF.Models.Validation
     {
         public int DeliverableCode { get; set; }
 
-        public ContractAllocation ContractAllocation { get; set; }
+        public string ContractAllocationNumber { get; set; }
+
+        public DateTime? StartDate { get; set; }
+
+        public DateTime? EndDate { get; set; }
     }
 }

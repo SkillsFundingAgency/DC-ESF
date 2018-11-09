@@ -72,7 +72,7 @@ namespace ESFA.DC.ESF.DataAccessLayer
             return Ulns.Where(x => searchUlns.Contains(x.ULN)).ToList();
         }
 
-        public ContractAllocation GetContractAllocation(
+        public ContractAllocationCacheModel GetContractAllocation(
             string conRefNum,
             int deliverableCode,
             CancellationToken cancellationToken,
@@ -80,13 +80,13 @@ namespace ESFA.DC.ESF.DataAccessLayer
         {
             if (ukPrn != null && !ContractAllocations
                     .Any(ca => ca.DeliverableCode == deliverableCode &&
-                               ca.ContractAllocation.ContractAllocationNumber == conRefNum))
+                               ca.ContractAllocationNumber == conRefNum))
             {
                 ContractAllocations.Add(_referenceDataRepository.GetContractAllocation(conRefNum, deliverableCode, cancellationToken, ukPrn));
             }
 
             return ContractAllocations.FirstOrDefault(ca => ca.DeliverableCode == deliverableCode &&
-                                                            ca.ContractAllocation.ContractAllocationNumber == conRefNum)?.ContractAllocation;
+                                                            ca.ContractAllocationNumber == conRefNum);
         }
 
         public IList<LARS_LearningDelivery> GetLarsLearningDelivery(

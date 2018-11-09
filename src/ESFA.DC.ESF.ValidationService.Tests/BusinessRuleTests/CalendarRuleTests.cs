@@ -3,6 +3,7 @@ using System.Threading;
 using ESFA.DC.ESF.Interfaces.DataAccessLayer;
 using ESFA.DC.ESF.Interfaces.Validation;
 using ESFA.DC.ESF.Models;
+using ESFA.DC.ESF.Models.Validation;
 using ESFA.DC.ESF.ValidationService.Commands.BusinessRules;
 using ESFA.DC.ReferenceData.FCS.Model;
 using Moq;
@@ -65,7 +66,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
         [Fact]
         public void CalendarYearCalendarMonthRule02CatchesDatesPriorToContractDate()
         {
-            var allocation = new ContractAllocation
+            var allocation = new ContractAllocationCacheModel
             {
                 StartDate = new DateTime(2018, 01, 01)
             };
@@ -94,7 +95,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
         [Fact]
         public void CalendarYearCalendarMonthRule02PassesDatesInTheContractPeriod()
         {
-            var allocation = new ContractAllocation
+            var allocation = new ContractAllocationCacheModel
             {
                 StartDate = new DateTime(2017, 11, 01)
             };
@@ -123,7 +124,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
         [Fact]
         public void CalendarYearCalendarMonthRule03CatchesDatesAfterTheContractDate()
         {
-            var allocation = new ContractAllocation
+            var allocation = new ContractAllocationCacheModel
             {
                 EndDate = new DateTime(2017, 11, 01)
             };
@@ -152,7 +153,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
         [Fact]
         public void CalendarYearCalendarMonthRule03PassesDatesInTheContractPeriod()
         {
-            var allocation = new ContractAllocation
+            var allocation = new ContractAllocationCacheModel
             {
                 EndDate = new DateTime(2017, 11, 01)
             };

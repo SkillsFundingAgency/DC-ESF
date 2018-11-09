@@ -31,7 +31,7 @@ namespace ESFA.DC.ESF.Interfaces.DataAccessLayer
             IList<long?> searchUlns,
             CancellationToken cancellationToken);
 
-        ContractAllocation GetContractAllocation(
+        ContractAllocationCacheModel GetContractAllocation(
             string conRefNum,
             int deliverableCode,
             CancellationToken cancellationToken,

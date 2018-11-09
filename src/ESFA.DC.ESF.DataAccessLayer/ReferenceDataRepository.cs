@@ -222,7 +222,9 @@ namespace ESFA.DC.ESF.DataAccessLayer
                     .Select(ca => new ContractAllocationCacheModel
                     {
                         DeliverableCode = deliverableCode,
-                        ContractAllocation = ca
+                        ContractAllocationNumber = ca.ContractAllocationNumber,
+                        StartDate = ca.StartDate,
+                        EndDate = ca.EndDate
                     }).FirstOrDefault();
             }
             catch (Exception ex)
