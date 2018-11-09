@@ -28,41 +28,41 @@ namespace ESFA.DC.ESF.DataStore.Tests
             const int fileId = 1;
             var model = new List<SupplementaryDataModel> { SupplementaryDataModelBuilder.BuildSupplementaryData() };
 
-            using (SqlConnection connection =
-                new SqlConnection(ConfigurationManager.AppSettings["TestConnectionString"]))
-            {
-                SqlTransaction transaction = null;
-                try
-                {
-                    await connection.OpenAsync(cancellationToken);
-                    transaction = connection.BeginTransaction();
+            //using (SqlConnection connection =
+            //    new SqlConnection(ConfigurationManager.AppSettings["TestConnectionString"]))
+            //{
+            //    SqlTransaction transaction = null;
+            //    try
+            //    {
+            //        await connection.OpenAsync(cancellationToken);
+            //        transaction = connection.BeginTransaction();
 
-                    await store.StoreAsync(connection, transaction, fileId, model, cancellationToken);
+            //        await store.StoreAsync(connection, transaction, fileId, model, cancellationToken);
 
-                    transaction.Commit();
-                }
-                catch (Exception ex)
-                {
-                    _output.WriteLine(ex.ToString());
+            //        transaction.Commit();
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        _output.WriteLine(ex.ToString());
 
-                    try
-                    {
-                        transaction?.Rollback();
-                    }
-                    catch (Exception ex2)
-                    {
-                        _output.WriteLine(ex2.ToString());
-                    }
+            //        try
+            //        {
+            //            transaction?.Rollback();
+            //        }
+            //        catch (Exception ex2)
+            //        {
+            //            _output.WriteLine(ex2.ToString());
+            //        }
 
-                    Assert.True(false);
-                }
+            //        Assert.True(false);
+            //    }
 
-                using (SqlCommand sqlCommand =
-                    new SqlCommand($"SELECT Count(1) FROM dbo.SupplementaryData Where ConRefNumber = '{model[0].ConRefNumber}'", connection))
-                {
-                    Assert.Equal(model.Count, sqlCommand.ExecuteScalar());
-                }
-            }
+            //    using (SqlCommand sqlCommand =
+            //        new SqlCommand($"SELECT Count(1) FROM dbo.SupplementaryData Where ConRefNumber = '{model[0].ConRefNumber}'", connection))
+            //    {
+            //        Assert.Equal(model.Count, sqlCommand.ExecuteScalar());
+            //    }
+            //}
         }
     }
 }

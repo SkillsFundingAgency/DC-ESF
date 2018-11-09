@@ -19,7 +19,7 @@ namespace ESFA.DC.ESF.Database.Tests
             var expectedColumns = new List<ExpectedColumn>
             {
                 ExpectedColumn.CreateInt("SourceFileId", 1, false),
-                ExpectedColumn.CreateNvarChar("FileName", 2, false, 60),
+                ExpectedColumn.CreateNvarChar("FileName", 2, false, 200),
                 ExpectedColumn.CreateDateTime("FilePreparationDate", 3, false),
                 ExpectedColumn.CreateVarChar("ConRefNumber", 4, false, 20),
                 ExpectedColumn.CreateNvarChar("UKPRN", 5, false, 20),
