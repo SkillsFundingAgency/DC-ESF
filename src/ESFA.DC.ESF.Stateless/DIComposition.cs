@@ -13,17 +13,18 @@ using ESFA.DC.Data.ULN.Model;
 using ESFA.DC.Data.ULN.Model.Interfaces;
 using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ESF.DataAccessLayer;
+using ESFA.DC.ESF.DataAccessLayer.Mappers;
 using ESFA.DC.ESF.Database.EF;
 using ESFA.DC.ESF.Database.EF.Interfaces;
 using ESFA.DC.ESF.DataStore;
 using ESFA.DC.ESF.Helpers;
-using ESFA.DC.ESF.Interfaces;
 using ESFA.DC.ESF.Interfaces.Config;
 using ESFA.DC.ESF.Interfaces.Controllers;
 using ESFA.DC.ESF.Interfaces.DataAccessLayer;
 using ESFA.DC.ESF.Interfaces.DataStore;
 using ESFA.DC.ESF.Interfaces.Helpers;
 using ESFA.DC.ESF.Interfaces.Reports;
+using ESFA.DC.ESF.Interfaces.Reports.Services;
 using ESFA.DC.ESF.Interfaces.Reports.Strategies;
 using ESFA.DC.ESF.Interfaces.Services;
 using ESFA.DC.ESF.Interfaces.Strategies;
@@ -113,6 +114,8 @@ namespace ESFA.DC.ESF.Service.Stateless
             RegisterServices(container);
 
             RegisterRepositories(container);
+
+            RegisterMappers(container);
 
             return container;
         }
@@ -302,6 +305,8 @@ namespace ESFA.DC.ESF.Service.Stateless
                 .WithAttributeFiltering()
                 .InstancePerLifetimeScope();
 
+            containerBuilder.RegisterType<SupplementaryDataService>().As<ISupplementaryDataService>();
+
             containerBuilder.RegisterType<FileValidationService>().As<IFileValidationService>();
 
             containerBuilder.RegisterType<ExcelStyleProvider>().As<IExcelStyleProvider>();
@@ -333,6 +338,12 @@ namespace ESFA.DC.ESF.Service.Stateless
             containerBuilder.RegisterType<FileHelper>().As<IFileHelper>();
             containerBuilder.RegisterType<TaskHelper>().As<ITaskHelper>();
             containerBuilder.RegisterType<FcsCodeMappingHelper>().As<IFcsCodeMappingHelper>();
+        }
+
+        private static void RegisterMappers(ContainerBuilder containerBuilder)
+        {
+            containerBuilder.RegisterType<SourceFileModelMapper>().As<ISourceFileModelMapper>();
+            containerBuilder.RegisterType<SupplementaryDataModelMapper>().As<ISupplementaryDataModelMapper>();
         }
 
         private static void RegisterCommands(ContainerBuilder containerBuilder)

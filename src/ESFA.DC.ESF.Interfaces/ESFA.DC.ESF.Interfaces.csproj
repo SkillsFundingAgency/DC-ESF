@@ -159,6 +159,8 @@
     <Compile Include="Helpers\IFileHelper.cs" />
     <Compile Include="Helpers\ITaskHelper.cs" />
     <Compile Include="IClassMapper.cs" />
+    <Compile Include="DataAccessLayer\ISourceFileModelMapper.cs" />
+    <Compile Include="DataAccessLayer\ISupplementaryDataModelMapper.cs" />
     <Compile Include="PersistenceStorageKeys.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reports\IAimAndDeliverableComparer.cs" />
@@ -166,6 +168,7 @@
     <Compile Include="Reports\IValidationReport.cs" />
     <Compile Include="Reports\IValidationResultReport.cs" />
     <Compile Include="DataAccessLayer\IReferenceDataRepository.cs" />
+    <Compile Include="Reports\Services\ISupplementaryDataService.cs" />
     <Compile Include="Reports\Strategies\IILRDataStrategy.cs" />
     <Compile Include="Reports\Strategies\ISupplementaryDataStrategy.cs" />
     <Compile Include="DataAccessLayer\IFM70Repository.cs" />
@@ -201,9 +204,7 @@
     <None Include="ESFA.DC.ESF.Interfaces.ruleset" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Reports\Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />

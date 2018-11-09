@@ -44,5 +44,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ESFA.DC.ESF.Database.EF\ESFA.DC.ESF.Database.EF.csproj" />
+  </ItemGroup>
 
 </Project>

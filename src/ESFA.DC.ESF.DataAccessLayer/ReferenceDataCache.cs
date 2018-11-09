@@ -102,5 +102,20 @@ namespace ESFA.DC.ESF.DataAccessLayer
 
             return LarsLearningDeliveries.Where(l => learnAimRefs.Contains(l.LearnAimRef)).ToList();
         }
+
+        public string GetPostcodeVersion(CancellationToken cancellationToken)
+        {
+            return _referenceDataRepository.GetPostcodeVersion(cancellationToken);
+        }
+
+        public string GetLarsVersion(CancellationToken cancellationToken)
+        {
+            return _referenceDataRepository.GetLarsVersion(cancellationToken);
+        }
+
+        public string GetOrganisationVersion(CancellationToken cancellationToken)
+        {
+            return _referenceDataRepository.GetOrganisationVersion(cancellationToken);
+        }
     }
 }

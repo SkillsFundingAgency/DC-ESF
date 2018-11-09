@@ -243,6 +243,10 @@
     <Compile Include="Reports\ValidationResultReport.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ESFA.DC.ESF.Database.EF\ESFA.DC.ESF.Database.EF.csproj">
+      <Project>{4EB48ED9-3F5C-449B-9078-3330DD98F29C}</Project>
+      <Name>ESFA.DC.ESF.Database.EF</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ESFA.DC.ESF.Interfaces\ESFA.DC.ESF.Interfaces.csproj">
       <Project>{ede35312-f1e5-4fa3-833e-9408c16593dc}</Project>
       <Name>ESFA.DC.ESF.Interfaces</Name>

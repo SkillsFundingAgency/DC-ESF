@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ESF.Interfaces.Config;
 using ESFA.DC.ESF.Interfaces.DataAccessLayer;
+using ESFA.DC.ESF.Interfaces.Reports.Services;
 using ESFA.DC.ESF.Interfaces.Reports.Strategies;
 using ESFA.DC.ESF.Interfaces.Strategies;
 using ESFA.DC.ESF.Models;
@@ -55,12 +56,18 @@ namespace ESFA.DC.ESF.ReportingService.Tests
 
             IList<IRowHelper> rowHelpers = GenerateRowHelpersWithStrategies();
 
-            Mock<IReferenceDataRepository> referenceDataService = new Mock<IReferenceDataRepository>();
-            referenceDataService.Setup(m => m.GetLarsVersion(It.IsAny<CancellationToken>())).Returns("123456");
-            referenceDataService.Setup(m => m.GetOrganisationVersion(It.IsAny<CancellationToken>())).Returns("234567");
-            referenceDataService.Setup(m => m.GetPostcodeVersion(It.IsAny<CancellationToken>())).Returns("345678");
+            var supplementaryDataService = new Mock<ISupplementaryDataService>();
+            supplementaryDataService
+                .Setup(s => s.GetPreviousContractDataForProvider(It.IsAny<int>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new List<SupplementaryDataModel>());
+            supplementaryDataService
+                .Setup(s => s.GetPreviousContractImportFilesForProvider(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new List<SourceFileModel>());
 
             Mock<IReferenceDataCache> referenceDataCache = new Mock<IReferenceDataCache>();
+            referenceDataCache.Setup(m => m.GetLarsVersion(It.IsAny<CancellationToken>())).Returns("123456");
+            referenceDataCache.Setup(m => m.GetOrganisationVersion(It.IsAny<CancellationToken>())).Returns("234567");
+            referenceDataCache.Setup(m => m.GetPostcodeVersion(It.IsAny<CancellationToken>())).Returns("345678");
             referenceDataCache.Setup(m => m.GetProviderName(It.IsAny<int>(), It.IsAny<CancellationToken>())).Returns("Foo College");
 
             Mock<IVersionInfo> versionInfo = new Mock<IVersionInfo>();
@@ -73,8 +80,8 @@ namespace ESFA.DC.ESF.ReportingService.Tests
                 valueProvider,
                 storage.Object,
                 ilrRepo.Object,
+                supplementaryDataService.Object,
                 rowHelpers,
-                referenceDataService.Object,
                 referenceDataCache.Object,
                 excelStyleProvider,
                 versionInfo.Object);

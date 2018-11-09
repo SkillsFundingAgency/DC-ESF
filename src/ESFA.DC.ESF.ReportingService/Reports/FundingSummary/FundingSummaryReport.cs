@@ -12,6 +12,7 @@ using ESFA.DC.DateTimeProvider.Interface;
 using ESFA.DC.ESF.Interfaces.Config;
 using ESFA.DC.ESF.Interfaces.DataAccessLayer;
 using ESFA.DC.ESF.Interfaces.Reports;
+using ESFA.DC.ESF.Interfaces.Reports.Services;
 using ESFA.DC.ESF.Interfaces.Services;
 using ESFA.DC.ESF.Interfaces.Strategies;
 using ESFA.DC.ESF.Models;
@@ -31,16 +32,18 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
         private readonly IStreamableKeyValuePersistenceService _storage;
         private readonly IList<IRowHelper> _rowHelpers;
         private readonly IFM70Repository _repository;
-        private readonly IReferenceDataRepository _referenceRepository;
         private readonly IReferenceDataCache _referenceDataCache;
         private readonly IExcelStyleProvider _excelStyleProvider;
         private readonly IDateTimeProvider _dateTimeProvider;
         private readonly IVersionInfo _versionInfo;
+        private readonly ISupplementaryDataService _supplementaryDataService;
 
         private readonly List<FundingSummaryModel> _fundingSummaryModels;
         private readonly ModelProperty[] _cachedModelProperties;
         private readonly FundingSummaryMapper _fundingSummaryMapper;
 
+        private IList<SourceFileModel> _sourceFiles;
+        private Dictionary<int, IList<SupplementaryDataModel>> _contractSupplementaryDataModels;
         private object[] _cachedHeaders;
         private CellStyle[] _cellStyles;
         private int _reportWidth = 1;
@@ -50,8 +53,8 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             IValueProvider valueProvider,
             IStreamableKeyValuePersistenceService storage,
             IFM70Repository repository,
+            ISupplementaryDataService supplementaryDataService,
             IList<IRowHelper> rowHelpers,
-            IReferenceDataRepository referenceDataRepository,
             IReferenceDataCache referenceDataCache,
             IExcelStyleProvider excelStyleProvider,
             IVersionInfo versionInfo)
@@ -61,10 +64,10 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             _storage = storage;
             _repository = repository;
             _rowHelpers = rowHelpers;
-            _referenceRepository = referenceDataRepository;
             _referenceDataCache = referenceDataCache;
             _excelStyleProvider = excelStyleProvider;
             _versionInfo = versionInfo;
+            _supplementaryDataService = supplementaryDataService;
 
             ReportFileName = "ESF Funding Summary Report";
             _fundingSummaryModels = new List<FundingSummaryModel>();
@@ -78,38 +81,77 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             ZipArchive archive,
             CancellationToken cancellationToken)
         {
-            int ukPrn = Convert.ToInt32(sourceFile.UKPRN);
+            var ukPrn = Convert.ToInt32(sourceFile.UKPRN);
             FileDetail ilrFileData = await _repository.GetFileDetails(ukPrn, cancellationToken);
 
-            FundingSummaryHeaderModel fundingSummaryHeaderModel = PopulateReportHeader(sourceFile, ilrFileData, ukPrn, cancellationToken);
-            await PopulateReportData(ukPrn, ilrFileData, supplementaryDataWrapper.SupplementaryDataModels, cancellationToken);
-            FundingSummaryFooterModel fundingSummaryFooterModel = PopulateReportFooter(cancellationToken);
+            await GetDataForPreviousContractImports(sourceFile.UKPRN, cancellationToken);
+            _sourceFiles.Insert(0, sourceFile);
+            _contractSupplementaryDataModels.Add(sourceFile.SourceFileId, supplementaryDataWrapper.SupplementaryDataModels);
 
-            FundingSummaryModel rowOfData = _fundingSummaryModels.FirstOrDefault(x => x.DeliverableCode == "ST01");
-            List<YearAndDataLengthModel> yearAndDataLengthModels = new List<YearAndDataLengthModel>();
-            if (rowOfData != null)
+            FundingSummaryHeaderModel fundingSummaryHeaderModel =
+                PopulateReportHeader(sourceFile, ilrFileData, ukPrn, cancellationToken);
+
+            var workbook = new Workbook();
+            var worksheetIndex = 0;
+            foreach (var file in _sourceFiles)
             {
-                int valCount = rowOfData.YearlyValues.Sum(x => x.Values.Length);
-                _reportWidth = valCount + rowOfData.Totals.Count + 2;
-                foreach (FundingSummaryReportYearlyValueModel fundingSummaryReportYearlyValueModel in rowOfData.YearlyValues)
-                {
-                    yearAndDataLengthModels.Add(new YearAndDataLengthModel(fundingSummaryReportYearlyValueModel.FundingYear, fundingSummaryReportYearlyValueModel.Values.Length));
-                }
-            }
+                await PopulateReportData(ukPrn, ilrFileData, _contractSupplementaryDataModels[file.SourceFileId], cancellationToken);
+                FundingSummaryFooterModel fundingSummaryFooterModel = PopulateReportFooter(cancellationToken);
 
-            _cachedHeaders = GetHeaderEntries(yearAndDataLengthModels);
+                FundingSummaryModel rowOfData = _fundingSummaryModels.FirstOrDefault(x => x.DeliverableCode == "ST01");
+                List<YearAndDataLengthModel> yearAndDataLengthModels = new List<YearAndDataLengthModel>();
+                if (rowOfData != null)
+                {
+                    int valCount = rowOfData.YearlyValues.Sum(x => x.Values.Length);
+                    _reportWidth = valCount + rowOfData.Totals.Count + 2;
+                    foreach (FundingSummaryReportYearlyValueModel fundingSummaryReportYearlyValueModel in rowOfData
+                        .YearlyValues)
+                    {
+                        yearAndDataLengthModels.Add(new YearAndDataLengthModel(
+                            fundingSummaryReportYearlyValueModel.FundingYear,
+                            fundingSummaryReportYearlyValueModel.Values.Length));
+                    }
+                }
+
+                _cachedHeaders = GetHeaderEntries(yearAndDataLengthModels);
+                _cellStyles = _excelStyleProvider.GetFundingSummaryStyles(workbook);
+
+                Worksheet sheet = workbook.Worksheets[worksheetIndex++];
+                sheet.Name = file.ConRefNumber;
+                workbook = GetWorkbookReport(workbook, sheet, fundingSummaryHeaderModel, fundingSummaryFooterModel);
+                ApplyAdditionalFormatting(workbook, rowOfData);
+            }
 
             string externalFileName = GetExternalFilename(sourceFile.UKPRN, sourceFile.JobId ?? 0, sourceFile.SuppliedDate ?? DateTime.MinValue);
             string fileName = GetFilename(sourceFile.UKPRN, sourceFile.JobId ?? 0, sourceFile.SuppliedDate ?? DateTime.MinValue);
-
-            Workbook workbook = GetWorkbookReport(fundingSummaryHeaderModel, fundingSummaryFooterModel);
-            ApplyAdditionalFormatting(workbook, rowOfData);
 
             using (MemoryStream ms = new MemoryStream())
             {
                 workbook.Save(ms, SaveFormat.Xlsx);
                 await _storage.SaveAsync($"{externalFileName}.xlsx", ms, cancellationToken);
                 await WriteZipEntry(archive, $"{fileName}.xlsx", ms, cancellationToken);
+            }
+        }
+
+        private async Task GetDataForPreviousContractImports(string ukPrn, CancellationToken cancellationToken)
+        {
+            _sourceFiles = await _supplementaryDataService.GetPreviousContractImportFilesForProvider(ukPrn, cancellationToken) ??
+                                           new List<SourceFileModel>();
+
+            _contractSupplementaryDataModels = new Dictionary<int, IList<SupplementaryDataModel>>();
+            foreach (var sourceFile in _sourceFiles)
+            {
+                var supplementaryData =
+                    await _supplementaryDataService.GetPreviousContractDataForProvider(
+                        sourceFile.SourceFileId,
+                        cancellationToken);
+
+                if (supplementaryData == null)
+                {
+                    continue;
+                }
+
+                _contractSupplementaryDataModels.Add(sourceFile.SourceFileId, supplementaryData);
             }
         }
 
@@ -170,9 +212,9 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             return new FundingSummaryFooterModel
             {
                 ReportGeneratedAt = "Report generated at " + dateTimeNowUk.ToString("HH:mm:ss") + " on " + dateTimeNowUk.ToString("dd/MM/yyyy"),
-                LarsData = _referenceRepository.GetLarsVersion(cancellationToken),
-                OrganisationData = _referenceRepository.GetOrganisationVersion(cancellationToken),
-                PostcodeData = _referenceRepository.GetPostcodeVersion(cancellationToken),
+                LarsData = _referenceDataCache.GetLarsVersion(cancellationToken),
+                OrganisationData = _referenceDataCache.GetOrganisationVersion(cancellationToken),
+                PostcodeData = _referenceDataCache.GetPostcodeVersion(cancellationToken),
                 ApplicationVersion = _versionInfo.ServiceReleaseVersion
             };
         }
@@ -214,13 +256,11 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
         }
 
         private Workbook GetWorkbookReport(
+            Workbook workbook,
+            Worksheet sheet,
             FundingSummaryHeaderModel fundingSummaryHeaderModel,
             FundingSummaryFooterModel fundingSummaryFooterModel)
         {
-            Workbook workbook = new Workbook();
-            _cellStyles = _excelStyleProvider.GetFundingSummaryStyles(workbook);
-            Worksheet sheet = workbook.Worksheets[0];
-
             WriteExcelRecords(sheet, new FundingSummaryHeaderMapper(), new List<FundingSummaryHeaderModel> { fundingSummaryHeaderModel }, _cellStyles[5], _cellStyles[5], true);
             foreach (var fundingSummaryModel in _fundingSummaryModels)
             {

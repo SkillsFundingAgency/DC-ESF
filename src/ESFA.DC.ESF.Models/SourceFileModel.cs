@@ -4,6 +4,8 @@ namespace ESFA.DC.ESF.Models
 {
     public class SourceFileModel
     {
+        public int SourceFileId { get; set; }
+
         public string ConRefNumber { get; set; }
 
         public string UKPRN { get; set; }

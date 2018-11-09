@@ -40,5 +40,11 @@ namespace ESFA.DC.ESF.Interfaces.DataAccessLayer
         IList<LARS_LearningDelivery> GetLarsLearningDelivery(
             IList<string> learnAimRefs,
             CancellationToken cancellationToken);
+
+        string GetPostcodeVersion(CancellationToken cancellationToken);
+
+        string GetLarsVersion(CancellationToken cancellationToken);
+
+        string GetOrganisationVersion(CancellationToken cancellationToken);
     }
 }
