@@ -4,9 +4,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Autofac.Features.AttributeFilters;
 using ESFA.DC.DateTimeProvider.Interface;
-using ESFA.DC.ESF.Interfaces;
 using ESFA.DC.ESF.Interfaces.Reports;
 using ESFA.DC.ESF.Interfaces.Services;
 using ESFA.DC.ESF.Models;
@@ -42,9 +40,12 @@ namespace ESFA.DC.ESF.ReportingService.Reports
         {
             var report = GetValidationReport(wrapper.SupplementaryDataModels, wrapper.ValidErrorModels);
 
-            var fileName = GetExternalFilename(sourceFile.UKPRN, sourceFile.JobId ?? 0, sourceFile.SuppliedDate ?? DateTime.MinValue);
+            var fileName = GetFilename(sourceFile.UKPRN, sourceFile.JobId ?? 0, sourceFile.SuppliedDate ?? DateTime.MinValue);
+            var externalFilename = GetExternalFilename(sourceFile.UKPRN, sourceFile.JobId ?? 0, sourceFile.SuppliedDate ?? DateTime.MinValue);
 
-            await SaveJson(fileName, report, cancellationToken);
+            var json = _jsonSerializationService.Serialize(report);
+            await SaveJson(externalFilename, json, cancellationToken);
+            await WriteZipEntry(archive, $"{fileName}.json", json);
         }
 
         private FileValidationResult GetValidationReport(
@@ -65,9 +66,9 @@ namespace ESFA.DC.ESF.ReportingService.Reports
             };
         }
 
-        private async Task SaveJson(string fileName, FileValidationResult result, CancellationToken cancellationToken)
+        private async Task SaveJson(string fileName, string json, CancellationToken cancellationToken)
         {
-            await _storage.SaveAsync($"{fileName}.json", _jsonSerializationService.Serialize(result), cancellationToken);
+            await _storage.SaveAsync($"{fileName}.json", json, cancellationToken);
         }
     }
 }

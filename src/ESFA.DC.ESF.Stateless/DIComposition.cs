@@ -537,20 +537,16 @@ namespace ESFA.DC.ESF.Service.Stateless
         {
             containerBuilder.RegisterType<ValidationResultReport>().As<IValidationResultReport>();
 
-            containerBuilder.RegisterType<ValidationResultReport>().As<IValidationReport>()
-                .WithAttributeFiltering()
-                .InstancePerLifetimeScope();
+            //containerBuilder.RegisterType<ValidationResultReport>().As<IValidationReport>()
+            //    .InstancePerLifetimeScope();
             containerBuilder.RegisterType<ValidationErrorReport>().As<IValidationReport>()
-                .WithAttributeFiltering()
                 .InstancePerLifetimeScope();
             containerBuilder.Register(c => new List<IValidationReport>(c.Resolve<IEnumerable<IValidationReport>>()))
                 .As<IList<IValidationReport>>();
 
             containerBuilder.RegisterType<FundingSummaryReport>().As<IModelReport>()
-                .WithAttributeFiltering()
                 .InstancePerLifetimeScope();
             containerBuilder.RegisterType<AimAndDeliverableReport>().As<IModelReport>()
-                .WithAttributeFiltering()
                 .InstancePerLifetimeScope();
             containerBuilder.Register(c => new List<IModelReport>(c.Resolve<IEnumerable<IModelReport>>()))
                 .As<IList<IModelReport>>();

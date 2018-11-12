@@ -17,8 +17,6 @@ namespace ESFA.DC.ESF.ReportingService
     {
         private readonly ILogger _logger;
         private readonly IStreamableKeyValuePersistenceService _streamableKeyValuePersistenceService;
-
-        private readonly IValidationResultReport _resultReport;
         private readonly IEsfRepository _esfRepository;
 
         private readonly IList<IValidationReport> _validationReports;
@@ -27,13 +25,11 @@ namespace ESFA.DC.ESF.ReportingService
         public ReportingController(
             IStreamableKeyValuePersistenceService streamableKeyValuePersistenceService,
             ILogger logger,
-            IValidationResultReport resultReport,
             IList<IValidationReport> validationReports,
             IList<IModelReport> esfReports)
         {
             _streamableKeyValuePersistenceService = streamableKeyValuePersistenceService;
             _logger = logger;
-            _resultReport = resultReport;
             _validationReports = validationReports;
             _esfReports = esfReports;
         }
@@ -48,7 +44,18 @@ namespace ESFA.DC.ESF.ReportingService
                 return;
             }
 
-            await _resultReport.GenerateReport(sourceFile, wrapper, null, cancellationToken);
+            using (var memoryStream = new MemoryStream())
+            {
+                using (var archive = new ZipArchive(memoryStream, ZipArchiveMode.Create, true))
+                {
+                    foreach (var validationReport in _validationReports)
+                    {
+                        await validationReport.GenerateReport(sourceFile, wrapper, archive, cancellationToken);
+                    }
+                }
+
+                await _streamableKeyValuePersistenceService.SaveAsync($"{sourceFile.UKPRN}_{sourceFile.JobId}_Reports.zip", memoryStream, cancellationToken);
+            }
         }
 
         public async Task ProduceReports(
