@@ -5,6 +5,7 @@ using ESFA.DC.Data.LARS.Model;
 using ESFA.DC.Data.ULN.Model;
 using ESFA.DC.ESF.Interfaces.DataAccessLayer;
 using ESFA.DC.ESF.Models.Validation;
+using ESFA.DC.Logging.Interfaces;
 using ESFA.DC.ReferenceData.FCS.Model;
 
 namespace ESFA.DC.ESF.DataAccessLayer
@@ -12,9 +13,11 @@ namespace ESFA.DC.ESF.DataAccessLayer
     public class ReferenceDataCache : IReferenceDataCache
     {
         private readonly IReferenceDataRepository _referenceDataRepository;
+        private readonly ILogger _logger;
 
         public ReferenceDataCache(
-            IReferenceDataRepository referenceDataRepository)
+            IReferenceDataRepository referenceDataRepository,
+            ILogger logger)
         {
             Ulns = new List<UniqueLearnerNumber>();
             CodeMappings = new List<ContractDeliverableCodeMapping>();
@@ -23,6 +26,7 @@ namespace ESFA.DC.ESF.DataAccessLayer
             ContractAllocations = new List<ContractAllocationCacheModel>();
 
             _referenceDataRepository = referenceDataRepository;
+            _logger = logger;
         }
 
         public List<UniqueLearnerNumber> Ulns { get; }
@@ -85,7 +89,12 @@ namespace ESFA.DC.ESF.DataAccessLayer
                 ContractAllocations.Add(_referenceDataRepository.GetContractAllocation(conRefNum, deliverableCode, cancellationToken, ukPrn));
             }
 
-            return ContractAllocations.FirstOrDefault(ca => ca.DeliverableCode == deliverableCode &&
+            if (ContractAllocations == null)
+            {
+                _logger.LogWarning("ContractAllocation null in ReferenceDataCache");
+            }
+
+            return ContractAllocations?.FirstOrDefault(ca => ca.DeliverableCode == deliverableCode &&
                                                             ca.ContractAllocationNumber == conRefNum);
         }
 
