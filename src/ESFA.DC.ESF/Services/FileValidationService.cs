@@ -54,7 +54,6 @@ namespace ESFA.DC.ESF.Services
                     ErrorMessage = "The file format is incorrect. Please check the field headers are as per the Guidance document.",
                     IsWarning = false
                 });
-                return null;
             }
 
             wrapper.SupplementaryDataModels = esfRecords;

@@ -85,14 +85,13 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             FileDetail ilrFileData = await _repository.GetFileDetails(ukPrn, cancellationToken);
 
             await GetDataForPreviousContractImports(sourceFile.UKPRN, cancellationToken);
-            _sourceFiles.Insert(0, sourceFile);
             _contractSupplementaryDataModels.Add(sourceFile.SourceFileId, supplementaryDataWrapper.SupplementaryDataModels);
 
             FundingSummaryHeaderModel fundingSummaryHeaderModel =
                 PopulateReportHeader(sourceFile, ilrFileData, ukPrn, cancellationToken);
 
             var workbook = new Workbook();
-            var worksheetIndex = 0;
+            workbook.Worksheets.Clear();
             foreach (var file in _sourceFiles)
             {
                 await PopulateReportData(ukPrn, ilrFileData, _contractSupplementaryDataModels[file.SourceFileId], cancellationToken);
@@ -116,8 +115,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
                 _cachedHeaders = GetHeaderEntries(yearAndDataLengthModels);
                 _cellStyles = _excelStyleProvider.GetFundingSummaryStyles(workbook);
 
-                Worksheet sheet = workbook.Worksheets[worksheetIndex++];
-                sheet.Name = file.ConRefNumber;
+                Worksheet sheet = workbook.Worksheets.Add(file.ConRefNumber);
                 workbook = GetWorkbookReport(workbook, sheet, fundingSummaryHeaderModel, fundingSummaryFooterModel);
                 ApplyAdditionalFormatting(workbook, rowOfData);
             }

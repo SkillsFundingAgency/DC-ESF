@@ -60,6 +60,10 @@ namespace ESFA.DC.ESF.Services
             catch (Exception ex)
             {
                 _logger.LogError($"Failed to get and deserialise ESF from storage, key: {sourceFile.FileName}", ex);
+                if (ex is ValidationException)
+                {
+                    throw;
+                }
             }
             finally
             {
