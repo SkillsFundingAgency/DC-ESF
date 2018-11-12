@@ -10,23 +10,23 @@ namespace ESFA.DC.ESF.ValidationService.Services
 {
     public class PopulationService : IPopulationService
     {
-        private readonly IReferenceDataRepository _repository;
+        private readonly IReferenceDataCache _cache;
         private readonly IFcsCodeMappingHelper _mappingHelper;
         private readonly ILogger _logger;
 
         public PopulationService(
-            IReferenceDataRepository repository,
+            IReferenceDataCache cache,
             IFcsCodeMappingHelper mappingHelper,
             ILogger logger)
         {
-            _repository = repository;
+            _cache = cache;
             _logger = logger;
             _mappingHelper = mappingHelper;
         }
 
         public void PrePopulateUlnCache(IList<long?> ulns, CancellationToken cancellationToken)
         {
-            _repository.GetUlnLookup(ulns, cancellationToken);
+            _cache.GetUlnLookup(ulns, cancellationToken);
         }
 
         public void PrePopulateContractAllocations(long ukPrn, IList<SupplementaryDataModel> models, CancellationToken cancellationToken)
@@ -34,7 +34,7 @@ namespace ESFA.DC.ESF.ValidationService.Services
             foreach (var model in models)
             {
                 var fcsDeliverableCode = _mappingHelper.GetFcsDeliverableCode(model, cancellationToken);
-                _repository.GetContractAllocation(model.ConRefNumber, fcsDeliverableCode, cancellationToken, ukPrn);
+                _cache.GetContractAllocation(model.ConRefNumber, fcsDeliverableCode, cancellationToken, ukPrn);
             }
         }
     }
