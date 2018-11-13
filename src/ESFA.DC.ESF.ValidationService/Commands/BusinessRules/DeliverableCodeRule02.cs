@@ -27,6 +27,12 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
         public bool Execute(SupplementaryDataModel model)
         {
             var fcsDeliverableCode = _mappingHelper.GetFcsDeliverableCode(model, CancellationToken.None);
+
+            if (fcsDeliverableCode == 0)
+            {
+                return false;
+            }
+
             var contractAllocation = _referenceDataCache.GetContractAllocation(model.ConRefNumber, fcsDeliverableCode, CancellationToken.None);
 
             return contractAllocation != null;

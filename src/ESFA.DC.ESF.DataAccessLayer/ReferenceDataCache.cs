@@ -86,12 +86,13 @@ namespace ESFA.DC.ESF.DataAccessLayer
                     .Any(ca => ca.DeliverableCode == deliverableCode &&
                                ca.ContractAllocationNumber == conRefNum))
             {
-                ContractAllocations.Add(_referenceDataRepository.GetContractAllocation(conRefNum, deliverableCode, cancellationToken, ukPrn));
-            }
+                var contractAllocation =
+                    _referenceDataRepository.GetContractAllocation(conRefNum, deliverableCode, cancellationToken, ukPrn);
 
-            if (ContractAllocations == null)
-            {
-                _logger.LogWarning("ContractAllocation null in ReferenceDataCache");
+                if (contractAllocation != null)
+                {
+                    ContractAllocations.Add(contractAllocation);
+                }
             }
 
             return ContractAllocations?.FirstOrDefault(ca => ca.DeliverableCode == deliverableCode &&

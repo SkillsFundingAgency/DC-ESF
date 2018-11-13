@@ -30,6 +30,11 @@ namespace ESFA.DC.ESF.ValidationService.Helpers
             var fcsDeliverableCodeString = codeMappings
                 .Where(cm => cm.ExternalDeliverableCode == model.DeliverableCode)
                 .Select(cm => cm.FCSDeliverableCode).FirstOrDefault();
+            if (string.IsNullOrEmpty(fcsDeliverableCodeString))
+            {
+                return result;
+            }
+
             if (int.TryParse(fcsDeliverableCodeString, out var fcsDeliverableCode))
             {
                 result = fcsDeliverableCode;
