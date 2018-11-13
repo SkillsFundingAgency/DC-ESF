@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.ESF.Interfaces.Controllers;
-using ESFA.DC.ESF.Interfaces.DataAccessLayer;
 using ESFA.DC.ESF.Interfaces.Reports;
 using ESFA.DC.ESF.Models;
 using ESFA.DC.IO.Interfaces;
@@ -17,7 +16,6 @@ namespace ESFA.DC.ESF.ReportingService
     {
         private readonly ILogger _logger;
         private readonly IStreamableKeyValuePersistenceService _streamableKeyValuePersistenceService;
-        private readonly IEsfRepository _esfRepository;
 
         private readonly IList<IValidationReport> _validationReports;
         private readonly IList<IModelReport> _esfReports;

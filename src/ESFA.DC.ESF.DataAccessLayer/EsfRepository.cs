@@ -73,7 +73,10 @@ namespace ESFA.DC.ESF.DataAccessLayer
             return sourceFile;
         }
 
-        public async Task<IList<SourceFile>> AllPreviousFilesForValidation(string ukPrn, CancellationToken cancellationToken)
+        public async Task<IList<SourceFile>> AllPreviousFilesForValidation(
+            string ukPrn,
+            string conRefNum,
+            CancellationToken cancellationToken)
         {
             List<SourceFile> sourceFiles = null;
             try
@@ -83,7 +86,7 @@ namespace ESFA.DC.ESF.DataAccessLayer
                     return null;
                 }
 
-                sourceFiles = await _context.SourceFiles.Where(s => s.UKPRN == ukPrn)
+                sourceFiles = await _context.SourceFiles.Where(s => s.UKPRN == ukPrn && s.ConRefNumber == conRefNum)
                     .ToListAsync(cancellationToken);
             }
             catch (Exception ex)
