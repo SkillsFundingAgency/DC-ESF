@@ -6,10 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Autofac.Features.AttributeFilters;
 using CsvHelper;
 using ESFA.DC.DateTimeProvider.Interface;
-using ESFA.DC.ESF.Interfaces;
 using ESFA.DC.ESF.Interfaces.DataAccessLayer;
 using ESFA.DC.ESF.Interfaces.Reports;
 using ESFA.DC.ESF.Interfaces.Services;
@@ -100,52 +98,34 @@ namespace ESFA.DC.ESF.ReportingService.Reports
                 return null;
             }
 
-            var taskList = new List<Task>();
+            var learners = await _validRepository.GetLearners(ukPrn, cancellationToken);
 
-            var learnerTask = _validRepository.GetLearners(ukPrn, cancellationToken);
-            taskList.Add(learnerTask);
-            var learningDeliveryTask = _validRepository.GetLearningDeliveries(ukPrn, cancellationToken);
-            taskList.Add(learningDeliveryTask);
-            var learnerDeliveryFamTask = _validRepository.GetLearningDeliveryFAMs(ukPrn, cancellationToken);
-            taskList.Add(learnerDeliveryFamTask);
-            var outcomesTask = _validRepository.GetDPOutcomes(ukPrn, cancellationToken);
-            taskList.Add(outcomesTask);
-            var providerLearnMonitoringsTask =
-                _validRepository.GetProviderSpecLearnerMonitorings(ukPrn, cancellationToken);
-            taskList.Add(providerLearnMonitoringsTask);
-            var providerDeliveryMonitoringsTask =
-                _validRepository.GetProviderSpecDeliveryMonitorings(ukPrn, cancellationToken);
-            taskList.Add(providerDeliveryMonitoringsTask);
-
-            var fm70LearningDeliveryTask = _fm70Repository.GetLearningDeliveries(ukPrn, cancellationToken);
-            taskList.Add(fm70LearningDeliveryTask);
-            var fm70LearningDeliveryDeliverablesTask =
-                _fm70Repository.GetLearningDeliveryDeliverables(ukPrn, cancellationToken);
-            taskList.Add(fm70LearningDeliveryDeliverablesTask);
-            var fm70DeliverablePeriodTask =
-                _fm70Repository.GetLearningDeliveryDeliverablePeriods(ukPrn, cancellationToken);
-            taskList.Add(fm70DeliverablePeriodTask);
-            var fm70OutcomesTask = _fm70Repository.GetOutcomes(ukPrn, cancellationToken);
-            taskList.Add(fm70OutcomesTask);
-
-            await Task.WhenAll(taskList);
-
-            var learners = learnerTask.Result;
-            var learningDeliveries = learningDeliveryTask.Result;
+            var learningDeliveries = await _validRepository.GetLearningDeliveries(ukPrn, cancellationToken);
 
             if (learners == null || learningDeliveries == null)
             {
                 return null;
             }
 
-            var learnerDeliveryFams = learnerDeliveryFamTask.Result;
-            var outcomes = outcomesTask.Result;
-            var learnMonitorings = providerLearnMonitoringsTask.Result;
-            var deliveryMonitorings = providerDeliveryMonitoringsTask.Result;
-            var fm70LearningDeliveries = fm70LearningDeliveryTask.Result;
-            var fm70Deliverables = fm70LearningDeliveryDeliverablesTask.Result;
-            var fm70DeliverablePeriods = fm70DeliverablePeriodTask.Result;
-            var fm70Outcomes = fm70OutcomesTask.Result;
+            var learnerDeliveryFams = await _validRepository.GetLearningDeliveryFAMs(ukPrn, cancellationToken);
+
+            var outcomes = await _validRepository.GetDPOutcomes(ukPrn, cancellationToken);
+
+            var learnMonitorings =
+                await _validRepository.GetProviderSpecLearnerMonitorings(ukPrn, cancellationToken);
+
+            var deliveryMonitorings =
+                await _validRepository.GetProviderSpecDeliveryMonitorings(ukPrn, cancellationToken);
+
+            var fm70LearningDeliveries = await _fm70Repository.GetLearningDeliveries(ukPrn, cancellationToken);
+
+            var fm70Deliverables =
+                await _fm70Repository.GetLearningDeliveryDeliverables(ukPrn, cancellationToken);
+
+            var fm70DeliverablePeriods =
+                await _fm70Repository.GetLearningDeliveryDeliverablePeriods(ukPrn, cancellationToken);
+
+            var fm70Outcomes = await _fm70Repository.GetOutcomes(ukPrn, cancellationToken);
 
             var learnAimRefs = learningDeliveries.Select(ld => ld.LearnAimRef).ToList();
             var deliverableCodes = fm70Deliverables?.Select(d => d.DeliverableCode).ToList();
