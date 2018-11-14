@@ -6,7 +6,7 @@ namespace ESFA.DC.ESF.ValidationService.Helpers
     {
         public static DateTime GetCalendarDateTime(int? calendarYear, int? calendarMonth)
         {
-            if (calendarYear == null || calendarMonth == null)
+            if (calendarYear == null || calendarMonth == null || calendarMonth < 1 || calendarMonth > 12)
             {
                 return DateTime.MinValue;
             }
