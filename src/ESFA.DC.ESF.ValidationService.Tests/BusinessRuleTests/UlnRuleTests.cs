@@ -85,7 +85,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             var model = new SupplementaryDataModel
             {
                 ReferenceType = "LearnRefNumber",
-                ULN = 1990909009,
+                ULN = 9999999999,
                 CalendarYear = DateTime.Now.Year,
                 CalendarMonth = DateTime.Now.AddMonths(-6).Month
             };
@@ -101,7 +101,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.BusinessRuleTests
             var model = new SupplementaryDataModel
             {
                 ReferenceType = "LearnRefNumber",
-                ULN = 1990909009,
+                ULN = 9999999999,
                 CalendarYear = DateTime.Now.Year,
                 CalendarMonth = DateTime.Now.Month
             };
