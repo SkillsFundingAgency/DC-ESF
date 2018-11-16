@@ -16,7 +16,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
         public bool Execute(SupplementaryDataModel model)
         {
             return
-                (model.ULN ?? 0) == 9999999999 ||
+                (model.ULN ?? 0) != 9999999999 ||
                 MonthYearHelper.GetCalendarDateTime(model.CalendarYear, model.CalendarMonth) > DateTime.Now.AddMonths(-2);
         }
     }
