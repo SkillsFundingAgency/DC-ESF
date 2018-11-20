@@ -14,7 +14,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 
         public bool Execute(SupplementaryDataModel model)
         {
-            return model.Reference != null;
+            return !string.IsNullOrEmpty(model.Reference);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 
         public bool Execute(SupplementaryDataModel model)
         {
-            return model.ConRefNumber != null;
+            return !string.IsNullOrEmpty(model.ConRefNumber);
         }
     }
 }
