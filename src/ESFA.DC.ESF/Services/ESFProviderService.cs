@@ -30,9 +30,9 @@ namespace ESFA.DC.ESF.Services
             _getESFLock = new SemaphoreSlim(1, 1);
         }
 
-        public async Task<IList<SupplementaryDataModel>> GetESFRecordsFromFile(SourceFileModel sourceFile, CancellationToken cancellationToken)
+        public async Task<IList<SupplementaryDataLooseModel>> GetESFRecordsFromFile(SourceFileModel sourceFile, CancellationToken cancellationToken)
         {
-            List<SupplementaryDataModel> model = null;
+            List<SupplementaryDataLooseModel> model = null;
 
             await _getESFLock.WaitAsync(cancellationToken);
 
@@ -52,7 +52,7 @@ namespace ESFA.DC.ESF.Services
                     var csvReader = new CsvReader(sr);
                     csvReader.Configuration.RegisterClassMap(new ESFMapper());
 
-                    model = csvReader.GetRecords<SupplementaryDataModel>().ToList();
+                    model = csvReader.GetRecords<SupplementaryDataLooseModel>().ToList();
                 }
             }
             catch (Exception ex)

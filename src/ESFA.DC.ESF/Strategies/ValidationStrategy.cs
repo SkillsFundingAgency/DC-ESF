@@ -24,38 +24,13 @@ namespace ESFA.DC.ESF.Strategies
             return taskName == Constants.ValidationTask;
         }
 
-        public async Task Execute(
+        public Task Execute(
             SourceFileModel sourceFile,
             SupplementaryDataWrapper wrapper,
             CancellationToken cancellationToken)
         {
-            foreach (var model in wrapper.SupplementaryDataModels)
-            {
-                _controller.ValidateData(wrapper.SupplementaryDataModels, model, sourceFile, cancellationToken);
-
-                if (_controller.RejectFile)
-                {
-                    return;
-                }
-
-                foreach (var error in _controller.Errors)
-                {
-                    wrapper.ValidErrorModels.Add(error);
-                }
-            }
-
-            wrapper.SupplementaryDataModels = FilterOutInvalidRows(wrapper);
-        }
-
-        private IList<SupplementaryDataModel> FilterOutInvalidRows(
-            SupplementaryDataWrapper wrapper)
-        {
-            return wrapper.SupplementaryDataModels.Where(model => !wrapper.ValidErrorModels.Any(e => e.ConRefNumber == model.ConRefNumber
-                                                          && e.DeliverableCode == model.DeliverableCode
-                                                          && e.CalendarYear == model.CalendarYear
-                                                          && e.CalendarMonth == model.CalendarMonth
-                                                          && e.ReferenceType == model.ReferenceType
-                                                          && e.Reference == model.Reference)).ToList();
+            _controller.ValidateData(wrapper, sourceFile, cancellationToken);
+            return Task.CompletedTask;
         }
     }
 }

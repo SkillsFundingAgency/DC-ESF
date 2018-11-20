@@ -21,6 +21,8 @@
     <Parameter Name="OrganisationConnectionString" DefaultValue="" />
     <Parameter Name="PostcodesConnectionString" DefaultValue="" />
     <Parameter Name="ULNConnectionString" DefaultValue="" />
+    <Parameter Name="ILR1617ConnectionString" DefaultValue="" />
+    <Parameter Name="ILR1718ConnectionString" DefaultValue="" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
        should match the Name and Version attributes of the ServiceManifest element defined in the 
@@ -48,6 +50,8 @@
             <Parameter Name="AzureBlobContainerName" Value="[AzureBlobContainerName]" />
           </Section>
           <Section Name="ILR1819Section">
+            <Parameter Name="ILR1617ConnectionString" Value="[ILR1617ConnectionString]" />
+            <Parameter Name="ILR1718ConnectionString" Value="[ILR1718ConnectionString]" />
             <Parameter Name="ILR1819ConnectionString" Value="[ILR1819ConnectionString]" />
             <Parameter Name="ILR1819ValidConnectionString" Value="[ILR1819ValidConnectionString]" />
           </Section>

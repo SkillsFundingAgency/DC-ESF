@@ -149,6 +149,13 @@ namespace ESFA.DC.ESF.Service.Stateless
                 .As<IILR1819_DataStoreEntitiesValid>()
                 .InstancePerLifetimeScope();
 
+            //containerBuilder.Register(c => new ILR1819_DataStoreEntities(ilrConfig.ILR1617ConnectionString))
+            //    .As<IILR1617_Rulebase>()
+            //    .InstancePerLifetimeScope();
+            //containerBuilder.Register(c => new ILR1819_DataStoreEntitiesValid(ilrConfig.ILR1718ConnectionString))
+            //    .As<IILR1718_Rulebase>()
+            //    .InstancePerLifetimeScope();
+
             var esfConfig = configHelper.GetSectionValues<ESFConfiguration>("ESFSection");
             containerBuilder.Register(c => new ESF_DataStoreEntities(esfConfig.ESFConnectionString))
                 .As<IESF_DataStoreEntities>()
@@ -348,8 +355,9 @@ namespace ESFA.DC.ESF.Service.Stateless
 
         private static void RegisterCommands(ContainerBuilder containerBuilder)
         {
+            containerBuilder.RegisterType<FieldDefinitionCommand>().As<ILooseValidatorCommand>();
+
             containerBuilder.RegisterType<BusinessRuleCommands>().As<IValidatorCommand>();
-            containerBuilder.RegisterType<FieldDefinitionCommand>().As<IValidatorCommand>();
             containerBuilder.RegisterType<CrossRecordCommands>().As<IValidatorCommand>();
 
             containerBuilder.Register(c => new List<IValidatorCommand>(c.Resolve<IEnumerable<IValidatorCommand>>()))

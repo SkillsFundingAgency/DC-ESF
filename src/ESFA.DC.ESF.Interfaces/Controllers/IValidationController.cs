@@ -8,11 +8,8 @@ namespace ESFA.DC.ESF.Interfaces.Controllers
     {
         bool RejectFile { get; }
 
-        IList<ValidationErrorModel> Errors { get; }
-
         void ValidateData(
-            IList<SupplementaryDataModel> allModels,
-            SupplementaryDataModel model,
+            SupplementaryDataWrapper wrapper,
             SourceFileModel sourceFile,
             CancellationToken cancellationToken);
     }

@@ -6,7 +6,7 @@ using ESFA.DC.ESF.ValidationService.Builders;
 
 namespace ESFA.DC.ESF.ValidationService.Commands
 {
-    public class FieldDefinitionCommand : IValidatorCommand
+    public class FieldDefinitionCommand : ILooseValidatorCommand
     {
         private readonly IList<IFieldDefinitionValidator> _validators;
 
@@ -21,7 +21,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands
 
         public int Priority => 2;
 
-        public bool Execute(SupplementaryDataModel model)
+        public bool Execute(SupplementaryDataLooseModel model)
         {
             Errors = new List<ValidationErrorModel>();
 
