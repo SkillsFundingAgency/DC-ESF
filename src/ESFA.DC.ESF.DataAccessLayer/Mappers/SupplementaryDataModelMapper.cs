@@ -42,22 +42,27 @@ namespace ESFA.DC.ESF.DataAccessLayer.Mappers
                 CalendarMonth = ConvertToNullableInt(looseModel.CalendarMonth),
                 CalendarYear = ConvertToNullableInt(looseModel.CalendarYear),
                 StaffName = looseModel.StaffName,
-                OrgHours = ConvertToNullableInt(looseModel.OrgHours),
-                ProjectHours = ConvertToNullableInt(looseModel.ProjectHours),
-                HourlyRate = ConvertToNullableInt(looseModel.HourlyRate),
-                TotalHoursWorked = ConvertToNullableInt(looseModel.TotalHoursWorked),
-                Value = ConvertToNullableInt(looseModel.Value)
+                OrgHours = ConvertToNullableDecimal(looseModel.OrgHours),
+                ProjectHours = ConvertToNullableDecimal(looseModel.ProjectHours),
+                HourlyRate = ConvertToNullableDecimal(looseModel.HourlyRate),
+                TotalHoursWorked = ConvertToNullableDecimal(looseModel.TotalHoursWorked),
+                Value = ConvertToNullableDecimal(looseModel.Value)
             };
         }
 
         private long? ConvertToNullableLong(string value)
         {
-            return value == null ? (long?)null : long.Parse(value);
+            return string.IsNullOrEmpty(value?.Trim()) ? (long?)null : long.Parse(value);
         }
 
         private int? ConvertToNullableInt(string value)
         {
-            return value == null ? (int?)null : int.Parse(value);
+            return string.IsNullOrEmpty(value?.Trim()) ? (int?)null : int.Parse(value);
+        }
+
+        private decimal? ConvertToNullableDecimal(string value)
+        {
+            return string.IsNullOrEmpty(value?.Trim()) ? (decimal?)null : decimal.Parse(value);
         }
     }
 }
