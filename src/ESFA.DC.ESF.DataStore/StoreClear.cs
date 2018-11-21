@@ -17,14 +17,14 @@ namespace ESFA.DC.ESF.DataStore
             _transaction = transaction;
         }
 
-        public async Task ClearAsync(int ukPrn, string filename, CancellationToken cancellationToken)
+        public async Task ClearAsync(int ukPrn, string conRefNum, CancellationToken cancellationToken)
         {
             using (SqlCommand sqlCommand =
                 new SqlCommand("[dbo].[DeleteExistingRecords]", _connection, _transaction))
             {
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 sqlCommand.Parameters.Add("@ukprn", SqlDbType.Int).Value = ukPrn;
-                sqlCommand.Parameters.Add("@fileName", SqlDbType.NVarChar).Value = filename;
+                sqlCommand.Parameters.Add("@conRefNum", SqlDbType.NVarChar).Value = conRefNum;
                 sqlCommand.CommandTimeout = 600;
                 await sqlCommand.ExecuteNonQueryAsync(cancellationToken);
             }

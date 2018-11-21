@@ -65,7 +65,7 @@ namespace ESFA.DC.ESF.Services
             SourceFileModel sourceFileModel,
             SupplementaryDataWrapper wrapper)
         {
-            foreach (var model in wrapper.SupplementaryDataModels)
+            foreach (var model in wrapper.SupplementaryDataLooseModels)
             {
                 foreach (var validator in _validators)
                 {

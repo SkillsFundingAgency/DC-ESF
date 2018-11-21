@@ -5,6 +5,6 @@ namespace ESFA.DC.ESF.Interfaces.DataStore
 {
     public interface IStoreClear
     {
-        Task ClearAsync(int ukPrn, string filename, CancellationToken cancellationToken);
+        Task ClearAsync(int ukPrn, string conRefNum, CancellationToken cancellationToken);
     }
 }
