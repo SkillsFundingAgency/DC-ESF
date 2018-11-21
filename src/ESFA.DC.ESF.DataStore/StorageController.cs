@@ -57,7 +57,7 @@ namespace ESFA.DC.ESF.DataStore
                     var ukPrn = Convert.ToInt32(sourceFile.UKPRN);
 
                     var storeClear = new StoreClear(connection, transaction);
-                    await storeClear.ClearAsync(ukPrn, sourceFile.FileName, cancellationToken);
+                    await storeClear.ClearAsync(ukPrn, sourceFile.ConRefNumber, cancellationToken);
 
                     int fileId = await _storeFileDetails.StoreAsync(connection, transaction, cancellationToken, sourceFile);
 
