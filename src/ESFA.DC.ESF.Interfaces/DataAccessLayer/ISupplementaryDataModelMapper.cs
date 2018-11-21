@@ -6,5 +6,7 @@ namespace ESFA.DC.ESF.Interfaces.DataAccessLayer
     public interface ISupplementaryDataModelMapper
     {
         SupplementaryDataModel GetModelFromEntity(SupplementaryData entity);
+
+        SupplementaryDataModel GetSupplementaryDataModelFromLooseModel(SupplementaryDataLooseModel looseModel);
     }
 }

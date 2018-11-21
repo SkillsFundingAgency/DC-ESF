@@ -13,9 +13,9 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 
         public string ErrorMessage => $"The ProviderSpecifiedReference must not exceed {FieldLength} characters in length. Please adjust the value and resubmit the file.";
 
-        public bool Execute(SupplementaryDataModel model)
+        public bool Execute(SupplementaryDataLooseModel model)
         {
-            return string.IsNullOrEmpty(model.ProviderSpecifiedReference.Trim()) || model.ProviderSpecifiedReference.Length <= FieldLength;
+            return string.IsNullOrEmpty(model.ProviderSpecifiedReference?.Trim()) || model.ProviderSpecifiedReference.Length <= FieldLength;
         }
     }
 }

@@ -55,7 +55,7 @@ namespace ESFA.DC.ESF.Helpers
             };
         }
 
-        public async Task<IList<SupplementaryDataModel>> GetESFRecords(SourceFileModel sourceFileModel, CancellationToken cancellationToken)
+        public async Task<IList<SupplementaryDataLooseModel>> GetESFRecords(SourceFileModel sourceFileModel, CancellationToken cancellationToken)
         {
             return await _providerService.GetESFRecordsFromFile(sourceFileModel, cancellationToken);
         }

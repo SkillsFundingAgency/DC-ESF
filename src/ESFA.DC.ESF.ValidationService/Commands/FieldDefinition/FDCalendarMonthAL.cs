@@ -13,9 +13,9 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 
         public bool IsWarning => false;
 
-        public bool Execute(SupplementaryDataModel model)
+        public bool Execute(SupplementaryDataLooseModel model)
         {
-            var month = model.CalendarMonth.ToString();
+            var month = model.CalendarMonth;
 
             return !string.IsNullOrEmpty(month)
                       && !string.IsNullOrWhiteSpace(month)

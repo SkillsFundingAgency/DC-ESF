@@ -34,7 +34,7 @@ namespace ESFA.DC.ESF.Services
             CancellationToken cancellationToken)
         {
             SupplementaryDataWrapper wrapper = new SupplementaryDataWrapper();
-            IList<SupplementaryDataModel> esfRecords = new List<SupplementaryDataModel>();
+            IList<SupplementaryDataLooseModel> esfRecords = new List<SupplementaryDataLooseModel>();
             IList<ValidationErrorModel> errors = new List<ValidationErrorModel>();
             try
             {
@@ -56,7 +56,7 @@ namespace ESFA.DC.ESF.Services
                 });
             }
 
-            wrapper.SupplementaryDataModels = esfRecords;
+            wrapper.SupplementaryDataLooseModels = esfRecords;
             wrapper.ValidErrorModels = errors;
             return wrapper;
         }

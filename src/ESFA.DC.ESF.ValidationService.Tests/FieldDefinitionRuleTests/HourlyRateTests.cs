@@ -9,9 +9,9 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDHourlyRateALCatchesTooLongHourlyRate()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
-                HourlyRate = 1234567.123M
+                HourlyRate = "1234567.123"
             };
             var rule = new FDHourlyRateAL();
 
@@ -21,9 +21,9 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDHourlyRateALPassesValidHourlyRate()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
-                HourlyRate = 123456.12M
+                HourlyRate = "123456.12"
             };
             var rule = new FDHourlyRateAL();
 
@@ -33,9 +33,9 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDOrgHoursALCatchesTooLongOrgHours()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
-                OrgHours = 1234567.123M
+                OrgHours = "1234567.123"
             };
             var rule = new FDOrgHoursAL();
 
@@ -45,9 +45,9 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDOrgHoursALPassesValidOrgHours()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
-                OrgHours = 123456.12M
+                OrgHours = "123456.12"
             };
             var rule = new FDOrgHoursAL();
 
@@ -57,9 +57,9 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDProjectHoursALCatchesTooLongProjectHours()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
-                ProjectHours = 1234567.123M
+                ProjectHours = "1234567.123"
             };
             var rule = new FDProjectHoursAL();
 
@@ -69,9 +69,9 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDProjectHoursALPassesValidProjectHours()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
-                ProjectHours = 123456.12M
+                ProjectHours = "123456.12"
             };
             var rule = new FDProjectHoursAL();
 
@@ -81,9 +81,9 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDTotalHoursWorkedALCatchesTooLongTotalHoursWorked()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
-                TotalHoursWorked = 1234567.123M
+                TotalHoursWorked = "1234567.123"
             };
             var rule = new FDTotalHoursWorkedAL();
 
@@ -93,9 +93,9 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDTotalHoursWorkedALPassesValidTotalHoursWorked()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
-                TotalHoursWorked = 123456.12M
+                TotalHoursWorked = "123456.12"
             };
             var rule = new FDTotalHoursWorkedAL();
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ESFA.DC.Data.ULN.Model;
+using ESFA.DC.ESF.DataAccessLayer.Mappers;
 using ESFA.DC.ESF.Interfaces.DataAccessLayer;
 using ESFA.DC.ESF.Interfaces.Validation;
 using ESFA.DC.ESF.Models;
@@ -31,17 +32,25 @@ namespace ESFA.DC.ESF.ValidationService.Tests
             Mock<IPopulationService> popMock = new Mock<IPopulationService>();
             popMock.Setup(m => m.PrePopulateUlnCache(It.IsAny<IList<long?>>(), It.IsAny<CancellationToken>()));
 
+            SupplementaryDataModelMapper mapper = new SupplementaryDataModelMapper();
+
+            var looseValidation = GetLooseValidators();
             var validators = GetValidators(cacheMock, mapperMock);
-            var controller = new ValidationController(validators, popMock.Object);
+            var controller = new ValidationController(looseValidation, validators, popMock.Object, mapper);
 
-            controller.ValidateData(GetSupplementaryDataList(), GetSupplementaryData(), GetEsfSourceFileModel(), CancellationToken.None);
+            var wrapper = new SupplementaryDataWrapper
+            {
+                SupplementaryDataLooseModels = GetSupplementaryDataList()
+            };
 
-            Assert.True(controller.Errors.Any());
+            controller.ValidateData(wrapper, GetEsfSourceFileModel(), CancellationToken.None);
+
+            //Assert.True(controller.Errors.Any());
         }
 
-        private IList<SupplementaryDataModel> GetSupplementaryDataList()
+        private IList<SupplementaryDataLooseModel> GetSupplementaryDataList()
         {
-            return new List<SupplementaryDataModel>
+            return new List<SupplementaryDataLooseModel>
             {
                 GetSupplementaryData()
             };
@@ -60,20 +69,53 @@ namespace ESFA.DC.ESF.ValidationService.Tests
             };
         }
 
-        private SupplementaryDataModel GetSupplementaryData()
+        private SupplementaryDataLooseModel GetSupplementaryData()
         {
-            return new SupplementaryDataModel
+            return new SupplementaryDataLooseModel
             {
                 ConRefNumber = "ESF - 2270",
                 DeliverableCode = "ST01",
-                CalendarYear = 2016,
-                CalendarMonth = 5,
+                CalendarYear = "2016",
+                CalendarMonth = "5",
                 CostType = "Unit Cost",
                 Reference = "|",
                 ReferenceType = "LearnRefNumber",
-                ULN = 1000000019,
+                ULN = "1000000019",
                 ProviderSpecifiedReference = "DelCode 01A"
             };
+        }
+
+        private ILooseValidatorCommand GetLooseValidators()
+        {
+            return new FieldDefinitionCommand(
+                new List<IFieldDefinitionValidator>
+                {
+                    new FDCalendarMonthAL(),
+                    new FDCalendarMonthDT(),
+                    new FDCalendarMonthMA(),
+                    new FDCalendarYearAL(),
+                    new FDCalendarYearDT(),
+                    new FDCalendarYearMA(),
+                    new FDConRefNumberAL(),
+                    new FDConRefNumberMA(),
+                    new FDCostTypeAL(),
+                    new FDCostTypeMA(),
+                    new FDDeliverableCodeAL(),
+                    new FDDeliverableCodeMA(),
+                    new FDHourlyRateAL(),
+                    new FDOrgHoursAL(),
+                    new FDProjectHoursAL(),
+                    new FDProviderSpecifiedReferenceAL(),
+                    new FDReferenceAL(),
+                    new FDReferenceMA(),
+                    new FDReferenceTypeAL(),
+                    new FDReferenceTypeMA(),
+                    new FDStaffNameAL(),
+                    new FDTotalHoursWorkedAL(),
+                    new FDULNAL(),
+                    new FDULNDT(),
+                    new FDValueAL()
+                });
         }
 
         private IList<IValidatorCommand> GetValidators(Mock<IReferenceDataCache> cacheMock, Mock<IFcsCodeMappingHelper> mapperMock)
@@ -120,35 +162,6 @@ namespace ESFA.DC.ESF.ValidationService.Tests
                     new List<ICrossRecordValidator>
                     {
                         new Duplicate01()
-                    }),
-                new FieldDefinitionCommand(
-                    new List<IFieldDefinitionValidator>
-                    {
-                        new FDCalendarMonthAL(),
-                        new FDCalendarMonthDT(),
-                        new FDCalendarMonthMA(),
-                        new FDCalendarYearAL(),
-                        new FDCalendarYearDT(),
-                        new FDCalendarYearMA(),
-                        new FDConRefNumberAL(),
-                        new FDConRefNumberMA(),
-                        new FDCostTypeAL(),
-                        new FDCostTypeMA(),
-                        new FDDeliverableCodeAL(),
-                        new FDDeliverableCodeMA(),
-                        new FDHourlyRateAL(),
-                        new FDOrgHoursAL(),
-                        new FDProjectHoursAL(),
-                        new FDProviderSpecifiedReferenceAL(),
-                        new FDReferenceAL(),
-                        new FDReferenceMA(),
-                        new FDReferenceTypeAL(),
-                        new FDReferenceTypeMA(),
-                        new FDStaffNameAL(),
-                        new FDTotalHoursWorkedAL(),
-                        new FDULNAL(),
-                        new FDULNDT(),
-                        new FDValueAL()
                     })
             };
         }

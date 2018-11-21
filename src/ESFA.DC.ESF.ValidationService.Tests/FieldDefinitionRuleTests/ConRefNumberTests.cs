@@ -9,7 +9,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDConRefNumberALCatchesTooLongConRefNumbers()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
                 ConRefNumber = "123456789012345678901"
             };
@@ -21,7 +21,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDConRefNumberALPassesValidConRefNumbers()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
                 ConRefNumber = "12345678901234567890"
             };
@@ -33,7 +33,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDConRefNumberMACatchesEmptyConRefNumbers()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
                 ConRefNumber = null
             };
@@ -45,7 +45,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDConRefNumberMAPassesValidConRefNumbers()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
                 ConRefNumber = "12345678901234567890"
             };

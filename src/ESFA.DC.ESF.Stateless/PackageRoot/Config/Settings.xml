@@ -18,6 +18,8 @@
     <Parameter Name="AzureBlobContainerName" Value="" />
   </Section>
   <Section Name="ILR1819Section">
+    <Parameter Name="ILR1617ConnectionString" Value="" />
+    <Parameter Name="ILR1718ConnectionString" Value="" />
     <Parameter Name="ILR1819ConnectionString" Value="" />
     <Parameter Name="ILR1819ValidConnectionString" Value="" />
   </Section>

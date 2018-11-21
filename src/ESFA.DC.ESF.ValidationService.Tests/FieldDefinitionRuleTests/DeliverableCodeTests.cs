@@ -9,7 +9,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDDeliverableCodeALCatchesTooLongDeliverableCodes()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
                 DeliverableCode = "12345678901"
             };
@@ -21,7 +21,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDDeliverableCodeALPassesValidDeliverableCodes()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
                 DeliverableCode = "1234567890"
             };
@@ -33,7 +33,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDDeliverableCodeMACatchesEmptyDeliverableCodes()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
                 DeliverableCode = null
             };
@@ -45,7 +45,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDDeliverableCodeMAPassesValidDeliverableCodes()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
                 DeliverableCode = "1234567890"
             };

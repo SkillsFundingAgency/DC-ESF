@@ -11,7 +11,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 
         public string ErrorMessage => "The ConRefNumber is mandatory. Please resubmit the file including the appropriate value.";
 
-        public bool Execute(SupplementaryDataModel model)
+        public bool Execute(SupplementaryDataLooseModel model)
         {
             return !string.IsNullOrEmpty(model.ConRefNumber);
         }

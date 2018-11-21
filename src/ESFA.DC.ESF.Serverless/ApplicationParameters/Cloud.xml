@@ -12,6 +12,8 @@
     <Parameter Name="LoggerConnectionstring" Value="__LoggerConnectionstring__" />
     <Parameter Name="AzureBlobConnectionString" Value="__AzureBlobConnectionString__" />
     <Parameter Name="AzureBlobContainerName" Value="__AzureBlobContainerName__" />
+    <Parameter Name="ILR1617ConnectionString" Value="__ILR1617ConnectionString__" />
+    <Parameter Name="ILR1718ConnectionString" Value="__ILR1718ConnectionString__" />
     <Parameter Name="ILR1819ConnectionString" Value="__ILR1819ConnectionString__" />
     <Parameter Name="ILR1819ValidConnectionString" Value="__ILR1819ValidConnectionString__" />
     <Parameter Name="ESFConnectionString" Value="__ESFConnectionString__" />

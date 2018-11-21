@@ -27,5 +27,37 @@ namespace ESFA.DC.ESF.DataAccessLayer.Mappers
                 Value = entity.Value
             };
         }
+
+        public SupplementaryDataModel GetSupplementaryDataModelFromLooseModel(SupplementaryDataLooseModel looseModel)
+        {
+            return new SupplementaryDataModel
+            {
+                ConRefNumber = looseModel.ConRefNumber,
+                ULN = ConvertToNullableLong(looseModel.ULN),
+                DeliverableCode = looseModel.DeliverableCode,
+                CostType = looseModel.CostType,
+                ReferenceType = looseModel.ReferenceType,
+                Reference = looseModel.Reference,
+                ProviderSpecifiedReference = looseModel.ProviderSpecifiedReference,
+                CalendarMonth = ConvertToNullableInt(looseModel.CalendarMonth),
+                CalendarYear = ConvertToNullableInt(looseModel.CalendarYear),
+                StaffName = looseModel.StaffName,
+                OrgHours = ConvertToNullableInt(looseModel.OrgHours),
+                ProjectHours = ConvertToNullableInt(looseModel.ProjectHours),
+                HourlyRate = ConvertToNullableInt(looseModel.HourlyRate),
+                TotalHoursWorked = ConvertToNullableInt(looseModel.TotalHoursWorked),
+                Value = ConvertToNullableInt(looseModel.Value)
+            };
+        }
+
+        private long? ConvertToNullableLong(string value)
+        {
+            return value == null ? (long?)null : long.Parse(value);
+        }
+
+        private int? ConvertToNullableInt(string value)
+        {
+            return value == null ? (int?)null : int.Parse(value);
+        }
     }
 }
