@@ -9,7 +9,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDProviderSpecifiedReferenceALCatchesTooLongProviderSpecifiedReferences()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
                 ProviderSpecifiedReference = new string('1', 201)
             };
@@ -21,7 +21,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDProviderSpecifiedReferenceALPassesValidProviderSpecifiedReferences()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
                 ProviderSpecifiedReference = new string('1', 200)
             };
@@ -33,7 +33,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDReferenceALCatchesTooLongReferences()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
                 Reference = new string('1', 101)
             };
@@ -45,7 +45,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDReferenceALPassesValidReferences()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
                 Reference = new string('1', 100)
             };
@@ -57,7 +57,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDReferenceMACatchesEmptyReferences()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
                 Reference = null
             };
@@ -69,7 +69,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDReferenceMAPassesValidReferences()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
                 Reference = new string('1', 100)
             };
@@ -81,7 +81,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDReferenceTypeALCatchesTooLongReferenceTypes()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
                 ReferenceType = new string('1', 21)
             };
@@ -93,7 +93,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDReferenceTypeALPassesValidReferenceTypes()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
                 ReferenceType = new string('1', 20)
             };
@@ -105,7 +105,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDReferenceTypeMACatchesEmptyReferenceTypes()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
                 ReferenceType = null
             };
@@ -117,7 +117,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDReferenceTypeMAPassesValidReferenceTypes()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
                 ReferenceType = new string('1', 20)
             };

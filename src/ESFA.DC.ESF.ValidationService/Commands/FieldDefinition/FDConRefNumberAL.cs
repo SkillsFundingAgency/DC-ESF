@@ -13,9 +13,9 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 
         public string ErrorMessage => $"The ConRefNumber must not exceed {FieldLength} characters in length. Please adjust the value and resubmit the file.";
 
-        public bool Execute(SupplementaryDataModel model)
+        public bool Execute(SupplementaryDataLooseModel model)
         {
-            return !string.IsNullOrEmpty(model.ConRefNumber.Trim()) && model.ConRefNumber.Length <= FieldLength;
+            return !string.IsNullOrEmpty(model.ConRefNumber?.Trim()) && model.ConRefNumber.Length <= FieldLength;
         }
     }
 }

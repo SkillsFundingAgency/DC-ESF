@@ -11,9 +11,9 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 
         public string ErrorMessage => "CalendarMonth must be an integer (whole number). Please adjust the value and resubmit the file.";
 
-        public bool Execute(SupplementaryDataModel model)
+        public bool Execute(SupplementaryDataLooseModel model)
         {
-            return model.CalendarMonth != null;
+            return !string.IsNullOrEmpty(model.CalendarMonth) && int.TryParse(model.CalendarMonth, out var month);
         }
     }
 }

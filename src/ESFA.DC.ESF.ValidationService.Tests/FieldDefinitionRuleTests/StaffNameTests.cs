@@ -9,7 +9,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDStaffNameALCatchesTooLongStaffNames()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
                 StaffName = new string('1', 101)
             };
@@ -21,7 +21,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDStaffNameALPassesValidStaffNames()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
                 StaffName = new string('1', 100)
             };

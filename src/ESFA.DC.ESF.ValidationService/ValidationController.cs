@@ -102,8 +102,8 @@ namespace ESFA.DC.ESF.ValidationService
         {
             return wrapper.SupplementaryDataLooseModels.Where(model => !wrapper.ValidErrorModels.Any(e => e.ConRefNumber == model.ConRefNumber
                                                                                                      && e.DeliverableCode == model.DeliverableCode
-                                                                                                     && e.CalendarYear.ToString() == model.CalendarYear
-                                                                                                     && e.CalendarMonth.ToString() == model.CalendarMonth
+                                                                                                     && e.CalendarYear == model.CalendarYear
+                                                                                                     && e.CalendarMonth == model.CalendarMonth
                                                                                                      && e.ReferenceType == model.ReferenceType
                                                                                                      && e.Reference == model.Reference)).ToList();
         }
@@ -113,8 +113,8 @@ namespace ESFA.DC.ESF.ValidationService
         {
             return wrapper.SupplementaryDataModels.Where(model => !wrapper.ValidErrorModels.Any(e => e.ConRefNumber == model.ConRefNumber
                                                                                                      && e.DeliverableCode == model.DeliverableCode
-                                                                                                     && e.CalendarYear == model.CalendarYear
-                                                                                                     && e.CalendarMonth == model.CalendarMonth
+                                                                                                     && e.CalendarYear == model.CalendarYear.ToString()
+                                                                                                     && e.CalendarMonth == model.CalendarMonth.ToString()
                                                                                                      && e.ReferenceType == model.ReferenceType
                                                                                                      && e.Reference == model.Reference)).ToList();
         }

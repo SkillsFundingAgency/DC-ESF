@@ -12,9 +12,9 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
         public string ErrorMessage =>
             "The Reference is mandatory. Please resubmit the file including the appropriate value.";
 
-        public bool Execute(SupplementaryDataModel model)
+        public bool Execute(SupplementaryDataLooseModel model)
         {
-            return model.Reference != null;
+            return !string.IsNullOrEmpty(model.Reference);
         }
     }
 }

@@ -16,10 +16,11 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 
         public string ErrorMessage => $"The ProjectHours does not conform to the decimal ({IntegerPartLength + PrecisionLength},{PrecisionLength}) field type. Please adjust the value and resubmit the file.";
 
-        public bool Execute(SupplementaryDataModel model)
+        public bool Execute(SupplementaryDataLooseModel model)
         {
-            return string.IsNullOrEmpty(model.ProjectHours.ToString().Trim())
-                      || DecimalHelper.CheckDecimalLengthAndPrecision(model.ProjectHours ?? 0.0M, IntegerPartLength, PrecisionLength);
+            return string.IsNullOrEmpty(model.ProjectHours?.Trim())
+                      || (decimal.TryParse(model.ProjectHours, out var projectHours) &&
+                       DecimalHelper.CheckDecimalLengthAndPrecision(projectHours, IntegerPartLength, PrecisionLength));
         }
     }
 }

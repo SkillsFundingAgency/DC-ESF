@@ -15,10 +15,10 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 
         public string ErrorMessage => $"ULN must be an integer between {Min} and {Max}. Please adjust the value and resubmit the file.";
 
-        public bool Execute(SupplementaryDataModel model)
+        public bool Execute(SupplementaryDataLooseModel model)
         {
-            var uln = model.ULN ?? 0.0;
-            return uln >= Min && uln <= Max;
+            return string.IsNullOrEmpty(model.ULN) ||
+                   (long.TryParse(model.ULN, out var uln) && uln >= Min && uln <= Max);
         }
     }
 }

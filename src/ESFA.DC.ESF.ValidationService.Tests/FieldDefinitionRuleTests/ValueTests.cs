@@ -9,9 +9,9 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDValueALCatchesTooLongValues()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
-                Value = 1234567.123M
+                Value = "1234567.123"
             };
             var rule = new FDValueAL();
 
@@ -21,9 +21,9 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDValueALPassesValidValues()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
-                Value = 123456.12M
+                Value = "123456.12"
             };
             var rule = new FDValueAL();
 

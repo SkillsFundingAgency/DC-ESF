@@ -9,9 +9,9 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDCalendarMonthALCatchesInvalidMonths()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
-                CalendarMonth = 1612
+                CalendarMonth = "1612"
             };
             var rule = new FDCalendarMonthAL();
 
@@ -21,9 +21,9 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDCalendarMonthALPassesValidMonths()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
-                CalendarMonth = 10
+                CalendarMonth = "10"
             };
             var rule = new FDCalendarMonthAL();
 
@@ -33,7 +33,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDCalendarMonthDTCatchesInvalidMonths()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
                 CalendarMonth = null
             };
@@ -45,9 +45,9 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDCalendarMonthDTPassesValidMonths()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
-                CalendarMonth = 10
+                CalendarMonth = "10"
             };
             var rule = new FDCalendarMonthDT();
 
@@ -57,7 +57,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDCalendarMonthMACatchesNullMonths()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
                 CalendarMonth = null
             };
@@ -69,9 +69,9 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDCalendarMonthMAPassesValidMonths()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
-                CalendarMonth = 10
+                CalendarMonth = "10"
             };
             var rule = new FDCalendarMonthMA();
 
@@ -81,9 +81,9 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDCalendarYearALCatchesInvalidYears()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
-                CalendarYear = 12345
+                CalendarYear = "12345"
             };
             var rule = new FDCalendarYearAL();
 
@@ -93,9 +93,9 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDCalendarYearALPassesValidYears()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
-                CalendarYear = 2010
+                CalendarYear = "2010"
             };
             var rule = new FDCalendarYearAL();
 
@@ -105,7 +105,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDCalendarYearDTCatchesInvalidYears()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
                 CalendarYear = null
             };
@@ -117,9 +117,9 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDCalendarYearDTPassesValidYears()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
-                CalendarYear = 2010
+                CalendarYear = "2010"
             };
             var rule = new FDCalendarYearDT();
 
@@ -129,7 +129,7 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDCalendarYearMACatchesInvalidYears()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
                 CalendarYear = null
             };
@@ -141,9 +141,9 @@ namespace ESFA.DC.ESF.ValidationService.Tests.FieldDefinitionRuleTests
         [Fact]
         public void FDCalendarYearMAPassesValidYears()
         {
-            var model = new SupplementaryDataModel
+            var model = new SupplementaryDataLooseModel
             {
-                CalendarYear = 2010
+                CalendarYear = "2010"
             };
             var rule = new FDCalendarYearMA();
 
