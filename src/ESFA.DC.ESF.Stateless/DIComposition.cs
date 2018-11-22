@@ -53,6 +53,8 @@ using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.EF.Interfaces;
 using ESFA.DC.ILR1819.DataStore.EF.Valid;
 using ESFA.DC.ILR1819.DataStore.EF.Valid.Interfaces;
+using ESFA.DC.ILRLegacy.DataStore.ILR1617EF;
+using ESFA.DC.ILRLegacy.DataStore.ILR1718EF;
 using ESFA.DC.IO.AzureStorage;
 using ESFA.DC.IO.AzureStorage.Config.Interfaces;
 using ESFA.DC.IO.Interfaces;

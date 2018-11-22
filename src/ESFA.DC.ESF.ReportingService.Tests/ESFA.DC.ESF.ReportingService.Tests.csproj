@@ -97,6 +97,24 @@
     <Reference Include="ESFA.DC.ILR1819.DataStore.EF.Valid, Version=0.1.8.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.ILR1819.Database.EF.0.1.8-beta0001\lib\net46\ESFA.DC.ILR1819.DataStore.EF.Valid.dll</HintPath>
     </Reference>
+    <Reference Include="ESFA.DC.ILRLegacy.DataStore.DataAccessLayer, Version=0.1.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILRLegacy.DataStore.Services.0.1.4-beta0001\lib\netstandard2.0\ESFA.DC.ILRLegacy.DataStore.DataAccessLayer.dll</HintPath>
+    </Reference>
+    <Reference Include="ESFA.DC.ILRLegacy.DataStore.ILR1617EF, Version=0.1.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILRLegacy.DataStore.Services.0.1.4-beta0001\lib\netstandard2.0\ESFA.DC.ILRLegacy.DataStore.ILR1617EF.dll</HintPath>
+    </Reference>
+    <Reference Include="ESFA.DC.ILRLegacy.DataStore.ILR1718EF, Version=0.1.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILRLegacy.DataStore.Services.0.1.4-beta0001\lib\netstandard2.0\ESFA.DC.ILRLegacy.DataStore.ILR1718EF.dll</HintPath>
+    </Reference>
+    <Reference Include="ESFA.DC.ILRLegacy.DataStore.Interfaces, Version=0.1.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILRLegacy.DataStore.Services.0.1.4-beta0001\lib\netstandard2.0\ESFA.DC.ILRLegacy.DataStore.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="ESFA.DC.ILRLegacy.DataStore.Models, Version=0.1.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILRLegacy.DataStore.Services.0.1.4-beta0001\lib\netstandard2.0\ESFA.DC.ILRLegacy.DataStore.Models.dll</HintPath>
+    </Reference>
+    <Reference Include="ESFA.DC.ILRLegacy.DataStore.Services, Version=0.1.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILRLegacy.DataStore.Services.0.1.4-beta0001\lib\netstandard2.0\ESFA.DC.ILRLegacy.DataStore.Services.dll</HintPath>
+    </Reference>
     <Reference Include="ESFA.DC.IO.Interfaces, Version=0.1.12.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.IO.Interfaces.0.1.12-beta0001\lib\netstandard2.0\ESFA.DC.IO.Interfaces.dll</HintPath>
     </Reference>
