@@ -26,7 +26,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public bool Execute(SupplementaryDataModel model)
         {
-            return _validReferenceTypes.Contains(model.ReferenceType.Trim());
+            return _validReferenceTypes.Contains(model.ReferenceType?.Trim());
         }
     }
 }

@@ -25,7 +25,7 @@ namespace ESFA.DC.ESF.ValidationService.Helpers
         {
             var result = 0;
 
-            var deliverableCode = model.DeliverableCode.Trim();
+            var deliverableCode = model.DeliverableCode?.Trim();
 
             var codeMappings = _cache.GetContractDeliverableCodeMapping(new List<string> { deliverableCode }, cancellationToken);
 

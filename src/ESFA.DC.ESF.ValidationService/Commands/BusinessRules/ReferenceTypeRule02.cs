@@ -14,8 +14,8 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public bool Execute(SupplementaryDataModel model)
         {
-            var referenceType = model.ReferenceType.Trim();
-            var costType = model.CostType.Trim();
+            var referenceType = model.ReferenceType?.Trim();
+            var costType = model.CostType?.Trim();
 
             var employeeIdCostTypes = new List<string>
                 { "Staff Part Time", "Staff Full Time", "Staff Expenses", "Apportioned Cost" };

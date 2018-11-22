@@ -29,8 +29,8 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public bool Execute(SupplementaryDataModel model)
         {
-            var deliverableCode = model.DeliverableCode.Trim();
-            var costType = model.CostType.Trim();
+            var deliverableCode = model.DeliverableCode?.Trim();
+            var costType = model.CostType?.Trim();
 
             var errorCondition =
                 (deliverableCode == "AC01" && _AC01InvalidCostTypes.Contains(costType))

@@ -21,7 +21,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public bool Execute(SupplementaryDataModel model)
         {
-            return _validValues.Contains(model.DeliverableCode.Trim());
+            return _validValues.Contains(model.DeliverableCode?.Trim());
         }
     }
 }
