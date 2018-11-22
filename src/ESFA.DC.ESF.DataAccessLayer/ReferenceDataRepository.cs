@@ -218,7 +218,7 @@ namespace ESFA.DC.ESF.DataAccessLayer
                 }
 
                 contractAllocationModel = _fcsContext.ContractAllocations
-                    .Where(ca => ca.Contract.Contractor.Ukprn == ukPrn
+                    .Where(ca => ca.DeliveryUKPRN == ukPrn
                                  && ca.ContractAllocationNumber == conRefNum
                                  && ca.ContractDeliverables.Any(cd => cd.DeliverableCode == deliverableCode))
                     .Select(ca => new ContractAllocationCacheModel

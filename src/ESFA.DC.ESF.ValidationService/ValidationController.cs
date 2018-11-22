@@ -105,7 +105,8 @@ namespace ESFA.DC.ESF.ValidationService
                                                                                                      && e.CalendarYear == model.CalendarYear
                                                                                                      && e.CalendarMonth == model.CalendarMonth
                                                                                                      && e.ReferenceType == model.ReferenceType
-                                                                                                     && e.Reference == model.Reference)).ToList();
+                                                                                                     && e.Reference == model.Reference
+                                                                                                     && !e.IsWarning)).ToList();
         }
 
         private IList<SupplementaryDataModel> FilterOutInvalidRows(
@@ -116,7 +117,8 @@ namespace ESFA.DC.ESF.ValidationService
                                                                                                      && e.CalendarYear == model.CalendarYear.ToString()
                                                                                                      && e.CalendarMonth == model.CalendarMonth.ToString()
                                                                                                      && e.ReferenceType == model.ReferenceType
-                                                                                                     && e.Reference == model.Reference)).ToList();
+                                                                                                     && e.Reference == model.Reference
+                                                                                                     && !e.IsWarning)).ToList();
         }
     }
 }
