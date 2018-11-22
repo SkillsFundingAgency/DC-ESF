@@ -28,7 +28,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public bool Execute(SupplementaryDataModel model)
         {
-            return _validCostTypes.Contains(model.CostType);
+            return _validCostTypes.Contains(model.CostType.Trim());
         }
     }
 }
