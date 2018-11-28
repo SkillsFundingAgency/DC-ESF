@@ -4,7 +4,6 @@ using ESFA.DC.ESF.Interfaces.Strategies;
 using ESFA.DC.ESF.Models;
 using ESFA.DC.ESF.Models.Reports;
 using ESFA.DC.ESF.Models.Reports.FundingSummaryReport;
-using ESFA.DC.ILR1819.DataStore.EF;
 
 namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHelpers
 {
@@ -18,8 +17,8 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
         public void Execute(
             IList<FundingSummaryModel> reportOutput,
             FundingReportRow row,
-            IList<SupplementaryDataModel> esfDataModels,
-            IList<ESF_LearningDeliveryDeliverable_PeriodisedValues> ilrData)
+            IList<SupplementaryDataYearlyModel> esfDataModels,
+            IList<FM70PeriodisedValuesYearlyModel> ilrData)
         {
             List<string> deliverableCodes = row.DeliverableCode?.Split(',').Select(x => x.Trim())
                 .Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
@@ -33,7 +32,7 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
                 return;
             }
 
-            FundingSummaryModel rowModel = new FundingSummaryModel(row.Title, HeaderType.None, 2)
+            var rowModel = new FundingSummaryModel(row.Title, HeaderType.None, 2)
             {
                 DeliverableCode = row.DeliverableCode,
                 ExcelRecordStyle = 2
@@ -45,7 +44,7 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
                 rowModel.ExcelRecordStyle = 0;
             }
 
-            List<FundingSummaryReportYearlyValueModel> yearlyValueTotals = new List<FundingSummaryReportYearlyValueModel>();
+            var yearlyValueTotals = new List<FundingSummaryReportYearlyValueModel>();
             foreach (var yearlyValue in reportRowsToTotal.First().YearlyValues)
             {
                 var yearlyModel = new FundingSummaryReportYearlyValueModel

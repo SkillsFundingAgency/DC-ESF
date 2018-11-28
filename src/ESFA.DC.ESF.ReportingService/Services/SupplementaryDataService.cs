@@ -32,7 +32,7 @@ namespace ESFA.DC.ESF.ReportingService.Services
         {
             var existingData = new List<SourceFileModel>();
 
-            var contractNumbers = await _repository.GetAdditionalContractsForProvider(ukPrn, cancellationToken);
+            var contractNumbers = await _repository.GetContractsForProvider(ukPrn, cancellationToken);
 
             foreach (var contractNumber in contractNumbers)
             {
@@ -48,11 +48,11 @@ namespace ESFA.DC.ESF.ReportingService.Services
             return existingData;
         }
 
-        public async Task<IList<SupplementaryDataModel>> GetPreviousContractDataForProvider(
+        public async Task<IList<SupplementaryDataModel>> GetSupplementaryDataPerSourceFile(
             int sourceFileId,
             CancellationToken cancellationToken)
         {
-            var supplementaryData = await _repository.PreviousSupplementaryData(sourceFileId, cancellationToken);
+            var supplementaryData = await _repository.GetSupplementaryDataPerSourceFile(sourceFileId, cancellationToken);
 
             return supplementaryData.Select(data => _supplementaryDataMapper.GetModelFromEntity(data)).ToList();
         }

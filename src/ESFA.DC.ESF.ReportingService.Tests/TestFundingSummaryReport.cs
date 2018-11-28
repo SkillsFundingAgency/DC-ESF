@@ -16,7 +16,6 @@ using ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHelpers
 using ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.Ilr;
 using ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.SuppData;
 using ESFA.DC.ESF.ReportingService.Tests.Builders;
-using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.IO.Interfaces;
 using Moq;
 using Xunit;
@@ -30,7 +29,6 @@ namespace ESFA.DC.ESF.ReportingService.Tests
         {
             var dateTime = DateTime.UtcNow;
             var filename = $"10005752_1_ESF Funding Summary Report {dateTime:yyyyMMdd-HHmmss}";
-            var csv = string.Empty;
             byte[] xlsx = null;
 
             Mock<IDateTimeProvider> dateTimeProviderMock = new Mock<IDateTimeProvider>();
@@ -58,7 +56,7 @@ namespace ESFA.DC.ESF.ReportingService.Tests
 
             var supplementaryDataService = new Mock<ISupplementaryDataService>();
             supplementaryDataService
-                .Setup(s => s.GetPreviousContractDataForProvider(It.IsAny<int>(), It.IsAny<CancellationToken>()))
+                .Setup(s => s.GetSupplementaryDataPerSourceFile(It.IsAny<int>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new List<SupplementaryDataModel>());
             supplementaryDataService
                 .Setup(s => s.GetPreviousContractImportFilesForProvider(It.IsAny<string>(), It.IsAny<CancellationToken>()))
@@ -75,6 +73,11 @@ namespace ESFA.DC.ESF.ReportingService.Tests
             var valueProvider = new ValueProvider();
             var excelStyleProvider = new ExcelStyleProvider();
 
+            IList<FM70PeriodisedValuesModel> periodisedValues = new List<FM70PeriodisedValuesModel>();
+            var ilrLegacyMock = new Mock<ILegacyILRService>();
+            ilrLegacyMock.Setup(m => m.GetPreviousYearsFM70Data(It.IsAny<int>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(periodisedValues);
+
             var fundingSummaryReport = new FundingSummaryReport(
                 dateTimeProviderMock.Object,
                 valueProvider,
@@ -84,7 +87,8 @@ namespace ESFA.DC.ESF.ReportingService.Tests
                 rowHelpers,
                 referenceDataCache.Object,
                 excelStyleProvider,
-                versionInfo.Object);
+                versionInfo.Object,
+                ilrLegacyMock.Object);
 
             SourceFileModel sourceFile = GetEsfSourceFileModel();
 
@@ -102,13 +106,12 @@ namespace ESFA.DC.ESF.ReportingService.Tests
 #endif
         }
 
-        private async Task<FileDetail> GetTestFileDetail()
+        private async Task<ILRFileDetailsModel> GetTestFileDetail()
         {
-            return new FileDetail
+            return new ILRFileDetailsModel
             {
-                UKPRN = 10005752,
-                Filename = "ILR-10005752-1819-20181004-152148-02.xml",
-                SubmittedTime = DateTime.Now
+                FileName = "ILR-10005752-1819-20181004-152148-02.xml",
+                LastSubmission = DateTime.Now
             };
         }
 

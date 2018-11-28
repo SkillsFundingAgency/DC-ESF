@@ -38,7 +38,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Aspose.Cells" Version="18.10.0" />
-    <PackageReference Include="ESFA.DC.ReferenceData.FCS.Model" Version="0.1.78" />
+    <PackageReference Include="ESFA.DC.ReferenceData.FCS.Model" Version="0.1.88" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
