@@ -14,7 +14,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.FieldDefinition
 
         public bool Execute(SupplementaryDataLooseModel model)
         {
-            return !string.IsNullOrEmpty(model.CostType);
+            return !string.IsNullOrEmpty(model.CostType?.Trim());
         }
     }
 }

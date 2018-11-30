@@ -33,7 +33,7 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
             var year = model.CalendarYear ?? 0;
             var month = model.CalendarMonth ?? 0;
 
-            if (year == 0 || month == 0)
+            if (year == 0 || month < 1 || month > 12)
             {
                 return false;
             }

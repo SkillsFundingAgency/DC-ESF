@@ -29,20 +29,23 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public bool Execute(SupplementaryDataModel model)
         {
+            var deliverableCode = model.DeliverableCode?.Trim();
+            var costType = model.CostType?.Trim();
+
             var errorCondition =
-                (model.DeliverableCode == "AC01" && _AC01InvalidCostTypes.Contains(model.CostType))
+                (deliverableCode == "AC01" && _AC01InvalidCostTypes.Contains(costType))
                 ||
-                (model.DeliverableCode == "CG01" && model.CostType != "Grant")
+                (deliverableCode == "CG01" && costType != "Grant")
                 ||
-                (model.DeliverableCode == "CG02" && model.CostType != "Grant Management")
+                (deliverableCode == "CG02" && costType != "Grant Management")
                 ||
-                (_SDCodes.Contains(model.DeliverableCode) && model.CostType != "Unit Cost")
+                (_SDCodes.Contains(deliverableCode) && costType != "Unit Cost")
                 ||
-                (_deliveryCodes.Contains(model.DeliverableCode) &&
-                (model.CostType != "Unit Cost" && model.CostType != "Unit Cost Deduction"))
+                (_deliveryCodes.Contains(deliverableCode) &&
+                (costType != "Unit Cost" && costType != "Unit Cost Deduction"))
                 ||
-                ((model.DeliverableCode == "NR01" || model.DeliverableCode == "RQ01") &&
-                model.CostType != "Funding Adjustment");
+                ((deliverableCode == "NR01" || deliverableCode == "RQ01") &&
+                costType != "Funding Adjustment");
 
             return !errorCondition;
         }

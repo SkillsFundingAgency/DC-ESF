@@ -25,10 +25,12 @@ namespace ESFA.DC.ESF.ValidationService.Helpers
         {
             var result = 0;
 
-            var codeMappings = _cache.GetContractDeliverableCodeMapping(new List<string> { model.DeliverableCode }, cancellationToken);
+            var deliverableCode = model.DeliverableCode?.Trim();
+
+            var codeMappings = _cache.GetContractDeliverableCodeMapping(new List<string> { deliverableCode }, cancellationToken);
 
             var fcsDeliverableCodeString = codeMappings
-                .Where(cm => cm.ExternalDeliverableCode == model.DeliverableCode)
+                .Where(cm => cm.ExternalDeliverableCode == deliverableCode)
                 .Select(cm => cm.FCSDeliverableCode).FirstOrDefault();
             if (string.IsNullOrEmpty(fcsDeliverableCodeString))
             {

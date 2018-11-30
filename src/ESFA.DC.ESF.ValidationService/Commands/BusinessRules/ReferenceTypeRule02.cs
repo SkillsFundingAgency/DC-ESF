@@ -14,6 +14,9 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
 
         public bool Execute(SupplementaryDataModel model)
         {
+            var referenceType = model.ReferenceType?.Trim();
+            var costType = model.CostType?.Trim();
+
             var employeeIdCostTypes = new List<string>
                 { "Staff Part Time", "Staff Full Time", "Staff Expenses", "Apportioned Cost" };
 
@@ -28,15 +31,15 @@ namespace ESFA.DC.ESF.ValidationService.Commands.BusinessRules
             var adjustmentReferenceTypes = new List<string> { "Authorised Claims", "Audit Adjustment" };
 
             var errorCondition =
-                (model.ReferenceType == "Employee ID" && !employeeIdCostTypes.Contains(model.CostType))
+                (referenceType == "Employee ID" && !employeeIdCostTypes.Contains(costType))
                 ||
-                (model.ReferenceType == "Invoice" && !invoiceCostTypes.Contains(model.CostType))
+                (referenceType == "Invoice" && !invoiceCostTypes.Contains(costType))
                 ||
-                (model.ReferenceType == "Grant Recipient" && !grantRecipientCostTypes.Contains(model.CostType))
+                (referenceType == "Grant Recipient" && !grantRecipientCostTypes.Contains(costType))
                 ||
-                (unitReferenceTypes.Contains(model.ReferenceType) && !unitCostTypes.Contains(model.CostType))
+                (unitReferenceTypes.Contains(referenceType) && !unitCostTypes.Contains(costType))
                 ||
-                (adjustmentReferenceTypes.Contains(model.ReferenceType) && model.CostType != "Funding Adjustment");
+                (adjustmentReferenceTypes.Contains(referenceType) && costType != "Funding Adjustment");
 
             return !errorCondition;
         }
