@@ -67,26 +67,23 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
             }
             else
             {
-                if (ilrData != null)
+                foreach (var strategy in _ilrStrategies)
                 {
-                    foreach (var strategy in _ilrStrategies)
+                    if (row.AttributeNames != null)
                     {
-                        if (row.AttributeNames != null)
-                        {
-                            if (!strategy.IsMatch(row.DeliverableCode, row.AttributeNames))
-                            {
-                                continue;
-                            }
-                        }
-
-                        if (!strategy.IsMatch(row.DeliverableCode))
+                        if (!strategy.IsMatch(row.DeliverableCode, row.AttributeNames))
                         {
                             continue;
                         }
-
-                        strategy.Execute(ilrData, reportRowYearlyValues);
-                        break;
                     }
+
+                    if (!strategy.IsMatch(row.DeliverableCode))
+                    {
+                        continue;
+                    }
+
+                    strategy.Execute(ilrData, reportRowYearlyValues);
+                    break;
                 }
             }
 
@@ -96,8 +93,6 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
             {
                 reportRow.Totals.Add(v.Values.Sum());
             });
-
-            reportRow.Totals.Add(reportRow.Totals.Sum());
 
             reportOutput.Add(reportRow);
         }

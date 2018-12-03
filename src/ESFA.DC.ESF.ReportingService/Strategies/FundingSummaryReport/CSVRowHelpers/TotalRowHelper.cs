@@ -69,8 +69,6 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
                 rowModel.Totals.Add(v.Values.Sum());
             });
 
-            rowModel.Totals.Add(rowModel.Totals.Sum());
-
             reportOutput.Add(rowModel);
         }
 

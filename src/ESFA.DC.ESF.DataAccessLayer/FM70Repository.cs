@@ -42,14 +42,18 @@ namespace ESFA.DC.ESF.DataAccessLayer
                     .Select(fd => new ILRFileDetailsModel
                     {
                         FileName = fd.Filename,
-                        LastSubmission = fd.SubmittedTime,
-                        Year = FileNameHelper.GetFundingYearFromILRFileName(fd.Filename)
+                        LastSubmission = fd.SubmittedTime
                     })
                     .FirstOrDefaultAsync(cancellationToken);
             }
             catch (Exception ex)
             {
                 _logger.LogError($"Failed to get file details with ukPrn {ukPrn}", ex);
+            }
+
+            if (fileDetail != null && !string.IsNullOrEmpty(fileDetail.FileName))
+            {
+                fileDetail.Year = FileNameHelper.GetFundingYearFromILRFileName(fileDetail.FileName);
             }
 
             return fileDetail;

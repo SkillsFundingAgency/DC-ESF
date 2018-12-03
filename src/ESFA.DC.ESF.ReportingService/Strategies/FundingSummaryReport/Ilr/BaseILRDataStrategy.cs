@@ -29,18 +29,31 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.Ilr
             IEnumerable<FM70PeriodisedValuesYearlyModel> ilrData,
             IList<FundingSummaryReportYearlyValueModel> yearlyData)
         {
-            foreach (var year in ilrData)
+            if (ilrData != null)
             {
-                var data = year.Fm70PeriodisedValues.Where(d =>
-                    d.DeliverableCode == DeliverableCode && AttributeNames.Contains(d.AttributeName)).ToList();
+                foreach (var year in ilrData)
+                {
+                    var data = year.Fm70PeriodisedValues.Where(d =>
+                        d.DeliverableCode == DeliverableCode && AttributeNames.Contains(d.AttributeName)).ToList();
 
+                    var yearData = new FundingSummaryReportYearlyValueModel();
+                    for (var i = 1; i < 13; i++)
+                    {
+                        yearData.Values[i - 1] = GetPeriodValueSum(data, i);
+                    }
+
+                    yearData.FundingYear = year.FundingYear;
+                    yearlyData.Add(yearData);
+                }
+            }
+            else
+            {
                 var yearData = new FundingSummaryReportYearlyValueModel();
                 for (var i = 1; i < 13; i++)
                 {
-                    yearData.Values[i - 1] = GetPeriodValueSum(data, i);
+                    yearData.Values[i - 1] = 0;
                 }
 
-                yearData.FundingYear = year.FundingYear;
                 yearlyData.Add(yearData);
             }
         }

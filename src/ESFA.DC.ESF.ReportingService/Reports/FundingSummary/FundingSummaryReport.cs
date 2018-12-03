@@ -37,7 +37,6 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
         private readonly IVersionInfo _versionInfo;
         private readonly ISupplementaryDataService _supplementaryDataService;
 
-        private readonly List<FundingSummaryModel> _fundingSummaryModels;
         private readonly ModelProperty[] _cachedModelProperties;
         private readonly FundingSummaryMapper _fundingSummaryMapper;
 
@@ -67,7 +66,6 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             _ilrService = ilrService;
 
             ReportFileName = "ESF Funding Summary Report";
-            _fundingSummaryModels = new List<FundingSummaryModel>();
             _fundingSummaryMapper = new FundingSummaryMapper();
             _cachedModelProperties = _fundingSummaryMapper
                 .MemberMaps
@@ -89,6 +87,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
                 await _supplementaryDataService.GetSupplementaryData(sourceFiles, cancellationToken);
 
             var ilrYearlyFileData = await _ilrService.GetIlrFileDetails(ukPrn, cancellationToken);
+            var fm70YearlyData = (await _ilrService.GetYearlyIlrData(ukPrn, cancellationToken)).ToList();
 
             FundingSummaryHeaderModel fundingSummaryHeaderModel =
                 PopulateReportHeader(sourceFile, ilrYearlyFileData, ukPrn, cancellationToken);
@@ -98,17 +97,21 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
 
             foreach (var file in sourceFiles)
             {
-                await PopulateReportData(ukPrn, supplementaryData[file.SourceFileId], cancellationToken);
+                var fundingYear = FileNameHelper.GetFundingYearFromFileName(file.FileName);
+                var thisYearsFm70Data = fm70YearlyData.Where(d => d.FundingYear == fundingYear);
+
+                var fundingSummaryModels = (await PopulateReportData(ukPrn, thisYearsFm70Data, supplementaryData[file.SourceFileId])).ToList();
+
                 FundingSummaryFooterModel fundingSummaryFooterModel = PopulateReportFooter(cancellationToken);
 
-                FundingSummaryModel rowOfData = _fundingSummaryModels.FirstOrDefault(x => x.DeliverableCode == "ST01");
+                FundingSummaryModel rowOfData = fundingSummaryModels.FirstOrDefault(x => x.DeliverableCode == "ST01" && x.YearlyValues.Any());
                 var yearAndDataLengthModels = new List<YearAndDataLengthModel>();
                 if (rowOfData != null)
                 {
                     int valCount = rowOfData.YearlyValues.Sum(x => x.Values.Length);
                     _reportWidth = valCount + rowOfData.Totals.Count + 2;
-                    foreach (FundingSummaryReportYearlyValueModel fundingSummaryReportYearlyValueModel in rowOfData
-                        .YearlyValues)
+                    foreach (FundingSummaryReportYearlyValueModel fundingSummaryReportYearlyValueModel in
+                        rowOfData.YearlyValues)
                     {
                         yearAndDataLengthModels.Add(new YearAndDataLengthModel(
                             fundingSummaryReportYearlyValueModel.FundingYear,
@@ -120,7 +123,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
                 _cellStyles = _excelStyleProvider.GetFundingSummaryStyles(workbook);
 
                 Worksheet sheet = workbook.Worksheets.Add(file.ConRefNumber);
-                workbook = GetWorkbookReport(workbook, sheet, fundingSummaryHeaderModel, fundingSummaryFooterModel);
+                workbook = GetWorkbookReport(workbook, sheet, fundingSummaryHeaderModel, fundingSummaryModels, fundingSummaryFooterModel);
                 ApplyAdditionalFormatting(workbook, rowOfData);
             }
 
@@ -209,13 +212,12 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             };
         }
 
-        private async Task PopulateReportData(
+        private async Task<IEnumerable<FundingSummaryModel>> PopulateReportData(
             int ukPrn,
-            IEnumerable<SupplementaryDataYearlyModel> data,
-            CancellationToken cancellationToken)
+            IEnumerable<FM70PeriodisedValuesYearlyModel> fm70YearlyData,
+            IEnumerable<SupplementaryDataYearlyModel> data)
         {
-            var fm70YearlyData = await _ilrService.GetYearlyIlrData(ukPrn, cancellationToken);
-
+            var fundingSummaryModels = new List<FundingSummaryModel>();
             foreach (var fundingReportRow in ReportDataTemplate.FundingModelRowDefinitions)
             {
                 foreach (var rowHelper in _rowHelpers)
@@ -225,20 +227,23 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
                         continue;
                     }
 
-                    rowHelper.Execute(_fundingSummaryModels, fundingReportRow, data, fm70YearlyData);
+                    rowHelper.Execute(fundingSummaryModels, fundingReportRow, data, fm70YearlyData);
                     break;
                 }
             }
+
+            return fundingSummaryModels;
         }
 
         private Workbook GetWorkbookReport(
             Workbook workbook,
             Worksheet sheet,
             FundingSummaryHeaderModel fundingSummaryHeaderModel,
+            IEnumerable<FundingSummaryModel> fundingSummaryModels,
             FundingSummaryFooterModel fundingSummaryFooterModel)
         {
             WriteExcelRecords(sheet, new FundingSummaryHeaderMapper(), new List<FundingSummaryHeaderModel> { fundingSummaryHeaderModel }, _cellStyles[5], _cellStyles[5], true);
-            foreach (var fundingSummaryModel in _fundingSummaryModels)
+            foreach (var fundingSummaryModel in fundingSummaryModels)
             {
                 if (string.IsNullOrEmpty(fundingSummaryModel.Title))
                 {
@@ -258,7 +263,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
                 {
                     _fundingSummaryMapper.MemberMaps.Single(x => x.Data.Index == 0).Name(fundingSummaryModel.Title);
                     _cachedHeaders[0] = fundingSummaryModel.Title;
-                    WriteRecordsFromClassMap(sheet, _fundingSummaryMapper, _cachedHeaders, excelHeaderStyle);
+                    WriteRecordsFromArray(sheet, _fundingSummaryMapper, _cachedHeaders, excelHeaderStyle);
                     continue;
                 }
 
@@ -274,7 +279,10 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
 
         private string[] GetHeaderEntries(List<YearAndDataLengthModel> yearAndDataLengthModels)
         {
-            var values = new List<string>();
+            var values = new List<string>
+            {
+                string.Empty // placeholder for title
+            };
             foreach (var cachedModelProperty in _cachedModelProperties)
             {
                 if (typeof(IEnumerable).IsAssignableFrom(cachedModelProperty.MethodInfo.PropertyType))
