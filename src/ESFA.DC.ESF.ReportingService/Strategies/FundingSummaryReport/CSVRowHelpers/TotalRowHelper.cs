@@ -17,8 +17,8 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
         public void Execute(
             IList<FundingSummaryModel> reportOutput,
             FundingReportRow row,
-            IList<SupplementaryDataYearlyModel> esfDataModels,
-            IList<FM70PeriodisedValuesYearlyModel> ilrData)
+            IEnumerable<SupplementaryDataYearlyModel> esfDataModels,
+            IEnumerable<FM70PeriodisedValuesYearlyModel> ilrData)
         {
             List<string> deliverableCodes = row.DeliverableCode?.Split(',').Select(x => x.Trim())
                 .Where(x => !string.IsNullOrWhiteSpace(x)).ToList();

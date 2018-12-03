@@ -17,8 +17,8 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
         public void Execute(
             IList<FundingSummaryModel> reportOutput,
             FundingReportRow row,
-            IList<SupplementaryDataYearlyModel> esfDataModels,
-            IList<FM70PeriodisedValuesYearlyModel> ilrData)
+            IEnumerable<SupplementaryDataYearlyModel> esfDataModels,
+            IEnumerable<FM70PeriodisedValuesYearlyModel> ilrData)
         {
             FundingSummaryModel rowModel = new FundingSummaryModel(row.Title, HeaderType.None, 3);
             FundingSummaryModel grandTotalRow = reportOutput.FirstOrDefault(r => r.Title == "<ESF-1> Total (£)");

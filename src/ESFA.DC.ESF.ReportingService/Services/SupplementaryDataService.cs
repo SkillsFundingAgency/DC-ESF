@@ -26,11 +26,11 @@ namespace ESFA.DC.ESF.ReportingService.Services
             _supplementaryDataMapper = supplementaryDataMapper;
         }
 
-        public async Task<IList<SourceFileModel>> GetPreviousContractImportFilesForProvider(
+        public async Task<IList<SourceFileModel>> GetImportFiles(
             string ukPrn,
             CancellationToken cancellationToken)
         {
-            var existingData = new List<SourceFileModel>();
+            var sourceFiles = new List<SourceFileModel>();
 
             var contractNumbers = await _repository.GetContractsForProvider(ukPrn, cancellationToken);
 
@@ -42,19 +42,64 @@ namespace ESFA.DC.ESF.ReportingService.Services
                     continue;
                 }
 
-                existingData.Add(_fileModelMapper.GetModelFromEntity(file));
+                sourceFiles.Add(_fileModelMapper.GetModelFromEntity(file));
             }
 
-            return existingData;
+            return sourceFiles;
         }
 
-        public async Task<IList<SupplementaryDataModel>> GetSupplementaryDataPerSourceFile(
+        public async Task<IDictionary<int, IEnumerable<SupplementaryDataYearlyModel>>> GetSupplementaryData(
+            IEnumerable<SourceFileModel> sourceFiles,
+            CancellationToken cancellationToken)
+        {
+            var supplementaryDataModels = new Dictionary<int, IEnumerable<SupplementaryDataYearlyModel>>();
+            foreach (var sourceFile in sourceFiles)
+            {
+                var supplementaryData =
+                    await GetSupplementaryData(
+                        sourceFile.SourceFileId,
+                        cancellationToken);
+
+                if (supplementaryData == null)
+                {
+                    continue;
+                }
+
+                supplementaryDataModels.Add(sourceFile.SourceFileId, supplementaryData);
+            }
+
+            return supplementaryDataModels;
+        }
+
+        private async Task<IEnumerable<SupplementaryDataYearlyModel>> GetSupplementaryData(
             int sourceFileId,
             CancellationToken cancellationToken)
         {
             var supplementaryData = await _repository.GetSupplementaryDataPerSourceFile(sourceFileId, cancellationToken);
 
-            return supplementaryData.Select(data => _supplementaryDataMapper.GetModelFromEntity(data)).ToList();
+            return GroupSupplementaryDataIntoYears(supplementaryData.Select(data => _supplementaryDataMapper.GetModelFromEntity(data)));
+        }
+
+        private IEnumerable<SupplementaryDataYearlyModel> GroupSupplementaryDataIntoYears(IEnumerable<SupplementaryDataModel> supplementaryData)
+        {
+            var yearlySupplementaryData = new List<SupplementaryDataYearlyModel>();
+            if (supplementaryData == null)
+            {
+                return yearlySupplementaryData;
+            }
+
+            var groupings = supplementaryData.GroupBy(sd => sd.CalendarYear);
+
+            foreach (var yearGroup in groupings)
+            {
+                yearlySupplementaryData.Add(new SupplementaryDataYearlyModel
+                {
+                    FundingYear = yearGroup.Key ?? default(int),
+                    SupplementaryData = yearGroup.ToList()
+                });
+            }
+
+            return yearlySupplementaryData;
         }
     }
 }

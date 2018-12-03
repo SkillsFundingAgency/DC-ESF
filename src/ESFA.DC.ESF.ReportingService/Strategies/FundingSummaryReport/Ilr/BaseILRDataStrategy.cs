@@ -26,7 +26,7 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.Ilr
         }
 
         public void Execute(
-            IList<FM70PeriodisedValuesYearlyModel> ilrData,
+            IEnumerable<FM70PeriodisedValuesYearlyModel> ilrData,
             IList<FundingSummaryReportYearlyValueModel> yearlyData)
         {
             foreach (var year in ilrData)

@@ -94,23 +94,23 @@
     <Reference Include="ESFA.DC.ILR1819.DataStore.EF.Valid, Version=0.1.12.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.ILR1819.Database.EF.0.1.12-beta0001\lib\net46\ESFA.DC.ILR1819.DataStore.EF.Valid.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.ILRLegacy.DataStore.DataAccessLayer, Version=0.1.10.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILRLegacy.DataStore.Services.0.1.10-beta0001\lib\netstandard2.0\ESFA.DC.ILRLegacy.DataStore.DataAccessLayer.dll</HintPath>
+    <Reference Include="ESFA.DC.ILRLegacy.DataStore.DataAccessLayer, Version=0.1.14.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILRLegacy.DataStore.Services.0.1.14-beta0001\lib\netstandard2.0\ESFA.DC.ILRLegacy.DataStore.DataAccessLayer.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.ILRLegacy.DataStore.ILR1617EF, Version=0.1.10.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILRLegacy.DataStore.Services.0.1.10-beta0001\lib\netstandard2.0\ESFA.DC.ILRLegacy.DataStore.ILR1617EF.dll</HintPath>
+    <Reference Include="ESFA.DC.ILRLegacy.DataStore.ILR1617EF, Version=0.1.14.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILRLegacy.DataStore.Services.0.1.14-beta0001\lib\netstandard2.0\ESFA.DC.ILRLegacy.DataStore.ILR1617EF.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.ILRLegacy.DataStore.ILR1718EF, Version=0.1.10.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILRLegacy.DataStore.Services.0.1.10-beta0001\lib\netstandard2.0\ESFA.DC.ILRLegacy.DataStore.ILR1718EF.dll</HintPath>
+    <Reference Include="ESFA.DC.ILRLegacy.DataStore.ILR1718EF, Version=0.1.14.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILRLegacy.DataStore.Services.0.1.14-beta0001\lib\netstandard2.0\ESFA.DC.ILRLegacy.DataStore.ILR1718EF.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.ILRLegacy.DataStore.Interfaces, Version=0.1.10.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILRLegacy.DataStore.Services.0.1.10-beta0001\lib\netstandard2.0\ESFA.DC.ILRLegacy.DataStore.Interfaces.dll</HintPath>
+    <Reference Include="ESFA.DC.ILRLegacy.DataStore.Interfaces, Version=0.1.14.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILRLegacy.DataStore.Services.0.1.14-beta0001\lib\netstandard2.0\ESFA.DC.ILRLegacy.DataStore.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.ILRLegacy.DataStore.Models, Version=0.1.10.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILRLegacy.DataStore.Services.0.1.10-beta0001\lib\netstandard2.0\ESFA.DC.ILRLegacy.DataStore.Models.dll</HintPath>
+    <Reference Include="ESFA.DC.ILRLegacy.DataStore.Models, Version=0.1.14.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILRLegacy.DataStore.Services.0.1.14-beta0001\lib\netstandard2.0\ESFA.DC.ILRLegacy.DataStore.Models.dll</HintPath>
     </Reference>
-    <Reference Include="ESFA.DC.ILRLegacy.DataStore.Services, Version=0.1.10.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ILRLegacy.DataStore.Services.0.1.10-beta0001\lib\netstandard2.0\ESFA.DC.ILRLegacy.DataStore.Services.dll</HintPath>
+    <Reference Include="ESFA.DC.ILRLegacy.DataStore.Services, Version=0.1.14.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ESFA.DC.ILRLegacy.DataStore.Services.0.1.14-beta0001\lib\netstandard2.0\ESFA.DC.ILRLegacy.DataStore.Services.dll</HintPath>
     </Reference>
     <Reference Include="ESFA.DC.JobContext.Interface, Version=0.2.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ESFA.DC.JobContext.Interface.0.2.4-beta0001\lib\netstandard2.0\ESFA.DC.JobContext.Interface.dll</HintPath>
@@ -134,7 +134,7 @@
       <HintPath>..\packages\ESFA.DC.Queueing.Interface.0.1.14-beta0001\lib\netstandard2.0\ESFA.DC.Queueing.Interface.dll</HintPath>
     </Reference>
     <Reference Include="ESFA.DC.ReferenceData.FCS.Model, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ReferenceData.FCS.Model.0.1.88\lib\net461\ESFA.DC.ReferenceData.FCS.Model.dll</HintPath>
+      <HintPath>..\packages\ESFA.DC.ReferenceData.FCS.Model.0.1.95\lib\net461\ESFA.DC.ReferenceData.FCS.Model.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
@@ -190,6 +190,7 @@
     <Compile Include="Reports\IValidationReport.cs" />
     <Compile Include="Reports\IValidationResultReport.cs" />
     <Compile Include="DataAccessLayer\IReferenceDataRepository.cs" />
+    <Compile Include="Reports\Services\IILRService.cs" />
     <Compile Include="Reports\Services\ILegacyILRService.cs" />
     <Compile Include="Reports\Services\ISupplementaryDataService.cs" />
     <Compile Include="Reports\Strategies\IILRDataStrategy.cs" />

@@ -48,18 +48,14 @@ namespace ESFA.DC.ESF.ReportingService.Tests
                     })
                 .Returns(Task.CompletedTask);
 
-            Mock<IFM70Repository> ilrRepo = new Mock<IFM70Repository>();
-            ilrRepo.Setup(m => m.GetFileDetails(It.IsAny<int>(), It.IsAny<CancellationToken>())).Returns(GetTestFileDetail());
-            ilrRepo.Setup(m => m.GetPeriodisedValues(It.IsAny<int>(), It.IsAny<CancellationToken>())).Returns(FM70PeriodosedValuesBuilder.BuildModel());
-
             IList<IRowHelper> rowHelpers = GenerateRowHelpersWithStrategies();
 
             var supplementaryDataService = new Mock<ISupplementaryDataService>();
             supplementaryDataService
-                .Setup(s => s.GetSupplementaryDataPerSourceFile(It.IsAny<int>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new List<SupplementaryDataModel>());
+                .Setup(s => s.GetSupplementaryData(It.IsAny<IEnumerable<SourceFileModel>>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new Dictionary<int, IEnumerable<SupplementaryDataYearlyModel>>());
             supplementaryDataService
-                .Setup(s => s.GetPreviousContractImportFilesForProvider(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                .Setup(s => s.GetImportFiles(It.IsAny<string>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new List<SourceFileModel>());
 
             Mock<IReferenceDataCache> referenceDataCache = new Mock<IReferenceDataCache>();
@@ -73,22 +69,23 @@ namespace ESFA.DC.ESF.ReportingService.Tests
             var valueProvider = new ValueProvider();
             var excelStyleProvider = new ExcelStyleProvider();
 
-            IList<FM70PeriodisedValuesModel> periodisedValues = new List<FM70PeriodisedValuesModel>();
-            var ilrLegacyMock = new Mock<ILegacyILRService>();
-            ilrLegacyMock.Setup(m => m.GetPreviousYearsFM70Data(It.IsAny<int>(), It.IsAny<CancellationToken>()))
+            IList<FM70PeriodisedValuesYearlyModel> periodisedValues = new List<FM70PeriodisedValuesYearlyModel>();
+            var ilrMock = new Mock<IILRService>();
+            ilrMock.Setup(m => m.GetYearlyIlrData(It.IsAny<int>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(periodisedValues);
+            ilrMock.Setup(m => m.GetIlrFileDetails(It.IsAny<int>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(GetTestFileDetail());
 
             var fundingSummaryReport = new FundingSummaryReport(
                 dateTimeProviderMock.Object,
                 valueProvider,
                 storage.Object,
-                ilrRepo.Object,
+                ilrMock.Object,
                 supplementaryDataService.Object,
                 rowHelpers,
                 referenceDataCache.Object,
                 excelStyleProvider,
-                versionInfo.Object,
-                ilrLegacyMock.Object);
+                versionInfo.Object);
 
             SourceFileModel sourceFile = GetEsfSourceFileModel();
 
@@ -106,12 +103,15 @@ namespace ESFA.DC.ESF.ReportingService.Tests
 #endif
         }
 
-        private async Task<ILRFileDetailsModel> GetTestFileDetail()
+        private IEnumerable<ILRFileDetailsModel> GetTestFileDetail()
         {
-            return new ILRFileDetailsModel
+            return new List<ILRFileDetailsModel>
             {
-                FileName = "ILR-10005752-1819-20181004-152148-02.xml",
-                LastSubmission = DateTime.Now
+                new ILRFileDetailsModel
+                {
+                    FileName = "ILR-10005752-1819-20181004-152148-02.xml",
+                    LastSubmission = DateTime.Now
+                }
             };
         }
 

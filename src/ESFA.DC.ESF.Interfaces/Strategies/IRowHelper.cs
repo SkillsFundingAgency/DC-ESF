@@ -11,7 +11,7 @@ namespace ESFA.DC.ESF.Interfaces.Strategies
         void Execute(
             IList<FundingSummaryModel> reportOutput,
             FundingReportRow row,
-            IList<SupplementaryDataYearlyModel> esfDataModels,
-            IList<FM70PeriodisedValuesYearlyModel> ilrData);
+            IEnumerable<SupplementaryDataYearlyModel> esfDataModels,
+            IEnumerable<FM70PeriodisedValuesYearlyModel> ilrData);
     }
 }

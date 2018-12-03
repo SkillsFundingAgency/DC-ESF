@@ -30,20 +30,17 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
     {
         private readonly IStreamableKeyValuePersistenceService _storage;
         private readonly IList<IRowHelper> _rowHelpers;
-        private readonly IFM70Repository _repository;
+        private readonly IILRService _ilrService;
         private readonly IReferenceDataCache _referenceDataCache;
         private readonly IExcelStyleProvider _excelStyleProvider;
         private readonly IDateTimeProvider _dateTimeProvider;
         private readonly IVersionInfo _versionInfo;
         private readonly ISupplementaryDataService _supplementaryDataService;
-        private readonly ILegacyILRService _legacyILRService;
 
         private readonly List<FundingSummaryModel> _fundingSummaryModels;
         private readonly ModelProperty[] _cachedModelProperties;
         private readonly FundingSummaryMapper _fundingSummaryMapper;
 
-        private IList<SourceFileModel> _sourceFiles;
-        private Dictionary<int, IList<SupplementaryDataModel>> _contractSupplementaryDataModels;
         private string[] _cachedHeaders;
         private CellStyle[] _cellStyles;
         private int _reportWidth = 1;
@@ -52,24 +49,22 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             IDateTimeProvider dateTimeProvider,
             IValueProvider valueProvider,
             IStreamableKeyValuePersistenceService storage,
-            IFM70Repository repository,
+            IILRService ilrService,
             ISupplementaryDataService supplementaryDataService,
             IList<IRowHelper> rowHelpers,
             IReferenceDataCache referenceDataCache,
             IExcelStyleProvider excelStyleProvider,
-            IVersionInfo versionInfo,
-            ILegacyILRService legacyILRService)
+            IVersionInfo versionInfo)
             : base(dateTimeProvider, valueProvider)
         {
             _dateTimeProvider = dateTimeProvider;
             _storage = storage;
-            _repository = repository;
             _rowHelpers = rowHelpers;
             _referenceDataCache = referenceDataCache;
             _excelStyleProvider = excelStyleProvider;
             _versionInfo = versionInfo;
             _supplementaryDataService = supplementaryDataService;
-            _legacyILRService = legacyILRService;
+            _ilrService = ilrService;
 
             ReportFileName = "ESF Funding Summary Report";
             _fundingSummaryModels = new List<FundingSummaryModel>();
@@ -88,19 +83,12 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             CancellationToken cancellationToken)
         {
             var ukPrn = Convert.ToInt32(sourceFile.UKPRN);
-            ILRFileDetailsModel ilrFileData = await _repository.GetFileDetails(ukPrn, cancellationToken);
 
-            await GetDataForContractImports(sourceFile.UKPRN, cancellationToken);
+            var sourceFiles = await _supplementaryDataService.GetImportFiles(sourceFile.UKPRN, cancellationToken);
+            var supplementaryData =
+                await _supplementaryDataService.GetSupplementaryData(sourceFiles, cancellationToken);
 
-            var previousYearsFiles = await _legacyILRService.GetPreviousYearsILRFileDetails(ukPrn, cancellationToken);
-
-            var ilrYearlyFileData = new List<ILRFileDetailsModel>();
-            if (previousYearsFiles != null)
-            {
-                ilrYearlyFileData.AddRange(previousYearsFiles.OrderBy(fd => fd.Year));
-            }
-
-            ilrYearlyFileData.Add(ilrFileData);
+            var ilrYearlyFileData = await _ilrService.GetIlrFileDetails(ukPrn, cancellationToken);
 
             FundingSummaryHeaderModel fundingSummaryHeaderModel =
                 PopulateReportHeader(sourceFile, ilrYearlyFileData, ukPrn, cancellationToken);
@@ -108,12 +96,9 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             var workbook = new Workbook();
             workbook.Worksheets.Clear();
 
-            foreach (var file in _sourceFiles)
+            foreach (var file in sourceFiles)
             {
-                var yearlySupplementaryData =
-                    GroupSupplementaryDataIntoYears(_contractSupplementaryDataModels[file.SourceFileId]);
-
-                await PopulateReportData(ukPrn, yearlySupplementaryData, cancellationToken);
+                await PopulateReportData(ukPrn, supplementaryData[file.SourceFileId], cancellationToken);
                 FundingSummaryFooterModel fundingSummaryFooterModel = PopulateReportFooter(cancellationToken);
 
                 FundingSummaryModel rowOfData = _fundingSummaryModels.FirstOrDefault(x => x.DeliverableCode == "ST01");
@@ -150,28 +135,6 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             }
         }
 
-        private async Task GetDataForContractImports(string ukPrn, CancellationToken cancellationToken)
-        {
-            _sourceFiles = await _supplementaryDataService.GetPreviousContractImportFilesForProvider(ukPrn, cancellationToken) ??
-                                           new List<SourceFileModel>();
-
-            _contractSupplementaryDataModels = new Dictionary<int, IList<SupplementaryDataModel>>();
-            foreach (var sourceFile in _sourceFiles)
-            {
-                var supplementaryData =
-                    await _supplementaryDataService.GetSupplementaryDataPerSourceFile(
-                        sourceFile.SourceFileId,
-                        cancellationToken);
-
-                if (supplementaryData == null)
-                {
-                    continue;
-                }
-
-                _contractSupplementaryDataModels.Add(sourceFile.SourceFileId, supplementaryData);
-            }
-        }
-
         private void ApplyAdditionalFormatting(Workbook workbook, FundingSummaryModel rowOfData)
         {
             if (rowOfData == null)
@@ -189,43 +152,9 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             worksheet.Cells.CreateRange(9, valCount + rowOfData.Totals.Count, 110, 1).ApplyStyle(_cellStyles[6].Style, _cellStyles[6].StyleFlag); // Current Year Subtotal
         }
 
-        private IList<SupplementaryDataYearlyModel> GroupSupplementaryDataIntoYears(IList<SupplementaryDataModel> supplementaryData)
-        {
-            var yearlySupplementaryData = new List<SupplementaryDataYearlyModel>();
-            var groupings = supplementaryData.GroupBy(sd => sd.CalendarYear).ToList();
-
-            foreach (var yearGroup in groupings)
-            {
-                yearlySupplementaryData.Add(new SupplementaryDataYearlyModel
-                {
-                    FundingYear = yearGroup.Key ?? default(int),
-                    SupplementaryData = yearGroup.ToList()
-                });
-            }
-
-            return yearlySupplementaryData;
-        }
-
-        private IList<FM70PeriodisedValuesYearlyModel> GroupFm70DataIntoYears(IList<FM70PeriodisedValuesModel> fm70Data)
-        {
-            var yearlyFm70Data = new List<FM70PeriodisedValuesYearlyModel>();
-            var groupings = fm70Data.GroupBy(sd => sd.FundingYear).ToList();
-
-            foreach (var yearGroup in groupings)
-            {
-                yearlyFm70Data.Add(new FM70PeriodisedValuesYearlyModel
-                {
-                    FundingYear = yearGroup.Key,
-                    Fm70PeriodisedValues = yearGroup.ToList()
-                });
-            }
-
-            return yearlyFm70Data;
-        }
-
         private FundingSummaryHeaderModel PopulateReportHeader(
             SourceFileModel sourceFile,
-            List<ILRFileDetailsModel> fileData,
+            IEnumerable<ILRFileDetailsModel> fileData,
             int ukPrn,
             CancellationToken cancellationToken)
         {
@@ -282,15 +211,10 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
 
         private async Task PopulateReportData(
             int ukPrn,
-            IList<SupplementaryDataYearlyModel> data,
+            IEnumerable<SupplementaryDataYearlyModel> data,
             CancellationToken cancellationToken)
         {
-            IList<FM70PeriodisedValuesModel> ilrData = await _repository.GetPeriodisedValues(ukPrn, cancellationToken);
-            var previousYearsILRData = await _legacyILRService.GetPreviousYearsFM70Data(ukPrn, cancellationToken);
-            var allILRData = new List<FM70PeriodisedValuesModel>();
-            allILRData.AddRange(previousYearsILRData);
-            allILRData.AddRange(ilrData);
-            var fm70YearlyData = GroupFm70DataIntoYears(allILRData);
+            var fm70YearlyData = await _ilrService.GetYearlyIlrData(ukPrn, cancellationToken);
 
             foreach (var fundingReportRow in ReportDataTemplate.FundingModelRowDefinitions)
             {

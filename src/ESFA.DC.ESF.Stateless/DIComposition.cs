@@ -76,7 +76,6 @@ using ESFA.DC.ReferenceData.FCS.Model.Interface;
 using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
 using ESFA.DC.ServiceFabric.Helpers.Interfaces;
-using ExecutionContext = ESFA.DC.Logging.ExecutionContext;
 
 namespace ESFA.DC.ESF.Service.Stateless
 {
@@ -88,15 +87,16 @@ namespace ESFA.DC.ESF.Service.Stateless
         {
             var container = new ContainerBuilder();
 
+            RegisterLogger(container, configHelper);
+
             var versionInfo = configHelper.GetSectionValues<Config.VersionInfo>("VersionSection");
             container.RegisterInstance(versionInfo).As<IVersionInfo>().SingleInstance();
-
             container.RegisterModule<DependencyInjectionModule>();
 
             RegisterPersistence(container, configHelper);
             RegisterServiceBusConfig(container, configHelper);
             RegisterJobContextManagementServices(container);
-            RegisterLogger(container, configHelper);
+
             RegisterSerializers(container);
             RegisterMessageHandler(container);
 
@@ -317,6 +317,7 @@ namespace ESFA.DC.ESF.Service.Stateless
 
             containerBuilder.RegisterType<SupplementaryDataService>().As<ISupplementaryDataService>();
             containerBuilder.RegisterType<LegacyILRService>().As<ILegacyILRService>();
+            containerBuilder.RegisterType<ILRService>().As<IILRService>();
 
             containerBuilder.RegisterType<FileValidationService>().As<IFileValidationService>();
 

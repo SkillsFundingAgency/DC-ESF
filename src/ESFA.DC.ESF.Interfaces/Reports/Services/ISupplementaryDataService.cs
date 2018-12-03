@@ -7,12 +7,12 @@ namespace ESFA.DC.ESF.Interfaces.Reports.Services
 {
     public interface ISupplementaryDataService
     {
-        Task<IList<SourceFileModel>> GetPreviousContractImportFilesForProvider(
+        Task<IList<SourceFileModel>> GetImportFiles(
             string ukPrn,
             CancellationToken cancellationToken);
 
-        Task<IList<SupplementaryDataModel>> GetSupplementaryDataPerSourceFile(
-            int sourceFileId,
+        Task<IDictionary<int, IEnumerable<SupplementaryDataYearlyModel>>> GetSupplementaryData(
+            IEnumerable<SourceFileModel> sourceFiles,
             CancellationToken cancellationToken);
     }
 }

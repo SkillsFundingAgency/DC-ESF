@@ -7,11 +7,11 @@ namespace ESFA.DC.ESF.Interfaces.Reports.Services
 {
     public interface ILegacyILRService
     {
-        Task<IList<ILRFileDetailsModel>> GetPreviousYearsILRFileDetails(
+        Task<IEnumerable<ILRFileDetailsModel>> GetPreviousYearsILRFileDetails(
             int ukPrn,
             CancellationToken cancellationToken);
 
-        Task<IList<FM70PeriodisedValuesModel>> GetPreviousYearsFM70Data(
+        Task<IEnumerable<FM70PeriodisedValuesModel>> GetPreviousYearsFM70Data(
             int ukPrn,
             CancellationToken cancellationToken);
     }

@@ -21,7 +21,7 @@ namespace ESFA.DC.ESF.ReportingService.Services
             _fm70Service = fm70Service;
         }
 
-        public async Task<IList<ILRFileDetailsModel>> GetPreviousYearsILRFileDetails(
+        public async Task<IEnumerable<ILRFileDetailsModel>> GetPreviousYearsILRFileDetails(
             int ukPrn,
             CancellationToken cancellationToken)
         {
@@ -34,7 +34,7 @@ namespace ESFA.DC.ESF.ReportingService.Services
             }).ToList();
         }
 
-        public async Task<IList<FM70PeriodisedValuesModel>> GetPreviousYearsFM70Data(
+        public async Task<IEnumerable<FM70PeriodisedValuesModel>> GetPreviousYearsFM70Data(
             int ukPrn,
             CancellationToken cancellationToken)
         {
