@@ -66,6 +66,24 @@ namespace ESFA.DC.ESF.Utils
                   $"{fileNameParts[4].Substring(0, 2)}:{fileNameParts[4].Substring(2, 2)}:{fileNameParts[4].Substring(4, 2)}";
         }
 
+        public static string GetPreparedDateFromILRFileName(string fileName)
+        {
+            if (fileName == null)
+            {
+                return null;
+            }
+
+            var fileNameParts = fileName.Split('-');
+            if (fileNameParts.Length < 6 || fileNameParts[3].Length != 8 || fileNameParts[4].Length != 6)
+            {
+                return string.Empty;
+            }
+
+            var dateString = $"{fileNameParts[3].Substring(0, 4)}/{fileNameParts[3].Substring(4, 2)}/{fileNameParts[3].Substring(6, 2)} " +
+                             $"{fileNameParts[4].Substring(0, 2)}:{fileNameParts[4].Substring(2, 2)}:{fileNameParts[4].Substring(4, 2)}";
+            return Convert.ToDateTime(dateString).ToString("dd/MM/yyyy hh:mm:ss");
+        }
+
         public static string[] SplitFileName(string fileName)
         {
             const int lengthOfDateTimePart = 15;

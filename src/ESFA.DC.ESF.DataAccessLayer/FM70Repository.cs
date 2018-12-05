@@ -139,6 +139,7 @@ namespace ESFA.DC.ESF.DataAccessLayer
                     .Where(v => v.UKPRN == ukPrn).
                     Select(v => new FM70PeriodisedValuesModel
                     {
+                        FundingYear = 2018,
                         UKPRN = v.UKPRN,
                         LearnRefNumber = v.LearnRefNumber,
                         DeliverableCode = v.DeliverableCode,

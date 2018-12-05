@@ -100,7 +100,8 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
                 var fundingYear = FileNameHelper.GetFundingYearFromFileName(file.FileName);
                 var thisYearsFm70Data = fm70YearlyData.Where(d => d.FundingYear == fundingYear);
 
-                var fundingSummaryModels = (await PopulateReportData(ukPrn, thisYearsFm70Data, supplementaryData[file.SourceFileId])).ToList();
+                var fundingSummaryModels = PopulateReportData(thisYearsFm70Data, supplementaryData[file.SourceFileId]).ToList();
+                ApplyFundingYearToEmptyFundingYears(fundingSummaryModels, fundingYear);
 
                 FundingSummaryFooterModel fundingSummaryFooterModel = PopulateReportFooter(cancellationToken);
 
@@ -138,6 +139,20 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             }
         }
 
+        private static void ApplyFundingYearToEmptyFundingYears(IEnumerable<FundingSummaryModel> fundingSummaryModels, int fundingYear)
+        {
+            foreach (var model in fundingSummaryModels)
+            {
+                foreach (var yearlyValue in model.YearlyValues)
+                {
+                    if (yearlyValue.FundingYear == 0)
+                    {
+                        yearlyValue.FundingYear = fundingYear;
+                    }
+                }
+            }
+        }
+
         private void ApplyAdditionalFormatting(Workbook workbook, FundingSummaryModel rowOfData)
         {
             if (rowOfData == null)
@@ -166,20 +181,20 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             var contractReferenceNumberRow =
                 new List<string> { sourceFile.ConRefNumber, string.Empty, string.Empty, "ILR File :" };
             var supplementaryDataFileRow =
-                new List<string> { sourceFile.FileName, string.Empty, string.Empty, "Last ILR File Update :" };
+                new List<string> { sourceFile.FileName.Contains("/") ? sourceFile.FileName.Substring(sourceFile.FileName.IndexOf("/", StringComparison.Ordinal) + 1) : sourceFile.FileName, string.Empty, string.Empty, "Last ILR File Update :" };
             var lastSupplementaryDataFileUpdateRow =
-                new List<string> { sourceFile.SuppliedDate?.ToString("dd/MM/yyyy"), string.Empty, string.Empty, "File Preparation Date :" };
+                new List<string> { sourceFile.SuppliedDate?.ToString("dd/MM/yyyy hh:mm:ss"), string.Empty, string.Empty, "File Preparation Date :" };
 
             foreach (var model in fileData)
             {
-                var preparationDate = FileNameHelper.GetPreparedDateFromFileName(model.FileName);
+                var preparationDate = FileNameHelper.GetPreparedDateFromILRFileName(model.FileName);
                 var secondYear = FileNameHelper.GetSecondYearFromReportYear(model.Year);
 
                 ukPrnRow.Add(string.Empty);
                 ukPrnRow.Add($"{model.Year}/{secondYear}");
-                contractReferenceNumberRow.Add(model.FileName);
+                contractReferenceNumberRow.Add(model.FileName.Substring(model.FileName.Contains("/") ? model.FileName.IndexOf("/", StringComparison.Ordinal) + 1 : 0));
                 contractReferenceNumberRow.Add(string.Empty);
-                supplementaryDataFileRow.Add(model.LastSubmission.ToString());
+                supplementaryDataFileRow.Add(model.LastSubmission?.ToString("dd/MM/yyyy hh:mm:ss"));
                 supplementaryDataFileRow.Add(string.Empty);
                 lastSupplementaryDataFileUpdateRow.Add(preparationDate);
                 lastSupplementaryDataFileUpdateRow.Add(string.Empty);
@@ -212,8 +227,7 @@ namespace ESFA.DC.ESF.ReportingService.Reports.FundingSummary
             };
         }
 
-        private async Task<IEnumerable<FundingSummaryModel>> PopulateReportData(
-            int ukPrn,
+        private IEnumerable<FundingSummaryModel> PopulateReportData(
             IEnumerable<FM70PeriodisedValuesYearlyModel> fm70YearlyData,
             IEnumerable<SupplementaryDataYearlyModel> data)
         {

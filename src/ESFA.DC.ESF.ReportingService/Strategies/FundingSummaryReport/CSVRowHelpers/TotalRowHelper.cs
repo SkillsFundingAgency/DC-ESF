@@ -24,7 +24,7 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
                 .Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
 
             List<FundingSummaryModel> reportRowsToTotal = deliverableCodes == null ?
-                reportOutput.Where(r => r.ExcelRecordStyle == 4).ToList() :
+                reportOutput.Where(r => r.ExcelRecordStyle == 2).ToList() :
                 reportOutput.Where(r => deliverableCodes.Contains(r.DeliverableCode) && r.ExcelRecordStyle == 4).ToList();
 
             if (!reportRowsToTotal.Any())

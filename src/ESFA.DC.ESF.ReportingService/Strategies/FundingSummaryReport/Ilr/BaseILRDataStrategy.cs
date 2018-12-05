@@ -29,7 +29,7 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.Ilr
             IEnumerable<FM70PeriodisedValuesYearlyModel> ilrData,
             IList<FundingSummaryReportYearlyValueModel> yearlyData)
         {
-            if (ilrData != null)
+            if (ilrData != null && ilrData.Any())
             {
                 foreach (var year in ilrData)
                 {
