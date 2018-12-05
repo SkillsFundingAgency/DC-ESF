@@ -53,6 +53,8 @@ using ESFA.DC.ILR1819.DataStore.EF;
 using ESFA.DC.ILR1819.DataStore.EF.Interfaces;
 using ESFA.DC.ILR1819.DataStore.EF.Valid;
 using ESFA.DC.ILR1819.DataStore.EF.Valid.Interfaces;
+using ESFA.DC.ILRLegacy.DataStore.Services;
+using ESFA.DC.ILRLegacy.Models;
 using ESFA.DC.IO.AzureStorage;
 using ESFA.DC.IO.AzureStorage.Config.Interfaces;
 using ESFA.DC.IO.Interfaces;
@@ -74,23 +76,27 @@ using ESFA.DC.ReferenceData.FCS.Model.Interface;
 using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
 using ESFA.DC.ServiceFabric.Helpers.Interfaces;
-using ExecutionContext = ESFA.DC.Logging.ExecutionContext;
 
 namespace ESFA.DC.ESF.Service.Stateless
 {
     public class DIComposition
     {
+        private static ILRConfiguration _ilrLegacyConfiguration = new ILRConfiguration();
+
         public static ContainerBuilder BuildContainer(IConfigurationHelper configHelper)
         {
             var container = new ContainerBuilder();
 
+            RegisterLogger(container, configHelper);
+
             var versionInfo = configHelper.GetSectionValues<Config.VersionInfo>("VersionSection");
             container.RegisterInstance(versionInfo).As<IVersionInfo>().SingleInstance();
+            container.RegisterModule<DependencyInjectionModule>();
 
             RegisterPersistence(container, configHelper);
             RegisterServiceBusConfig(container, configHelper);
             RegisterJobContextManagementServices(container);
-            RegisterLogger(container, configHelper);
+
             RegisterSerializers(container);
             RegisterMessageHandler(container);
 
@@ -149,12 +155,9 @@ namespace ESFA.DC.ESF.Service.Stateless
                 .As<IILR1819_DataStoreEntitiesValid>()
                 .InstancePerLifetimeScope();
 
-            //containerBuilder.Register(c => new ILR1819_DataStoreEntities(ilrConfig.ILR1617ConnectionString))
-            //    .As<IILR1617_Rulebase>()
-            //    .InstancePerLifetimeScope();
-            //containerBuilder.Register(c => new ILR1819_DataStoreEntitiesValid(ilrConfig.ILR1718ConnectionString))
-            //    .As<IILR1718_Rulebase>()
-            //    .InstancePerLifetimeScope();
+            _ilrLegacyConfiguration.ILR1617ConnectionString = ilrConfig.ILR1617ConnectionString;
+            _ilrLegacyConfiguration.ILR1718ConnectionString = ilrConfig.ILR1718ConnectionString;
+            containerBuilder.Register(c => _ilrLegacyConfiguration).As<ILRConfiguration>();
 
             var esfConfig = configHelper.GetSectionValues<ESFConfiguration>("ESFSection");
             containerBuilder.Register(c => new ESF_DataStoreEntities(esfConfig.ESFConnectionString))
@@ -313,6 +316,8 @@ namespace ESFA.DC.ESF.Service.Stateless
                 .InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<SupplementaryDataService>().As<ISupplementaryDataService>();
+            containerBuilder.RegisterType<LegacyILRService>().As<ILegacyILRService>();
+            containerBuilder.RegisterType<ILRService>().As<IILRService>();
 
             containerBuilder.RegisterType<FileValidationService>().As<IFileValidationService>();
 

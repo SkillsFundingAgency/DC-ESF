@@ -2,7 +2,6 @@
 using ESFA.DC.ESF.Interfaces.Strategies;
 using ESFA.DC.ESF.Models;
 using ESFA.DC.ESF.Models.Reports.FundingSummaryReport;
-using ESFA.DC.ILR1819.DataStore.EF;
 
 namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHelpers
 {
@@ -18,8 +17,8 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
         public void Execute(
             IList<FundingSummaryModel> reportOutput,
             FundingReportRow row,
-            IList<SupplementaryDataModel> esfDataModels,
-            IList<ESF_LearningDeliveryDeliverable_PeriodisedValues> ilrData)
+            IEnumerable<SupplementaryDataYearlyModel> esfDataModels,
+            IEnumerable<FM70PeriodisedValuesYearlyModel> ilrData)
         {
             reportOutput.Add(new FundingSummaryModel());
         }

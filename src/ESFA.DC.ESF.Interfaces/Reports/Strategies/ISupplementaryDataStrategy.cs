@@ -8,6 +8,6 @@ namespace ESFA.DC.ESF.Interfaces.Reports.Strategies
     {
         bool IsMatch(string deliverableCode, string referenceType = null);
 
-        void Execute(IList<SupplementaryDataModel> data, IList<FundingSummaryReportYearlyValueModel> reportRowYearlyValues);
+        void Execute(IEnumerable<SupplementaryDataYearlyModel> data, IList<FundingSummaryReportYearlyValueModel> reportRowYearlyValues);
     }
 }

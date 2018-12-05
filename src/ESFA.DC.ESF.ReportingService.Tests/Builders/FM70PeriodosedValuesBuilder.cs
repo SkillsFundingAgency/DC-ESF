@@ -1,34 +1,34 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using ESFA.DC.ILR1819.DataStore.EF;
+using ESFA.DC.ESF.Models;
 
 namespace ESFA.DC.ESF.ReportingService.Tests.Builders
 {
     public class FM70PeriodosedValuesBuilder
     {
-        public static async Task<IList<ESF_LearningDeliveryDeliverable_PeriodisedValues>> BuildModel()
+        public static async Task<IList<FM70PeriodisedValuesModel>> BuildModel()
         {
-            return new List<ESF_LearningDeliveryDeliverable_PeriodisedValues>
+            return new List<FM70PeriodisedValuesModel>
             {
-                new ESF_LearningDeliveryDeliverable_PeriodisedValues
+                new FM70PeriodisedValuesModel
                 {
                     UKPRN = 10001639,
                     LearnRefNumber = "0DOB43",
                     AimSeqNumber = 1,
                     AttributeName = "AchievementEarnings",
                     DeliverableCode = "ST01",
-                    Period_1 = 1,
-                    Period_2 = 1,
-                    Period_3 = 1,
-                    Period_4 = 1,
-                    Period_5 = 1,
-                    Period_6 = 1,
-                    Period_7 = 1,
-                    Period_8 = 1,
-                    Period_9 = 1,
-                    Period_10 = 1,
-                    Period_11 = 1,
-                    Period_12 = 1,
+                    Period1 = 1,
+                    Period2 = 1,
+                    Period3 = 1,
+                    Period4 = 1,
+                    Period5 = 1,
+                    Period6 = 1,
+                    Period7 = 1,
+                    Period8 = 1,
+                    Period9 = 1,
+                    Period10 = 1,
+                    Period11 = 1,
+                    Period12 = 1
                 }
             };
         }

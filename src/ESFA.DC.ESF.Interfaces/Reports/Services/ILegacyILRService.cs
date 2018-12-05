@@ -5,14 +5,14 @@ using ESFA.DC.ESF.Models;
 
 namespace ESFA.DC.ESF.Interfaces.Reports.Services
 {
-    public interface ISupplementaryDataService
+    public interface ILegacyILRService
     {
-        Task<IList<SourceFileModel>> GetImportFiles(
-            string ukPrn,
+        Task<IEnumerable<ILRFileDetailsModel>> GetPreviousYearsILRFileDetails(
+            int ukPrn,
             CancellationToken cancellationToken);
 
-        Task<IDictionary<int, IEnumerable<SupplementaryDataYearlyModel>>> GetSupplementaryData(
-            IEnumerable<SourceFileModel> sourceFiles,
+        Task<IEnumerable<FM70PeriodisedValuesModel>> GetPreviousYearsFM70Data(
+            int ukPrn,
             CancellationToken cancellationToken);
     }
 }

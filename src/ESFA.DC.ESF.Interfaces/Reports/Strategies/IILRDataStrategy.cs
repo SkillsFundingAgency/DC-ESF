@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using ESFA.DC.ESF.Models;
 using ESFA.DC.ESF.Models.Reports.FundingSummaryReport;
-using ESFA.DC.ILR1819.DataStore.EF;
 
 namespace ESFA.DC.ESF.Interfaces.Reports.Strategies
 {
@@ -9,7 +9,7 @@ namespace ESFA.DC.ESF.Interfaces.Reports.Strategies
         bool IsMatch(string deliverableCode, List<string> attributeNames = null);
 
         void Execute(
-            IList<ESF_LearningDeliveryDeliverable_PeriodisedValues> irlData,
+            IEnumerable<FM70PeriodisedValuesYearlyModel> irlData,
             IList<FundingSummaryReportYearlyValueModel> reportRowYearlyValues);
     }
 }

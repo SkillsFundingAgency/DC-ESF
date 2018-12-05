@@ -236,14 +236,14 @@ namespace ESFA.DC.ESF.ReportingService
             SetCurrentRow(worksheet, currentRow);
         }
 
-        protected void WriteExcelRecords<TMapper>(Worksheet worksheet, TMapper classMap, CellStyle headerStyle, bool pivot = false)
+        protected void WriteHeaderRecordsFromClassMap<TMapper>(Worksheet worksheet, TMapper classMap, CellStyle headerStyle, bool pivot = false)
             where TMapper : ClassMap
         {
             string[] names = classMap.MemberMaps.OrderBy(x => x.Data.Index).Select(x => x.Data.Names[0]).ToArray();
-            WriteExcelRecords(worksheet, classMap, names, headerStyle, pivot);
+            WriteRecordsFromClassMap(worksheet, classMap, names, headerStyle, pivot);
         }
 
-        protected void WriteExcelRecords<TMapper>(Worksheet worksheet, TMapper classMap, object[] names, CellStyle headerStyle, bool pivot = false)
+        protected void WriteRecordsFromArray<TMapper>(Worksheet worksheet, TMapper classMap, object[] names, CellStyle headerStyle, bool pivot = false)
             where TMapper : ClassMap
         {
             int currentRow = GetCurrentRow(worksheet);
@@ -266,15 +266,15 @@ namespace ESFA.DC.ESF.ReportingService
             SetCurrentRow(worksheet, currentRow);
         }
 
-        protected void WriteExcelRecords<TMapper, TModel>(Worksheet worksheet, TMapper classMap, TModel record, CellStyle recordStyle, bool pivot = false)
+        protected void WriteRecordsFromClassMap<TMapper, TModel>(Worksheet worksheet, TMapper classMap, TModel record, CellStyle recordStyle, bool pivot = false)
             where TMapper : ClassMap
             where TModel : class
         {
             ModelProperty[] names = classMap.MemberMaps.OrderBy(x => x.Data.Index).Select(x => new ModelProperty(x.Data.Names.Names.ToArray(), (PropertyInfo)x.Data.Member)).ToArray();
-            WriteExcelRecords(worksheet, classMap, names, record, recordStyle, pivot);
+            WriteExcelRecordsFromModelProperty(worksheet, classMap, names, record, recordStyle, pivot);
         }
 
-        protected void WriteExcelRecords<TMapper, TModel>(Worksheet worksheet, TMapper classMap, ModelProperty[] modelProperties, TModel record, CellStyle recordStyle, bool pivot = false)
+        protected void WriteExcelRecordsFromModelProperty<TMapper, TModel>(Worksheet worksheet, TMapper classMap, ModelProperty[] modelProperties, TModel record, CellStyle recordStyle, bool pivot = false)
             where TMapper : ClassMap
             where TModel : class
         {
@@ -316,7 +316,7 @@ namespace ESFA.DC.ESF.ReportingService
         /// </summary>
         /// <param name="worksheet">The current worksheet.</param>
         /// <param name="numberOfBlankRows">The optional number of blank rows to create.</param>
-        protected void WriteExcelRecords(Worksheet worksheet, int numberOfBlankRows = 1)
+        protected void WriteBlankRow(Worksheet worksheet, int numberOfBlankRows = 1)
         {
             int currentRow = GetCurrentRow(worksheet);
             currentRow += numberOfBlankRows;
@@ -330,7 +330,7 @@ namespace ESFA.DC.ESF.ReportingService
         /// <param name="heading">The heading text to write out.</param>
         /// <param name="headerStyle">The optional header style.</param>
         /// <param name="numberOfColumns">The optional number of columns.</param>
-        protected void WriteExcelRecords(Worksheet worksheet, string heading, CellStyle headerStyle = null, int numberOfColumns = 1)
+        protected void WriteTitleRecord(Worksheet worksheet, string heading, CellStyle headerStyle = null, int numberOfColumns = 1)
         {
             int currentRow = GetCurrentRow(worksheet);
             worksheet.Cells[currentRow, 0].PutValue(heading);

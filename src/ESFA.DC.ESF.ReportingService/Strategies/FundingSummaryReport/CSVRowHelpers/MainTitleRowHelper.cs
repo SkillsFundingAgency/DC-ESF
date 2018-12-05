@@ -19,8 +19,8 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.CSVRowHel
         public void Execute(
             IList<FundingSummaryModel> reportOutput,
             FundingReportRow row,
-            IList<SupplementaryDataModel> esfDataModels,
-            IList<ESF_LearningDeliveryDeliverable_PeriodisedValues> ilrData)
+            IEnumerable<SupplementaryDataYearlyModel> esfDataModels,
+            IEnumerable<FM70PeriodisedValuesYearlyModel> ilrData)
         {
             reportOutput.Add(new FundingSummaryModel(row.Title, HeaderType.TitleOnly, 0));
         }

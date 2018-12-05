@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using ESFA.DC.ESF.Models;
 using ESFA.DC.ESF.Models.Reports.FundingSummaryReport;
-using ESFA.DC.ILR1819.DataStore.EF;
 
 namespace ESFA.DC.ESF.Interfaces.Strategies
 {
@@ -12,7 +11,7 @@ namespace ESFA.DC.ESF.Interfaces.Strategies
         void Execute(
             IList<FundingSummaryModel> reportOutput,
             FundingReportRow row,
-            IList<SupplementaryDataModel> esfDataModels,
-            IList<ESF_LearningDeliveryDeliverable_PeriodisedValues> ilrData);
+            IEnumerable<SupplementaryDataYearlyModel> esfDataModels,
+            IEnumerable<FM70PeriodisedValuesYearlyModel> ilrData);
     }
 }

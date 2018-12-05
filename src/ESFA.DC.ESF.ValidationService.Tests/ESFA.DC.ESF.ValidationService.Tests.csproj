@@ -78,7 +78,7 @@
       <HintPath>..\packages\ESFA.DC.Logging.0.1.1-beta0001\lib\netstandard2.0\ESFA.DC.Logging.dll</HintPath>
     </Reference>
     <Reference Include="ESFA.DC.ReferenceData.FCS.Model, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ESFA.DC.ReferenceData.FCS.Model.0.1.78\lib\net461\ESFA.DC.ReferenceData.FCS.Model.dll</HintPath>
+      <HintPath>..\packages\ESFA.DC.ReferenceData.FCS.Model.0.1.95\lib\net461\ESFA.DC.ReferenceData.FCS.Model.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Moq, Version=4.10.0.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">

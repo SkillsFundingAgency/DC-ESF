@@ -24,10 +24,9 @@ namespace ESFA.DC.ESF.DataAccessLayer
             _logger = logger;
         }
 
-        public async Task<IList<string>> GetAdditionalContractsForProvider(
+        public async Task<IList<string>> GetContractsForProvider(
             string ukPrn,
-            CancellationToken cancellationToken,
-            string conRefNum = null)
+            CancellationToken cancellationToken)
         {
             List<string> contractRefNums = null;
             try
@@ -38,7 +37,8 @@ namespace ESFA.DC.ESF.DataAccessLayer
                 }
 
                 contractRefNums = await _context.SourceFiles
-                    .Where(sf => sf.UKPRN == ukPrn && sf.ConRefNumber != conRefNum)
+                    .Join(_context.SupplementaryDatas, sf => sf.SourceFileId, sd => sd.SourceFileId, (sf, sd) => sf) // not all files will have data
+                    .Where(sf => sf.UKPRN == ukPrn)
                     .Select(sf => sf.ConRefNumber)
                     .ToListAsync(cancellationToken);
 
@@ -62,12 +62,14 @@ namespace ESFA.DC.ESF.DataAccessLayer
                     return null;
                 }
 
-                sourceFile = await _context.SourceFiles.Where(s => s.UKPRN == ukPrn && s.ConRefNumber == conRefNumber)
-                    .OrderByDescending(c => c.DateTime).FirstOrDefaultAsync(cancellationToken);
+                sourceFile = await _context.SourceFiles
+                    .Join(_context.SupplementaryDatas, sf => sf.SourceFileId, sd => sd.SourceFileId, (sf, sd) => sf) // not all files will have data
+                    .Where(s => s.UKPRN == ukPrn && s.ConRefNumber == conRefNumber)
+                    .FirstOrDefaultAsync(cancellationToken);
             }
             catch (Exception ex)
             {
-                _logger.LogError("Failed to get previous ESF SuppData source file data", ex);
+                _logger.LogError("Failed to get ESF SuppData source file data", ex);
             }
 
             return sourceFile;
@@ -86,7 +88,8 @@ namespace ESFA.DC.ESF.DataAccessLayer
                     return null;
                 }
 
-                sourceFiles = await _context.SourceFiles.Where(s => s.UKPRN == ukPrn && s.ConRefNumber == conRefNum)
+                sourceFiles = await _context.SourceFiles
+                    .Where(sf => sf.UKPRN == ukPrn && sf.ConRefNumber == conRefNum)
                     .ToListAsync(cancellationToken);
             }
             catch (Exception ex)
@@ -97,7 +100,7 @@ namespace ESFA.DC.ESF.DataAccessLayer
             return sourceFiles;
         }
 
-        public async Task<IList<SupplementaryData>> PreviousSupplementaryData(
+        public async Task<IList<SupplementaryData>> GetSupplementaryDataPerSourceFile(
             int sourceFileId,
             CancellationToken cancellationToken)
         {

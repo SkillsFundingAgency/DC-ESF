@@ -26,26 +26,28 @@ namespace ESFA.DC.ESF.ReportingService.Strategies.FundingSummaryReport.SuppData
         }
 
         public void Execute(
-            IList<SupplementaryDataModel> data,
+            IEnumerable<SupplementaryDataYearlyModel> data,
             IList<FundingSummaryReportYearlyValueModel> yearlyData)
         {
-            // todo for each year of data
-
-            var yearData = new FundingSummaryReportYearlyValueModel();
-            for (var i = 1; i < 13; i++)
+            foreach (var year in data)
             {
-                var deliverableData = data.Where(supp => supp.CalendarMonth == i + EsfMonthPadding
-                                                         && supp.DeliverableCode == DeliverableCode);
-                if (ReferenceType != null)
+                var yearData = new FundingSummaryReportYearlyValueModel();
+                for (var i = 1; i < 13; i++)
                 {
-                    deliverableData =
-                        deliverableData.Where(supp => supp.ReferenceType == ReferenceType);
+                    var deliverableData = year.SupplementaryData.Where(supp => supp.CalendarMonth == i + EsfMonthPadding
+                                                             && supp.DeliverableCode == DeliverableCode);
+                    if (ReferenceType != null)
+                    {
+                        deliverableData =
+                            deliverableData.Where(supp => supp.ReferenceType == ReferenceType);
+                    }
+
+                    yearData.Values[i - 1] = GetPeriodValueSum(deliverableData, i);
                 }
 
-                yearData.Values[i - 1] = GetPeriodValueSum(deliverableData, i);
+                yearData.FundingYear = year.FundingYear;
+                yearlyData.Add(yearData);
             }
-
-            yearlyData.Add(yearData);
         }
 
         private decimal GetPeriodValueSum(IEnumerable<SupplementaryDataModel> data, int period)
