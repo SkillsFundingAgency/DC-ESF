@@ -1,0 +1,368 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ESF_Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="SourceFile">
+          <Key>
+            <PropertyRef Name="SourceFileId" />
+          </Key>
+          <Property Name="SourceFileId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="FilePreparationDate" Type="datetime" Nullable="false" />
+          <Property Name="ConRefNumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="UKPRN" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="DateTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SupplementaryData">
+          <Key>
+            <PropertyRef Name="ConRefNumber" />
+            <PropertyRef Name="DeliverableCode" />
+            <PropertyRef Name="CalendarYear" />
+            <PropertyRef Name="CalendarMonth" />
+            <PropertyRef Name="CostType" />
+            <PropertyRef Name="ReferenceType" />
+            <PropertyRef Name="Reference" />
+          </Key>
+          <Property Name="SupplementaryDataId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ConRefNumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="DeliverableCode" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="CalendarYear" Type="int" Nullable="false" />
+          <Property Name="CalendarMonth" Type="int" Nullable="false" />
+          <Property Name="CostType" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="StaffName" Type="varchar" MaxLength="100" />
+          <Property Name="ReferenceType" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Reference" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ULN" Type="bigint" />
+          <Property Name="ProviderSpecifiedReference" Type="varchar" MaxLength="200" />
+          <Property Name="Value" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="HourlyRate" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="TotalHoursWorked" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="ProjectHours" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="OrgHours" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="SourceFileId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SupplementaryDataUnitCost">
+          <Key>
+            <PropertyRef Name="ConRefNumber" />
+            <PropertyRef Name="DeliverableCode" />
+            <PropertyRef Name="CalendarYear" />
+            <PropertyRef Name="CalendarMonth" />
+            <PropertyRef Name="CostType" />
+            <PropertyRef Name="ReferenceType" />
+            <PropertyRef Name="Reference" />
+          </Key>
+          <Property Name="ConRefNumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="DeliverableCode" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="CalendarYear" Type="int" Nullable="false" />
+          <Property Name="CalendarMonth" Type="int" Nullable="false" />
+          <Property Name="CostType" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="StaffName" Type="varchar" MaxLength="100" />
+          <Property Name="ReferenceType" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Reference" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Value" Type="decimal" Precision="8" Scale="2" />
+        </EntityType>
+        <EntityType Name="ValidationError">
+          <Key>
+            <PropertyRef Name="SourceFileId" />
+            <PropertyRef Name="ValidationError_Id" />
+          </Key>
+          <Property Name="SourceFileId" Type="int" Nullable="false" />
+          <Property Name="ValidationError_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RowId" Type="uniqueidentifier" />
+          <Property Name="RuleId" Type="varchar" MaxLength="50" />
+          <Property Name="ConRefNumber" Type="varchar(max)" />
+          <Property Name="DeliverableCode" Type="varchar(max)" />
+          <Property Name="CalendarYear" Type="varchar(max)" />
+          <Property Name="CalendarMonth" Type="varchar(max)" />
+          <Property Name="CostType" Type="varchar(max)" />
+          <Property Name="ReferenceType" Type="varchar(max)" />
+          <Property Name="Reference" Type="varchar(max)" />
+          <Property Name="StaffName" Type="varchar(max)" />
+          <Property Name="ULN" Type="varchar(max)" />
+          <Property Name="Severity" Type="varchar" MaxLength="2" />
+          <Property Name="ErrorMessage" Type="varchar(max)" />
+          <Property Name="ProviderSpecifiedReference" Type="varchar(max)" />
+          <Property Name="Value" Type="varchar(max)" />
+          <Property Name="HourlyRate" Type="varchar(max)" />
+          <Property Name="TotalHoursWorked" Type="varchar(max)" />
+          <Property Name="ProjectHours" Type="varchar(max)" />
+          <Property Name="OrgHours" Type="varchar(max)" />
+          <Property Name="CreatedOn" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ESF_DataStore.dbo.VersionInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VersionInfo">
+          <Key>
+            <PropertyRef Name="Version" />
+            <PropertyRef Name="Date" />
+          </Key>
+          <Property Name="Version" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="ESF_ModelStoreContainer">
+          <EntitySet Name="SourceFile" EntityType="Self.SourceFile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SupplementaryData" EntityType="Self.SupplementaryData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SupplementaryDataUnitCost" EntityType="Self.SupplementaryDataUnitCost" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ValidationError" EntityType="Self.ValidationError" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VersionInfo" EntityType="Self.VersionInfo" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [VersionInfo].[Version] AS [Version], 
+    [VersionInfo].[Date] AS [Date]
+    FROM [dbo].[VersionInfo] AS [VersionInfo]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ESF_Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="SourceFile">
+          <Key>
+            <PropertyRef Name="SourceFileId" />
+          </Key>
+          <Property Name="SourceFileId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FileName" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FilePreparationDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ConRefNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UKPRN" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="SupplementaryData">
+          <Key>
+            <PropertyRef Name="ConRefNumber" />
+            <PropertyRef Name="DeliverableCode" />
+            <PropertyRef Name="CalendarYear" />
+            <PropertyRef Name="CalendarMonth" />
+            <PropertyRef Name="CostType" />
+            <PropertyRef Name="ReferenceType" />
+            <PropertyRef Name="Reference" />
+          </Key>
+          <Property Name="SupplementaryDataId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ConRefNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DeliverableCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CalendarYear" Type="Int32" Nullable="false" />
+          <Property Name="CalendarMonth" Type="Int32" Nullable="false" />
+          <Property Name="CostType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="StaffName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ReferenceType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Reference" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ULN" Type="Int64" />
+          <Property Name="ProviderSpecifiedReference" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Value" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="HourlyRate" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="TotalHoursWorked" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="ProjectHours" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="OrgHours" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="SourceFileId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SupplementaryDataUnitCost">
+          <Key>
+            <PropertyRef Name="ConRefNumber" />
+            <PropertyRef Name="DeliverableCode" />
+            <PropertyRef Name="CalendarYear" />
+            <PropertyRef Name="CalendarMonth" />
+            <PropertyRef Name="CostType" />
+            <PropertyRef Name="ReferenceType" />
+            <PropertyRef Name="Reference" />
+          </Key>
+          <Property Name="ConRefNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DeliverableCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CalendarYear" Type="Int32" Nullable="false" />
+          <Property Name="CalendarMonth" Type="Int32" Nullable="false" />
+          <Property Name="CostType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="StaffName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ReferenceType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Reference" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Value" Type="Decimal" Precision="8" Scale="2" />
+        </EntityType>
+        <EntityType Name="ValidationError">
+          <Key>
+            <PropertyRef Name="SourceFileId" />
+            <PropertyRef Name="ValidationError_Id" />
+          </Key>
+          <Property Name="SourceFileId" Type="Int32" Nullable="false" />
+          <Property Name="ValidationError_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RowId" Type="Guid" />
+          <Property Name="RuleId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ConRefNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DeliverableCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CalendarYear" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CalendarMonth" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CostType" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ReferenceType" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Reference" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="StaffName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ULN" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Severity" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="ErrorMessage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ProviderSpecifiedReference" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="HourlyRate" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="TotalHoursWorked" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ProjectHours" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="OrgHours" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="VersionInfo">
+          <Key>
+            <PropertyRef Name="Version" />
+            <PropertyRef Name="Date" />
+          </Key>
+          <Property Name="Version" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <Association Name="FK_SupplementaryDataUnitCost_SupplementaryData">
+          <End Role="SupplementaryData" Type="Self.SupplementaryData" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SupplementaryDataUnitCost" Type="Self.SupplementaryDataUnitCost" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="SupplementaryData">
+              <PropertyRef Name="ConRefNumber" />
+              <PropertyRef Name="DeliverableCode" />
+              <PropertyRef Name="CalendarYear" />
+              <PropertyRef Name="CalendarMonth" />
+              <PropertyRef Name="CostType" />
+              <PropertyRef Name="ReferenceType" />
+              <PropertyRef Name="Reference" />
+            </Principal>
+            <Dependent Role="SupplementaryDataUnitCost">
+              <PropertyRef Name="ConRefNumber" />
+              <PropertyRef Name="DeliverableCode" />
+              <PropertyRef Name="CalendarYear" />
+              <PropertyRef Name="CalendarMonth" />
+              <PropertyRef Name="CostType" />
+              <PropertyRef Name="ReferenceType" />
+              <PropertyRef Name="Reference" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ESF_DataStoreEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="SourceFiles" EntityType="Self.SourceFile" />
+          <EntitySet Name="SupplementaryDatas" EntityType="Self.SupplementaryData" />
+          <EntitySet Name="SupplementaryDataUnitCosts" EntityType="Self.SupplementaryDataUnitCost" />
+          <EntitySet Name="ValidationErrors" EntityType="Self.ValidationError" />
+          <EntitySet Name="VersionInfoes" EntityType="Self.VersionInfo" />
+          <AssociationSet Name="FK_SupplementaryDataUnitCost_SupplementaryData" Association="Self.FK_SupplementaryDataUnitCost_SupplementaryData">
+            <End Role="SupplementaryData" EntitySet="SupplementaryDatas" />
+            <End Role="SupplementaryDataUnitCost" EntitySet="SupplementaryDataUnitCosts" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ESF_ModelStoreContainer" CdmEntityContainer="ESF_DataStoreEntities">
+          <EntitySetMapping Name="SourceFiles">
+            <EntityTypeMapping TypeName="ESF_Model.SourceFile">
+              <MappingFragment StoreEntitySet="SourceFile">
+                <ScalarProperty Name="SourceFileId" ColumnName="SourceFileId" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="FilePreparationDate" ColumnName="FilePreparationDate" />
+                <ScalarProperty Name="ConRefNumber" ColumnName="ConRefNumber" />
+                <ScalarProperty Name="UKPRN" ColumnName="UKPRN" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SupplementaryDatas">
+            <EntityTypeMapping TypeName="ESF_Model.SupplementaryData">
+              <MappingFragment StoreEntitySet="SupplementaryData">
+                <ScalarProperty Name="SupplementaryDataId" ColumnName="SupplementaryDataId" />
+                <ScalarProperty Name="ConRefNumber" ColumnName="ConRefNumber" />
+                <ScalarProperty Name="DeliverableCode" ColumnName="DeliverableCode" />
+                <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
+                <ScalarProperty Name="CalendarMonth" ColumnName="CalendarMonth" />
+                <ScalarProperty Name="CostType" ColumnName="CostType" />
+                <ScalarProperty Name="StaffName" ColumnName="StaffName" />
+                <ScalarProperty Name="ReferenceType" ColumnName="ReferenceType" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="ULN" ColumnName="ULN" />
+                <ScalarProperty Name="ProviderSpecifiedReference" ColumnName="ProviderSpecifiedReference" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="HourlyRate" ColumnName="HourlyRate" />
+                <ScalarProperty Name="TotalHoursWorked" ColumnName="TotalHoursWorked" />
+                <ScalarProperty Name="ProjectHours" ColumnName="ProjectHours" />
+                <ScalarProperty Name="OrgHours" ColumnName="OrgHours" />
+                <ScalarProperty Name="SourceFileId" ColumnName="SourceFileId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SupplementaryDataUnitCosts">
+            <EntityTypeMapping TypeName="ESF_Model.SupplementaryDataUnitCost">
+              <MappingFragment StoreEntitySet="SupplementaryDataUnitCost">
+                <ScalarProperty Name="ConRefNumber" ColumnName="ConRefNumber" />
+                <ScalarProperty Name="DeliverableCode" ColumnName="DeliverableCode" />
+                <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
+                <ScalarProperty Name="CalendarMonth" ColumnName="CalendarMonth" />
+                <ScalarProperty Name="CostType" ColumnName="CostType" />
+                <ScalarProperty Name="StaffName" ColumnName="StaffName" />
+                <ScalarProperty Name="ReferenceType" ColumnName="ReferenceType" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ValidationErrors">
+            <EntityTypeMapping TypeName="ESF_Model.ValidationError">
+              <MappingFragment StoreEntitySet="ValidationError">
+                <ScalarProperty Name="SourceFileId" ColumnName="SourceFileId" />
+                <ScalarProperty Name="ValidationError_Id" ColumnName="ValidationError_Id" />
+                <ScalarProperty Name="RowId" ColumnName="RowId" />
+                <ScalarProperty Name="RuleId" ColumnName="RuleId" />
+                <ScalarProperty Name="ConRefNumber" ColumnName="ConRefNumber" />
+                <ScalarProperty Name="DeliverableCode" ColumnName="DeliverableCode" />
+                <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
+                <ScalarProperty Name="CalendarMonth" ColumnName="CalendarMonth" />
+                <ScalarProperty Name="CostType" ColumnName="CostType" />
+                <ScalarProperty Name="ReferenceType" ColumnName="ReferenceType" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="StaffName" ColumnName="StaffName" />
+                <ScalarProperty Name="ULN" ColumnName="ULN" />
+                <ScalarProperty Name="Severity" ColumnName="Severity" />
+                <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
+                <ScalarProperty Name="ProviderSpecifiedReference" ColumnName="ProviderSpecifiedReference" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="HourlyRate" ColumnName="HourlyRate" />
+                <ScalarProperty Name="TotalHoursWorked" ColumnName="TotalHoursWorked" />
+                <ScalarProperty Name="ProjectHours" ColumnName="ProjectHours" />
+                <ScalarProperty Name="OrgHours" ColumnName="OrgHours" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VersionInfoes">
+            <EntityTypeMapping TypeName="ESF_Model.VersionInfo">
+              <MappingFragment StoreEntitySet="VersionInfo">
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

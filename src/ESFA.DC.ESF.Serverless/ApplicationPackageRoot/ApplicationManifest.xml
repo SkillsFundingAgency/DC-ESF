@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="ESFA.DC.ESF.ServerlessType" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
+  <Parameters>
+    <Parameter Name="ESFA.DC.ESF.Service.Stateless_InstanceCount" DefaultValue="-1" />
+    <Parameter Name="ServiceReleaseVersion" DefaultValue="" />
+    <Parameter Name="ProcessingServicePlacementConstraints" DefaultValue="" />
+    <Parameter Name="ServiceBusConnectionString" DefaultValue="" />
+    <Parameter Name="LoggerConnectionstring" DefaultValue="" />
+    <Parameter Name="TopicName" DefaultValue="" />
+    <Parameter Name="SubscriptionName" DefaultValue="" />
+    <Parameter Name="AzureBlobConnectionString" DefaultValue="" />
+    <Parameter Name="AzureBlobContainerName" DefaultValue="" />
+    <Parameter Name="JobStatusQueueName" DefaultValue="" />
+    <Parameter Name="AuditQueueName" DefaultValue="" />
+    <Parameter Name="ILR1819ConnectionString" DefaultValue="" />
+    <Parameter Name="ILR1819ValidConnectionString" DefaultValue="" />
+    <Parameter Name="ESFConnectionString" DefaultValue="" />
+    <Parameter Name="ESFNonEFConnectionString" DefaultValue="" />
+    <Parameter Name="FCSConnectionString" DefaultValue="" />
+    <Parameter Name="LARSConnectionString" DefaultValue="" />
+    <Parameter Name="OrganisationConnectionString" DefaultValue="" />
+    <Parameter Name="PostcodesConnectionString" DefaultValue="" />
+    <Parameter Name="ULNConnectionString" DefaultValue="" />
+    <Parameter Name="ILR1617ConnectionString" DefaultValue="" />
+    <Parameter Name="ILR1718ConnectionString" DefaultValue="" />
+  </Parameters>
+  <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
+       should match the Name and Version attributes of the ServiceManifest element defined in the 
+       ServiceManifest.xml file. -->
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="ESFA.DC.ESF.Service.StatelessPkg" ServiceManifestVersion="1.0.0" />
+    <ConfigOverrides>
+      <ConfigOverride Name="Config">
+        <Settings>
+          <Section Name="ServiceBusSettings">
+            <Parameter Name="ServiceBusConnectionString" Value="[ServiceBusConnectionString]" />
+            <Parameter Name="TopicName" Value="[TopicName]" />
+            <Parameter Name="SubscriptionName" Value="[SubscriptionName]" />
+            <Parameter Name="JobStatusQueueName" Value="[JobStatusQueueName]" />
+            <Parameter Name="AuditQueueName" Value="[AuditQueueName]" />
+          </Section>
+          <Section Name="VersionSection">
+            <Parameter Name="ServiceReleaseVersion" Value="[ServiceReleaseVersion]" />
+          </Section>
+          <Section Name="LoggerSection">
+            <Parameter Name="LoggerConnectionstring" Value="[LoggerConnectionstring]" />
+          </Section>
+          <Section Name="AzureStorageSection">
+            <Parameter Name="AzureBlobConnectionString" Value="[AzureBlobConnectionString]" />
+            <Parameter Name="AzureBlobContainerName" Value="[AzureBlobContainerName]" />
+          </Section>
+          <Section Name="ILR1819Section">
+            <Parameter Name="ILR1617ConnectionString" Value="[ILR1617ConnectionString]" />
+            <Parameter Name="ILR1718ConnectionString" Value="[ILR1718ConnectionString]" />
+            <Parameter Name="ILR1819ConnectionString" Value="[ILR1819ConnectionString]" />
+            <Parameter Name="ILR1819ValidConnectionString" Value="[ILR1819ValidConnectionString]" />
+          </Section>
+          <Section Name="ESFSection">
+            <Parameter Name="ESFConnectionString" Value="[ESFConnectionString]" />
+            <Parameter Name="ESFNonEFConnectionString" Value="[ESFNonEFConnectionString]" />
+          </Section>
+          <Section Name="FCSSection">
+            <Parameter Name="FCSConnectionString" Value="[FCSConnectionString]" />
+          </Section>
+          <Section Name="ReferenceDataSection">
+            <Parameter Name="LARSConnectionString" Value="[LARSConnectionString]" />
+            <Parameter Name="PostcodesConnectionString" Value="[PostcodesConnectionString]" />
+            <Parameter Name="OrganisationConnectionString" Value="[OrganisationConnectionString]" />
+            <Parameter Name="ULNConnectionString" Value="[ULNConnectionString]" />
+          </Section>
+        </Settings>
+      </ConfigOverride>
+    </ConfigOverrides>
+  </ServiceManifestImport>
+  <DefaultServices>
+    <!-- The section below creates instances of service types, when an instance of this 
+         application type is created. You can also create one or more instances of service type using the 
+         ServiceFabric PowerShell module.
+         
+         The attribute ServiceTypeName below must match the name defined in the imported ServiceManifest.xml file. -->
+    <Service Name="ESFA.DC.ESF.Service.Stateless" ServicePackageActivationMode="ExclusiveProcess">
+      <StatelessService ServiceTypeName="ESFA.DC.ESF.Service.StatelessType" InstanceCount="[ESFA.DC.ESF.Service.Stateless_InstanceCount]">
+        <SingletonPartition />
+        <PlacementConstraints>[ProcessingServicePlacementConstraints]</PlacementConstraints>
+      </StatelessService>
+    </Service>
+  </DefaultServices>
+</ApplicationManifest>

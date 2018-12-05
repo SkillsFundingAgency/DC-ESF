@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Message xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="ESFA/ILR/2018-19">
+  <Header>
+    <CollectionDetails>
+      <Collection>ILR</Collection>
+      <Year>1819</Year>
+      <FilePreparationDate>2018-10-04</FilePreparationDate>
+    </CollectionDetails>
+    <Source>
+      <ProtectiveMarking>OFFICIAL-SENSITIVE-Personal</ProtectiveMarking>
+      <UKPRN>10005752</UKPRN>
+      <SoftwareSupplier>FASST - Amalgamation</SoftwareSupplier>
+      <SoftwarePackage>Funding Information System</SoftwarePackage>
+      <Release>1.6.49.23985</Release>
+      <SerialNo>00</SerialNo>
+      <DateTime>2018-10-04T15:29:24.363</DateTime>
+      <ReferenceData>LARS:142,ORGANISATION:83</ReferenceData>
+      <ComponentSetVersion>1</ComponentSetVersion>
+    </Source>
+  </Header>
+  <SourceFiles>
+    <SourceFile>
+      <SourceFileName>ILR-10005752-1819-20181003-162610-01.XML</SourceFileName>
+      <FilePreparationDate>2018-10-03</FilePreparationDate>
+      <SoftwareSupplier>Pellcomp Software Ltd</SoftwareSupplier>
+      <SoftwarePackage>PICS</SoftwarePackage>
+      <Release>15.20.001.09 300818</Release>
+      <SerialNo>01</SerialNo>
+      <DateTime>2018-10-03T16:25:01</DateTime>
+    </SourceFile>
+    <SourceFile>
+      <SourceFileName>ILR-10005752-1819-20181004-152148-01.xml</SourceFileName>
+      <FilePreparationDate>2018-10-04</FilePreparationDate>
+      <SoftwareSupplier>Own Software</SoftwareSupplier>
+      <SoftwarePackage>Windows Server 2012</SoftwarePackage>
+      <Release>R2</Release>
+      <SerialNo>01</SerialNo>
+      <DateTime>2018-10-04T15:21:29</DateTime>
+    </SourceFile>
+  </SourceFiles>
+  <LearningProvider>
+    <UKPRN>10005752</UKPRN>
+  </LearningProvider>
+  <Learner>
+    <LearnRefNumber>9900000004</LearnRefNumber>
+    <ULN>9900000004</ULN>
+    <FamilyName>Sméth</FamilyName>
+    <GivenNames>Mary Jane</GivenNames>
+    <DateOfBirth>1987-08-01</DateOfBirth>
+    <Ethnicity>31</Ethnicity>
+    <Sex>F</Sex>
+    <LLDDHealthProb>2</LLDDHealthProb>
+    <NINumber>LJ000000A</NINumber>
+    <PriorAttain>2</PriorAttain>
+    <PostcodePrior>BH18 8NG</PostcodePrior>
+    <Postcode>ZZ99 9ZZ</Postcode>
+    <AddLine1>18 Address line road</AddLine1>
+    <AddLine2>Broadstone</AddLine2>
+    <AddLine3>dorset</AddLine3>
+    <AddLine4>Dorset</AddLine4>
+    <TelNo>07855555555</TelNo>
+    <Email>myemail@myemail.com</Email>
+    <ContactPreference>
+      <ContPrefType>RUI</ContPrefType>
+      <ContPrefCode>1</ContPrefCode>
+    </ContactPreference>
+    <ContactPreference>
+      <ContPrefType>RUI</ContPrefType>
+      <ContPrefCode>2</ContPrefCode>
+    </ContactPreference>
+    <ContactPreference>
+      <ContPrefType>PMC</ContPrefType>
+      <ContPrefCode>1</ContPrefCode>
+    </ContactPreference>
+    <ContactPreference>
+      <ContPrefType>PMC</ContPrefType>
+      <ContPrefCode>2</ContPrefCode>
+    </ContactPreference>
+    <LearnerEmploymentStatus>
+      <EmpStat>10</EmpStat>
+      <DateEmpStatApp>2016-10-18</DateEmpStatApp>
+      <EmpId>232770255</EmpId>
+      <EmploymentStatusMonitoring>
+        <ESMType>EII</ESMType>
+        <ESMCode>4</ESMCode>
+      </EmploymentStatusMonitoring>
+    </LearnerEmploymentStatus>
+    <LearningDelivery>
+      <LearnAimRef>ZESF0001</LearnAimRef>
+      <AimType>4</AimType>
+      <AimSeqNumber>1</AimSeqNumber>
+      <LearnStartDate>2016-10-19</LearnStartDate>
+      <LearnPlanEndDate>2016-10-19</LearnPlanEndDate>
+      <FundModel>70</FundModel>
+      <PartnerUKPRN>10048217</PartnerUKPRN>
+      <DelLocPostCode>BH12 4AR</DelLocPostCode>
+      <ConRefNumber>ESF-2108</ConRefNumber>
+      <CompStatus>2</CompStatus>
+      <LearnActEndDate>2016-10-19</LearnActEndDate>
+      <Outcome>1</Outcome>
+      <SWSupAimId>00F40788-2618-46AC-A1BB-C9786CD66BDA</SWSupAimId>
+      <LearningDeliveryFAM>
+        <LearnDelFAMType>SOF</LearnDelFAMType>
+        <LearnDelFAMCode>105</LearnDelFAMCode>
+      </LearningDeliveryFAM>
+      <LearningDeliveryFAM>
+        <LearnDelFAMType>HHS</LearnDelFAMType>
+        <LearnDelFAMCode>99</LearnDelFAMCode>
+      </LearningDeliveryFAM>
+    </LearningDelivery>
+    <LearningDelivery>
+      <LearnAimRef>60072143</LearnAimRef>
+      <AimType>4</AimType>
+      <AimSeqNumber>2</AimSeqNumber>
+      <LearnStartDate>2016-10-19</LearnStartDate>
+      <LearnPlanEndDate>2016-11-09</LearnPlanEndDate>
+      <FundModel>70</FundModel>
+      <PartnerUKPRN>10048217</PartnerUKPRN>
+      <DelLocPostCode>BH12 4AR</DelLocPostCode>
+      <ConRefNumber>ESF-2108</ConRefNumber>
+      <CompStatus>1</CompStatus>
+      <SWSupAimId>00F40788-2618-46AC-A1BB-C9786CD66BDA</SWSupAimId>
+      <LearningDeliveryFAM>
+        <LearnDelFAMType>SOF</LearnDelFAMType>
+        <LearnDelFAMCode>105</LearnDelFAMCode>
+      </LearningDeliveryFAM>
+      <LearningDeliveryFAM>
+        <LearnDelFAMType>HHS</LearnDelFAMType>
+        <LearnDelFAMCode>99</LearnDelFAMCode>
+      </LearningDeliveryFAM>
+    </LearningDelivery>
+  </Learner>
+</Message>
